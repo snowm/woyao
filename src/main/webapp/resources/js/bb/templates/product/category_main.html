@@ -1,0 +1,38 @@
+<div class="panel panel-primary main-panel" id="category-p">
+	<div class="panel-heading">
+		<div class="row">
+			<div class="col-xs-12 col-sm-2">
+				<span class="title pull-left">产品分类</span>
+			</div>
+			<div class="col-xs-12 col-sm-10">
+				<div class="form-inline pull-right" id="filter-p">
+					<div class="row">
+						<div class="col-xs-12 col-sm-12 form-inline">
+							<div class="form-group">
+								<label class="control-label" for="filter_name">名字</label> <input class="form-control input-sm"
+									type="text" id="filter_name" placeholder="分类名字">
+							</div>
+							<div class="form-group">
+								<label class="control-label" for="filter_code">Code</label> <input class="form-control input-sm"
+									type="text" id="filter_code" placeholder="分类编码">
+							</div>
+							<div class="form-group">
+								<label class="control-label" for="filter_enabled">启用</label> <select class="form-control input-sm"
+									id="filter_enabled" style="min-width: 60px">
+									<option value="">全部</option>
+									<option value="true" selected>启用</option>
+									<option value="false">禁用</option>
+								</select>
+							</div>
+							<button id="query-bt" type='button' class='btn btn-success btn-sm'>查询</button>
+							<button id="create-bt" type='button' class='btn btn-info btn-sm'>新增</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="panel-body" style="min-height: 120px;">
+		<div class="container-fluid"></div>
+	</div>
+</div>

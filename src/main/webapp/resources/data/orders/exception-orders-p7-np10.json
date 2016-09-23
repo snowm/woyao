@@ -1,0 +1,5 @@
+{"totalCount":63,"results":[
+	{"id":"5","aliId":"xxx2123098005","revieveDate":"2016/01/12 10:42:12","costTime":"00:40:50","lastProcessDate":"2016/01/12 11:32:12","lastCostTime":"00:39:12","prodNum":"1100123","channelName":"易赛","status":"超时"},
+	{"id":"3","aliId":"xxx2123098003","revieveDate":"2016/01/12 10:41:12","costTime":"00:30:50","lastProcessDate":"2016/01/12 11:31:21","lastCostTime":"00:37:12","prodNum":"1100123","channelName":"易赛","status":"超时"},
+	{"id":"2","aliId":"xxx2123098002","revieveDate":"2016/01/12 11:31:00","costTime":"00:00:04","lastProcessDate":"2016/01/12 11:31:04","lastCostTime":"00:00:01","prodNum":"1100123","channelName":"易赛","status":"失败"}
+]}

@@ -1,0 +1,7 @@
+{"totalResultCount":13,"results":[
+	{"id":"58","lastProcessDate":"2016/01/12 10:32:12","prodNum":"1100123","channelName":"易赛","status":"超时"},
+	{"id":"56","lastProcessDate":"2016/01/12 10:31:21","prodNum":"1100123","channelName":"易赛","status":"超时"},
+	{"id":"43","lastProcessDate":"2016/01/12 10:31:04","prodNum":"1100123","channelName":"易赛","status":"超时"},
+	{"id":"21","lastProcessDate":"2016/01/12 10:30:02","prodNum":"1100101","channelName":"","status":"失败"},
+	{"id":"20","lastProcessDate":"2016/01/12 10:30:01","prodNum":"","channelName":"","status":"失败"}
+]}

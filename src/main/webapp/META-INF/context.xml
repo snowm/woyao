@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='utf-8'?>
+
+<Context>
+	<!-- 
+	<Manager className="de.javakaffee.web.msm.MemcachedBackupSessionManager" memcachedNodes="n1:host1.yourdomain.com:11211,n2:host2.yourdomain.com:11211"
+		failoverNodes="n1" requestUriIgnorePattern=".*\.(ico|png|gif|jpg|css|js)$" transcoderFactoryClass="de.javakaffee.web.msm.serializer.kryo.KryoTranscoderFactory" />
+		 -->
+	<!-- optional: defaults to "localhost" -->
+	<!-- optional: defaults to "6379" -->
+	<!-- optional: defaults to "0" -->
+	<!-- optional: defaults to "60" (in seconds) -->
+	<!-- 
+	<Manager className="com.radiadesign.catalina.session.RedisSessionManager" host="localhost" port="6379"
+		database="0" maxInactiveInterval="60" />
+		 -->
+		 <!-- 
+	<Manager className="ru.zinin.redis.session.RedisManager" jedisJndiName="custom/jndi/path"/>
+	
+	<Resource name="jdbc/mysql" auth="Container" type="javax.sql.DataSource" driverClassName="org.gjt.mm.mysql.Driver"
+		url="jdbc:mysql://localhost:3306/jucr" username="jucr" password="juCr123$" maxActive="2000" maxIdle="100" maxWait="10000"
+		logAbandoned="true" /> -->
+	<!-- <Resource name="jdbc/mysql" auth="Container" type="javax.sql.DataSource" driverClassName="org.gjt.mm.mysql.Driver"
+		url="jdbc:mysql://localhost:3306/jucr?characterEncoding=utf8" username="jucr" password="juCr123$" maxTotal="100" maxIdle="20" maxWaitMillis="10000"
+		removeAbandonedTimeout="60" logAbandoned="true" /> -->
+</Context>

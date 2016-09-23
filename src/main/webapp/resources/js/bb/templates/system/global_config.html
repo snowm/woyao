@@ -1,0 +1,11 @@
+<form id="global-config-form" style="margin-left: auto; margin-bottom: 0px;" class="form-horizontal">
+	<div class="form-group">
+		<label class="control-label col-xs-12 col-sm-3" for="saveLeft"> <% if (serviceAvailable == false) { %> 服务不可用 <% } else { %> 服务可用
+			<% } %></label>
+		<div class="col-xs-12 col-sm-8">
+			<% if (serviceAvailable == false) { %>  <a name="enable-a" type='button' class='form-control btn btn-success '> 启用服务 </a> <% }
+			else { %>  <a name="disable-a" type='button' class='form-control btn btn-danger '> 停用服务 </a> <% } %>
+		</div>
+	</div>
+</form>
+</div>

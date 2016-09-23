@@ -1,0 +1,85 @@
+	<div class="panel panel-primary main-panel" id="channel-order-p">
+		<div class="panel-heading">
+			<div class="row">
+				<div class="col-xs-12 col-sm-12">
+					<span class="title pull-left">渠道订单</span>
+					<div class="form-inline pull-right" id="filter-p">
+						<div class="row">
+							<div class="col-sm-12">
+								<label class="control-label" for="filter_tbOrderNo">淘宝订单</label>
+								<input class="form-control input-sm" type="text" id="filter_tbOrderNo" placeholder="淘宝订单号" >
+								<label class="control-label" for="filter_spuId">SpuId</label>
+								<input class="form-control input-sm" type="text" id="filter_spuId" placeholder="spuId" >
+								<label class="control-label" for="filter_accountVal">手机号</label>
+								<input class="form-control input-sm" type="text" id="filter_accountVal" placeholder="手机号" >
+								<label class="control-label" for="filter_localProductCode">产品代码</label>
+								<input class="form-control input-sm" type="text" id="filter_localProductCode" placeholder="本地产品代码">
+								<button id="query-bt" type='button' class='btn btn-success btn-sm'>查询</button>
+								<button id="advance-bt" type='button' class='btn btn-default btn-sm' data-toggle="collapse" data-target="#channel-order-p #more-options" aria-expanded="false">
+									更多选项<span class='caret'></span>
+								</button>
+							</div>
+						</div>
+						<div class="collapse" id="more-options">
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="form-group">
+										<label class="control-label" for="filter_channel">渠道名字</label>
+										<select class="form-control" id="filter_channel" style="min-width:100px;margin-right:10px;">
+											<option value="">选择渠道</option>
+										</select>
+									</div>
+									<div class="form-group">
+										<label class="control-label" for="filter_orderStatus">订单状态</label>
+										<select class="form-control" id="filter_orderStatus" style="min-width:90px;margin-right:10px;">
+											<option value="">订单状态</option>
+											<% _.each(_c.channelOrderStatusMap, function(value, key) { %>
+											<option value="<%= key %>"><%= value %></option>
+											<% }); %>
+										</select>
+									</div>
+									<div class="form-group">
+										<label class="control-label" for="filter_manually">人工干预</label>
+										<select class="form-control input-sm" id="filter_manually" style="min-width:100px;margin-right:10px;">
+											<option value="">是否人工干预</option>
+											<option value="true">是</option>
+											<option value="false">否</option>
+										</select>
+									</div>
+									<div class="form-group">
+										<label class="control-label" for="filter_enabled">启用</label>
+										<select class="form-control" id="filter_enabled" style="min-width:60px">
+											<option value="">是否启用</option>
+											<option value="true">启用</option>
+											<option value="false">禁用</option>
+										</select>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="form-group">
+										<label class="control-label" for="filter_creationFromDate">创建时间</label>
+											<input id="filter_creationFromDate" class="form-control datepicker input-sm" type="text" placeholder="创建时间从" value="">
+									</div>
+									<div class="form-group">
+										<label class="control-label" for="filter_creationToDate">到</label>
+											<input id="filter_creationToDate" class="form-control datepicker input-sm" type="text" placeholder="创建时间到" value="">
+									</div>
+									<div class="form-group">
+										<label class="control-label" for="filter_lastModificationFromDate">操作时间</label>
+											<input id="filter_lastModificationFromDate" class="form-control datepicker input-sm" type="text" placeholder="操作时间从" value="">
+									</div>
+									<div class="form-group">
+										<label class="control-label" for="filter_lastModificationToDate">到</label>
+											<input id="filter_lastModificationToDate" class="form-control datepicker input-sm" type="text" placeholder="操作时间到" value="">
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="panel-body" style="min-height: 120px;"><div class="container-fluid"></div></div>
+	</div>

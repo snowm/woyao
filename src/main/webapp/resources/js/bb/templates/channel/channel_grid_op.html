@@ -1,0 +1,14 @@
+<div class='btn-group' id="channel-ops">
+	<a name="edit-a" data-id="<%= id %>" type='button' class='btn btn-info btn-sm btn-op-col'>
+		编辑
+	</a> 
+	<% if (enabled == false) { %>
+	<a name="enable-a" data-id="<%= id %>" type='button' class='btn btn-success btn-sm btn-op-col'>
+		启用
+	</a>
+	<% } else { %>
+	<a name="disable-a" data-id="<%= id %>" type='button' class='btn btn-warning btn-sm btn-op-col'>
+		停用
+	</a>
+	<% } %>
+</div>

@@ -1,0 +1,70 @@
+<form id="channel_order_content_base_form" style="margin-left: auto; margin-bottom: 0px;" class="form-horizontal">
+	<div class="form-group">
+		<label class="control-label col-xs-12 col-sm-3" for="channel_order_id">Id</label>
+		<div class="col-xs-12 col-sm-8">
+		<input class="form-control" type="text" name="channel_order_id" id="channel_order_id" placeholder="本地Id" autocomplete="off" value="<%= id %>" /></div>
+	</div>
+	<div class="form-group">
+		<label class="control-label col-xs-12 col-sm-3" for="channel_order_thirdChannelOrderId">第三方渠道订单</label>
+		<div class="col-xs-12 col-sm-8">
+		<input class="form-control" type="text" name="channel_order_thirdChannelOrderId" id="channel_order_thirdChannelOrderId" placeholder="渠道订单" autocomplete="off" value="<%= thirdChannelOrderId %>" /></div>
+	</div>
+	<div class="form-group">
+		<label class="control-label col-xs-12 col-sm-3" for="channel_order_buyNum">数量</label>
+		<div class="col-xs-12 col-sm-8">
+		<input class="form-control" type="text" name="channel_order_buyNum" id="channel_order_buyNum" placeholder="数量" autocomplete="off" value="<%= buyNum %>" /></div>
+	</div>
+	<div class="form-group">
+		<label class="control-label col-xs-12 col-sm-3" for="channel_order_channelProductName">渠道产品</label>
+		<div class="col-xs-12 col-sm-8">
+		<input class="form-control" type="text" name="channel_order_channelProductName" id="channel_order_channelProductName" placeholder="渠道产品名字" autocomplete="off" value="<%= channelProductName %>" /></div>
+	</div>
+	<div class="form-group">
+		<label class="control-label col-xs-12 col-sm-3" for="channel_order_channelName">渠道</label>
+		<div class="col-xs-12 col-sm-8">
+		<input class="form-control" type="text" name="channel_order_channelName" id="channel_order_channelName" placeholder="渠道" autocomplete="off" value="<%= channelName %>" /></div>
+	</div>
+	<div class="form-group has-warning">
+		<label class="control-label col-xs-12 col-sm-3" for="channel_order_orderStatus">订单状态</label>
+		<div class="col-xs-12 col-sm-8">
+		<input class="form-control" type="text" name="channel_order_orderStatus" id="channel_order_orderStatus" placeholder="订单状态" autocomplete="off" value="<%= _c.channelOrderStatusMap[orderStatus] %>" /></div>
+	</div>
+	<div class="form-group">
+		<label class="control-label col-xs-12 col-sm-3" for="channel_order_failReason">失败原因</label>
+		<div class="col-xs-12 col-sm-8">
+		<input class="form-control" type="text" name="channel_order_failReason" id="channel_order_failReason" placeholder="发送时间" autocomplete="off" value="<%= failReason %>" /></div>
+	</div>
+	<div class="form-group">
+		<label class="control-label col-xs-12 col-sm-3" for="channel_order_callbackValidationCode">回调校验码</label>
+		<div class="col-xs-12 col-sm-8">
+		<input class="form-control" type="text" name="channel_order_callbackValidationCode" id="channel_order_callbackValidationCode" placeholder="回调校验码" autocomplete="off" value="<%= callbackValidationCode %>" /></div>
+	</div>
+	<div class="form-group">
+		<label class="control-label col-xs-12 col-sm-3" for="channel_order_sentDate">发送时间</label>
+		<div class="col-xs-12 col-sm-8">
+		<input class="form-control" type="text" name="channel_order_sentDate" id="channel_order_sentDate" placeholder="发送时间" autocomplete="off" value="<%= sentDate %>" /></div>
+	</div>
+	<div class="form-group">
+		<label class="control-label col-xs-12 col-sm-3" for="channel_order_completeDate">完成时间</label>
+		<div class="col-xs-12 col-sm-8">
+		<input class="form-control" type="text" name="channel_order_completeDate" id="channel_order_completeDate" placeholder="完成时间" autocomplete="off" value="<%= completeDate %>" /></div>
+	</div>
+	<div class="form-group">
+		<label class="control-label col-xs-12 col-sm-3" for="channel_order_creationDate">本地创建时间</label>
+		<div class="col-xs-12 col-sm-8">
+		<input class="form-control" type="text" name="channel_order_creationDate" id="channel_order_creationDate" placeholder="本地创建时间" autocomplete="off" value="<%= creationDate %>" /></div>
+	</div>
+	<div class="form-group">
+		<label class="control-label col-xs-12 col-sm-3" for="channel_order_lastModifiedDate">最后操作时间</label>
+		<div class="col-xs-12 col-sm-8">
+		<input class="form-control" type="text" name="channel_order_lastModifiedDate" id="channel_order_lastModifiedDate" placeholder="最后操作时间" autocomplete="off" value="<%= lastModifiedDate %>" /></div>
+	</div>
+	<div class="form-group">
+		<label class="control-label col-xs-12 col-sm-3" for="channel_order_enabled">是否启用</label>
+		<div class="col-xs-12 col-sm-8">
+		<select class="form-control" name="channel_order_enabled" id="channel_order_enabled">
+			<option value="true"<% if (enabled == true) { %> selected <% } %>>启用</option>
+			<option value="false"<% if (enabled == false) { %> selected <% } %>>禁用</option>
+		</select></div>
+	</div>
+</form>

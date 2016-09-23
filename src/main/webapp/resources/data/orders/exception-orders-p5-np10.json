@@ -1,0 +1,12 @@
+{"totalCount":63,"results":[
+	{"id":"100","aliId":"xxx2123098100","revieveDate":"2016/01/12 10:42:12","costTime":"00:40:50","lastProcessDate":"2016/01/12 11:32:12","lastCostTime":"00:39:12","prodNum":"1100123","channelName":"易赛","status":"超时"},
+	{"id":"98","aliId":"xxx2123098098","revieveDate":"2016/01/12 10:41:12","costTime":"00:30:50","lastProcessDate":"2016/01/12 11:31:21","lastCostTime":"00:37:12","prodNum":"1100123","channelName":"易赛","status":"超时"},
+	{"id":"97","aliId":"xxx2123098097","revieveDate":"2016/01/12 11:31:00","costTime":"00:00:04","lastProcessDate":"2016/01/12 11:31:04","lastCostTime":"00:00:01","prodNum":"1100123","channelName":"易赛","status":"失败"},
+	{"id":"60","aliId":"xxx2123098060","revieveDate":"2016/01/12 11:30:00","costTime":"00:00:02","lastProcessDate":"2016/01/12 11:30:02","lastCostTime":"00:00:01","prodNum":"1100101","channelName":"","status":"失败"},
+	{"id":"59","aliId":"xxx2123098059","revieveDate":"2016/01/12 11:30:00","costTime":"00:00:01","lastProcessDate":"2016/01/12 11:30:01","lastCostTime":"00:00:01","prodNum":"","channelName":"","status":"失败"},
+	{"id":"58","aliId":"xxx2123098058","revieveDate":"2016/01/12 11:30:00","costTime":"00:00:01","lastProcessDate":"2016/01/12 11:30:01","lastCostTime":"00:00:01","prodNum":"","channelName":"","status":"失败"},
+	{"id":"43","aliId":"xxx2123098043","revieveDate":"2016/01/12 11:30:00","costTime":"00:00:01","lastProcessDate":"2016/01/12 11:30:01","lastCostTime":"00:00:01","prodNum":"","channelName":"","status":"失败"},
+	{"id":"40","aliId":"xxx2123098040","revieveDate":"2016/01/12 11:30:00","costTime":"00:00:01","lastProcessDate":"2016/01/12 11:30:01","lastCostTime":"00:00:01","prodNum":"","channelName":"","status":"失败"},
+	{"id":"21","aliId":"xxx2123098021","revieveDate":"2016/01/12 11:30:00","costTime":"00:00:01","lastProcessDate":"2016/01/12 11:30:01","lastCostTime":"00:00:01","prodNum":"","channelName":"","status":"失败"},
+	{"id":"10","aliId":"xxx2123098010","revieveDate":"2016/01/12 11:30:00","costTime":"00:00:01","lastProcessDate":"2016/01/12 11:30:01","lastCostTime":"00:00:01","prodNum":"","channelName":"","status":"失败"}
+]}

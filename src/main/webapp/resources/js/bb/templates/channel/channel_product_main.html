@@ -1,0 +1,31 @@
+<div class="panel panel-primary main-panel" id="channel-product-p">
+	<div class="panel-heading">
+		<div class="row">
+			<div class="col-xs-12 col-sm-12">
+				<span class="title pull-left">渠道产品</span>
+				<div class="form-inline pull-right" id="filter-p">
+					<input class="form-control" type="text" id="filter_name" placeholder="名字" > <select class="form-control" id="filter_channel">
+						<option value="">渠道</option>
+					</select> <select class="form-control" id="filter_misp">
+						<option value="">服务商</option>
+					</select> <select class="form-control" id="filter_province">
+						<option value="">省份</option>
+					</select> <select class="form-control" id="filter_region">
+						<option value="">区域类型</option>
+						<% _.each(_c.regionsMap, function(value, key) { %>
+						<option value="<%= key %>"><%= value %></option>
+						<% }); %>
+					</select>
+					<select class="form-control" id="filter_enabled">
+						<option value="">是否启用</option>
+						<option value="true">启用</option>
+						<option value="false">禁用</option>
+					</select>
+					<button id="query-bt" type='button' class='btn btn-success'>查询</button>
+					<button id="create-bt" type='button' class='btn btn-success'>新增</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="panel-body" style="min-height: 120px;"><div class="container-fluid"></div></div>
+</div>
