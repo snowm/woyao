@@ -13,7 +13,10 @@
 	<name>Woyao Webapp</name>
 	<url>${site.url}</url>
 	<properties>
-		<site.url>http://www.kl.com</site.url>
+		<site.url>http://www.woyao.com</site.url>
+		<jersey.version>2.23.2</jersey.version>
+		<cxf-api.version>2.7.18</cxf-api.version>
+		<cxf.version>3.1.7</cxf.version>
 	</properties>
 	<dependencies>
 		<!-- Test -->
@@ -86,6 +89,53 @@
 		<dependency>
 			<groupId>javax.servlet.jsp</groupId>
 			<artifactId>javax.servlet.jsp-api</artifactId>
+		</dependency>
+		<!--  Jersey -->
+		<dependency>
+			<groupId>org.glassfish.jersey.core</groupId>
+			<artifactId>jersey-common</artifactId>
+			<version>${jersey.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.jersey.core</groupId>
+			<artifactId>jersey-client</artifactId>
+			<version>${jersey.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.jersey.ext</groupId>
+			<artifactId>jersey-spring3</artifactId>
+			<version>${jersey.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.jersey.ext</groupId>
+			<artifactId>jersey-entity-filtering</artifactId>
+			<version>${jersey.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.jersey.media</groupId>
+			<artifactId>jersey-media-multipart</artifactId>
+			<version>${jersey.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.jersey.media</groupId>
+			<artifactId>jersey-media-json-jackson</artifactId>
+			<version>${jersey.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.jersey.connectors</groupId>
+			<artifactId>jersey-apache-connector</artifactId>
+			<version>${jersey.version}</version>
+		</dependency>
+		<!-- CXF -->
+		<!-- <dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-api</artifactId>
+			<version>${cxf-api.version}</version>
+		</dependency> -->
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-bundle-compatible</artifactId>
+			<version>${cxf.version}</version>
 		</dependency>
 		<!-- Main.Spring -->
 		<dependency>

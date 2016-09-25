@@ -19,7 +19,7 @@ import com.snowm.hibernate.ext.multi.SwitchableTransactionManagerWrapper;
 @Configuration("mainConfig")
 @PropertySource(name = "mainProperty", value = "classpath:/config.properties")
 @Import({ com.snowm.hibernate.ext.config.AppConfig.class, com.snowm.security.config.AppConfig.class, SecurityConfig.class })
-@ComponentScan({ "com.snowm", "com.jucr" })
+@ComponentScan({ "com.snowm", "com.woyao" })
 // @Profile("dev")
 public class AppConfig {
 
