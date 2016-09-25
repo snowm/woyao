@@ -5,12 +5,12 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<meta name="description" content='"二猫"管理系统'>
+<meta name="description" content='"我要"管理系统'>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="author" content="Snowm">
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 <meta http-equiv="cache-control" content="no-cache,private">
-<title>"二猫"管理系统</title>
+<title>"我要"管理系统</title>
 <link rel="stylesheet" type="text/css" href="resources/css/main.css" />
 
 <link rel="shortcut icon" href="resources/images/favicon.ico">
