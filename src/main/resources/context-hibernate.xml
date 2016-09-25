@@ -10,7 +10,7 @@
         <property name="dataSource" ref="dataSource" />
         <property name="packagesToScan">
             <list>
-                <value>com.snowm.cat.domain</value>
+                <value>com.woyao.domain</value>
                 <value>com.snowm.security.profile.domain</value>
             </list>
         </property>
