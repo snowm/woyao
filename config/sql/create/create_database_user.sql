@@ -1,7 +1,7 @@
-CREATE SCHEMA `cat2` DEFAULT CHARACTER SET utf8mb4 ;
+CREATE SCHEMA `woyao` DEFAULT CHARACTER SET utf8mb4 ;
 
-CREATE USER 'cat2'@'localhost' IDENTIFIED BY 'C@t2_2016';
-CREATE USER 'cat2'@'%' IDENTIFIED BY 'C@t2_2016_Snowm';
+CREATE USER 'woyao'@'localhost' IDENTIFIED BY 'woyao_003';
+CREATE USER 'woyao'@'%' IDENTIFIED BY 'w0ya0_oo3!@';
 
-GRANT ALL PRIVILEGES ON `cat2`.* TO 'cat2'@'localhost' WITH GRANT OPTION;
-GRANT ALL PRIVILEGES ON `cat2`.* TO 'cat2'@'%';
+GRANT ALL PRIVILEGES ON `woyao`.* TO 'woyao'@'localhost' WITH GRANT OPTION;
+GRANT ALL PRIVILEGES ON `woyao`.* TO 'woyao'@'%';
