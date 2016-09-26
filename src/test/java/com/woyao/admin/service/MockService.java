@@ -93,7 +93,7 @@ public class MockService {
 		Permission permission = new Permission();
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < 100; i++) {
-			sb.append("code");
+			sb.append("code1");
 		}
 		permission.setCode(sb.toString());
 		permission.setDescription("description");
