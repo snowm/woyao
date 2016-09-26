@@ -5,12 +5,12 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<meta name="description" content='"二猫"管理系统'>
+<meta name="description" content='"我要"管理系统'>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="author" content="Snowm">
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 <meta http-equiv="cache-control" content="no-cache,private">
-<title>"二猫"管理系统</title>
+<title>"我要"管理系统</title>
 <link rel="stylesheet" type="text/css" href="resources/css/main.css" />
 <link rel="stylesheet" type="text/css" href="resources/css/bootstrap/dataTables/dataTables.bootstrap.min.css" />
 <link rel="stylesheet" type="text/css" href="resources/css/bootstrap/dataTables/select.bootstrap.min.css" />
@@ -39,35 +39,12 @@
 		        	<span class="icon-bar"></span>
 		        	<span class="icon-bar"></span>
 		        </button>
-				<a class="navbar-brand" href="./">"二猫"管理系统</a>
+				<a class="navbar-brand" href="./">"我要"管理系统</a>
 			</div>
 			<div id="main_navbar" class="navbar-collapse collapse">
 				<ul class="nav navbar-nav">
 					<li><a href="#" id="index-a">首页</a></li>
-					<li class="dropdown"><a href="#" class="dropdown-toggle"
-						data-toggle="dropdown" role="button" aria-expanded="false">产品库管理
-							<span class="caret"></span>
-					</a>
-						<ul class="dropdown-menu" role="menu">
-							<li><a href="#category-manage" id="category-manage-a">分类</a></li>
-							<li><a href="#product-manage" id="product-manage-a">产品</a></li>
-							<li><a href="#sku-manage" id="sku-manage-a">库存产品</a></li>
-						</ul></li>
-					<li class="dropdown" id="order-manage"><a href="javascript:;"
-						class="dropdown-toggle tooltip-sef" data-toggle="dropdown"
-						role="button" aria-expanded="false" id="order-manage-a">订单管理<span class="caret"></span>
-					</a>
-						<ul class="dropdown-menu" role="menu">
-							<li><a href="#ali-order-manage" id="ali-order-manage-a">淘宝订单</a></li>
-							<li><a href="#purchase-order-manage" id="purchase-order-manage-a">采购订单</a></li>
-						</ul></li>
-					<li class="dropdown">
-						<a href="#" class="dropdown-toggle tooltip-sef" data-toggle="dropdown" role="button" aria-expanded="false">统计报表<span class="caret"></span></a>
-						<ul class="dropdown-menu" role="menu">
-							<li><a href="#rpt-manage-channel-realtime" id="rpt-manage-channel-realtime-a">销售统计</a></li>
-							<li><a href="#rpt-manage-channel-realtime" id="rpt-manage-channel-realtime-a">库存统计</a></li>
-						</ul>
-					</li>
+					
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					<li id="system-manage" class="dropdown" data-toggle="tooltip"

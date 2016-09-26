@@ -13,7 +13,7 @@
     <context:annotation-config />
     <import resource="context-datasource.xml" />
     <import resource="context-hibernate.xml" />
-    <bean class="com.snowm.cat.config.AppConfig"/>
+    <bean class="com.woyao.config.AppConfig"/>
     <task:annotation-driven /> 
     <!-- <import resource="context-schedulers.xml" /> -->
 
