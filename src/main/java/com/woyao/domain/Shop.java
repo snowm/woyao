@@ -31,6 +31,27 @@ public class Shop extends DefaultModelImpl {
 	@Column(name = "NAME", nullable = false)
 	private String name;
 
+	@Column(name = "PUBLIC_ACC_URL")
+	private String publicAccURL;
+
+	@Column(name = "ADDRESS", nullable = false)
+	private String address;
+
+	/**
+	 * 经度
+	 */
+	@Column(name = "LONGITUDE")
+	private Double longitude;
+
+	/**
+	 * 纬度
+	 */
+	@Column(name = "LATITUDE")
+	private Double latitude;
+
+	@Column(name = "DESCRIPTION", columnDefinition = "TEXT")
+	private String description;
+
 	@Override
 	public Long getId() {
 		return this.id;
@@ -47,6 +68,46 @@ public class Shop extends DefaultModelImpl {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getPublicAccURL() {
+		return publicAccURL;
+	}
+
+	public void setPublicAccURL(String publicAccURL) {
+		this.publicAccURL = publicAccURL;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public Double getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(Double longitude) {
+		this.longitude = longitude;
+	}
+
+	public Double getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(Double latitude) {
+		this.latitude = latitude;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 }

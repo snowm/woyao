@@ -1,4 +1,4 @@
-package com.woyao.admin.dto.ali;
+package com.woyao.admin.dto.purchase;
 
 import java.util.Date;
 
@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.woyao.admin.dto.DTOConfig;
 import com.woyao.admin.dto.PaginationQueryRequestDTO;
 
-public class QueryAliOrdersRequestDTO extends PaginationQueryRequestDTO {
+public class QueryOrdersRequestDTO extends PaginationQueryRequestDTO {
 
 	private static final long serialVersionUID = 6065375426171420402L;
 
@@ -14,7 +14,7 @@ public class QueryAliOrdersRequestDTO extends PaginationQueryRequestDTO {
 
 	private String customerAccount;
 
-	private AliOrderStatusDTO orderStatus;
+	private OrderStatusDTO orderStatus;
 
 	@JsonFormat(pattern = DTOConfig.DATE_TIME_FULL_FMT)
 	private Date creationFromDate;
@@ -40,11 +40,11 @@ public class QueryAliOrdersRequestDTO extends PaginationQueryRequestDTO {
 		this.customerAccount = customerAccount;
 	}
 
-	public AliOrderStatusDTO getOrderStatus() {
+	public OrderStatusDTO getOrderStatus() {
 		return orderStatus;
 	}
 
-	public void setOrderStatus(AliOrderStatusDTO orderStatus) {
+	public void setOrderStatus(OrderStatusDTO orderStatus) {
 		this.orderStatus = orderStatus;
 	}
 

@@ -1,7 +1,5 @@
 package com.woyao.domain.product;
 
-import java.util.List;
-
 import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,7 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 
@@ -19,6 +16,8 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import com.snowm.hibernate.ext.domain.DefaultModelImpl;
+import com.woyao.domain.Pic;
+import com.woyao.domain.Shop;
 
 @Entity
 @Table(name = "PRODUCT")
@@ -37,15 +36,22 @@ public class Product extends DefaultModelImpl {
 	@Column(name = "CODE", nullable = false, unique = true)
 	private String code;
 
+	@ManyToOne(optional = false, fetch = FetchType.LAZY)
+	@JoinColumn(referencedColumnName = "id", name = "SHOP_ID", nullable = true)
+	private Shop shop;
+
 	@Column(name = "NAME", nullable = false)
 	private String name;
 
-	@ManyToOne(optional = false, fetch = FetchType.LAZY)
-	@JoinColumn(referencedColumnName = "id", name = "CATEGORY_ID", nullable = true)
-	private Category category;
+	@Column(name = "DESCRIPTION", columnDefinition = "TEXT")
+	private String description;
 
-	@OneToMany(targetEntity = Sku.class, mappedBy = "product", fetch = FetchType.LAZY)
-	private List<ProductColor> productColors;
+	@Column(name = "PRICE", nullable = false)
+	private long price;
+
+	@ManyToOne(optional = false, fetch = FetchType.LAZY)
+	@JoinColumn(referencedColumnName = "id", name = "PIC_ID", nullable = true)
+	private Pic pic;
 
 	@Override
 	public Long getId() {
@@ -65,6 +71,14 @@ public class Product extends DefaultModelImpl {
 		this.code = code;
 	}
 
+	public Shop getShop() {
+		return shop;
+	}
+
+	public void setShop(Shop shop) {
+		this.shop = shop;
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -73,20 +87,28 @@ public class Product extends DefaultModelImpl {
 		this.name = name;
 	}
 
-	public Category getCategory() {
-		return category;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setCategory(Category category) {
-		this.category = category;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
-	public List<ProductColor> getProductColors() {
-		return productColors;
+	public long getPrice() {
+		return price;
 	}
 
-	public void setProductColors(List<ProductColor> productColors) {
-		this.productColors = productColors;
+	public void setPrice(long price) {
+		this.price = price;
+	}
+
+	public Pic getPic() {
+		return pic;
+	}
+
+	public void setPic(Pic pic) {
+		this.pic = pic;
 	}
 
 }

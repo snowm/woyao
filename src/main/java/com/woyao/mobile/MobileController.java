@@ -24,6 +24,11 @@ public class MobileController {
 	@ResponseBody
 	public PaginationBean<ShopDTO> findShop(@PathVariable("name") String name, @PathVariable("pageNumber") long pageNumber,
 			@PathVariable("pageSize") int pageSize) {
+//		try {
+//			Thread.sleep(1000*1000);
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//		}
 		return this.mobileService.findShop(name, pageNumber, pageSize);
 	}
 	

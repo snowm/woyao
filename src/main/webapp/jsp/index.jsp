@@ -11,14 +11,14 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 <meta http-equiv="cache-control" content="no-cache,private">
 <title>"我要"管理系统</title>
-<link rel="stylesheet" type="text/css" href="resources/css/main.css" />
+<!-- <link rel="stylesheet" type="text/css" href="resources/css/main.css" />
 <link rel="stylesheet" type="text/css" href="resources/css/bootstrap/dataTables/dataTables.bootstrap.min.css" />
 <link rel="stylesheet" type="text/css" href="resources/css/bootstrap/dataTables/select.bootstrap.min.css" />
 <link rel="stylesheet" type="text/css" href="resources/css/bootstrap/dataTables/rowReorder.bootstrap.min.css" />
 <link rel="stylesheet" type="text/css" href="resources/css/bootstrap/dataTables/responsive.bootstrap.min.css" />
 
 <link rel="shortcut icon" href="resources/images/favicon.ico">
-<script data-main="resources/js/base/index_main" src="resources/js/lib/requirejs/require.js"></script> 
+<script data-main="resources/js/base/index_main" src="resources/js/lib/requirejs/require.js"></script>  -->
 <!-- The XDomainRequest Transport is included for cross-domain file deletion for IE8+ -->
 <!--[if gte IE 8]><script src="js/lib/jquery/fileupload/cors/jquery.xdr-transport.js"></script><![endif]-->
 
@@ -76,7 +76,23 @@
 	</div>
 	<!-- /container -->
 	<script>
-		
+		var socket = new WebSocket('ws://localhost:8080/chat/websck'); 
+		// 打开Socket 
+		socket.onopen = function(event) { 
+		  // 发送一个初始化消息
+		  socket.send('I am the client and I\'m listening!'); 
+
+		  // 监听消息
+		  socket.onmessage = function(event) { 
+		    console.log('Client received a message',event); 
+		  }; 
+
+		  // 监听Socket的关闭
+		  socket.onclose = function(event) { 
+		    console.log('Client notified socket has closed',event); 
+		  }; 
+		};
+
 	</script>
 </body>
 </html>

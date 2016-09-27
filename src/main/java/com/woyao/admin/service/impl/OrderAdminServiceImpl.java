@@ -5,44 +5,43 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.criterion.Criterion;
-import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.woyao.admin.dto.ali.AliOrderDTO;
-import com.woyao.admin.dto.ali.QueryAliOrdersRequestDTO;
-import com.woyao.admin.service.IAliOrderAdminService;
-import com.woyao.domain.ali.AliOrder;
 import com.snowm.utils.query.PaginationBean;
+import com.woyao.domain.purchase.Order;
+import com.woyao.admin.dto.purchase.OrderDTO;
+import com.woyao.admin.dto.purchase.QueryOrdersRequestDTO;
+import com.woyao.admin.service.IOrderAdminService;
 
-@Service("aliOrderAdminService")
-public class AliOrderAdminServiceImpl extends AbstractAdminService<AliOrder, AliOrderDTO> implements IAliOrderAdminService {
+@Service("orderAdminService")
+public class OrderAdminServiceImpl extends AbstractAdminService<Order, OrderDTO> implements IOrderAdminService {
 	
 	@Transactional(readOnly = true, isolation = Isolation.READ_UNCOMMITTED)
 	@Override
-	public PaginationBean<AliOrderDTO> query(QueryAliOrdersRequestDTO queryRequest) {
+	public PaginationBean<OrderDTO> query(QueryOrdersRequestDTO queryRequest) {
 		List<Criterion> criterions = new ArrayList<Criterion>();
 		if (!StringUtils.isEmpty(queryRequest.getTbOrderNo())) {
 			criterions.add(Restrictions.eq("tbOrderNo", queryRequest.getTbOrderNo()));
 		}
-		List<Order> orders = new ArrayList<>();
-		orders.add(Order.desc("logicalDelete.enabled"));
-		orders.add(Order.desc("id"));
+		List<org.hibernate.criterion.Order> orders = new ArrayList<>();
+		orders.add(org.hibernate.criterion.Order.desc("logicalDelete.enabled"));
+		orders.add(org.hibernate.criterion.Order.desc("id"));
 
 		long count = this.dao.count(this.entityClazz, criterions);
-		List<AliOrder> ms = new ArrayList<>();
+		List<Order> ms = new ArrayList<>();
 		if (count > 0l) {
 			ms = this.dao.query(this.entityClazz, criterions, orders, queryRequest.getPageNumber(), queryRequest.getPageSize());
 		}
 
-		PaginationBean<AliOrderDTO> rs = new PaginationBean<>(queryRequest.getPageNumber(), queryRequest.getPageSize());
+		PaginationBean<OrderDTO> rs = new PaginationBean<>(queryRequest.getPageNumber(), queryRequest.getPageSize());
 		rs.setTotalCount(count);
-		List<AliOrderDTO> results = new ArrayList<>();
-		for (AliOrder m : ms) {
-			AliOrderDTO dto = this.transferToDTO(m, true);
+		List<OrderDTO> results = new ArrayList<>();
+		for (Order m : ms) {
+			OrderDTO dto = this.transferToDTO(m, true);
 			results.add(dto);
 		}
 		rs.setResults(results);
@@ -50,13 +49,13 @@ public class AliOrderAdminServiceImpl extends AbstractAdminService<AliOrder, Ali
 	}
 
 	@Override
-	public AliOrderDTO update(AliOrderDTO dto) {
+	public OrderDTO update(OrderDTO dto) {
 		return dto;
 	}
 
 	@Override
-	public AliOrderDTO transferToSimpleDTO(AliOrder m) {
-		AliOrderDTO dto = new AliOrderDTO();
+	public OrderDTO transferToSimpleDTO(Order m) {
+		OrderDTO dto = new OrderDTO();
 		BeanUtils.copyProperties(m, dto);
 		dto.setEnabled(m.getLogicalDelete().isEnabled());
 		dto.setCreationDate(m.getModification().getCreationDate());
@@ -65,12 +64,12 @@ public class AliOrderAdminServiceImpl extends AbstractAdminService<AliOrder, Ali
 	}
 
 	@Override
-	public AliOrder transferToDomain(AliOrderDTO dto) {
+	public Order transferToDomain(OrderDTO dto) {
 		return null;
 	}
 
 	@Override
-	public AliOrderDTO transferToFullDTO(AliOrder m) {
+	public OrderDTO transferToFullDTO(Order m) {
 		return null;
 	}
 

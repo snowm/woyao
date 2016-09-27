@@ -15,18 +15,21 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import com.snowm.hibernate.ext.domain.DefaultModelImpl;
 
 @Entity
-@Table(name = "PIC_MEDIA")
-@TableGenerator(name = "picMediaGenerator", table = "ID_GENERATOR", pkColumnName = "GEN_NAME", valueColumnName = "GEN_VALUE", pkColumnValue = "picMedia", allocationSize = 1, initialValue = 0)
+@Table(name = "PICTURE")
+@TableGenerator(name = "pictureGenerator", table = "ID_GENERATOR", pkColumnName = "GEN_NAME", valueColumnName = "GEN_VALUE", pkColumnValue = "picture", allocationSize = 1, initialValue = 0)
 @Cacheable
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "picMedia")
-public class PicMedia extends DefaultModelImpl {
+@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "picture")
+public class Pic extends DefaultModelImpl {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@Column(name = "ID")
-	@GeneratedValue(strategy = GenerationType.TABLE, generator = "picMediaGenerator")
+	@GeneratedValue(strategy = GenerationType.TABLE, generator = "pictureGenerator")
 	private Long id;
+
+	@Column(name = "SHOP_ID", nullable = true)
+	private Long shopId;
 
 	@Column(name = "PATH", nullable = false, length = 255)
 	private String path;
@@ -39,6 +42,14 @@ public class PicMedia extends DefaultModelImpl {
 	@Override
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public Long getShopId() {
+		return shopId;
+	}
+
+	public void setShopId(Long shopId) {
+		this.shopId = shopId;
 	}
 
 	public String getPath() {

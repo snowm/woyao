@@ -11,19 +11,19 @@ import javax.persistence.TableGenerator;
 import com.snowm.hibernate.ext.domain.DefaultModelImpl;
 
 @Entity
-@Table(name = "PURCHASE_ACCOUNT")
-@TableGenerator(name = "purchaseAccountGenerator", table = "ID_GENERATOR", pkColumnName = "GEN_NAME", valueColumnName = "GEN_VALUE", pkColumnValue = "purchaseAccount", allocationSize = 1, initialValue = 0)
-public class PurchaseAccount extends DefaultModelImpl {
+@Table(name = "ORDER_PREPAY_INFO")
+@TableGenerator(name = "orderPrepayInfoGenerator", table = "ID_GENERATOR", pkColumnName = "GEN_NAME", valueColumnName = "GEN_VALUE", pkColumnValue = "orderPrepayInfo", allocationSize = 1, initialValue = 0)
+public class OrderPrepayInfo extends DefaultModelImpl {
 
 	private static final long serialVersionUID = 1L;
-
+	
 	@Id
 	@Column(name = "ID")
-	@GeneratedValue(strategy = GenerationType.TABLE, generator = "purchaseAccountGenerator")
+	@GeneratedValue(strategy = GenerationType.TABLE, generator = "orderPrepayInfoGenerator")
 	private Long id;
-
-	@Column(name = "NAME", length = 50)
-	private String name;
+	
+	@Column(name = "PRE_PAY_ID", length = 64, nullable = false)
+	private String prepayId;
 
 	@Override
 	public Long getId() {
@@ -35,12 +35,5 @@ public class PurchaseAccount extends DefaultModelImpl {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
 
 }

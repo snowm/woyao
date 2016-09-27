@@ -12,9 +12,9 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.transaction.PlatformTransactionManager;
 
-import com.woyao.GlobalConfig;
 import com.snowm.hibernate.ext.multi.SwitchableSessionFactoryWrapper;
 import com.snowm.hibernate.ext.multi.SwitchableTransactionManagerWrapper;
+import com.woyao.GlobalConfig;
 
 @Configuration("mainConfig")
 @PropertySource(name = "mainProperty", value = "classpath:/config.properties")
