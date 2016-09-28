@@ -10,13 +10,12 @@ import com.woyao.dao.CommonDao;
 import com.woyao.domain.User;
 
 @Service("userService")
-@Transactional(isolation = Isolation.READ_UNCOMMITTED, readOnly = true)
 public class UserService {
 	@Resource(name = "commonDao")
 	private CommonDao dao;
-	
-	public User getUser(User user){
-		
-		return dao.get(User.class, user.getUserId());
+	@Transactional(isolation = Isolation.READ_UNCOMMITTED, readOnly = true)
+	public User getUser(String userId){
+		System.out.println(userId);
+		return this.dao.get(User.class, userId);
 	}
 }
