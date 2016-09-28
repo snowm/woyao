@@ -1,4 +1,4 @@
-package com.woyao.websocket;
+package com.woyao.customer.websocket;
 
 import java.util.Map;
 

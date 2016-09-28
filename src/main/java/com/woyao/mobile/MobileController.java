@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.snowm.utils.query.PaginationBean;
-import com.woyao.admin.dto.ShopDTO;
+import com.woyao.customer.dto.ShopDTO;
 
 @Controller
 @RequestMapping(value = "/mobile")

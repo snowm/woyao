@@ -1,4 +1,4 @@
-package com.woyao.domain.product;
+package com.woyao.domain;
 
 import javax.persistence.Cacheable;
 import javax.persistence.Column;
@@ -19,21 +19,21 @@ import com.snowm.hibernate.ext.domain.DefaultModelImpl;
 import com.woyao.domain.Pic;
 
 @Entity
-@Table(name = "PRODUCT_PICTURE")
-@TableGenerator(name = "productPictureGenerator", table = "ID_GENERATOR", pkColumnName = "GEN_NAME", valueColumnName = "GEN_VALUE", pkColumnValue = "productPicture", allocationSize = 1, initialValue = 0)
+@Table(name = "SHOP_PICTURE")
+@TableGenerator(name = "shopPictureGenerator", table = "ID_GENERATOR", pkColumnName = "GEN_NAME", valueColumnName = "GEN_VALUE", pkColumnValue = "shopPicture", allocationSize = 1, initialValue = 0)
 @Cacheable
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "productPicture")
-public class ProductPic extends DefaultModelImpl {
+@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "shopPicture")
+public class ShopPic extends DefaultModelImpl {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@Column(name = "ID")
-	@GeneratedValue(strategy = GenerationType.TABLE, generator = "productPictureGenerator")
+	@GeneratedValue(strategy = GenerationType.TABLE, generator = "shopPictureGenerator")
 	private Long id;
 
-	@Column(name = "PRODUCT_ID", nullable = false)
-	private Long productId;
+	@Column(name = "SHOP_ID", nullable = false)
+	private Long shopId;
 
 	@ManyToOne(optional = false, fetch = FetchType.LAZY)
 	@JoinColumn(referencedColumnName = "id", name = "PIC_ID", nullable = false)
@@ -49,12 +49,12 @@ public class ProductPic extends DefaultModelImpl {
 		this.id = id;
 	}
 
-	public Long getProductId() {
-		return productId;
+	public Long getShopId() {
+		return shopId;
 	}
 
-	public void setProductId(Long productId) {
-		this.productId = productId;
+	public void setShopId(Long shopId) {
+		this.shopId = shopId;
 	}
 
 	public Pic getPic() {

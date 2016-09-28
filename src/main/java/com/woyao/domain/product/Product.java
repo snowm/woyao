@@ -36,7 +36,10 @@ public class Product extends DefaultModelImpl {
 	@Column(name = "CODE", nullable = false, unique = true)
 	private String code;
 
-	@ManyToOne(optional = false, fetch = FetchType.LAZY)
+	@Column(name = "PRODUCT_TYPE", nullable = false)
+	private ProductType type;
+
+	@ManyToOne(optional = true, fetch = FetchType.LAZY)
 	@JoinColumn(referencedColumnName = "id", name = "SHOP_ID", nullable = true)
 	private Shop shop;
 
@@ -46,10 +49,10 @@ public class Product extends DefaultModelImpl {
 	@Column(name = "DESCRIPTION", columnDefinition = "TEXT")
 	private String description;
 
-	@Column(name = "PRICE", nullable = false)
-	private long price;
+	@Column(name = "UNIT_PRICE", nullable = false)
+	private long unitPrice;
 
-	@ManyToOne(optional = false, fetch = FetchType.LAZY)
+	@ManyToOne(optional = true, fetch = FetchType.LAZY)
 	@JoinColumn(referencedColumnName = "id", name = "PIC_ID", nullable = true)
 	private Pic pic;
 
@@ -95,12 +98,20 @@ public class Product extends DefaultModelImpl {
 		this.description = description;
 	}
 
-	public long getPrice() {
-		return price;
+	public ProductType getType() {
+		return type;
 	}
 
-	public void setPrice(long price) {
-		this.price = price;
+	public void setType(ProductType type) {
+		this.type = type;
+	}
+
+	public long getUnitPrice() {
+		return unitPrice;
+	}
+
+	public void setUnitPrice(long unitPrice) {
+		this.unitPrice = unitPrice;
 	}
 
 	public Pic getPic() {

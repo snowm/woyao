@@ -28,11 +28,11 @@ public class Pic extends DefaultModelImpl {
 	@GeneratedValue(strategy = GenerationType.TABLE, generator = "pictureGenerator")
 	private Long id;
 
-	@Column(name = "SHOP_ID", nullable = true)
-	private Long shopId;
-
 	@Column(name = "PATH", nullable = false, length = 255)
 	private String path;
+
+	@Column(name = "URL", nullable = false, length = 255)
+	private String url;
 
 	@Override
 	public Long getId() {
@@ -44,20 +44,20 @@ public class Pic extends DefaultModelImpl {
 		this.id = id;
 	}
 
-	public Long getShopId() {
-		return shopId;
-	}
-
-	public void setShopId(Long shopId) {
-		this.shopId = shopId;
-	}
-
 	public String getPath() {
 		return path;
 	}
 
 	public void setPath(String path) {
 		this.path = path;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
 	}
 
 }

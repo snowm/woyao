@@ -17,8 +17,8 @@ import org.springframework.web.socket.server.standard.ServletServerContainerFact
 
 //import com.woyao.admin.controller.StatisticsWebSocketHandler;
 import com.snowm.utils.property.EnvUtils;
-import com.woyao.websocket.ChatWebSocketHandler;
-import com.woyao.websocket.SelfHandshakeInterceptor;
+import com.woyao.customer.websocket.ChatWebSocketHandler;
+import com.woyao.customer.websocket.SelfHandshakeInterceptor;
 
 //@EnableWebSocketMessageBroker
 //@Import({ WebSocketSecurityConfig.class })

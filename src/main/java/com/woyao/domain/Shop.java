@@ -3,9 +3,12 @@ package com.woyao.domain;
 import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 
@@ -27,6 +30,9 @@ public class Shop extends DefaultModelImpl {
 	@Column(name = "ID")
 	@GeneratedValue(strategy = GenerationType.TABLE, generator = "shopGenerator")
 	private Long id;
+
+	@Column(name = "MANAGER_PROFILE_ID")
+	private Long managerProfileId;
 
 	@Column(name = "NAME", nullable = false)
 	private String name;
@@ -52,6 +58,10 @@ public class Shop extends DefaultModelImpl {
 	@Column(name = "DESCRIPTION", columnDefinition = "TEXT")
 	private String description;
 
+	@ManyToOne(optional = false, fetch = FetchType.LAZY)
+	@JoinColumn(referencedColumnName = "id", name = "PIC_ID", nullable = true)
+	private Pic pic;
+
 	@Override
 	public Long getId() {
 		return this.id;
@@ -60,6 +70,14 @@ public class Shop extends DefaultModelImpl {
 	@Override
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public Long getManagerProfileId() {
+		return managerProfileId;
+	}
+
+	public void setManagerProfileId(Long managerProfileId) {
+		this.managerProfileId = managerProfileId;
 	}
 
 	public String getName() {
@@ -108,6 +126,14 @@ public class Shop extends DefaultModelImpl {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public Pic getPic() {
+		return pic;
+	}
+
+	public void setPic(Pic pic) {
+		this.pic = pic;
 	}
 
 }

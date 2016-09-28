@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.snowm.utils.query.PaginationBean;
-import com.woyao.admin.dto.ShopDTO;
+import com.woyao.customer.dto.ShopDTO;
 import com.woyao.dao.CommonDao;
 import com.woyao.domain.Shop;
 
