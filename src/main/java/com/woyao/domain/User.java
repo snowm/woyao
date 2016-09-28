@@ -21,13 +21,13 @@ public class User {
 	@Id
 	@Column(name = "userId")
 	@GeneratedValue(strategy = GenerationType.TABLE, generator = "userGenerator")
-	private long userId;
+	private Integer userId;
 	@Column(name = "userName", nullable = false)
 	private String userName;
 	public long getUserId() {
 		return userId;
 	}
-	public void setUserId(long userId) {
+	public void setUserId(Integer userId) {
 		this.userId = userId;
 	}
 	public String getUserName() {

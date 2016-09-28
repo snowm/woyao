@@ -32,7 +32,7 @@ public class MobileController {
 	@RequestMapping(value = {
 	"/getUser/{userId}" }, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
-	public User getUser(@PathVariable("userId") String userId){
+	public User getUser(@PathVariable("userId") Integer userId){
 		
 		return this.userService.getUser(userId);
 	}

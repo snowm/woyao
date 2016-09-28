@@ -14,8 +14,7 @@ public class UserService {
 	@Resource(name = "commonDao")
 	private CommonDao dao;
 	@Transactional(isolation = Isolation.READ_UNCOMMITTED, readOnly = true)
-	public User getUser(String userId){
-		System.out.println(userId);
+	public User getUser(Integer userId){
 		return this.dao.get(User.class, userId);
 	}
 }
