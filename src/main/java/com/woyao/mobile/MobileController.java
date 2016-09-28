@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.snowm.utils.query.PaginationBean;
 import com.woyao.admin.dto.ShopDTO;
+import com.woyao.domain.User;
 
 @Controller
 @RequestMapping(value = "/mobile")
@@ -18,6 +19,8 @@ public class MobileController {
 
 	@Resource(name = "mobileService")
 	private MobileService mobileService;
+	@Resource(name="userService")
+	private UserService userService;
 
 	@RequestMapping(value = {
 			"/shop/{name}/{pageNumber}/{pageSize}" }, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -26,11 +29,11 @@ public class MobileController {
 			@PathVariable("pageSize") int pageSize) {
 		return this.mobileService.findShop(name, pageNumber, pageSize);
 	}
-	
-	@RequestMapping(value = { "/shop" }, method = { RequestMethod.POST,
-			RequestMethod.PUT }, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@RequestMapping(value = {
+	"/getUser/{userId}" }, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
-	public ShopDTO saveShop(ShopDTO dto) {
-		return null;
+	public User getUser(@PathVariable("userId") String userId){
+		
+		return this.userService.getUser(userId);
 	}
 }

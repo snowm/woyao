@@ -16,6 +16,6 @@ public class UserService {
 	@Transactional(isolation = Isolation.READ_UNCOMMITTED, readOnly = true)
 	public User getUser(String userId){
 		System.out.println(userId);
-		return dao.get(User.class, userId);
+		return this.dao.get(User.class, userId);
 	}
 }
