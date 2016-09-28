@@ -12,15 +12,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.woyao.domain.User;
 
 @Controller
-@RequestMapping("/user")
 public class UserController {
 	@Resource(name="userService")
 	private UserService userService;
 	@RequestMapping(value = {
 	"/getUser/{userId}" }, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
-	public User getUser(@PathVariable("userId") String user){
+	public User getUser(@PathVariable("userId") String userId){
 		
-		return this.userService.getUser(user);
+		return this.userService.getUser(userId);
 	}
 }
