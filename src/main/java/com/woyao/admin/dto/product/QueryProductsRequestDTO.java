@@ -1,6 +1,6 @@
 package com.woyao.admin.dto.product;
 
-import com.woyao.admin.dto.PaginationQueryRequestDTO;
+import com.woyao.PaginationQueryRequestDTO;
 
 public class QueryProductsRequestDTO extends PaginationQueryRequestDTO {
 

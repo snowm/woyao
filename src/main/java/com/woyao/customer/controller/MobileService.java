@@ -1,13 +1,11 @@
-package com.woyao.mobile;
+package com.woyao.customer.controller;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.apache.commons.lang3.StringUtils;
 import org.hibernate.criterion.Criterion;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -25,13 +23,9 @@ public class MobileService {
 	private CommonDao dao;
 
 	@Transactional(isolation = Isolation.READ_UNCOMMITTED, readOnly = true)
-	public PaginationBean<ShopDTO> findShop(String name, long pageNumber, int pageSize) {
+	public PaginationBean<ShopDTO> findShop(long pageNumber, int pageSize) {
 		List<Criterion> criterions = new ArrayList<>();
-
-		if (!StringUtils.isBlank(name)) {
-			String likeName = "%" + name + "%";
-			criterions.add(Restrictions.like("name", likeName));
-		}
+		
 		PaginationBean<ShopDTO> pb = new PaginationBean<>();
 		pb.setPageNumber(pageNumber);
 		pb.setPageSize(pageSize);

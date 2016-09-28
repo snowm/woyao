@@ -1,6 +1,6 @@
 package com.woyao.admin.dto.profile;
 
-import com.woyao.admin.dto.PaginationQueryRequestDTO;
+import com.woyao.PaginationQueryRequestDTO;
 
 public class QueryUsersRequestDTO extends PaginationQueryRequestDTO {
 

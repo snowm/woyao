@@ -1,4 +1,4 @@
-package com.woyao.admin.dto;
+package com.woyao;
 
 import java.io.Serializable;
 

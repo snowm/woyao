@@ -3,8 +3,8 @@ package com.woyao.admin.dto.purchase;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.woyao.PaginationQueryRequestDTO;
 import com.woyao.admin.dto.DTOConfig;
-import com.woyao.admin.dto.PaginationQueryRequestDTO;
 
 public class QueryOrdersRequestDTO extends PaginationQueryRequestDTO {
 
