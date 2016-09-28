@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.woyao.domain.User;
 
-@Controller
+@Controller("testUserController")
 @RequestMapping("/user")
 public class UserController {
 	@Resource(name="userService")
