@@ -5,7 +5,7 @@ public class ErrorOutbound extends Outbound {
 	private String reason;
 	
 	public ErrorOutbound(String reason) {
-		super("error");
+		super();
 		this.reason = reason;
 	}
 	

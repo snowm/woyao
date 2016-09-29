@@ -2,31 +2,23 @@ package com.woyao.customer.chat.data;
 
 import java.io.IOException;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.woyao.customer.dto.MsgDTO;
 
 public abstract class Inbound {
+
+	private static Log log = LogFactory.getLog(Inbound.class);
 
 	public static ObjectMapper om = new ObjectMapper();
 
 	public static Inbound parse(String payload) {
-		int index = payload.indexOf('\n');
-		String type, data;
-		if (index == -1) {
-			type = payload.trim();
-			data = "";
-		} else {
-			type = payload.substring(0, index).trim();
-			data = payload.substring(index + 1);
-		}
+		log.info(payload);
 		try {
-			switch (type) {
-			case "broadcast":
-				return om.readValue(data, BroadcastInbound.class);
-			case "sending":
-				return om.readValue(data, SendingInbound.class);
-			default:
-				throw new IllegalArgumentException("Illegal type: " + type);
-			}
+			MsgDTO msg = om.readValue(payload, MsgDTO.class);
+			return msg;
 		} catch (IOException e) {
 			e.printStackTrace();
 			return null;

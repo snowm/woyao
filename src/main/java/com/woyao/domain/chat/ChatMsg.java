@@ -31,7 +31,7 @@ public class ChatMsg extends DefaultModelImpl {
 	@Column(name = "PROFILE_WX_TO")
 	private Long to;
 
-	@Column(name = "PROFILE_TO", nullable = false, length = 500)
+	@Column(name = "CONTENT", nullable = false, length = 500)
 	private String content;
 
 	/**

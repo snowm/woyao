@@ -1,7 +1,8 @@
 package com.woyao.customer.dto;
 
 import java.io.Serializable;
-import java.util.Map;
+
+import com.woyao.customer.chat.data.Inbound;
 
 /**
  * 样例：
@@ -9,13 +10,9 @@ import java.util.Map;
  * <pre>
  * {
  *    to:123, //发给谁
- *    contents: {
- *    	1:'你好！',
- *      2:'==img==23707zbd348099977fe',
- *      3:'怎么样？'
- *    } //内容有3块内容，第一块是文字'你好！'（当然，这个文字之中也可以有换行符）
- *        第二块是图片
- *        第三块又是文字
+ *    text:'你好',
+ *    pic:'98774857abcf376d',
+ *    productId:1001,
  * }
  * </pre>
  * 
@@ -24,15 +21,19 @@ import java.util.Map;
  * @author jyang4
  *
  */
-public class MsgDTO implements Serializable {
+public class MsgDTO extends Inbound implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
 
-	private Long to;
+	private String to;
 
-	private Map<Integer, String> contents;
+	private String text;
+
+	private String pic;
+
+	private Long productId;
 
 	public Long getId() {
 		return id;
@@ -42,20 +43,36 @@ public class MsgDTO implements Serializable {
 		this.id = id;
 	}
 
-	public Long getTo() {
+	public String getTo() {
 		return to;
 	}
 
-	public void setTo(Long to) {
+	public void setTo(String to) {
 		this.to = to;
 	}
 
-	public Map<Integer, String> getContents() {
-		return contents;
+	public String getText() {
+		return text;
 	}
 
-	public void setContents(Map<Integer, String> contents) {
-		this.contents = contents;
+	public void setText(String text) {
+		this.text = text;
+	}
+
+	public String getPic() {
+		return pic;
+	}
+
+	public void setPic(String pic) {
+		this.pic = pic;
+	}
+
+	public Long getProductId() {
+		return productId;
+	}
+
+	public void setProductId(Long productId) {
+		this.productId = productId;
 	}
 
 }

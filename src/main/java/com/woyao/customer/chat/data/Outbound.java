@@ -5,19 +5,16 @@ import java.io.IOException;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
+import com.woyao.customer.dto.MsgDTO;
+
 public abstract class Outbound {
 
-	private String type;
+	protected MsgDTO msg;
 	
-	protected Outbound(String type) {
-		this.type = type;
-	}
-
-	public String getType() {
-		return type;
+	protected Outbound() {
 	}
 	
 	public void send(WebSocketSession session) throws IOException {
-		session.sendMessage(new TextMessage(Inbound.om.writeValueAsString(this)));
+		session.sendMessage(new TextMessage(Inbound.om.writeValueAsString(this.msg)));
 	}
 }

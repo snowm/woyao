@@ -14,21 +14,18 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
-import com.woyao.customer.chat.data.AddUserOutbound;
-import com.woyao.customer.chat.data.BroadcastInbound;
 import com.woyao.customer.chat.data.ErrorOutbound;
 import com.woyao.customer.chat.data.Inbound;
 import com.woyao.customer.chat.data.LockScope;
 import com.woyao.customer.chat.data.MessageOutbound;
-import com.woyao.customer.chat.data.RemoveUserResponse;
-import com.woyao.customer.chat.data.SendingInbound;
+import com.woyao.customer.dto.MsgDTO;
 
 public class ChatWebSocketHandler extends TextWebSocketHandler {
-	
+
 	private Log log = LogFactory.getLog(this.getClass());
 
 	private BidiMap<String, WebSocketSession> sessionMap = new DualLinkedHashBidiMap<>();
-	
+
 	private ReadWriteLock sessionMapLock = new ReentrantReadWriteLock();
 
 	@Override
@@ -38,7 +35,7 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
 			if (nickName != null) {
 				for (WebSocketSession otherSession : this.sessionMap.values()) {
 					if (!Objects.equals(session, otherSession)) {
-						new RemoveUserResponse(nickName).send(otherSession);
+//						new RemoveUserResponse(nickName).send(otherSession);
 					}
 				}
 			}
@@ -51,41 +48,44 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws IOException {
 		Inbound request = Inbound.parse(message.getPayload());
 		try {
-			if (request instanceof BroadcastInbound) {
-				this.broadcast(session, (BroadcastInbound)request);
-			} else if (request instanceof SendingInbound) {
-				this.send(session, (SendingInbound)request);
+			if (request instanceof MsgDTO) {
+				MsgDTO msg = (MsgDTO) request;
+				if (msg.getTo() == null) {
+					this.broadcast(session, msg);
+				} else {
+					this.send(session, msg);
+				}
 			}
 		} catch (RuntimeException | Error ex) {
 			new ErrorOutbound(ex.getMessage()).send(session);
 		}
 	}
-	
-	private void broadcast(WebSocketSession session, BroadcastInbound request) throws IOException {
+
+	private void broadcast(WebSocketSession session, MsgDTO request) throws IOException {
 		try (LockScope scope = LockScope.read(this.sessionMapLock)) {
-			String from = this.sessionMap.getKey(session);
+//			String from = this.sessionMap.getKey(session);
 			for (WebSocketSession otherSession : this.sessionMap.values()) {
-				if (!Objects.equals(session, otherSession)) {
-					new MessageOutbound(from, request.getMessage()).send(otherSession);
-				}
+//				if (!Objects.equals(session, otherSession)) {
+					new MessageOutbound(request).send(otherSession);
+//				}
 			}
 		}
 	}
-	
-	private void send(WebSocketSession session, SendingInbound request) throws IOException {
+
+	private void send(WebSocketSession session, MsgDTO request) throws IOException {
 		try (LockScope scope = LockScope.read(this.sessionMapLock)) {
 			WebSocketSession toSession = this.sessionMap.get(request.getTo());
 			if (toSession != null) {
-				new MessageOutbound(this.sessionMap.getKey(session), request.getTo(), request.getMessage()).send(toSession);
+				new MessageOutbound(request).send(toSession);
 			}
 		}
 	}
-	
+
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
 		log.debug("connectionEstablished:" + session.getId());
 
-		String nickName = "昵称:"+session.getId();
+		String nickName = "昵称:" + session.getId();
 		try (LockScope scope = LockScope.write(this.sessionMapLock)) {
 			if (this.sessionMap.containsKey(nickName)) {
 				throw new IllegalArgumentException(nickName + " is used by some body");
@@ -95,7 +95,7 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
 			}
 			for (WebSocketSession otherSession : this.sessionMap.values()) {
 				if (!Objects.equals(session, otherSession)) {
-					new AddUserOutbound(nickName).send(otherSession);
+//					new AddUserOutbound(nickName).send(otherSession);
 				}
 			}
 			this.sessionMap.put(nickName, session);

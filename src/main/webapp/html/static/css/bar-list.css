@@ -1,0 +1,93 @@
+*{
+    padding: 0;
+    margin: 0;
+    font-family: Helvetica, 'Hiragino Sans GB', 'Microsoft Yahei', '微软雅黑', Arial, sans-serif;
+
+    /*-webkit-touch-callout: none;*/
+    /*-webkit-text-size-adjust: none;*/
+    /*-webkit-user-select: none;*/
+    /*-webkit-highlight: none;*/
+    /*-webkit-tap-highlight-color: rgba(0,0,0,0);*/
+}
+body {
+    /*-webkit-touch-callout: none;*/
+    /*-webkit-text-size-adjust: none;*/
+    /*-webkit-user-select: none;*/
+    /*-webkit-highlight: none;*/
+    /*-webkit-tap-highlight-color: rgba(0,0,0,0);*/
+}
+textarea{
+    -webkit-appearance: none;
+}
+input[type=button],input[type=text],input[type=file],select{
+    -webkit-appearance:none;
+    outline:none
+}
+.clearfix{
+    *zoom: 1;
+}
+.clearfix:before,.clearfix:after {
+    display: table;
+    line-height: 0;
+    content: "";
+}
+
+.clearfix:after {
+    clear: both;
+}
+
+::-webkit-scrollbar {
+    width: 2px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    background: rgba(120, 120, 120, 0.8);
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
+}
+::-webkit-scrollbar-thumb:window-inactive {
+    background: rgba(128, 128, 128, 0.4);
+}
+
+html,body{
+    position: absolute;
+    left: 0;
+    top:0;
+    width: 100%;
+    height:100%;
+    overflow: hidden;
+}
+.top-tab{
+    width: 100%;
+    position: fixed;
+    left:0;
+    top: 0;
+}
+.list-ctn{
+    position: relative;
+    width: 100%;
+}
+.block-ctn{
+    position: relative;
+    width: 50%;
+    float: left;
+    height: 0;
+    padding-top: 50%;
+}
+.block-ctn > div{
+    position: absolute;
+    width: 100%;
+    height:100%;
+    left:0;
+    top:0;
+    border: 1px solid #4a84ff;
+}
