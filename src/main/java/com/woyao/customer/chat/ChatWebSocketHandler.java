@@ -19,8 +19,6 @@ import com.woyao.customer.chat.data.BroadcastInbound;
 import com.woyao.customer.chat.data.ErrorOutbound;
 import com.woyao.customer.chat.data.Inbound;
 import com.woyao.customer.chat.data.LockScope;
-import com.woyao.customer.chat.data.LoginInbound;
-import com.woyao.customer.chat.data.LoginOutbound;
 import com.woyao.customer.chat.data.MessageOutbound;
 import com.woyao.customer.chat.data.RemoveUserResponse;
 import com.woyao.customer.chat.data.SendingInbound;
@@ -53,40 +51,13 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws IOException {
 		Inbound request = Inbound.parse(message.getPayload());
 		try {
-			if (request instanceof LoginInbound) {
-				this.login(session, (LoginInbound)request);
-			} else if (request instanceof BroadcastInbound) {
+			if (request instanceof BroadcastInbound) {
 				this.broadcast(session, (BroadcastInbound)request);
 			} else if (request instanceof SendingInbound) {
 				this.send(session, (SendingInbound)request);
 			}
 		} catch (RuntimeException | Error ex) {
 			new ErrorOutbound(ex.getMessage()).send(session);
-		}
-	}
-	
-	private void login(WebSocketSession session, LoginInbound request) throws IOException {
-		String nickName = request.getNickName();
-		if (nickName == null || nickName.isEmpty()) {
-			throw new IllegalArgumentException("nickName must be specified");
-		}
-		if (nickName.charAt(0) == '*') {
-			throw new IllegalArgumentException("nickName cannot start with '*'");
-		}
-		try (LockScope scope = LockScope.write(this.sessionMapLock)) {
-			if (this.sessionMap.containsKey(nickName)) {
-				throw new IllegalArgumentException(nickName + " is used by some body");
-			}
-			if (this.sessionMap.containsValue(session)) {
-				throw new IllegalArgumentException("Don't do duplicated login");
-			}
-			for (WebSocketSession otherSession : this.sessionMap.values()) {
-				if (!Objects.equals(session, otherSession)) {
-					new AddUserOutbound(nickName).send(otherSession);
-				}
-			}
-			new LoginOutbound(nickName, this.sessionMap.keySet()).send(session);
-			this.sessionMap.put(nickName, session);
 		}
 	}
 	
@@ -113,6 +84,22 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
 		log.debug("connectionEstablished:" + session.getId());
+
+		String nickName = "昵称:"+session.getId();
+		try (LockScope scope = LockScope.write(this.sessionMapLock)) {
+			if (this.sessionMap.containsKey(nickName)) {
+				throw new IllegalArgumentException(nickName + " is used by some body");
+			}
+			if (this.sessionMap.containsValue(session)) {
+				throw new IllegalArgumentException("Don't do duplicated login");
+			}
+			for (WebSocketSession otherSession : this.sessionMap.values()) {
+				if (!Objects.equals(session, otherSession)) {
+					new AddUserOutbound(nickName).send(otherSession);
+				}
+			}
+			this.sessionMap.put(nickName, session);
+		}
 	}
 
 }

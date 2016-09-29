@@ -20,8 +20,6 @@ public abstract class Inbound {
 		}
 		try {
 			switch (type) {
-			case "login":
-				return om.readValue(data, LoginInbound.class);
 			case "broadcast":
 				return om.readValue(data, BroadcastInbound.class);
 			case "sending":
