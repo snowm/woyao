@@ -17,8 +17,8 @@ import org.springframework.web.socket.server.standard.ServletServerContainerFact
 
 //import com.woyao.admin.controller.StatisticsWebSocketHandler;
 import com.snowm.utils.property.EnvUtils;
-import com.woyao.customer.websocket.ChatWebSocketHandler;
-import com.woyao.customer.websocket.SelfHandshakeInterceptor;
+import com.woyao.customer.chat.ChatWebSocketHandler;
+import com.woyao.customer.chat.SelfHandshakeInterceptor;
 
 //@EnableWebSocketMessageBroker
 //@Import({ WebSocketSecurityConfig.class })
@@ -55,7 +55,7 @@ public class WebSocketConfig implements WebSocketConfigurer {
 
 	@Override
 	public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-		registry.addHandler(this.chatWebSocketHandler(), "/chat/websck").addInterceptors(this.handshakeInterceptor());
+		registry.addHandler(this.chatWebSocketHandler(), "/mobile/chat/socket").addInterceptors(this.handshakeInterceptor());
 	}
 
 }

@@ -1,4 +1,4 @@
-package com.woyao.customer.websocket;
+package com.woyao.customer.chat;
 
 import java.util.Map;
 
