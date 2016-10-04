@@ -114,38 +114,13 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 
 		registry.addResourceHandler("/resources/**").addResourceLocations("/resources/mobile/").setCachePeriod(cachePeriod);
 
+		registry.addResourceHandler("/pic/**").addResourceLocations("/upload/").setCachePeriod(cachePeriod);
+
 		registry.addResourceHandler("/show/resources/**").addResourceLocations("/resources/show").setCachePeriod(cachePeriod);
 
 		registry.addResourceHandler("/admin/resources/**").addResourceLocations("/resources/admin/").setCachePeriod(cachePeriod);
 
 		registry.addResourceHandler("/shopAdmin/resources/**").addResourceLocations("/resources/shopAdmin/").setCachePeriod(cachePeriod);
 
-		// registry.addResourceHandler("/admin/resources/images/**",
-		// "/resources/images/**")
-		// .addResourceLocations("/resources/images/").setCachePeriod(cachePeriod);
-		//
-		// registry.addResourceHandler("/admin/resources/css/**",
-		// "/resources/css/**")
-		// .addResourceLocations("/resources/css/").setCacheControl(resourceLibCacheControl());
-		//
-		// registry.addResourceHandler("/admin/resources/js/**",
-		// "/resources/js/**")
-		// .addResourceLocations("/resources/js/").setCacheControl(resourceDynamicCacheControl());
-
-		// registry.addResourceHandler("/admin/resources/js/lib/**",
-		// "/resources/js/lib/**")
-		// .addResourceLocations("/resources/js/lib/").setCacheControl(resourceLibCacheControl());
-		//
-		// registry.addResourceHandler("/admin/resources/js/bb/**",
-		// "/resources/js/bb/**")
-		// .addResourceLocations("/resources/js/bb/").setCacheControl(resourceDynamicCacheControl());
-		//
-		// registry.addResourceHandler("/admin/resources/js/base/**",
-		// "/resources/js/base/**")
-		// .addResourceLocations("/resources/js/base/").setCacheControl(resourceDynamicCacheControl());
-
-		// registry.addResourceHandler("/admin/resources/data/**",
-		// "/resources/data/**").addResourceLocations(
-		// "/resources/data/");
 	}
 }
