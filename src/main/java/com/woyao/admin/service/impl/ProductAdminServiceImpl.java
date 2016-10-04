@@ -11,6 +11,10 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.snowm.security.profile.service.ProfileService;
 import com.snowm.utils.query.PaginationBean;
 import com.woyao.admin.dto.product.ProductDTO;
@@ -27,14 +31,13 @@ public class ProductAdminServiceImpl extends AbstractAdminService<Product, Produ
 	@Resource(name = "commonDao")
 	private CommonDao dao;
 
-	@Override
+	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED)
 	public ProductDTO update(ProductDTO dto) {
 		Product m=this.transferToDomain(dto);
 		dao.saveOrUpdate(m);
 		return dto;
 	}
-
-	@Override
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true, isolation = Isolation.READ_UNCOMMITTED)
 	public PaginationBean<ProductDTO> query(QueryProductsRequestDTO request) {
 		List<Criterion> criterions = new ArrayList<Criterion>();
 		if (!StringUtils.isEmpty(request.getName())) {
