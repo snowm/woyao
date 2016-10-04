@@ -116,7 +116,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 
 		registry.addResourceHandler("/pic/**").addResourceLocations("/upload/").setCachePeriod(cachePeriod);
 
-		registry.addResourceHandler("/show/resources/**").addResourceLocations("/resources/show").setCachePeriod(cachePeriod);
+		registry.addResourceHandler("/show/resources/**").addResourceLocations("/resources/show/").setCachePeriod(cachePeriod);
 
 		registry.addResourceHandler("/admin/resources/**").addResourceLocations("/resources/admin/").setCachePeriod(cachePeriod);
 
