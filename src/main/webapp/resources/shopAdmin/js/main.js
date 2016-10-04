@@ -3,7 +3,7 @@
  */
 
 require.config({
-    baseUrl: '',
+    baseUrl: '/shopAdmin/resources/',
     paths: {
         'avalon': ["./js/plugin/avalon"],
         'mmHistory': './js/plugin/mmHistory',
@@ -33,21 +33,21 @@ require.config({
 });
 
 
-require(['../js/common','mmRouter',"domReady!"],function(mmRouter,domReady){
+require(['/shopAdmin/resources/js/common.js','mmRouter',"domReady!"],function(mmRouter,domReady){
     var model = avalon.define({
         $id: "root",
-        content: "home.html",
+        content: "/admin/resources/html/home.html",
     });
 
     //导航回调
     function callback() {
-        var controllerPath = "../js";
-        var viewPath = "/html";
+        var controllerPath = "/shopAdmin/resources/js";
+        var viewPath = "/shopAdmin/resources/html";
 
         var paths = this.path.split("/");
         for (var i = 0; i < paths.length; i++) {
             if (paths[i] != "") {
-                controllerPath += "/" + paths[i];
+                controllerPath += "/" + paths[i] + '.js';
                 viewPath += "/" + paths[i];
             }
         }
@@ -56,7 +56,6 @@ require(['../js/common','mmRouter',"domReady!"],function(mmRouter,domReady){
         });
     }
 
-    avalon.log("加载avalon路由");
     avalon.router.get("/setting", callback);
     avalon.router.get("/home", callback);
 

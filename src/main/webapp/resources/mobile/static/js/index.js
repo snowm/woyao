@@ -144,7 +144,7 @@
             var FR = new FileReader();
             FR.onload = function(f){
                 var img = this.result;
-                compressImg(img,600,function(data){//压缩完成后执行的callback
+                compressImg(img,300,function(data){//压缩完成后执行的callback
                     mainController.imgViewSrc = img;
                     mainController.imgUrl = data;
                 });
@@ -218,7 +218,7 @@
             return;
         }
         onCompress = onCompress || function(){};
-        maxHeight = maxHeight || 600;//默认最大高度600px
+        maxHeight = maxHeight || 300;//默认最大高度300px
         var canvas = document.createElement('canvas');
         var img = new Image();
         img.onload = function(){

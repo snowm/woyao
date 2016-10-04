@@ -40,23 +40,48 @@ require(["/admin/resources/js/common.js",'mmRouter',"domReady!"],function(mmRout
     });
 
     //导航回调
+    
+    var _modelList = [];
+    var modelflag = false;
+    
     function callback() {
         var controllerPath = "/admin/resources/js";
         var viewPath = "/admin/resources/html";
-
+       
+        var modelName = '';
+        
+        
         var paths = this.path.split("/");
         for (var i = 0; i < paths.length; i++) {
             if (paths[i] != "") {
+            	modelName = paths[i];
                 controllerPath += "/" + paths[i] + '.js';
                 viewPath += "/" + paths[i];
             }
         }
 
-        console.log(controllerPath);
-        console.log(viewPath);
+        //console.log(controllerPath);
+        //console.log(viewPath);
+        console.log(modelName);
         require([controllerPath], function (page) {
             avalon.vmodels.root.content = viewPath + ".html";
         });
+        
+        
+        for(var i = 0; i < _modelList.length ; i++ ){
+        	if(_modelList[i] == modelName){
+        		modelflag = true;
+        	}
+        }
+        
+        if(!modelflag){
+        	_modelList.push(modelName);
+        }
+        console.log(_modelList)
+        if(modelName == 'business-manage' && modelflag){
+        	business.init();
+        }
+        
     }
 
 //    avalon.log("加载avalon路由");

@@ -1,202 +1,133 @@
-﻿<div class="panel panel-default">
-  <div class="panel-heading">
-    <div class="panel-btns">
-      <!--<a href="" class="panel-close">×</a>-->
-      <a href="" class="minimize">−</a>
+﻿<div class="panel panel-default" ms-controller='shopController'>
+	  <div class="panel panel-default" ms-if="formShow">
+        <div class="panel-heading">
+            <div class="panel-btns">
+                <a href="" class="panel-close">×</a>
+                <a href="" class="minimize">−</a>
+            </div>
+            <h4 class="panel-title">新建、修改商家信息</h4>
+            <p>修改或者新建商家信息.</p>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="control-label">商家名称</label>
+                        <input type="text" name="name" class="form-control" ms-duplex="formData.name">
+                    </div>
+                </div><!-- col-sm-6 -->
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="control-label">地址</label>
+                        <input type="text" name="address" class="form-control" ms-duplex="formData.address">
+                    </div>
+                </div><!-- col-sm-6 -->
+            </div><!-- row -->
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="control-label">聊天室名称</label>
+                        <input type="text" name="chatRoomName" class="form-control" ms-duplex="formData.chatRoomName">
+                    </div>
+                </div><!-- col-sm-6 -->
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="control-label">描述信息</label>
+                        <input type="text" name="description" class="form-control" ms-duplex="formData.description">
+                    </div>
+                </div><!-- col-sm-6 -->
+            </div><!-- row -->
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="control-label">维度</label>
+                        <input type="text" name="latitude" class="form-control" ms-duplex="formData.latitude">
+                    </div>
+                </div><!-- col-sm-6 -->
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="control-label">经度</label>
+                        <input type="text" name="longitude" class="form-control" ms-duplex="formData.longitude">
+                    </div>
+                </div><!-- col-sm-6 -->
+            </div><!-- row -->
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="control-label">联系人</label>
+                        <input type="text" name="managerName" class="form-control" ms-duplex="formData.managerName">
+                    </div>
+                </div><!-- col-sm-6 -->
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="control-label">联系人ID</label>
+                        <input type="text" name="managerProfileId" class="form-control" ms-duplex="formData.managerProfileId">
+                    </div>
+                </div><!-- col-sm-6 -->
+            </div><!-- row -->
+
+        </div><!-- panel-body -->
+        <div class="panel-footer text-right">
+            <button class="btn btn-success" ms-click="submitItem">提交</button>
+            <button class="btn btn-default" ms-click="hideNewShop">取消</button>
+        </div>
     </div>
-    <h4 class="panel-title">查询条件</h4>
-  </div>
-  <div class="panel-body">
-    <div class="row">
-      <div class="col-sm-3">
-        <div class="form-group">
-          <label class="control-label">商家名称</label>
-          <input type="text" name="firstname" class="form-control">
-        </div>
-      </div><!-- col-sm-6 -->
-      <div class="col-sm-3">
-        <div class="form-group">
-          <label class="control-label">商家编号</label>
-          <input type="text" name="lastname" class="form-control">
-        </div>
-      </div><!-- col-sm-6 -->
-      <div class="col-sm-3">
-        <div class="form-group">
-          <label class="control-label">联系人</label>
-          <input type="email" name="email" class="form-control">
-        </div>
-      </div><!-- col-sm-6 -->
-      <div class="col-sm-3">
-        <div class="form-group">
-          <label class="control-label">地区</label>
-          <input type="url" name="website" class="form-control">
-        </div>
-      </div>
-      <div class="col-sm-12 text-right">
-        <button class="btn btn-xs btn-info">查 询</button>
-      </div>
-      <!-- col-sm-6 -->
-    </div><!-- row -->
-  </div><!-- panel-body -->
-
-
-  <div class="table-responsive" style="border-top: 1px solid #dadada">
-    <table class="table table-striped table-hover text-center">
-      <thead>
-      <tr>
-        <th class="text-center">商家名称</th>
-        <th class="text-center">商家编号</th>
-        <th class="text-center">联系人</th>
-        <th class="text-center">联系方式</th>
-        <th class="text-center"></th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr>
-        <td>1</td>
-        <td>Mark</td>
-        <td>Otto</td>
-        <td>@mdo</td>
-        <td class="table-action">
-          <a href=""><i class="fa fa-pencil"></i></a>
-          <a href="" class="delete-row"><i class="fa fa-trash-o"></i></a>
-        </td>
-      </tr>
-      <tr>
-        <td>2</td>
-        <td>Jacob</td>
-        <td>Thornton</td>
-        <td>@fat</td>
-        <td class="table-action">
-          <a href=""><i class="fa fa-pencil"></i></a>
-          <a href="" class="delete-row"><i class="fa fa-trash-o"></i></a>
-        </td>
-      </tr>
-      <tr>
-        <td>3</td>
-        <td>Larry</td>
-        <td>the Bird</td>
-        <td>@twitter</td>
-        <td class="table-action">
-          <a href=""><i class="fa fa-pencil"></i></a>
-          <a href="" class="delete-row"><i class="fa fa-trash-o"></i></a>
-        </td>
-      </tr>
-      <tr>
-        <td>3</td>
-        <td>Larry</td>
-        <td>the Bird</td>
-        <td>@twitter</td>
-        <td class="table-action">
-          <a href=""><i class="fa fa-pencil"></i></a>
-          <a href="" class="delete-row"><i class="fa fa-trash-o"></i></a>
-        </td>
-      </tr>
-      <tr>
-        <td>3</td>
-        <td>Larry</td>
-        <td>the Bird</td>
-        <td>@twitter</td>
-        <td class="table-action">
-          <a href=""><i class="fa fa-pencil"></i></a>
-          <a href="" class="delete-row"><i class="fa fa-trash-o"></i></a>
-        </td>
-      </tr>
-      <tr>
-        <td>3</td>
-        <td>Larry</td>
-        <td>the Bird</td>
-        <td>@twitter</td>
-        <td class="table-action">
-          <a href=""><i class="fa fa-pencil"></i></a>
-          <a href="" class="delete-row"><i class="fa fa-trash-o"></i></a>
-        </td>
-      </tr>
-      <tr>
-        <td>3</td>
-        <td>Larry</td>
-        <td>the Bird</td>
-        <td>@twitter</td>
-        <td class="table-action">
-          <a href=""><i class="fa fa-pencil"></i></a>
-          <a href="" class="delete-row"><i class="fa fa-trash-o"></i></a>
-        </td>
-      </tr>
-      <tr>
-        <td>3</td>
-        <td>Larry</td>
-        <td>the Bird</td>
-        <td>@twitter</td>
-        <td class="table-action">
-          <a href=""><i class="fa fa-pencil"></i></a>
-          <a href="" class="delete-row"><i class="fa fa-trash-o"></i></a>
-        </td>
-      </tr>
-      <tr>
-        <td>3</td>
-        <td>Larry</td>
-        <td>the Bird</td>
-        <td>@twitter</td>
-        <td class="table-action">
-          <a href=""><i class="fa fa-pencil"></i></a>
-          <a href="" class="delete-row"><i class="fa fa-trash-o"></i></a>
-        </td>
-      </tr>
-      <tr>
-        <td>3</td>
-        <td>Larry</td>
-        <td>the Bird</td>
-        <td>@twitter</td>
-        <td class="table-action">
-          <a href=""><i class="fa fa-pencil"></i></a>
-          <a href="" class="delete-row"><i class="fa fa-trash-o"></i></a>
-        </td>
-      </tr>
-      <tr>
-        <td>3</td>
-        <td>Larry</td>
-        <td>the Bird</td>
-        <td>@twitter</td>
-        <td class="table-action">
-          <a href=""><i class="fa fa-pencil"></i></a>
-          <a href="" class="delete-row"><i class="fa fa-trash-o"></i></a>
-        </td>
-      </tr>
-      <tr>
-        <td>3</td>
-        <td>Larry</td>
-        <td>the Bird</td>
-        <td>@twitter</td>
-        <td class="table-action">
-          <a href=""><i class="fa fa-pencil"></i></a>
-          <a href="" class="delete-row"><i class="fa fa-trash-o"></i></a>
-        </td>
-      </tr>
-      <tr>
-        <td>3</td>
-        <td>Larry</td>
-        <td>the Bird</td>
-        <td>@twitter</td>
-        <td class="table-action">
-          <a href=""><i class="fa fa-pencil"></i></a>
-          <a href="" class="delete-row"><i class="fa fa-trash-o"></i></a>
-        </td>
-      </tr>
-      <tr>
-        <td>3</td>
-        <td>Larry</td>
-        <td>the Bird</td>
-        <td>@twitter</td>
-        <td class="table-action">
-          <a href=""><i class="fa fa-pencil"></i></a>
-          <a href="" class="delete-row"><i class="fa fa-trash-o"></i></a>
-        </td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <div class="panel-footer text-right">
-    <button class="btn btn-xs btn-success">录 入</button>
-  </div>
+	<div class="panel panel-default" ms-if="!formShow">
+	  <div class="panel-body">
+	    <div class="row">
+	      <div class="col-sm-6">
+	        <div class="form-group">
+	          <label class="control-label">商家名称</label>
+	          <input type="text" name="firstname" class="form-control"  ms-duplex="queryCdt.name">
+	        </div>
+	      </div>
+	      <div class="col-sm-6">
+	        <div class="form-group">
+	          <label class="control-label">是否禁用</label>
+	             <select class="form-control">
+	                  <option>-- 请选择 --</option>
+	                  <option>是</option>
+	                  <option>否</option>
+	             </select>
+	        </div>
+	      </div>
+	      <div class="col-sm-12 text-right">
+	        <button class="btn btn btn-info" ms-click="queryData">查 询</button>
+	      </div>
+	      <!-- col-sm-6 -->
+	    </div><!-- row -->
+	  </div><!-- panel-body -->
+	
+	
+	  <div class="table-responsive" style="border-top: 1px solid #dadada" ms-if='shopList.length != 0'>
+	    <table class="table table-striped table-hover text-center">
+	      <thead>
+	      <tr>
+	        <th class="text-center">商家名称</th>
+	        <th class="text-center">商家编号</th>
+	        <th class="text-center">联系人</th>
+	        <th class="text-center text-right" width="200">操作</th>
+	      </tr>
+	      </thead>
+	      <tbody>
+	      <tr ms-repeat-p="shopList">
+	        <td ms-text="p.name"></td>
+	        <td ms-text="p.id"></td>
+	        <td ms-text="p.managerName"></td>
+	        <td class="table-action">
+		        <button class="btn btn-xs btn-info" ms-click="updateShop(p.id)"><i class="fa fa-pencil"></i> 修改</button>
+		        <button class="btn btn-xs btn-danger"  ms-click="deleteShop(p.id)"><i class="fa fa-trash-o"></i> 删除</button>
+	        </td>
+	      </tr>
+	      </tbody>
+	    </table>
+	  </div>
+	
+	  <div class="panel-footer text-right">
+	    <button class="btn btn-success" ms-click="newShop">录 入</button>
+	  </div>
+	</div>
 </div>
