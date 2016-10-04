@@ -41,6 +41,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 		CacheControl cacheControl = CacheControl.maxAge(12, TimeUnit.HOURS).cachePrivate();
 		return cacheControl;
 	}
+
 	@Bean(name = "cacheControlVersioned")
 	public CacheControl resourceDynamicCacheControl() {
 		CacheControl cacheControl = CacheControl.noCache().cachePrivate().mustRevalidate();
@@ -48,11 +49,11 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 	}
 
 	@Bean(name = "jackson2HttpMessageConverter")
-	public MappingJackson2HttpMessageConverter jackson2HttpMessageConverter(){
+	public MappingJackson2HttpMessageConverter jackson2HttpMessageConverter() {
 		MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
 		return converter;
 	}
-	
+
 	@Bean(name = "stringHttpMessageConverter")
 	public StringHttpMessageConverter stringHttpMessageConverter() {
 		StringHttpMessageConverter converter = new StringHttpMessageConverter(Charset.forName("UTF-8"));
@@ -67,24 +68,24 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 		resolver.setMaxUploadSizePerFile(env.getProperty("multipartParser.maxUploadSizePerFile", int.class, 204800));
 		return resolver;
 	}
-	
-	@Bean(name="logInterceptor")
-	public HandlerInterceptorAdapter logInterceptor(){
+
+	@Bean(name = "logInterceptor")
+	public HandlerInterceptorAdapter logInterceptor() {
 		LogInterceptor interceptor = new LogInterceptor();
 		return interceptor;
 	}
 
-	@Bean(name="snowmHandlerExceptionResolver")
-	public  HandlerExceptionResolver snowmHandlerExceptionResolver() {
+	@Bean(name = "snowmHandlerExceptionResolver")
+	public HandlerExceptionResolver snowmHandlerExceptionResolver() {
 		SnowmHandlerExceptionResolver resolver = new SnowmHandlerExceptionResolver();
 		return resolver;
 	}
-	
+
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(logInterceptor()).addPathPatterns("/ali/**", "/channelOrder/**", "/test/**");
 	}
-	
+
 	@Override
 	public void addFormatters(FormatterRegistry registry) {
 	}
@@ -101,7 +102,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 		registry.enableContentNegotiation(new JstlView());
 		registry.jsp("/jsp/", ".jsp");
 	}
-	
+
 	@Override
 	public void configureHandlerExceptionResolvers(List<HandlerExceptionResolver> exceptionResolvers) {
 		exceptionResolvers.add(snowmHandlerExceptionResolver());
@@ -111,28 +112,40 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		int cachePeriod = 3600 * 24 * 365;
 
-		registry.addResourceHandler("/admin/resources/**", "/resources/**")
-				.addResourceLocations("/html/").setCachePeriod(cachePeriod);
-		
-//		registry.addResourceHandler("/admin/resources/images/**", "/resources/images/**")
-//				.addResourceLocations("/resources/images/").setCachePeriod(cachePeriod);
-//		
-//		registry.addResourceHandler("/admin/resources/css/**", "/resources/css/**")
-//				.addResourceLocations("/resources/css/").setCacheControl(resourceLibCacheControl());
-//
-//		registry.addResourceHandler("/admin/resources/js/**", "/resources/js/**")
-//				.addResourceLocations("/resources/js/").setCacheControl(resourceDynamicCacheControl());
-		
-//		registry.addResourceHandler("/admin/resources/js/lib/**", "/resources/js/lib/**")
-//				.addResourceLocations("/resources/js/lib/").setCacheControl(resourceLibCacheControl());
-//		
-//		registry.addResourceHandler("/admin/resources/js/bb/**", "/resources/js/bb/**")
-//				.addResourceLocations("/resources/js/bb/").setCacheControl(resourceDynamicCacheControl());
-//		
-//		registry.addResourceHandler("/admin/resources/js/base/**", "/resources/js/base/**")
-//				.addResourceLocations("/resources/js/base/").setCacheControl(resourceDynamicCacheControl());
-		
-//		registry.addResourceHandler("/admin/resources/data/**", "/resources/data/**").addResourceLocations(
-//				"/resources/data/");
+		registry.addResourceHandler("/resources/**").addResourceLocations("/resources/mobile/").setCachePeriod(cachePeriod);
+
+		registry.addResourceHandler("/show/resources/**").addResourceLocations("/resources/show").setCachePeriod(cachePeriod);
+
+		registry.addResourceHandler("/admin/resources/**").addResourceLocations("/resources/admin/").setCachePeriod(cachePeriod);
+
+		registry.addResourceHandler("/shopAdmin/resources/**").addResourceLocations("/resources/shopAdmin/").setCachePeriod(cachePeriod);
+
+		// registry.addResourceHandler("/admin/resources/images/**",
+		// "/resources/images/**")
+		// .addResourceLocations("/resources/images/").setCachePeriod(cachePeriod);
+		//
+		// registry.addResourceHandler("/admin/resources/css/**",
+		// "/resources/css/**")
+		// .addResourceLocations("/resources/css/").setCacheControl(resourceLibCacheControl());
+		//
+		// registry.addResourceHandler("/admin/resources/js/**",
+		// "/resources/js/**")
+		// .addResourceLocations("/resources/js/").setCacheControl(resourceDynamicCacheControl());
+
+		// registry.addResourceHandler("/admin/resources/js/lib/**",
+		// "/resources/js/lib/**")
+		// .addResourceLocations("/resources/js/lib/").setCacheControl(resourceLibCacheControl());
+		//
+		// registry.addResourceHandler("/admin/resources/js/bb/**",
+		// "/resources/js/bb/**")
+		// .addResourceLocations("/resources/js/bb/").setCacheControl(resourceDynamicCacheControl());
+		//
+		// registry.addResourceHandler("/admin/resources/js/base/**",
+		// "/resources/js/base/**")
+		// .addResourceLocations("/resources/js/base/").setCacheControl(resourceDynamicCacheControl());
+
+		// registry.addResourceHandler("/admin/resources/data/**",
+		// "/resources/data/**").addResourceLocations(
+		// "/resources/data/");
 	}
 }

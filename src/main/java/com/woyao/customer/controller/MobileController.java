@@ -21,13 +21,13 @@ public class MobileController {
 	private MobileService mobileService;
 	
 	@RequestMapping(value={"/", ""})
-	public String shopList(){
-		return "mobile/shopList";
+	public String index(){
+		return "mobile/index";
 	}
 
-	@RequestMapping(value={"/shop"})
-	public String shopList(@RequestParam("shopId") Long shopId){
-		return "mobile/shop";
+	@RequestMapping(value = { "/chatRoom", "" })
+	public String chatRoom(Long shopId) {
+		return "mobile/chatRoom";
 	}
 
 	@RequestMapping(value={"/chatterList"})
@@ -48,7 +48,23 @@ public class MobileController {
 	@RequestMapping(value = { "/shop" }, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
 	public PaginationBean<ShopDTO> findShop(PaginationQueryRequestDTO queryRequest) {
+		try {
+			Thread.sleep(100*1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		return this.mobileService.findShop(queryRequest.getPageNumber(), queryRequest.getPageSize());
+	}
+
+	@RequestMapping(value = { "/test" })
+	@ResponseBody
+	public PaginationBean<ShopDTO> test() {
+		try {
+			Thread.sleep(5*1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }
