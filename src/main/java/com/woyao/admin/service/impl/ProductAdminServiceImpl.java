@@ -11,39 +11,31 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.snowm.security.profile.service.ProfileService;
 import com.snowm.utils.query.PaginationBean;
-import com.woyao.admin.dto.product.QueryShopsRequestDTO;
-import com.woyao.admin.dto.product.ShopDTO;
-import com.woyao.admin.service.IShopAdminService;
+import com.woyao.admin.dto.product.ProductDTO;
+import com.woyao.admin.dto.product.QueryProductsRequestDTO;
+import com.woyao.admin.service.IProductAdminService;
 import com.woyao.dao.CommonDao;
 import com.woyao.domain.Pic;
 import com.woyao.domain.Shop;
+import com.woyao.domain.product.Product;
 
-@Service("shopAdminService")
-public class ShopAdminServiceImpl extends AbstractAdminService<Shop, ShopDTO> implements IShopAdminService {
+@Service("productAdminService")
+public class ProductAdminServiceImpl extends AbstractAdminService<Product, ProductDTO> implements IProductAdminService {
 
 	@Resource(name = "commonDao")
 	private CommonDao dao;
 
-	@Resource(name = "defaultProfileService")
-	private ProfileService profileService;
-
-	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED)
 	@Override
-	public ShopDTO update(ShopDTO dto) {
-		Shop m = this.transferToDomain(dto);
+	public ProductDTO update(ProductDTO dto) {
+		Product m=this.transferToDomain(dto);
 		dao.saveOrUpdate(m);
-		return this.transferToFullDTO(m);
+		return dto;
 	}
 
-	@Transactional(propagation = Propagation.REQUIRED, readOnly = true, isolation = Isolation.READ_UNCOMMITTED)
 	@Override
-	public PaginationBean<ShopDTO> query(QueryShopsRequestDTO request) {
+	public PaginationBean<ProductDTO> query(QueryProductsRequestDTO request) {
 		List<Criterion> criterions = new ArrayList<Criterion>();
 		if (!StringUtils.isEmpty(request.getName())) {
 			criterions.add(Restrictions.like("name", "%" + request.getName() + "%"));
@@ -55,16 +47,15 @@ public class ShopAdminServiceImpl extends AbstractAdminService<Shop, ShopDTO> im
 		orders.add(Order.desc("id"));
 
 		long count = this.dao.count(this.entityClazz, criterions);
-		List<Shop> ms = new ArrayList<>();
+		List<Product> ms = new ArrayList<>();
 		if (count > 0l) {
 			ms = this.dao.query(this.entityClazz, criterions, orders, request.getPageNumber(), request.getPageSize());
 		}
-
-		PaginationBean<ShopDTO> rs = new PaginationBean<>(request.getPageNumber(), request.getPageSize());
+		PaginationBean<ProductDTO> rs = new PaginationBean<>(request.getPageNumber(), request.getPageSize());
 		rs.setTotalCount(count);
-		List<ShopDTO> results = new ArrayList<>();
-		for (Shop m : ms) {
-			ShopDTO dto = this.transferToDTO(m, false);
+		List<ProductDTO> results = new ArrayList<>();
+		for (Product m : ms) {
+			ProductDTO dto = this.transferToDTO(m, false);
 			results.add(dto);
 		}
 		rs.setResults(results);
@@ -72,23 +63,31 @@ public class ShopAdminServiceImpl extends AbstractAdminService<Shop, ShopDTO> im
 	}
 
 	@Override
-	public Shop transferToDomain(ShopDTO dto) {
-		Shop m = new Shop();
+	public Product transferToDomain(ProductDTO dto) {
+		Product m=new Product();
 		BeanUtils.copyProperties(dto, m);
 		m.getLogicalDelete().setEnabled(dto.isEnabled());
 		m.getLogicalDelete().setDeleted(dto.isDeleted());
-		Pic pic = new Pic();
-		pic.setId(dto.getId());
+		Shop shop=new Shop();
+		shop.setId(dto.getShopId());
+		shop.setName(dto.getShopName());
+		m.setShop(shop);
+		Pic pic=new Pic();
+		pic.setId(dto.getMainPicId());
+		pic.setUrl(dto.getMainPic());
 		m.setPic(pic);
-
 		return m;
 	}
 
 	@Override
-	public ShopDTO transferToSimpleDTO(Shop m) {
-		ShopDTO dto = new ShopDTO();
+	public ProductDTO transferToSimpleDTO(Product m) {
+		ProductDTO dto=new ProductDTO();
 		BeanUtils.copyProperties(m, dto);
-		dto.setPicId(m.getPic().getId());
+		dto.setShopId(m.getShop().getId());
+		dto.setShopName(m.getShop().getName());
+		dto.setTypeId(m.getType().getPersistedValue());
+		dto.setMainPic(m.getPic().getUrl());
+		dto.setMainPicId(m.getPic().getId());
 		dto.setEnabled(m.getLogicalDelete().isEnabled());
 		dto.setDeleted(m.getLogicalDelete().isDeleted());
 		dto.setCreationDate(m.getModification().getCreationDate());
@@ -97,11 +96,8 @@ public class ShopAdminServiceImpl extends AbstractAdminService<Shop, ShopDTO> im
 	}
 
 	@Override
-	public ShopDTO transferToFullDTO(Shop m) {
-		ShopDTO dto = this.transferToSimpleDTO(m);
-		dto.setPicUrl(m.getPic().getUrl());
-		String managerName = profileService.get(m.getManagerProfileId()).getUsername();
-		dto.setManagerName(managerName);
-		return dto;
+	public ProductDTO transferToFullDTO(Product m) {
+		return transferToSimpleDTO(m);
 	}
+
 }

@@ -9,7 +9,9 @@ public class QueryProductsRequestDTO extends PaginationQueryRequestDTO {
 	private Long categoryId;
 
 	private String name;
-
+	
+	private Boolean deleted=null;
+	
 	private Boolean enabled = true;
 
 	public Long getCategoryId() {
@@ -35,5 +37,14 @@ public class QueryProductsRequestDTO extends PaginationQueryRequestDTO {
 	public void setEnabled(Boolean enabled) {
 		this.enabled = enabled;
 	}
+
+	public Boolean getDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(Boolean deleted) {
+		this.deleted = deleted;
+	}
+
 
 }

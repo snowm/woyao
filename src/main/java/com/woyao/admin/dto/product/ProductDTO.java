@@ -13,9 +13,17 @@ public class ProductDTO extends BasePKDTO {
 	private String description;
 
 	private String mainPic;
-
-	private CategoryDTO category;
-
+	
+	private Long mainPicId;
+	
+	private Integer typeId;
+	
+	private long shopId;
+	
+	private String shopName;
+	
+	private long unitPrice;
+	
 	public String getCode() {
 		return code;
 	}
@@ -48,12 +56,45 @@ public class ProductDTO extends BasePKDTO {
 		this.mainPic = mainPic;
 	}
 
-	public CategoryDTO getCategory() {
-		return category;
+	public Integer getTypeId() {
+		return typeId;
 	}
 
-	public void setCategory(CategoryDTO category) {
-		this.category = category;
+	public void setTypeId(Integer typeId) {
+		this.typeId = typeId;
 	}
+
+	public long getShopId() {
+		return shopId;
+	}
+
+	public void setShopId(long shopId) {
+		this.shopId = shopId;
+	}
+
+	public String getShopName() {
+		return shopName;
+	}
+
+	public void setShopName(String shopName) {
+		this.shopName = shopName;
+	}
+
+	public long getUnitPrice() {
+		return unitPrice;
+	}
+
+	public void setUnitPrice(long unitPrice) {
+		this.unitPrice = unitPrice;
+	}
+
+	public Long getMainPicId() {
+		return mainPicId;
+	}
+
+	public void setMainPicId(Long mainPicId) {
+		this.mainPicId = mainPicId;
+	}
+	
 
 }
