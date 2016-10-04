@@ -1,5 +1,6 @@
 package com.woyao.customer.chat.data;
 
+import java.io.File;
 import java.io.IOException;
 
 import org.apache.commons.logging.Log;
@@ -20,7 +21,8 @@ public abstract class Inbound {
 		try {
 			MsgDTO msg = om.readValue(payload, MsgDTO.class);
 			String base64PicString = msg.getPic();
-			ChatUtils.savePic(base64PicString.getBytes());
+			String path = File.separator + "pic" + File.separator + ChatUtils.savePic(base64PicString.getBytes());
+			msg.setPic(path);
 			return msg;
 		} catch (IOException e) {
 			e.printStackTrace();
