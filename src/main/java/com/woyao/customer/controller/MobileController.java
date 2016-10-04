@@ -29,7 +29,7 @@ public class MobileController {
 	public String chatRoom(Long shopId) {
 		return "mobile/chatRoom";
 	}
-
+	
 	@RequestMapping(value={"/chatterList"})
 	public String chatterList(@RequestParam("shopId") Long shopId){
 		return "mobile/chatterList";

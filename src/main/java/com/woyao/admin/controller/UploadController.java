@@ -38,7 +38,7 @@ public class UploadController {
 			result.setErrMsg("Upload file can not be empty!");
 			return result;
 		} else {
-			String realPath = request.getSession().getServletContext().getRealPath("/WEB-INF/upload");
+			String realPath = request.getSession().getServletContext().getRealPath("/upload");
 			try {
 				FileUtils.copyInputStreamToFile(upFile.getInputStream(),
 						new File(realPath, upFile.getOriginalFilename()));
