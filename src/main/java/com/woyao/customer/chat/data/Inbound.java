@@ -6,6 +6,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.woyao.customer.chat.ChatUtils;
 import com.woyao.customer.dto.MsgDTO;
 
 public abstract class Inbound {
@@ -18,6 +19,8 @@ public abstract class Inbound {
 		log.info(payload);
 		try {
 			MsgDTO msg = om.readValue(payload, MsgDTO.class);
+			String base64PicString = msg.getPic();
+			ChatUtils.savePic(base64PicString.getBytes());
 			return msg;
 		} catch (IOException e) {
 			e.printStackTrace();
