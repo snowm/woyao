@@ -3,8 +3,6 @@ package com.woyao.customer.chat;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Base64;
@@ -21,32 +19,42 @@ public abstract class ChatUtils {
 
 	private static final String DT_PATTERN = "yyyyMMdd";
 	private static final DateFormat DF = new SimpleDateFormat(DT_PATTERN);
-	private static final String PIC_ROOT_PATH = "\\upload";
+	private static final String PIC_ROOT_PATH = "src/main/webapp" + File.separator + "upload";
+	private static File root;
 
 	static {
-		URL url = ChatUtils.class.getClassLoader().getResource(PIC_ROOT_PATH);
-		try {
-			File root = new File(url.toURI());
-			if (!root.exists()) {
-			}
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
+		root = new File(PIC_ROOT_PATH);
+		if (!root.exists()) {
+			root.mkdir();
 		}
+		// } catch (URISyntaxException e) {
+		// e.printStackTrace();
+		// }
 	}
 
 	public static byte[] decodePicString(String base64String) {
 		Decoder decoder = Base64.getDecoder();
-		byte[] bytes = decoder.decode(base64String);
+		String str = base64String.substring(23);
+		byte[] bytes = decoder.decode(str);
 		return bytes;
 	}
 
-	public static String generatePicName() {
+	public static String generatePicFileName() {
 		String dateDir = DF.format(new Date());
-		return dateDir + "\\" + UUID.randomUUID().toString();
+		File d = new File(root, dateDir);
+		if (!d.exists()) {
+			d.mkdirs();
+		}
+		return dateDir + "/" + UUID.randomUUID().toString() + ".jpg";
 	}
 
-	public static void storePic(byte[] bytes, String name) throws IOException {
-		FileOutputStream write = new FileOutputStream("\\upload\\" + name);
+	public static File generatePicFile(String name) {
+		File f = new File(root, name);
+		return f;
+	}
+
+	public static void storePic(byte[] bytes, File file) throws IOException {
+		FileOutputStream write = new FileOutputStream(file);
 		try {
 			write.write(bytes);
 		} finally {
@@ -54,9 +62,12 @@ public abstract class ChatUtils {
 		}
 	}
 
-	public static String savePic(byte[] bytes) throws IOException {
-		String name = generatePicName();
-		storePic(bytes, name);
-		return name;
+	public static String savePic(String base64String) throws IOException {
+		String path = generatePicFileName();
+		File file = generatePicFile(path);
+		System.out.println(file.getAbsolutePath());
+		byte[] bytes = decodePicString(base64String);
+		storePic(bytes, file);
+		return path;
 	}
 }
