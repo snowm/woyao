@@ -1,0 +1,76 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="../images/add/logo.png" type="image/png">
+
+    <title>倮克后台管理系统-登录</title>
+
+    <link href="../css/style.default.css" rel="stylesheet">
+
+</head>
+
+<body class="signin">
+
+<section>
+
+    <div class="signinpanel">
+
+        <div class="row">
+            <h2 class="text-center" style="padding-bottom: 50px">倮克后台管理系统</h2>
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+
+                <form>
+                    <h4 class="nomargin">登录</h4>
+                    <p class="mt5 mb20">Login to access your account.</p>
+
+                    <input type="text" class="form-control uname" placeholder="用户名" />
+                    <input type="password" class="form-control pword" placeholder="密码" />
+                    <a href="" style="line-height: 30px"><small>忘记密码?</small></a>
+                    <button type="button" id="loginBtn" class="btn btn-success btn-block">登 录</button>
+
+                </form>
+            </div><!-- col-sm-5 -->
+
+        </div><!-- row -->
+        <div class="signup-footer">
+            <div class="pull-left">
+                &copy; 成都倮克科技有限公司
+            </div>
+            <div class="pull-right">
+                Created By: <a href="#!">倮克IT部</a>
+            </div>
+        </div>
+
+    </div><!-- signin -->
+
+</section>
+
+
+<script src="../js/plugin/jquery-1.11.1.min.js"></script>
+<script src="../js/plugin/jquery.cookies.js"></script>
+<script>
+    jQuery(document).ready(function(){
+        // Please do not use the code below
+        // This is for demo purposes only
+//        var c = jQuery.cookie('change-skin');
+//        if (c && c == 'greyjoy') {
+//            jQuery('.btn-success').addClass('btn-orange').removeClass('btn-success');
+//        } else if(c && c == 'dodgerblue') {
+//            jQuery('.btn-success').addClass('btn-primary').removeClass('btn-success');
+//        } else if (c && c == 'katniss') {
+//            jQuery('.btn-success').addClass('btn-primary').removeClass('btn-success');
+//        }
+
+        $("#loginBtn").on('click',function(){
+            window.location.href = "http://localhost:8008/html/index.html";
+        })
+    });
+</script>
+
+</body>
+</html>

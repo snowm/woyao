@@ -72,22 +72,6 @@
                 mainController.tabShowFlag = true;
             }
         },
-        //choiseImg:function(){
-        //    wx.ready(function(){
-        //        // config信息验证后会执行ready方法，所有接口调用都必须在config接口获得结果之后，config是一个客户端的异步操作，所以如果需要在页面加载时就调用相关接口，则须把相关接口放在ready函数中调用来确保正确执行。对于用户触发时才调用的接口，则可以直接调用，不需要放在ready函数中。
-        //        wx.chooseImage({
-        //            count: 1, // 默认9
-        //            sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
-        //            sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
-        //            success: function (res) {
-        //                var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
-        //            }
-        //        });
-        //    });
-        //},
-        richerList:function(){
-            window.location.href='./screen.html';
-        },
         showPhotoWall:function(){
             if(mainController.isShowPhoto){
                 $(".pop-photoWall").css('display','none');
@@ -104,11 +88,14 @@
                 },10)
             }
         },
+        richerList:function(){
+            window.location.href='./richer.html';
+        },
         userList:function(){
-            window.location.href='./msg.html';
+            window.location.href='./chatterList.html';
         },
         privateChat:function(){
-            window.location.href='./chat.html';
+            window.location.href='./privacyChat.html';
         },
         forHer:function(id){
             if(mainController.isShowPhoto){
@@ -131,10 +118,12 @@
                     text : mainController.msgText,
                     pic : mainController.imgUrl,
                 };
-                //console.log(msg);
-//                socket.emit('user message',JSON.stringify(msg));
                 console.log(JSON.stringify(msg));
+                
+                // 发送消息
                 socket.send(JSON.stringify(msg));
+                
+                
                 mainController.hidePopSend();
                 if(mainController.emojiShow){
                     mainController.pluginShow = false;
@@ -168,6 +157,23 @@
 
     var textContain = $(".msg-block-contain");
     var textcontainer = $(".msg-block-container");
+    
+    
+
+
+    $(".msg-block-contain").scroll(function(e){
+        var $this =$(this),
+            viewH =$(this).height(),//可见高度
+            contentH =$(this).get(0).scrollHeight,//内容高度
+            scrollTop =$(this).scrollTop();//滚动高度
+        if(scrollTop - (contentH - viewH) == 0){
+            $(this).scrollTop(contentH - viewH - 1);
+        }
+        if(scrollTop == 0){
+            $(this).scrollTop(1);
+        }
+    });
+    
 
     // 获取初始化数据 滑动到底部
     function initData(){
@@ -204,45 +210,6 @@
         return str;
     };
     /* qqface */
-
-    /* socket */
-    //var ws = new WebSocket('ws://192.168.0.110:3001');
-    //ws.onopen = function() { console.log("open")};
-    //ws.onmessage = function(evt)
-    //{
-    //    console.log(evt.data)
-    //};
-    //var socket = io();
-    //socket.on('chat message', function(msg){
-    //    var text = msg;
-    //    text = JSON.parse(text);
-    //    text.msg = replace_em(text.msg);
-    //    console.log(text)
-    //    mainController.msgList.push(text);
-    //    textContain.animate({scrollTop:textcontainer.height() - textContain.height() + 100},500,'swing');
-    //
-    //    var seconds = text.msgType*1000;
-    //    if(seconds != 0){
-    //        mainController.sreenShow = true;
-    //        mainController.sreenImg = text.imgUrl;
-    //        mainController.sreenMsg = text.msg;
-    //        mainController.sreenTime = text.msgType;
-    //        mainController.sreenShowSeconds = seconds/1000;
-    //        var fl = '';
-    //        fl = setInterval(function(){
-    //            mainController.sreenShowSeconds--;
-    //            if(mainController.sreenShowSeconds == 0){
-    //                clearTimeout(fl);
-    //                mainController.sreenImg = '';
-    //                mainController.sreenMsg = '';
-    //                mainController.sreenTime = '';
-    //                mainController.sreenShow = false;
-    //                return
-    //            }
-    //        },1000)
-    //    }
-    //});
-    /* socket */
 
     /* update file */
     function compressImg(imgData,maxHeight,onCompress){
@@ -289,47 +256,68 @@
             $(this).scrollTop(1);
         }
     });
-
-
-
+    
+    
+    
     /* socket */
     //建立websocket连接
     socket = new WebSocket("ws://"+window.location.host + '/mobile/chat/socket');
     //打开websocket时触发
     socket.onopen = function(){
-        $("#showMsg").append("连接成功..<br/>");
-//        socket.send("new chatter presented!");
         console.log("websocket open");
     }
     //服务端有消息推送到客户端时触发
     socket.onmessage = function(message){
         console.log('received msg:'+message.data);
-        var d = JSON.parse(message.data);
-        var msg = {name:d.from, msg:d.text,sexy:'man',time:'上午 10:50'};
+        
+        
+        
+        
+        var text = message.data;
+        text = JSON.parse(text);
+        text.text = replace_em(text.text);
+        var msg = {name:text.from, msg:text.text,imgUrl:text.pic,sexy:'man',time:'上午 10:50'};
+        
         mainController.msgList.push(msg);
+        initData();
+    
+//        var seconds = msg.msgType*1000;
+//        if(seconds != 0){
+//            mainController.sreenShow = true;
+//            mainController.sreenImg = text.imgUrl;
+//            mainController.sreenMsg = text.msg;
+//            mainController.sreenTime = text.msgType;
+//            mainController.sreenShowSeconds = seconds/1000;
+//            var fl = '';
+//            fl = setInterval(function(){
+//                mainController.sreenShowSeconds--;
+//                if(mainController.sreenShowSeconds == 0){
+//                    clearTimeout(fl);
+//                    mainController.sreenImg = '';
+//                    mainController.sreenMsg = '';
+//                    mainController.sreenTime = '';
+//                    mainController.sreenShow = false;
+//                    return
+//                }
+//            },1000)
+//        }
+//        
+        
+        
+        
+        
     }
     //websocket关闭时触发
     socket.onclose = function(event){
+    	alert("与服务器断开连接，请刷新页面。");
         console.log("websocket close");
     }
     //websocket出错时触发
     socket.onerror = function(event){
         socket.close();
+    	alert("与服务器断开连接，请刷新页面。");
         console.log("websocket error");
-        var msg = {name:'sys', msg:event,sexy:'man',time:'上午 10:50'};
-        mainController.msgList.push(msg);
     }
-    $("#sendButton").click(function(){
-        //通过websocket对象的send方法发送数据到服务端,该方法不能直接传送json对象，//可以先将json对象转换成json格式字符串发送给服务端
-        var obj = {
-            to:'',
-            text: '',
-            pic: ''
-        };
-        //或者使用JSON.stringify(obj);如果js报错找不到该方法，可以自定义一个简单的//jquery插件，功能就是将简单json对象转换成json格式字符串
-        socket.send(obj.toJSONString());
-        //socket.send($.simpleJsonToString(obj));
-    });
     /* socket */
 
 
