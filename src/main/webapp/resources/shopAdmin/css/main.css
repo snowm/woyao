@@ -1,0 +1,20 @@
+body{
+    background: #e8e8e8;
+}
+
+#sidebar{
+
+}
+#content{
+    padding:10px;
+}
+#tools #toolbar{
+    margin-top: -78px;
+}
+.dropdown-menu {
+    min-width: 140px;
+}
+.btn-group>.btn{
+    border: none;
+    box-shadow: none;
+}

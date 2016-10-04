@@ -42,17 +42,21 @@ public abstract class ChatUtils {
 
 	public static String generatePicName() {
 		String dateDir = DF.format(new Date());
-
-		return UUID.randomUUID().toString();
+		return dateDir + "\\" + UUID.randomUUID().toString();
 	}
 
-	public static String storePic(byte[] bytes, String name) throws IOException {
+	public static void storePic(byte[] bytes, String name) throws IOException {
 		FileOutputStream write = new FileOutputStream("\\upload\\" + name);
 		try {
 			write.write(bytes);
-			return name;
 		} finally {
 			write.close();
 		}
+	}
+
+	public static String savePic(byte[] bytes) throws IOException {
+		String name = generatePicName();
+		storePic(bytes, name);
+		return name;
 	}
 }
