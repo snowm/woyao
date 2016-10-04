@@ -18,6 +18,8 @@ public class BasePKDTO implements Serializable {
 
 	protected boolean enabled;
 
+	protected boolean deleted;
+
 	@JsonFormat(pattern = DTOConfig.DATE_TIME_FULL_FMT)
 	private Date creationDate;
 
@@ -38,6 +40,14 @@ public class BasePKDTO implements Serializable {
 
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
+	}
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
 	}
 
 	public Date getCreationDate() {

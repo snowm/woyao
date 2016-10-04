@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.snowm.security.web.exception.NotFoundException;
 import com.woyao.admin.dto.BasePKDTO;
 import com.woyao.admin.service.IAdminService;
-import com.snowm.security.web.exception.NotFoundException;
 
 public abstract class AbstractBaseController<M, DTO extends BasePKDTO> {
 
@@ -33,7 +33,7 @@ public abstract class AbstractBaseController<M, DTO extends BasePKDTO> {
 		}
 		return dto;
 	}
-	
+
 	@RequestMapping(value = { "/disable/{id}" }, method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
 	public DTO disable(@PathVariable("id") long id) {
@@ -44,9 +44,20 @@ public abstract class AbstractBaseController<M, DTO extends BasePKDTO> {
 		return dto;
 	}
 
+	@RequestMapping(value = { "/delete/{id}" }, method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@ResponseBody
+	public DTO delete(@PathVariable("id") long id) {
+		DTO dto = this.baseService.delete(id);
+		if (dto == null) {
+			throw new NotFoundException(String.format("%1$s with id : %2$s cound not found!", this.clazz.getName(), id));
+		}
+		return dto;
+	}
+
 	@RequestMapping(value = { "/{id}" }, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
 	public DTO get(@PathVariable("id") long id) {
+		System.out.println("get id:" + id);
 		DTO dto = this.baseService.get(id);
 		if (dto == null) {
 			throw new NotFoundException(String.format("%1$s with id : %2$s cound not found!", this.clazz.getName(), id));

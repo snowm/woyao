@@ -9,15 +9,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping(value = "/admin")
 public class AdminController {
 
-	@RequestMapping(value = {""}, method = RequestMethod.GET)
-	public String adminHome1(Model model) {
-		return "redirect:/admin/";
-	}
-	
-	@RequestMapping(value = { "/" }, method = RequestMethod.GET)
+	@RequestMapping(value = {"/", ""}, method = RequestMethod.GET)
 	public String rootHome(Model model) {
-		model.addAttribute("rs", "test");
-		return "index";
+		return "adminIndex";
 	}
 
 }
