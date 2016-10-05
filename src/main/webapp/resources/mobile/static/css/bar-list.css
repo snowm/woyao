@@ -72,12 +72,16 @@ html,body{
     left:0;
     top: 0;
     height:46px;
-    background: rgba(255, 255, 255, 0.9);
-    box-shadow: 0 0 6px #262626;
-    color: #3b3b3b;
+    box-shadow: 0 0 4px #262626;
+    color: #fbfbfb;
     border-bottom-right-radius: 0px;
     border-bottom-left-radius: 0px;
     z-index: 9;
+    background: rgba(24, 24, 24, 0.9);
+}
+.tab-active{
+    color: #ffffff;
+    text-shadow: 0 0 1px #000000;
 }
 .list-ctn{
     position: relative;
@@ -88,6 +92,7 @@ html,body{
     overflow-y: scroll;
     -webkit-overflow-scrolling : touch;
     padding-bottom: 46px;
+    background: #f8f8f8;
 }
 .block-ctn{
     position: relative;
@@ -97,29 +102,90 @@ html,body{
     padding-top: 50%;
 }
 .block-img{
-    width: 80%;
+    padding-top: 20px;
+    width: 50%;
+    margin: 0 auto;
+}
+.block-img > img{
+    width: 100%;
+    margin: 0 auto;
 }
 .block-ctn:last-child{
     margin-bottom: 46px;
 }
 .block-ctn > div{
     position: absolute;
+    margin: 0 auto;
     width: 100%;
     height:100%;
     left:0;
     top:0;
-    border: 1px solid #000000;
     text-align: center;
 }
+.metro-ctn{
+    position: relative;
+    text-align: center;
+    top: 5%;
+    margin: 0 auto;
+    width: 94%;
+    height:94%;
+    color: #ffffff;
+    text-shadow: 0 0 2px black;
+    font-weight: 800;
+    font-size: 18px;
+    border: 0.5px solid #d4d4d4;
+    background-size: 100% !important;
+}
+.active{
+    background-size: 110% 110% !important;
+}
 .map-ctn{
-    position: absolute;
+    position: relative;
     left:0;
     top:0;
     width: 100%;
-    height:106%;
+    height:100%;
+    z-index: 999;
 }
 .top-tab > table{
     width: 100%;
     height:100%;
     text-align: center;
+}
+.hots{
+    position: absolute;
+    bottom:5px;
+    left:5px;
+    font-size: 10px;
+    color: #ffffff;
+}
+
+.hots > img{
+    position: relative;
+    top:2px;
+    width: 12px;
+}
+.lct{
+    position: absolute;
+    bottom:5px;
+    right:5px;
+    font-size: 10px;
+    color: #ffffff;
+}
+
+.lct > img{
+    position: relative;
+    top:2px;
+    width: 12px;
+}
+.b-name{
+    text-align: right;
+    position: absolute;
+    bottom: 13%;
+    right: 5px;
+    height: 24px;
+    text-decoration:none;
+    border-bottom:1px solid #eaeaea;
+    display: inline-block;
+    padding-bottom:0px;
 }
