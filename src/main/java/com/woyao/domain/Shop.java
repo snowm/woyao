@@ -58,7 +58,7 @@ public class Shop extends DefaultModelImpl {
 	@Column(name = "DESCRIPTION", columnDefinition = "TEXT")
 	private String description;
 
-	@ManyToOne(optional = false, fetch = FetchType.LAZY)
+	@ManyToOne(optional = true, fetch = FetchType.LAZY)
 	@JoinColumn(referencedColumnName = "id", name = "PIC_ID", nullable = true)
 	private Pic pic;
 
