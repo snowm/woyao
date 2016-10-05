@@ -38,6 +38,17 @@ define([],function(){
     	    },
     	    newShop:function(){
     	    	shopController.formShow = true;
+    	    	shopController.formData = {
+    	    			name:'',
+    	    	    	address:'',
+    	    	    	chatRoomName:'',
+    	    	    	description:'',
+    	    	    	latitude:'',
+    	    	    	longitude:'',
+    	    	    	managerName:'',
+    	    	    	managerProfileId:'',
+    	    	    	description:''
+    	    	}
     	    },
     	    hideNewShop:function(){
     	    	shopController.formShow = false;
@@ -68,28 +79,40 @@ define([],function(){
     	    	    	address:shopController.formData.address,
     	    	    	chatRoomName:shopController.formData.chatRoomName,
     	    	    	description:shopController.formData.description,
-    	    	    	latitude:shopController.formData.description,
+    	    	    	latitude:shopController.formData.latitude,
     	    	    	longitude:shopController.formData.longitude,
     	    	    	managerName:shopController.formData.managerName,
     	    	    	managerProfileId:shopController.formData.managerProfileId,
-    	    	    	description:shopController.formData.description
+    	    	    	description:shopController.formData.description,
+    	    	    	id:shopController.formData.id
     	    	}
-    	    	console.log(data);
-    	    	$.ajax({
-  	      		  type: "post",
-  	      		  url: '/admin/shop/',
-  	      		  data: data,
-  	      		  success: function(data){
-  	      			  console.log(data)
-  	      		  },
-  	      		  dataType: 'json'
-  	      		});
+    	    	
+    	    	if(shopController.formData.id){
+        	    	console.log(data);
+        	    	$.ajax({
+      	      		  type: "post",
+      	      		  url: '/admin/shop/',
+      	      		  data: data,
+      	      		  success: function(data){
+      	      			  console.log(data)
+      	      		  },
+      	      		  dataType: 'json',
+      	      		});
+    	    	}else{
+    	    		$.ajax({
+        	      		  type: "post",
+        	      		  url: '/admin/shop/',
+        	      		  data: data,
+        	      		  success: function(data){
+        	      			  console.log(data)
+        	      		  },
+        	      		  dataType: 'json'
+        	      		});
+    	    	}
+    	    	
     	    }
     	});
     	avalon.scan();
-    	
-    	
-    	
     	
     	
     	
