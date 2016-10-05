@@ -64,7 +64,7 @@ define([],function(){
     	    	shopController.formShow = false;
     	    },
     	    deleteShop:function(id){
-    	    	 if(confirm("确认删除？")) {
+    	    	 if(confirm("确认删除 ？")) {
     	    		 $.ajax({
     	  	      		  type: "put",
     	  	      		  url: '/admin/shop/delete/' + id,
