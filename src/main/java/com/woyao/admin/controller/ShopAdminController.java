@@ -36,6 +36,7 @@ public class ShopAdminController extends AbstractBaseController<Shop, ShopDTO> {
 	@ResponseBody
 	public ShopDTO saveOrUpdate(@RequestBody ShopDTO dto) {
 		if (dto.getId() != null) {
+			System.out.println(dto);
 			return this.service.update(dto);
 		} else {
 			return this.service.create(dto);

@@ -4,6 +4,13 @@ import com.woyao.admin.dto.BasePKDTO;
 
 public class ShopDTO extends BasePKDTO {
 
+	@Override
+	public String toString() {
+		return "ShopDTO [managerProfileId=" + managerProfileId + ", managerName=" + managerName + ", name=" + name + ", address=" + address
+				+ ", longitude=" + longitude + ", latitude=" + latitude + ", description=" + description + ", publicAccURL=" + publicAccURL
+				+ ", picId=" + picId + ", picUrl=" + picUrl + ", chatRoomName=" + chatRoomName + ", chatRoomId=" + chatRoomId + "]";
+	}
+
 	private static final long serialVersionUID = 1L;
 
 	private Long managerProfileId;
