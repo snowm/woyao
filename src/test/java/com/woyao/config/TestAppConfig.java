@@ -66,17 +66,4 @@ public class TestAppConfig {
 		return this.txManager();
 	}
 
-	@Bean(name = "globalConfig")
-	public GlobalConfig globalConfig() {
-		GlobalConfig globalConfig = new GlobalConfig();
-		globalConfig.setSupplierId(this.env.getProperty("supplierId", "123"));
-		globalConfig.setPrivateKey(this.env.getProperty("privateKey", "111111"));
-
-		globalConfig.setAliConnectionRequestTimeout(Integer.parseInt(this.env.getProperty("http.ali.ConnectionTimeout", "5000")));
-		globalConfig.setAliConnectionTimeout(Integer.parseInt(this.env.getProperty("http.ali.SocketTimeout", "10000")));
-		globalConfig.setAliConnectionRequestTimeout(Integer.parseInt(this.env.getProperty("http.ali.ConnectionRequestTimeout", "10000")));
-		globalConfig.setChannelTimeout(Integer.parseInt(this.env.getProperty("channel.callback.timeout", "600")));
-		return globalConfig;
-	}
-
 }
