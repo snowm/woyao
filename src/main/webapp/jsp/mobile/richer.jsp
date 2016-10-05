@@ -11,12 +11,12 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="format-detection" content="telephone=no" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <script type="text/javascript" src="../plugin/fastclick-master/lib/fastclick.js"></script>
-    <link rel="stylesheet" href="../static/css/screen.css"/>
+    <script type="text/javascript" src="/resources/plugin/fastclick-master/lib/fastclick.js"></script>
+    <link rel="stylesheet" href="/resources/static/css/screen.css"/>
     <link rel="SHORTCUT ICON" href=""/>
 </head>
 <body ms-controller="butTom">
-    <div class="head"><img src="../static/img/本月土豪_02.gif" alt=""></div>
+    <div class="head"><img src="/resources/static/img/richers.gif" alt=""></div>
     <div class="rank">
         <p class="p" ms-on-tap="dayRank" ms-class="bottom:showBottom">今日土豪</p>
         <p class="p" ms-on-tap="weekRank" ms-class="bottom:showBottoms">本周土豪</p>
@@ -26,16 +26,16 @@
             <div class="ranks">
                 <div class="rank-list">
                     <div class="fist">
-                        <img class="fist-img" src="../static/img/本月土豪_12.png" alt="">
+                        <img class="fist-img" src="/resources/static/img/hd1.png" alt="">
                         <!--<p class="number-one">1</p>-->
-                        <img class="number-one" src="../static/img/1.png" alt="">
+                        <img class="number-one" src="/resources/static/img/1.png" alt="">
                         <div class="rank-name">
-                            <div><span>给我你的心</span><img class="rank-name-img" src="../static/img/本月土豪_05.gif" alt="">
+                            <div><span>给我你的心</span><img class="rank-name-img" src="/resources/static/img/weman1.png" alt="">
                             </div>
                             <div class="rank-number">霸屏5次</div>
                         </div>
                         <div class="rank-right">
-                            <img src="../static/img/本月土豪_07.gif" alt="">
+                            <img src="/resources/static/img/pst.gif" alt="">
                             <span>距离8千米</span>
                             <div class="msg" ms-on-tap="shsa">发消息</div>
                         </div>
@@ -43,16 +43,16 @@
                 </div>
                 <div class="rank-list">
                     <div class="fist">
-                        <img class="fist-img" src="../static/img/本月土豪_12.png" alt="">
+                        <img class="fist-img" src="/resources/static/img/hd1.png" alt="">
                         <!--<p class="number-one">2</p>-->
-                        <img class="number-one" src="../static/img/2.png" alt="">
+                        <img class="number-one" src="/resources/static/img/2.png" alt="">
                         <div class="rank-name">
-                            <div><span>给我你的心</span><img class="rank-name-img" src="../static/img/本月土豪_05.gif" alt="">
+                            <div><span>给我你的心</span><img class="rank-name-img" src="/resources/static/img/weman1.png" alt="">
                             </div>
                             <div class="rank-number">霸屏5次</div>
                         </div>
                         <div class="rank-right">
-                            <img src="../static/img/本月土豪_07.gif" alt="">
+                            <img src="/resources/static/img/pst.gif" alt="">
                             <span>距离8千米</span>
                             <div class="msg" ms-on-tap="shsa">发消息</div>
                         </div>
@@ -60,16 +60,16 @@
                 </div>
                 <div class="rank-list">
                 <div class="fist">
-                    <img class="fist-img" src="../static/img/本月土豪_12.png" alt="">
+                    <img class="fist-img" src="/resources/static/img/hd1.png" alt="">
                     <!--<p class="number-one">3</p>-->
-                    <img class="number-one" src="../static/img/3.png" alt="">
+                    <img class="number-one" src="/resources/static/img/3.png" alt="">
                     <div class="rank-name">
-                        <div><span>给我你的心</span><img class="rank-name-img" src="../static/img/本月土豪_05.gif" alt="">
+                        <div><span>给我你的心</span><img class="rank-name-img" src="/resources/static/img/weman1.png" alt="">
                         </div>
                         <div class="rank-number">霸屏3次</div>
                     </div>
                     <div class="rank-right">
-                        <img src="../static/img/本月土豪_07.gif" alt="">
+                        <img src="/resources/static/img/pst.gif" alt="">
                         <span>距离3千米</span>
                         <div class="msg" ms-on-tap="shsa">发消息</div>
                     </div>
@@ -81,16 +81,16 @@
         <div class="ranks" ms-if="WeekRank">
             <div class="rank-list">
                 <div class="fist">
-                    <img class="fist-img" src="../static/img/本月土豪_12.png" alt="">
-                    <img class="number-one" src="../static/img/1.png" alt="">
+                    <img class="fist-img" src="/resources/static/img/hd1.png" alt="">
+                    <img class="number-one" src="/resources/static/img/1.png" alt="">
                     <!--<p class="number-one">3</p>-->
                     <div class="rank-name">
-                        <div><span>给我你的心</span><img class="rank-name-img" src="../static/img/本月土豪_05.gif" alt="">
+                        <div><span>给我你的心</span><img class="rank-name-img" src="/resources/static/img/weman1.png" alt="">
                         </div>
                         <div class="rank-number">霸屏3次</div>
                     </div>
                     <div class="rank-right">
-                        <img src="../static/img/本月土豪_07.gif" alt="">
+                        <img src="/resources/static/img/pst.gif" alt="">
                         <span>距离3千米</span>
                         <div class="msg" ms-on-tap="shsa">发消息</div>
                     </div>
@@ -101,16 +101,16 @@
         <div class="ranks" ms-if="MonthRank">
             <div class="rank-list">
                 <div class="fist">
-                    <img class="fist-img" src="../static/img/本月土豪_12.png" alt="">
-                    <img class="number-one" src="../static/img/1.png" alt="">
+                    <img class="fist-img" src="/resources/static/img/hd1.png" alt="">
+                    <img class="number-one" src="/resources/static/img/1.png" alt="">
                     <!--<p class="number-one">3</p>-->
                     <div class="rank-name">
-                        <div><span>给我你的心</span><img class="rank-name-img" src="../static/img/本月土豪_05.gif" alt="">
+                        <div><span>给我你的心</span><img class="rank-name-img" src="/resources/static/img/weman1.png" alt="">
                         </div>
                         <div class="rank-number">霸屏3次</div>
                     </div>
                     <div class="rank-right">
-                        <img src="../static/img/本月土豪_07.gif" alt="">
+                        <img src="/resources/static/img/pst.gif" alt="">
                         <span>距离3千米</span>
                         <div class="msg" ms-on-tap="shsa">发消息</div>
                     </div>
@@ -118,16 +118,16 @@
             </div>
             <div class="rank-list">
                 <div class="fist">
-                    <img class="fist-img" src="../static/img/本月土豪_12.png" alt="">
-                    <img class="number-one" src="../static/img/2.png" alt="">
+                    <img class="fist-img" src="/resources/static/img/hd1.png" alt="">
+                    <img class="number-one" src="/resources/static/img/2.png" alt="">
                     <!--<p class="number-one">3</p>-->
                     <div class="rank-name">
-                        <div><span>给我你的心</span><img class="rank-name-img" src="../static/img/本月土豪_05.gif" alt="">
+                        <div><span>给我你的心</span><img class="rank-name-img" src="/resources/static/img/weman1.png" alt="">
                         </div>
                         <div class="rank-number">霸屏3次</div>
                     </div>
                     <div class="rank-right">
-                        <img src="../static/img/本月土豪_07.gif" alt="">
+                        <img src="/resources/static/img/pst.gif" alt="">
                         <span>距离3千米</span>
                         <div class="msg" ms-on-tap="shsa">发消息</div>
                     </div>
@@ -137,7 +137,7 @@
     </div>
 
 </body>
-<script type="text/javascript" src="../plugin/avalon-master/dist/avalon.mobile.min.js"></script>
-<script src="../plugin/jquery-1.9.1/jquery.min.js"></script>
-<script src="../static/js/screen.js"></script>
+<script type="text/javascript" src="/resources/plugin/avalon-master/dist/avalon.mobile.min.js"></script>
+<script src="/resources/plugin/jquery-1.9.1/jquery.min.js"></script>
+<script src="/resources/static/js/screen.js"></script>
 </html>
