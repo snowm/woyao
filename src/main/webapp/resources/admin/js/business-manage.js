@@ -1,5 +1,5 @@
 /**
- * Created by Luozhongdao on 2016/9/18 0018.
+ * Created by Luozhongdao  on 2016/9/19 0018.
  */
 define([],function(){
     $(function(){
@@ -13,7 +13,7 @@ define([],function(){
     	    	name:'',
     	    	deleted:false,
     	    	pageNumber:1,
-    	    	pageSize:20,
+    	    	pageSize:21,
     	    },
     	    formData:{
     	    	name:'',
