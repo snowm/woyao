@@ -19,10 +19,12 @@ import com.snowm.security.profile.service.ProfileService;
 import com.snowm.utils.query.PaginationBean;
 import com.woyao.admin.dto.product.QueryShopsRequestDTO;
 import com.woyao.admin.dto.product.ShopDTO;
+import com.woyao.admin.service.IChatAdminService;
 import com.woyao.admin.service.IShopAdminService;
 import com.woyao.dao.CommonDao;
 import com.woyao.domain.Pic;
 import com.woyao.domain.Shop;
+import com.woyao.domain.chat.ChatRoom;
 
 @Service("shopAdminService")
 public class ShopAdminServiceImpl extends AbstractAdminService<Shop, ShopDTO> implements IShopAdminService {
@@ -32,7 +34,9 @@ public class ShopAdminServiceImpl extends AbstractAdminService<Shop, ShopDTO> im
 
 	@Resource(name = "defaultProfileService")
 	private ProfileService profileService;
-
+	@Resource(name="chatAdminService")
+	private IChatAdminService chatAdminService;
+	
 	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED)
 	@Override
 	public ShopDTO update(ShopDTO dto) {
@@ -102,6 +106,10 @@ public class ShopAdminServiceImpl extends AbstractAdminService<Shop, ShopDTO> im
 		dto.setPicUrl(m.getPic().getUrl());
 		String managerName = profileService.get(m.getManagerProfileId()).getUsername();
 		dto.setManagerName(managerName);
+		String hql="from ChatRoom c where c.shop.id="+m.getId();	
+		ChatRoom c=(ChatRoom)dao.queryUnique(hql);
+		dto.setChatRoomId(c.getId());
+		dto.setChatRoomName(c.getName());
 		return dto;
 	}
 }

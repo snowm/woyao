@@ -33,6 +33,8 @@ public class ShopDTO extends BasePKDTO {
 	private String picUrl;
 	
 	private String chatRoomName;
+	
+	private Long chatRoomId;
 
 	public Long getManagerProfileId() {
 		return managerProfileId;
@@ -120,6 +122,14 @@ public class ShopDTO extends BasePKDTO {
 
 	public void setChatRoomName(String chatRoomName) {
 		this.chatRoomName = chatRoomName;
+	}
+
+	public Long getChatRoomId() {
+		return chatRoomId;
+	}
+
+	public void setChatRoomId(Long chatRoomId) {
+		this.chatRoomId = chatRoomId;
 	}
 
 
