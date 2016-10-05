@@ -6,6 +6,8 @@ define([],function(){
     	var shopController = avalon.define({
     	    $id: "shopController",
     	    formShow:false,
+    	    business:true,
+    	    businessalter:false,
     	    shopList:[],
     	    queryCdt:{
     	    	name:'',
@@ -23,6 +25,14 @@ define([],function(){
     	    	managerName:'',
     	    	managerProfileId:'',
     	    	description:''
+    	    },
+    	    Alter:function(){
+    	    	shopController.business=false;
+    	    	shopController.businessalter=true;    	    	
+    	    },
+    	    save:function(){
+    	    	shopController.business=true;
+    	    	shopController.businessalter=false;
     	    },
     	    queryData:function(){
     	    	$.ajax({

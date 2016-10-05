@@ -80,12 +80,76 @@
             </div><!-- row -->
           </div>
           <div class="tab-pane" id="profile">
-            bb
-          </div>
+            <div class="col-md-12" ms-if="business">         
+          <div class="table-responsive">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>商品图片</th>
+                <th>商品名字</th>
+                <th>商品价格</th>
+                <th>商品描述</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><img src="/admin/resources/images/minus.png"></td>
+                <td>性感比基尼</td>
+                <td>&yen;36</td>
+                <td>霸屏30秒</td>
+                <td><button class="btn btn-xs btn-info" ms-click="Alter"><i class="fa fa-pencil"></i> 修改</button></td>
+              </tr>              
+            </tbody>
+          	</table>
+          	</div><!-- table-responsive -->
+        	</div>
+        	<!--修改商品  -->
+        	<div class="tab-pane active" ms-if="businessalter">
+          <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="control-label">商品图片</label>
+                        <input type="file" name="name" class="form-control" >
+                    </div>
+                </div><!-- col-sm-6 -->
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="control-label">商品名字</label>
+                        <input type="text" name="address" class="form-control">
+                    </div>
+                </div><!-- col-sm-6 -->
+            </div><!-- row -->
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="control-label">商品价格</label>
+                        <input type="text" name="chatRoomName" class="form-control">
+                    </div>
+                </div><!-- col-sm-6 -->
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="control-label">商品描述</label>
+                        <input type="text" name="description" class="form-control">
+                    </div>
+                </div><!-- col-sm-6 -->
+            </div><!-- row -->            
+            
+            <div class="panel-footer text-right">
+            <button class="btn btn-success" ms-click="save" >保存</button>            
+        </div>
+          </div>       	
+        	
+          </div>   
+          
+                
           <div class="tab-pane" id="about">
             c c
           </div>
         </div>
+        
+        
 <!-- 商品管理 -->
 
 
