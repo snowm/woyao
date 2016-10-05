@@ -68,7 +68,11 @@ public class ShopAdminServiceImpl extends AbstractAdminService<Shop, ShopDTO> im
 		rs.setTotalCount(count);
 		List<ShopDTO> results = new ArrayList<>();
 		for (Shop m : ms) {
-			ShopDTO dto = this.transferToDTO(m, false);
+			ShopDTO dto = this.transferToDTO(m, false);	
+			String hql="from ChatRoom c where c.shop.id="+m.getId();	
+			ChatRoom c=(ChatRoom)dao.queryUnique(hql);
+			dto.setChatRoomId(c.getId());
+			dto.setChatRoomName(c.getName());
 			results.add(dto);
 		}
 		rs.setResults(results);
@@ -84,7 +88,6 @@ public class ShopAdminServiceImpl extends AbstractAdminService<Shop, ShopDTO> im
 		Pic pic = new Pic();
 		pic.setId(dto.getId());
 		m.setPic(pic);
-
 		return m;
 	}
 
@@ -106,10 +109,6 @@ public class ShopAdminServiceImpl extends AbstractAdminService<Shop, ShopDTO> im
 		dto.setPicUrl(m.getPic().getUrl());
 		String managerName = profileService.get(m.getManagerProfileId()).getUsername();
 		dto.setManagerName(managerName);
-		String hql="from ChatRoom c where c.shop.id="+m.getId();	
-		ChatRoom c=(ChatRoom)dao.queryUnique(hql);
-		dto.setChatRoomId(c.getId());
-		dto.setChatRoomName(c.getName());
 		return dto;
 	}
 }
