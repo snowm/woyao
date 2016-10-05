@@ -32,7 +32,7 @@ public class ShopAdminController extends AbstractBaseController<Shop, ShopDTO> {
 	}
 
 	@RequestMapping(value = { "", "/" }, method = { RequestMethod.PUT,
-			RequestMethod.POST }, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+			RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
 	public ShopDTO saveOrUpdate(@RequestBody ShopDTO dto) {
 		System.out.println(dto);

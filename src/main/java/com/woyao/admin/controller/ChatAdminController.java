@@ -11,34 +11,30 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.snowm.utils.query.PaginationBean;
-import com.woyao.admin.dto.product.PicDTO;
-import com.woyao.admin.dto.product.QueryPicRequestDTO;
-import com.woyao.admin.dto.product.QueryShopsRequestDTO;
-import com.woyao.admin.dto.product.ShopDTO;
+import com.woyao.admin.dto.product.ChatRoomDTO;
+import com.woyao.admin.dto.product.QueryChatRequestDTO;
 import com.woyao.admin.service.IAdminService;
-import com.woyao.admin.service.IPicAdminService;
-import com.woyao.admin.service.IShopAdminService;
-import com.woyao.domain.Pic;
-import com.woyao.domain.Shop;
+import com.woyao.admin.service.IChatAdminService;
+import com.woyao.domain.chat.ChatRoom;
 
 @Controller
-@RequestMapping(value = "/admin/pic")
-public class PicAdminController extends AbstractBaseController<Pic, PicDTO> {
+@RequestMapping(value = "/admin/chat")
+public class ChatAdminController extends AbstractBaseController<ChatRoom, ChatRoomDTO> {
 
-	@Resource(name = "picAdminService")
-	private IPicAdminService service;
+	@Resource(name = "chatAdminService")
+	private IChatAdminService service;
 
 	@RequestMapping(value = { "/search" }, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
-	public PaginationBean<PicDTO> query(QueryPicRequestDTO request) {
-		PaginationBean<PicDTO> result = this.service.query(request);
+	public PaginationBean<ChatRoomDTO> query(QueryChatRequestDTO request) {
+		PaginationBean<ChatRoomDTO> result = this.service.query(request);
 		return result;
 	}
 
 	@RequestMapping(value = { "", "/" }, method = { RequestMethod.PUT,
 			RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
-	public PicDTO saveOrUpdate(@RequestBody PicDTO dto) {
+	public ChatRoomDTO saveOrUpdate(@RequestBody ChatRoomDTO dto) {
 		if (dto.getId() != null) {
 			return this.service.update(dto);
 		} else {
@@ -48,7 +44,7 @@ public class PicAdminController extends AbstractBaseController<Pic, PicDTO> {
 	
 	@Resource
 	@Override
-	public void setBaseService(@Qualifier("picAdminService") IAdminService<Pic, PicDTO> baseService) {
+	public void setBaseService(@Qualifier("chatAdminService") IAdminService<ChatRoom, ChatRoomDTO> baseService) {
 		this.baseService = baseService;
 	}
 

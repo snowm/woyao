@@ -33,7 +33,7 @@ public class ProductAdminController extends AbstractBaseController<Product, Prod
 	}
 
 	@RequestMapping(value = { "", "/" }, method = { RequestMethod.PUT,
-			RequestMethod.POST }, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+			RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
 	public ProductDTO saveOrUpdate(@RequestBody ProductDTO dto) {
 		if (dto.getId() != null) {

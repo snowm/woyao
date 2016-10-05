@@ -44,7 +44,7 @@ public class UserController {
 		return dto;
 	}
 
-	@RequestMapping(value = { "", "/" }, method = { RequestMethod.PUT, RequestMethod.POST }, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@RequestMapping(value = { "", "/" }, method = { RequestMethod.PUT, RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
 	public ProfileDTO saveOrUpdate(@RequestBody ProfileDTO dto) {
 		dto.setGender(Gender.MALE);
