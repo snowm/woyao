@@ -35,8 +35,8 @@ public class ShopAdminController extends AbstractBaseController<Shop, ShopDTO> {
 			RequestMethod.POST }, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
 	public ShopDTO saveOrUpdate(@RequestBody ShopDTO dto) {
+		System.out.println(dto);
 		if (dto.getId() != null) {
-			System.out.println(dto);
 			return this.service.update(dto);
 		} else {
 			return this.service.create(dto);
