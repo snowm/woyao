@@ -94,8 +94,6 @@
             </div><!-- header-right -->
         </div><!-- headerbar -->
         <div class="contentpanel" ms-include-src="content" style="padding: 1px">
-
-
         </div><!-- contentpanel -->
     </div><!-- mainpanel -->
 </section>
