@@ -15,6 +15,11 @@
     <link rel="stylesheet" href="/resources/static/css/main.css"/>
     <link rel="stylesheet" href="/resources/plugin/swiper-master/dist/css/swiper.min.css"/>
     <link rel="SHORTCUT ICON" href=""/>
+    <style>
+    .msg-block:nth-of-type(1) {
+ 	   margin-top: 55px;
+	}
+    </style>
 </head>
 <body class="user-sexy-man" ms-controller="pChatController">
 
@@ -37,10 +42,10 @@
     </div>
 </div>
 <div class="contain">
-    <div class="chat-list-btn" ms-on-tap="userList">
+ <!--    <div class="chat-list-btn" ms-on-tap="userList" style='top:60px'>
         <img src="/resources/static/img/chats.png" alt="">
         私聊
-    </div>
+    </div> -->
     <div class="msg-block-contain">
         <div class="msg-block-container">
             <div class="msg-block clearfix" ms-repeat-item="msgList" ms-class="msg-block-self:item.isMe == 'true'">

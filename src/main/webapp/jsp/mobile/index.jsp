@@ -1,98 +1,87 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="description" content='"我要"管理系统'>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="author" content="Snowm">
-<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
-<meta http-equiv="cache-control" content="no-cache,private">
-<title>"我要"管理系统</title>
-<!-- <link rel="stylesheet" type="text/css" href="resources/css/main.css" />
-<link rel="stylesheet" type="text/css" href="resources/css/bootstrap/dataTables/dataTables.bootstrap.min.css" />
-<link rel="stylesheet" type="text/css" href="resources/css/bootstrap/dataTables/select.bootstrap.min.css" />
-<link rel="stylesheet" type="text/css" href="resources/css/bootstrap/dataTables/rowReorder.bootstrap.min.css" />
-<link rel="stylesheet" type="text/css" href="resources/css/bootstrap/dataTables/responsive.bootstrap.min.css" />
-
-<link rel="shortcut icon" href="resources/images/favicon.ico">
-<script data-main="resources/js/base/index_main" src="resources/js/lib/requirejs/require.js"></script>  -->
-<!-- The XDomainRequest Transport is included for cross-domain file deletion for IE8+ -->
-<!--[if gte IE 8]><script src="js/lib/jquery/fileupload/cors/jquery.xdr-transport.js"></script><![endif]-->
-
-<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-<!--[if lt IE 9]>
-      <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
-      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+    <meta charset="UTF-8">
+    <title>酒吧列表</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
+    <meta name="apple-mobile-web-app-title" content="I want">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <script type="text/javascript" src="/resources/plugin/fastclick-master/lib/fastclick.js"></script>
+    <!--<script type="text/javascript" src="/resources/node_modules/socket.io/lib/socket.web.js"></script>-->
+    <link rel="stylesheet" href="/resources/static/css/bar-list.css"/>
+    <link rel="stylesheet" href="/resources/plugin/swiper-master/dist/css/swiper.min.css"/>
+    <link rel="SHORTCUT ICON" href=""/>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=mZm3GQOvw7AFyZIKrkeomWMbhMbpP2Cc"></script>
+    <script type="text/javascript" src="http://developer.baidu.com/map/jsdemo/demo/convertor.js"></script>
 </head>
-<body>
-	<nav class="navbar navbar-inverse navbar-fixed-top header">
-		<div class="container-fluid">
-			<div class="navbar-header">
-		        <button type="button" data-toggle="collapse" data-target="#main_navbar" class="navbar-toggle">
-		        	<span class="sr-only">Toggle navigation</span>
-					<span class="icon-bar"></span>
-		        	<span class="icon-bar"></span>
-		        	<span class="icon-bar"></span>
-		        </button>
-				<a class="navbar-brand" href="./">"我要"管理系统</a>
-			</div>
-			<div id="main_navbar" class="navbar-collapse collapse">
-				<ul class="nav navbar-nav">
-					<li><a href="#" id="index-a">首页</a></li>
-					
-				</ul>
-				<ul class="nav navbar-nav navbar-right">
-					<li id="system-manage" class="dropdown" data-toggle="tooltip"
-						title="系统管理" data-placement="bottom"><a href="#" class="dropdown-toggle"
-						data-toggle="dropdown" role="button" aria-expanded="false"><span
-							class="glyphicon glyphicon-cog"></span><span class="caret"></span>
-					</a>
-						<ul class="dropdown-menu" role="menu">
-							<li><a href="#user-manage" id="user-manage-a">用户管理</a></li>
-							<li><a href="javascript:;" id="system-config-a">系统设置</a></li>
-						</ul></li>
-					<li class="dropdown" data-toggle="tooltip"
-						title="个人管理" data-placement="bottom"><a href="#" class="dropdown-toggle"
-						data-toggle="dropdown" role="button" aria-expanded="false"><span
-							class="glyphicon glyphicon-user"></span><span class="caret"></span>
-					</a>
-						<ul class="dropdown-menu" role="menu">
-							<li data-toggle="tooltip" title="注销" ><a href="<c:url value='/logout' />">注销</a></li>
-						</ul></li>
-				</ul>
-			</div>
-			<!--/.nav-collapse -->
-		</div>
-		<!--/.container-fluid -->
-	</nav>
-
-	<div class="container" id="main_container">
-		<div id="modals-container"></div>
-	</div>
-	<!-- /container -->
-	<script>
-		var socket = new WebSocket('ws://localhost:8080/chat/websck'); 
-		// 打开Socket 
-		socket.onopen = function(event) { 
-		  // 发送一个初始化消息
-		  socket.send('I am the client and I\'m listening!'); 
-
-		  // 监听消息
-		  socket.onmessage = function(event) { 
-		    console.log('Client received a message',event); 
-		  }; 
-
-		  // 监听Socket的关闭
-		  socket.onclose = function(event) { 
-		    console.log('Client notified socket has closed',event); 
-		  }; 
-		};
-
-	</script>
+<body ms-controller="barListController">
+    <div class="top-tab">
+        <table>
+            <tr>
+                <td ms-on-tap="tabChange('map')" ms-class-tab-active="listShow == 'map'">地图查找</td>
+                <td ms-on-tap="tabChange('list')" ms-class-tab-active="listShow == 'list'">酒吧列表</td>
+            </tr>
+        </table>
+    </div>
+    <div class="list-ctn" ms-if="listShow == 'list'">
+        <div>
+            <div class="block-ctn" ms-on-tap="toChatRooms(1)">
+                <div class="block-ctn-m">
+                    <div class="metro-ctn" style="background: url('/resources/static/img/delate/0813131.jpg') center;">
+                        <p class="b-name">兰桂坊</p>
+                        <span class="hots"><img src="/resources/static/img/hot.png" alt=""> 热度:60</span>
+                        <span class="lct"><img src="/resources/static/img/dits.png" alt=""> 距离:50km</span>
+                    </div>
+                </div>
+            </div>
+            <div class="block-ctn">
+                <div class="block-ctn-m">
+                    <div class="metro-ctn" style="background: url('/resources/static/img/delate/1.jpg') center;">
+                        <p class="b-name">兰桂坊</p>
+                        <span class="hots"><img src="/resources/static/img/hot.png" alt=""> 热度:60</span>
+                        <span class="lct"><img src="/resources/static/img/dits.png" alt=""> 距离:50km</span>
+                    </div>
+                </div>
+            </div>
+            <div class="block-ctn">
+                <div class="block-ctn-m">
+                    <div class="metro-ctn" style="background: url('/resources/static/img/delate/3.jpg') center;">
+                        <p class="b-name">兰桂坊</p>
+                        <span class="hots"><img src="/resources/static/img/hot.png" alt=""> 热度:60</span>
+                        <span class="lct"><img src="/resources/static/img/dits.png" alt=""> 距离:50km</span>
+                    </div>
+                </div>
+            </div>
+            <div class="block-ctn">
+                <div class="block-ctn-m">
+                    <div class="metro-ctn" style="background: url('/resources/static/img/delate/2.jpg') center;">
+                        <p class="b-name">兰桂坊</p>
+                        <span class="hots"><img src="/resources/static/img/hot.png" alt=""> 热度:60</span>
+                        <span class="lct"><img src="/resources/static/img/dits.png" alt=""> 距离:50km</span>
+                    </div>
+                </div>
+            </div>
+            <div class="block-ctn">
+                <div class="block-ctn-m">
+                    <div class="metro-ctn" style="background: url('/resources/static/img/delate/4.jpg') center;">
+                        <p class="b-name">兰桂坊</p>
+                        <span class="hots"><img src="/resources/static/img/hot.png" alt=""> 热度:60</span>
+                        <span class="lct"><img src="/resources/static/img/dits.png" alt=""> 距离:50km</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="map-ctn" id="map" ms-if="listShow == 'map'"></div>
 </body>
+<script type="text/javascript" src="/resources/plugin/avalon-master/dist/avalon.mobile.min.js"></script>
+<script type="text/javascript" src="/resources/plugin/jquery-1.9.1/jquery.js"></script>
+<!--<script type="text/javascript" src="/resources/plugin/swiper-master/dist/js/swiper.jquery.min.js"></script>-->
+<script type="text/javascript" src="/resources/static/js/main.js"></script>
+<script type="text/javascript" src="/resources/static/js/bar-list.js"></script>
 </html>

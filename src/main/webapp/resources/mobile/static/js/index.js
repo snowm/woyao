@@ -89,13 +89,13 @@
             }
         },
         richerList:function(){
-            window.location.href='./richer.html';
+            window.location.href='./richer.html?shopId=1';
         },
         userList:function(){
-            window.location.href='./chatterList.html';
+            window.location.href='./chatterList.html?shopId=1';
         },
         privateChat:function(){
-            window.location.href='./privacyChat.html';
+            window.location.href='./privacyChat.html?toId=1';
         },
         forHer:function(id){
             if(mainController.isShowPhoto){

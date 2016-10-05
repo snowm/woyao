@@ -23,7 +23,6 @@ import com.woyao.GlobalConfig;
 // @Profile("dev")
 public class AppConfig {
 
-	@SuppressWarnings("unused")
 	@Autowired
 	private Environment env;
 
@@ -70,7 +69,7 @@ public class AppConfig {
 	@Bean(name = "globalConfig")
 	public GlobalConfig globalConfig() {
 		GlobalConfig globalConfig = new GlobalConfig();
-//		globalConfig.setSupplierId(this.env.getProperty("supplierId", "123"));
+		globalConfig.setVerifyToken(this.env.getProperty("wx.verifyToken", "test"));
 //		globalConfig.setPrivateKey(this.env.getProperty("privateKey", "111111"));
 //
 //		globalConfig.setAliConnectionRequestTimeout(Integer.parseInt(this.env.getProperty("http.ali.ConnectionTimeout", "5000")));

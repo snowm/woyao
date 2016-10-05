@@ -56,7 +56,7 @@
             butTom.changHide=false
         },
         chat:function () {
-            window.location="./chat.html"
+            window.location="./privacyChat.html?toId=1"
         }
     });
     avalon.scan();

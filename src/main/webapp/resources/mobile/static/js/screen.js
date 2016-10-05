@@ -35,7 +35,7 @@
                 butTom.showBottomss=true;
             },
             shsa:function () {
-                window.location="./chat.html"
+                window.location="./privacyChat.html?toId=1"
             }
     });
 

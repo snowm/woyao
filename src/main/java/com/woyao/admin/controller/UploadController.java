@@ -2,7 +2,9 @@ package com.woyao.admin.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.io.FileUtils;
@@ -17,14 +19,19 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.snowm.security.web.json.JsonResultBaseObject;
+import com.woyao.admin.dto.product.PicDTO;
+import com.woyao.admin.service.IPicAdminService;
 
 @Controller
-@RequestMapping("/upload")
+@RequestMapping("admin/upload")
 public class UploadController {
 
 	private Log log = LogFactory.getLog(this.getClass());
+	
+	@Resource(name = "picAdminService")
+	private IPicAdminService service;
 
-	@RequestMapping(value = "x1", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/file", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public JsonResultBaseObject<String> upload(String msg, @RequestParam(value = "uploadFile") MultipartFile upFile,
 			HttpServletRequest request) {
@@ -47,6 +54,15 @@ public class UploadController {
 				return result;
 			}
 			result.setInfoMsg("Upload successfully!");
+			PicDTO dto = new PicDTO();
+			dto.setPath(realPath);
+			dto.setUrl(upFile.getOriginalFilename());
+			dto.setCreationDate(new Date());
+			dto.setDeleted(false);
+			dto.setEnabled(true);
+			dto.setLastModifiedDate(new Date());
+			System.out.println(dto.getUrl());
+			this.service.update(dto);
 			result.setResult("1");
 		}
 		return result;
