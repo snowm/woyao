@@ -23,7 +23,7 @@ import com.woyao.admin.dto.product.PicDTO;
 import com.woyao.admin.service.IPicAdminService;
 
 @Controller
-@RequestMapping("admin/upload")
+@RequestMapping("/admin/upload")
 public class UploadController {
 
 	private Log log = LogFactory.getLog(this.getClass());

@@ -29,6 +29,7 @@ import com.woyao.domain.chat.ChatRoom;
 @Service("shopAdminService")
 public class ShopAdminServiceImpl extends AbstractAdminService<Shop, ShopDTO> implements IShopAdminService {
 
+
 	@Resource(name = "commonDao")
 	private CommonDao dao;
 

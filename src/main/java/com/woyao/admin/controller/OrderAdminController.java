@@ -11,30 +11,30 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.snowm.utils.query.PaginationBean;
-import com.woyao.admin.dto.product.PicDTO;
-import com.woyao.admin.dto.product.QueryPicRequestDTO;
+import com.woyao.admin.dto.product.OrderDTO;
+import com.woyao.admin.dto.product.QueryOrderRequestDTO;
 import com.woyao.admin.service.IAdminService;
-import com.woyao.admin.service.IPicAdminService;
-import com.woyao.domain.Pic;
+import com.woyao.admin.service.IOrderAdminService;
+import com.woyao.domain.purchase.Order;
 
 @Controller
-@RequestMapping(value = "/admin/pic")
-public class PicAdminController extends AbstractBaseController<Pic, PicDTO> {
+@RequestMapping(value = "/admin/order")
+public class OrderAdminController extends AbstractBaseController<Order, OrderDTO> {
 
-	@Resource(name = "picAdminService")
-	private IPicAdminService service;
+	@Resource(name = "orderAdminService")
+	private IOrderAdminService service;
 
 	@RequestMapping(value = { "/search" }, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
-	public PaginationBean<PicDTO> query(QueryPicRequestDTO request) {
-		PaginationBean<PicDTO> result = this.service.query(request);
+	public PaginationBean<OrderDTO> query(QueryOrderRequestDTO request) {
+		PaginationBean<OrderDTO> result = this.service.query(request);
 		return result;
 	}
 
 	@RequestMapping(value = { "", "/" }, method = { RequestMethod.PUT,
 			RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
-	public PicDTO saveOrUpdate(@RequestBody PicDTO dto) {
+	public OrderDTO saveOrUpdate(@RequestBody OrderDTO dto) {
 		if (dto.getId() != null) {
 			return this.service.update(dto);
 		} else {
@@ -44,7 +44,7 @@ public class PicAdminController extends AbstractBaseController<Pic, PicDTO> {
 	
 	@Resource
 	@Override
-	public void setBaseService(@Qualifier("picAdminService") IAdminService<Pic, PicDTO> baseService) {
+	public void setBaseService(@Qualifier("orderAdminService") IAdminService<Order, OrderDTO> baseService) {
 		this.baseService = baseService;
 	}
 
