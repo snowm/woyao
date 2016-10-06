@@ -21,6 +21,7 @@ import com.woyao.customer.chat.dto.ErrorOutbound;
 import com.woyao.customer.chat.dto.InMsgDTO;
 import com.woyao.customer.chat.dto.Inbound;
 import com.woyao.customer.chat.dto.OutMsgDTO;
+import com.woyao.customer.chat.dto.OutboundCommand;
 import com.woyao.customer.dto.ChatterDTO;
 import com.woyao.customer.service.IChatService;
 import com.woyao.security.SharedSessionContext;
@@ -60,6 +61,7 @@ public class ChatWebSocketHandler extends AbstractWebSocketHandler {
 				long msgId = this.saveMsg(msg);
 
 				OutMsgDTO outMsg = new OutMsgDTO();
+				outMsg.setCommand(OutboundCommand.SEND_MSG);
 				outMsg.setId(msgId);
 				outMsg.setText(msg.getText());
 				outMsg.setTo(msg.getTo());

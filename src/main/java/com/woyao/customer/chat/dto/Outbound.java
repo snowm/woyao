@@ -18,4 +18,12 @@ public abstract class Outbound {
 		session.sendMessage(new TextMessage(JsonUtils.toString(this)));
 	}
 
+	public String getCommand() {
+		return command;
+	}
+
+	public void setCommand(String command) {
+		this.command = command;
+	}
+
 }
