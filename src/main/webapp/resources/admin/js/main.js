@@ -44,7 +44,7 @@ require(["/admin/resources/js/common.js",'mmRouter',"domReady!"],function(mmRout
     var _modelList = [];
     var modelflag = false;
     
-    function callback() {
+    function callback() {    	
         var controllerPath = "/admin/resources/js";
         var viewPath = "/admin/resources/html";
        
@@ -86,7 +86,8 @@ require(["/admin/resources/js/common.js",'mmRouter',"domReady!"],function(mmRout
 
 //    avalon.log("加载avalon路由");
     avalon.router.get("/business-manage", callback);
-    avalon.router.get("/home", callback);
+    avalon.router.get("/chat-manage", callback);
+    avalon.router.get("/home", callback);   
 
     avalon.history.start({
         basepath: "/avalon"
