@@ -22,6 +22,8 @@ public class ChatMsgDTO  extends BasePKDTO {
 	private boolean free = true;
 	
 	private Long productId;
+	
+	private String productName;
 
 	public Long getChatRoomId() {
 		return chatRoomId;
@@ -77,6 +79,14 @@ public class ChatMsgDTO  extends BasePKDTO {
 
 	public void setProductId(Long productId) {
 		this.productId = productId;
+	}
+
+	public String getProductName() {
+		return productName;
+	}
+
+	public void setProductName(String productName) {
+		this.productName = productName;
 	}
 	
 	
