@@ -70,4 +70,61 @@ public class Order extends DefaultModelImpl {
 		this.id = id;
 	}
 
+	public int getVersion() {
+		return version;
+	}
+
+	public void setVersion(int version) {
+		this.version = version;
+	}
+
+	public ProfileWX getConsumer() {
+		return consumer;
+	}
+
+	public void setConsumer(ProfileWX consumer) {
+		this.consumer = consumer;
+	}
+
+	public ProfileWX getToProfile() {
+		return toProfile;
+	}
+
+	public void setToProfile(ProfileWX toProfile) {
+		this.toProfile = toProfile;
+	}
+
+	public OrderPrepayInfo getPrepayInfo() {
+		return prepayInfo;
+	}
+
+	public void setPrepayInfo(OrderPrepayInfo prepayInfo) {
+		this.prepayInfo = prepayInfo;
+	}
+
+	public OrderResultInfo getResultInfo() {
+		return resultInfo;
+	}
+
+	public void setResultInfo(OrderResultInfo resultInfo) {
+		this.resultInfo = resultInfo;
+	}
+
+	public OrderStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(OrderStatus status) {
+		this.status = status;
+	}
+
+	public Integer getTotalFee() {
+		return totalFee;
+	}
+
+	public void setTotalFee(Integer totalFee) {
+		this.totalFee = totalFee;
+	}
+	
+
 }
