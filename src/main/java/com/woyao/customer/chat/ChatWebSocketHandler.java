@@ -63,8 +63,7 @@ public class ChatWebSocketHandler extends AbstractWebSocketHandler {
 				outMsg.setId(msgId);
 				outMsg.setText(msg.getText());
 				outMsg.setTo(msg.getTo());
-				Long chatterId = WebsocketSessionHttpSessionContainer.getChatterId(session);
-				ChatterDTO sender = this.chatService.getChatter(chatterId);
+				ChatterDTO sender = WebsocketSessionHttpSessionContainer.getChatter(session);
 				outMsg.setSender(sender);
 
 				this.send(session, outMsg);

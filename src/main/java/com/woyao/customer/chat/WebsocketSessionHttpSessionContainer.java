@@ -13,6 +13,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor;
 
+import com.woyao.customer.dto.ChatterDTO;
+
 @Component("websocketSessionHttpSessionContainer")
 public class WebsocketSessionHttpSessionContainer {
 
@@ -144,6 +146,10 @@ public class WebsocketSessionHttpSessionContainer {
 			}
 		}
 		return rs;
+	}
+
+	public static ChatterDTO getChatter(WebSocketSession wsSession) {
+		return (ChatterDTO) wsSession.getAttributes().get(SESSION_ATTR_CHATTER);
 	}
 
 	public static Long getChatterId(WebSocketSession wsSession) {
