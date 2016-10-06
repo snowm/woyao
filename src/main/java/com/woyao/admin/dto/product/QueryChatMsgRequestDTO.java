@@ -17,7 +17,7 @@ public class QueryChatMsgRequestDTO extends PaginationQueryRequestDTO {
 	
 	private String toName;
 	
-	private Boolean free = true;
+	private Boolean free;
 	
 	private Long productName;
 
