@@ -13,13 +13,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.snowm.utils.query.PaginationBean;
 import com.woyao.admin.dto.product.PicDTO;
 import com.woyao.admin.dto.product.QueryPicRequestDTO;
-import com.woyao.admin.dto.product.QueryShopsRequestDTO;
-import com.woyao.admin.dto.product.ShopDTO;
 import com.woyao.admin.service.IAdminService;
 import com.woyao.admin.service.IPicAdminService;
-import com.woyao.admin.service.IShopAdminService;
 import com.woyao.domain.Pic;
-import com.woyao.domain.Shop;
 
 @Controller
 @RequestMapping(value = "/admin/pic")
