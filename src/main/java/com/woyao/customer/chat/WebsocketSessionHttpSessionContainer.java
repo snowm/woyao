@@ -11,11 +11,12 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.WebSocketSession;
+import org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor;
 
 @Component("websocketSessionHttpSessionContainer")
 public class WebsocketSessionHttpSessionContainer {
 
-	public static final String SESSION_ATTR_HTTPSESSION_ID = "HTTPSESSION_ID";
+	public static final String SESSION_ATTR_HTTPSESSION_ID = HttpSessionHandshakeInterceptor.HTTP_SESSION_ID_ATTR_NAME;
 	public static final String SESSION_ATTR_CHATTER_ID = "CHATTER_ID";
 	public static final String SESSION_ATTR_CHATTER = "CHATTER";
 	public static final String SESSION_ATTR_CHATROOM_ID = "CHATROOM_ID";

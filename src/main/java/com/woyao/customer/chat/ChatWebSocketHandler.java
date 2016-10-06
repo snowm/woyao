@@ -44,7 +44,7 @@ public class ChatWebSocketHandler extends AbstractWebSocketHandler {
 		ByteBuffer buffer = message.getPayload();
 		String path = ChatUtils.savePic(buffer);
 		String picUrl = "/pic/" + path;
-		log.info("picUrl");
+		log.info(picUrl);
 	}
 
 	@Override
@@ -79,7 +79,7 @@ public class ChatWebSocketHandler extends AbstractWebSocketHandler {
 		return this.getMsgId();
 	}
 
-	private AtomicLong msgIdGenerator;
+	private AtomicLong msgIdGenerator = new AtomicLong();
 
 	private long getMsgId() {
 		return msgIdGenerator.getAndIncrement();
@@ -108,12 +108,16 @@ public class ChatWebSocketHandler extends AbstractWebSocketHandler {
 
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
+		try{
 		String httpSessionId = (String) session.getAttributes().get(WebsocketSessionHttpSessionContainer.SESSION_ATTR_HTTPSESSION_ID);
 		HttpSession httpSession = SharedSessionContext.getSession(httpSessionId);
 		chatService.newChatter(session, httpSession);
 
 		if (log.isDebugEnabled()) {
 			log.debug(String.format("connectionEstablished, wsSessionId: %s, httpSessionId: %s", session.getId(), httpSession.getId()));
+		}
+		}catch(Exception ex){
+			ex.printStackTrace();
 		}
 	}
 

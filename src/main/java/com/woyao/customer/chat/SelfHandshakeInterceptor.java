@@ -1,6 +1,7 @@
 package com.woyao.customer.chat;
 
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicLong;
 
 import javax.servlet.http.HttpSession;
 
@@ -11,6 +12,9 @@ import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.http.server.ServletServerHttpRequest;
 import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor;
+
+import com.snowm.security.profile.domain.Gender;
+import com.woyao.customer.dto.ChatterDTO;
 
 public class SelfHandshakeInterceptor extends HttpSessionHandshakeInterceptor {
 
@@ -37,11 +41,26 @@ public class SelfHandshakeInterceptor extends HttpSessionHandshakeInterceptor {
 		// }
 
 		boolean rs = super.beforeHandshake(request, response, wsHandler, attributes);
+		ChatterDTO dto = this.generateDTO();
+		session.setAttribute(WebsocketSessionHttpSessionContainer.SESSION_ATTR_CHATTER, dto);
+		session.setAttribute(WebsocketSessionHttpSessionContainer.SESSION_ATTR_CHATTER_ID, dto.getId());
+		session.setAttribute(WebsocketSessionHttpSessionContainer.SESSION_ATTR_CHATROOM_ID, 1L);
 		log.debug("Before Handshake:" + rs);
-		if (rs) {
-			attributes.put(WebsocketSessionHttpSessionContainer.SESSION_ATTR_HTTPSESSION_ID, session);
-		}
 		return rs;
+	}
+
+	private AtomicLong idGenerator = new AtomicLong();
+
+	private ChatterDTO generateDTO() {
+		long id = idGenerator.incrementAndGet();
+		ChatterDTO dto = new ChatterDTO();
+		dto.setId(id);
+		dto.setNickname("nickname" + id);
+		dto.setCity("city" + id);
+		dto.setCountry("country" + id);
+		dto.setHeadImg("headImg" + id);
+		dto.setGender(Gender.FEMALE);
+		return dto;
 	}
 
 	private HttpSession getSession(ServerHttpRequest request) {
