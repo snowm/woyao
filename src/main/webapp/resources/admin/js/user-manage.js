@@ -6,7 +6,7 @@ define([],function(){
     		user:false,
     		btnUser:function(){
     			userController.user=true;
-    		},
+    		},    		
     	});
     	console.log("load user-manage");
     	avalon.scan();        

@@ -1,7 +1,7 @@
 /**
  * Created by luozhongdao on 2016/9/15 0015.
  */
-
+ 
 require.config({
     baseUrl: '/admin/resources/',
     paths: {

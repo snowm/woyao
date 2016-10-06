@@ -21,7 +21,7 @@ define([],function(){
     	    			pageNumber:chatController.freeDate.pageNumber,
     	    	    	pageSize:chatController.freeDate.pageSize
     			}    			
-    			
+    			   
     			$.ajax({
   	      		  type: "post",
   	      		  url: '/admin/chatMsg/search',
