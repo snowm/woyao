@@ -88,6 +88,7 @@ public class ChatMsg extends DefaultModelImpl {
 		this.content = content;
 	}
 
+
 	public boolean isFree() {
 		return free;
 	}
