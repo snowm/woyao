@@ -56,7 +56,7 @@
                 </li>
                 <li class="nav-parent"><a href=""><i class="fa fa-comments"></i> <span>聊天管理</span></a>
                     <ul class="children">
-                        <li><a href="#!"><i class="fa fa-caret-right"></i> 查询聊天记录</a></li>
+                        <li><a href="#!/chat-manage"><i class="fa fa-caret-right"></i> 查询聊天记录</a></li>
                     </ul>
                 </li>
             </ul>
