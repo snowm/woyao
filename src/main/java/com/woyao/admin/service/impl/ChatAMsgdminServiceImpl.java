@@ -20,6 +20,8 @@ import com.woyao.admin.dto.product.QueryChatMsgRequestDTO;
 import com.woyao.admin.service.IChatMsgAdminService;
 import com.woyao.dao.CommonDao;
 import com.woyao.domain.chat.ChatMsg;
+import com.woyao.domain.chat.ChatRoom;
+import com.woyao.domain.product.Product;
 @Service("chatMsgAdminService")
 public class ChatAMsgdminServiceImpl extends AbstractAdminService<ChatMsg, ChatMsgDTO> implements IChatMsgAdminService{
 
@@ -70,7 +72,8 @@ public class ChatAMsgdminServiceImpl extends AbstractAdminService<ChatMsg, ChatM
 	public ChatMsgDTO transferToSimpleDTO(ChatMsg m) {
 		ChatMsgDTO dto=new ChatMsgDTO();
 		BeanUtils.copyProperties(m, dto);
-		
+		dto.setChatRoomName(dao.get(ChatRoom.class, m.getChatRoomId()).getName());
+		dto.setProductName(dao.get(Product.class, m.getProductId()).getName());
 		dto.setEnabled(m.getLogicalDelete().isEnabled());
 		dto.setDeleted(m.getLogicalDelete().isDeleted());
 		dto.setCreationDate(m.getModification().getCreationDate());

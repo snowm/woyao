@@ -11,7 +11,7 @@ public class ChatMsgDTO  extends BasePKDTO {
 	
 	private Long chatRoomId;
 	
-	private Long chatRoomName;
+	private String chatRoomName;
 	
 	private Long from;
 	
@@ -33,11 +33,11 @@ public class ChatMsgDTO  extends BasePKDTO {
 		this.chatRoomId = chatRoomId;
 	}
 
-	public Long getChatRoomName() {
+	public String getChatRoomName() {
 		return chatRoomName;
 	}
 
-	public void setChatRoomName(Long chatRoomName) {
+	public void setChatRoomName(String chatRoomName) {
 		this.chatRoomName = chatRoomName;
 	}
 
