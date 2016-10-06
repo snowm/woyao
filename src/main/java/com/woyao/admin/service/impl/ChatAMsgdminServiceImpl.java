@@ -25,12 +25,10 @@ import com.woyao.domain.product.Product;
 @Service("chatMsgAdminService")
 public class ChatAMsgdminServiceImpl extends AbstractAdminService<ChatMsg, ChatMsgDTO> implements IChatMsgAdminService{
 
-	@Resource(name = "commonDao")
-	private CommonDao dao;
-
+	
 	public ChatMsgDTO update(ChatMsgDTO dto) {
 		ChatMsg m = this.transferToDomain(dto);
-		dao.saveOrUpdate(m);
+		this.dao.saveOrUpdate(m);
 		return this.transferToFullDTO(m);
 	}
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true, isolation = Isolation.READ_UNCOMMITTED)
@@ -72,8 +70,8 @@ public class ChatAMsgdminServiceImpl extends AbstractAdminService<ChatMsg, ChatM
 	public ChatMsgDTO transferToSimpleDTO(ChatMsg m) {
 		ChatMsgDTO dto=new ChatMsgDTO();
 		BeanUtils.copyProperties(m, dto);
-		dto.setChatRoomName(dao.get(ChatRoom.class, m.getChatRoomId()).getName());
-		dto.setProductName(dao.get(Product.class, m.getProductId()).getName());
+		dto.setChatRoomName(this.dao.get(ChatRoom.class, m.getChatRoomId()).getName());
+		dto.setProductName(this.dao.get(Product.class, m.getProductId()).getName());
 		dto.setEnabled(m.getLogicalDelete().isEnabled());
 		dto.setDeleted(m.getLogicalDelete().isDeleted());
 		dto.setCreationDate(m.getModification().getCreationDate());
