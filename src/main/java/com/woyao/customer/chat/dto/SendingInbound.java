@@ -1,4 +1,4 @@
-package com.woyao.customer.chat.data;
+package com.woyao.customer.chat.dto;
 
 public class SendingInbound extends Inbound {
 

@@ -22,7 +22,7 @@ import com.snowm.hibernate.ext.usertype.ExtEnumType;
 import com.woyao.domain.profile.ProfileWX;
 
 @Entity
-@Table(name = "ORDER")
+@Table(name = "PURCHASE_ORDER")
 @TableGenerator(name = "orderGenerator", table = "ID_GENERATOR", pkColumnName = "GEN_NAME", valueColumnName = "GEN_VALUE", pkColumnValue = "order", allocationSize = 1, initialValue = 0)
 public class Order extends DefaultModelImpl {
 

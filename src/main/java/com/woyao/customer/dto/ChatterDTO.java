@@ -10,6 +10,8 @@ public class ChatterDTO implements Serializable {
 
 	private Long id;
 
+	private Long chatRoomId;
+
 	private String openId;
 
 	private String nickname;
@@ -34,7 +36,7 @@ public class ChatterDTO implements Serializable {
 	 */
 	private Double latitude;
 
-	private Long distanceToShop;
+	private Long distanceToRoom;
 
 	public Long getId() {
 		return id;
@@ -42,6 +44,14 @@ public class ChatterDTO implements Serializable {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public Long getChatRoomId() {
+		return chatRoomId;
+	}
+
+	public void setChatRoomId(Long chatRoomId) {
+		this.chatRoomId = chatRoomId;
 	}
 
 	public String getOpenId() {
@@ -116,12 +126,13 @@ public class ChatterDTO implements Serializable {
 		this.latitude = latitude;
 	}
 
-	public Long getDistanceToShop() {
-		return distanceToShop;
+	public Long getDistanceToRoom() {
+		return distanceToRoom;
 	}
 
-	public void setDistanceToShop(Long distanceToShop) {
-		this.distanceToShop = distanceToShop;
+	public void setDistanceToRoom(Long distanceToRoom) {
+		this.distanceToRoom = distanceToRoom;
 	}
+
 
 }

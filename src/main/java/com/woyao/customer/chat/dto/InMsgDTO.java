@@ -1,14 +1,11 @@
-package com.woyao.customer.dto;
-
-import java.io.Serializable;
-
-import com.woyao.customer.chat.data.Inbound;
+package com.woyao.customer.chat.dto;
 
 /**
  * 样例：
  * 
  * <pre>
  * {
+ *    from:123, //谁发的
  *    to:123, //发给谁
  *    text:'你好',
  *    pic:'98774857abcf376d',
@@ -21,33 +18,21 @@ import com.woyao.customer.chat.data.Inbound;
  * @author jyang4
  *
  */
-public class MsgDTO extends Inbound implements Serializable {
+public class InMsgDTO extends Inbound {
 
-	private static final long serialVersionUID = 1L;
-
-	private Long id;
-
-	private String to;
+	private Long to;
 
 	private String text;
 
-	private String pic;
-
 	private Long productId;
 
-	public Long getId() {
-		return id;
-	}
+	private boolean includePic = false;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getTo() {
+	public Long getTo() {
 		return to;
 	}
 
-	public void setTo(String to) {
+	public void setTo(Long to) {
 		this.to = to;
 	}
 
@@ -59,14 +44,6 @@ public class MsgDTO extends Inbound implements Serializable {
 		this.text = text;
 	}
 
-	public String getPic() {
-		return pic;
-	}
-
-	public void setPic(String pic) {
-		this.pic = pic;
-	}
-
 	public Long getProductId() {
 		return productId;
 	}
@@ -74,5 +51,14 @@ public class MsgDTO extends Inbound implements Serializable {
 	public void setProductId(Long productId) {
 		this.productId = productId;
 	}
+
+	public boolean isIncludePic() {
+		return includePic;
+	}
+
+	public void setIncludePic(boolean includePic) {
+		this.includePic = includePic;
+	}
+	
 
 }

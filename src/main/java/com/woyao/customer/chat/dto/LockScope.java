@@ -1,4 +1,4 @@
-package com.woyao.customer.chat.data;
+package com.woyao.customer.chat.dto;
 
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
