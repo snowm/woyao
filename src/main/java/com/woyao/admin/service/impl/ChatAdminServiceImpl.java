@@ -58,7 +58,7 @@ public class ChatAdminServiceImpl extends AbstractAdminService<ChatRoom, ChatRoo
 			results.add(dto);
 		}
 		rs.setResults(results);
-		return null;
+		return rs;
 	}
 	@Override
 	public ChatRoom transferToDomain(ChatRoomDTO dto) {

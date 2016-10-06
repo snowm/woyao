@@ -117,7 +117,7 @@ public class UserAdminServiceImpl extends AbstractAdminService<Profile, ProfileD
 
 	@Override
 	public ProfileDTO transferToFullDTO(Profile m) {
-		return null;
+		return transferToSimpleDTO(m);
 	}
 
 }

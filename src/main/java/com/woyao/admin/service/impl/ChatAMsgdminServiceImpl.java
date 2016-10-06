@@ -33,13 +33,14 @@ public class ChatAMsgdminServiceImpl extends AbstractAdminService<ChatMsg, ChatM
 	}
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true, isolation = Isolation.READ_UNCOMMITTED)
 	public PaginationBean<ChatMsgDTO> query(QueryChatMsgRequestDTO request) {
+		System.out.println(request.getFree()+"11111111111111");
 		List<Criterion> criterions = new ArrayList<Criterion>();
 		/*if (!StringUtils.isEmpty(request.getName())) {
 			criterions.add(Restrictions.like("name", "%" + request.getName() + "%"));
 		}*/
-		if (request.getFree()!=null) {
-			criterions.add(Restrictions.eq("free",request.getFrom()));
-		}
+		/*if (request.getFree()!=null) {
+			criterions.add(Restrictions.eq("free",request.getFree()));
+		}*/
 		List<Order> orders = new ArrayList<>();
 		orders.add(Order.desc("id"));
 
@@ -49,14 +50,13 @@ public class ChatAMsgdminServiceImpl extends AbstractAdminService<ChatMsg, ChatM
 			ms = this.dao.query(this.entityClazz, criterions, orders, request.getPageNumber(), request.getPageSize());
 		}
 		PaginationBean<ChatMsgDTO> rs = new PaginationBean<>(request.getPageNumber(), request.getPageSize());
-		rs.setTotalCount(count);
 		List<ChatMsgDTO> results = new ArrayList<>();
 		for (ChatMsg m : ms) {
 			ChatMsgDTO dto = this.transferToDTO(m, false);
 			results.add(dto);
 		}
 		rs.setResults(results);
-		return null;
+		return rs;
 	}
 	@Override
 	public ChatMsg transferToDomain(ChatMsgDTO dto) {
