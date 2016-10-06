@@ -17,7 +17,7 @@ public class QueryChatMsgRequestDTO extends PaginationQueryRequestDTO {
 	
 	private String toName;
 	
-	private boolean free = true;
+	private Boolean free = true;
 	
 	private Long productName;
 
@@ -53,11 +53,13 @@ public class QueryChatMsgRequestDTO extends PaginationQueryRequestDTO {
 		this.toName = toName;
 	}
 
-	public boolean isFree() {
+	
+
+	public Boolean getFree() {
 		return free;
 	}
 
-	public void setFree(boolean free) {
+	public void setFree(Boolean free) {
 		this.free = free;
 	}
 

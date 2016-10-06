@@ -37,7 +37,7 @@ public class ChatAMsgdminServiceImpl extends AbstractAdminService<ChatMsg, ChatM
 		/*if (!StringUtils.isEmpty(request.getName())) {
 			criterions.add(Restrictions.like("name", "%" + request.getName() + "%"));
 		}*/
-		if (request.isFree()) {
+		if (request.getFree()!=null) {
 			criterions.add(Restrictions.eq("free",request.getFrom()));
 		}
 		List<Order> orders = new ArrayList<>();
