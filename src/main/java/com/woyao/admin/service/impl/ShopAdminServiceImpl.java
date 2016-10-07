@@ -100,7 +100,9 @@ public class ShopAdminServiceImpl extends AbstractAdminService<Shop, ShopDTO> im
 	public ShopDTO transferToSimpleDTO(Shop m) {
 		ShopDTO dto = new ShopDTO();
 		BeanUtils.copyProperties(m, dto);
-		dto.setPicId(m.getPic().getId());
+		if (m.getPic() != null) {
+			dto.setPicId(m.getPic().getId());
+		}
 		dto.setEnabled(m.getLogicalDelete().isEnabled());
 		dto.setDeleted(m.getLogicalDelete().isDeleted());
 		dto.setCreationDate(m.getModification().getCreationDate());
