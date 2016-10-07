@@ -2,7 +2,7 @@
  * Created by Administrator on 2016/10/6 0006.
  */
 define([],function(){
-	
+	 
 
     $(function(){
     	var chatRoomController=avalon.define({
@@ -31,10 +31,22 @@ define([],function(){
   	      		  data:date,
   	      		  success: function(data){
   	      			  console.log(data)
-//  	      			  chatController.chatList = data;  	      			  
+  	      			  chatRoomController.chatRoomList = data.results;  	      			  
   	      		  },
   	      		  dataType: 'json'
   	      		});
+    		},
+    		deletedRoom:function(id){
+    			 if(confirm("确认删除 ？")) {
+    	    		 $.ajax({
+    	  	      		  type: "put",
+    	  	      		  url: '/admin/chatroom/delete/' + id,
+    	  	      		  success: function(data){
+    	  	      			  console.log(data)
+    	  	      		  },
+    	  	      		  dataType: 'json'
+    	  	      		});
+    	    	 }
     		},
     	});
     	console.log("load chatroom-manage");
