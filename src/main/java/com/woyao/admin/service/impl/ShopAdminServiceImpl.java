@@ -35,6 +35,7 @@ public class ShopAdminServiceImpl extends AbstractAdminService<Shop, ShopDTO> im
 
 	@Resource(name = "defaultProfileService")
 	private ProfileService profileService;
+	
 	@Resource(name="chatAdminService")
 	private IChatAdminService chatAdminService;
 	
