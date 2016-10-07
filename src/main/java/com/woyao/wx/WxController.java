@@ -27,15 +27,13 @@ public class WxController {
 	@Resource(name = "globalConfig")
 	private GlobalConfig globalConfig;
 
-	@RequestMapping(value = { "/verifyToken" }, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = { "/verifyToken" }, method = RequestMethod.GET, produces = MediaType.TEXT_PLAIN_VALUE)
 	@ResponseBody
 	public String verify(@RequestParam("signature") String signature, @RequestParam("timestamp") String timestamp,
 			@RequestParam("nonce") String nonce, @RequestParam("echostr") String echostr) {
 		try {
 			String encoded = this.encode(timestamp, nonce, this.globalConfig.getVerifyToken());
-			if (this.log.isDebugEnabled()) {
-				this.log.debug(encoded);
-			}
+			this.log.debug(encoded);
 			if (encoded.equals(signature)) {
 				return echostr;
 			}
