@@ -2,7 +2,7 @@
  * Created by Administrator on 2016/10/6 0006.
  */
 define([],function(){
-	
+	 
 
     $(function(){
     	var chatRoomController=avalon.define({

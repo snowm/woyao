@@ -16,7 +16,7 @@ define([],function(){
     		btnChat:function(){
     			chatController.chat=true;
     			console.log(chatController.freeDate.free);
-    			var data = {
+    			var data = { 
     					free:chatController.freeDate.free,
     	    			pageNumber:chatController.freeDate.pageNumber,
     	    	    	pageSize:chatController.freeDate.pageSize
