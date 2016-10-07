@@ -7,6 +7,8 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.web.socket.WebSocketSession;
 
+import com.woyao.customer.chat.dto.Inbound;
+import com.woyao.customer.chat.dto.Outbound;
 import com.woyao.customer.dto.ChatterDTO;
 
 public interface IChatService {
@@ -29,8 +31,12 @@ public interface IChatService {
 	 */
 	void leave(WebSocketSession wsSession);
 	
+	void acceptMsg(WebSocketSession wsSession, Inbound inbound);
+
+	void sendOutMsg(Outbound outbound, Long to, Long chatRoomId);
+
 	Set<WebSocketSession> getTargetChatterSessions(long chatterId);
-	
+
 	Set<WebSocketSession> getAllRoomChatterSessions(long chatRoomId);
 
 	/**
@@ -47,5 +53,5 @@ public interface IChatService {
 	 * 
 	 * @return
 	 */
-	List<ChatterDTO> listOnlineChatters();
+	List<ChatterDTO> listOnlineChatters(long chatRoomId);
 }

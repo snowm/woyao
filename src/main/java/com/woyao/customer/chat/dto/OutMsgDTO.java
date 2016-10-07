@@ -8,8 +8,6 @@ public class OutMsgDTO extends Outbound {
 
 	private ChatterDTO sender;
 
-	private Long to;
-
 	private String text;
 
 	private String pic;
@@ -54,14 +52,6 @@ public class OutMsgDTO extends Outbound {
 
 	public void setDuration(long duration) {
 		this.duration = duration;
-	}
-
-	public Long getTo() {
-		return to;
-	}
-
-	public void setTo(Long to) {
-		this.to = to;
 	}
 
 }

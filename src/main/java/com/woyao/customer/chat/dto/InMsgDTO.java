@@ -1,32 +1,24 @@
 package com.woyao.customer.chat.dto;
 
-/**
- * 样例：
- * 
- * <pre>
- * {
- *    from:123, //谁发的
- *    to:123, //发给谁
- *    text:'你好',
- *    pic:'98774857abcf376d',
- *    productId:1001,
- * }
- * </pre>
- * 
- * 后端会做消息最大限制，一条消息，图片只能有一个，文字内容+图片链接的长度不能超过500
- * 
- * @author jyang4
- *
- */
 public class InMsgDTO extends Inbound {
+
+	private Long msgId;
 
 	private Long to;
 
-	private String text;
+	private BlockDTO block;
+
+	private int blockSize;
 
 	private Long productId;
 
-	private boolean includePic = false;
+	public Long getMsgId() {
+		return msgId;
+	}
+
+	public void setMsgId(Long msgId) {
+		this.msgId = msgId;
+	}
 
 	public Long getTo() {
 		return to;
@@ -36,12 +28,20 @@ public class InMsgDTO extends Inbound {
 		this.to = to;
 	}
 
-	public String getText() {
-		return text;
+	public BlockDTO getBlock() {
+		return block;
 	}
 
-	public void setText(String text) {
-		this.text = text;
+	public void setBlock(BlockDTO block) {
+		this.block = block;
+	}
+
+	public int getBlockSize() {
+		return blockSize;
+	}
+
+	public void setBlockSize(int blockSize) {
+		this.blockSize = blockSize;
 	}
 
 	public Long getProductId() {
@@ -51,14 +51,5 @@ public class InMsgDTO extends Inbound {
 	public void setProductId(Long productId) {
 		this.productId = productId;
 	}
-
-	public boolean isIncludePic() {
-		return includePic;
-	}
-
-	public void setIncludePic(boolean includePic) {
-		this.includePic = includePic;
-	}
-	
 
 }

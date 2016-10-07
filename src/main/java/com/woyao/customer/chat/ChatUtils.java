@@ -3,6 +3,7 @@ package com.woyao.customer.chat;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.text.DateFormat;
@@ -64,6 +65,18 @@ public abstract class ChatUtils {
 		}
 	}
 
+	private static void storePic(InputStream in, File file) throws IOException {
+		FileOutputStream write = new FileOutputStream(file);
+		try {
+			int b = -1;
+			while ((b = in.read()) != -1) {
+				write.write(b);
+			}
+		} finally {
+			write.close();
+		}
+	}
+
 	private static void storePic(ByteBuffer in, File file) throws IOException {
 		FileOutputStream write = new FileOutputStream(file);
 		FileChannel fc = write.getChannel();
@@ -85,6 +98,14 @@ public abstract class ChatUtils {
 	}
 
 	public static String savePic(ByteBuffer in) throws IOException {
+		String path = generatePicFileName();
+		File file = generatePicFile(path);
+		System.out.println(file.getAbsolutePath());
+		storePic(in, file);
+		return path;
+	}
+
+	public static String savePic(InputStream in) throws IOException {
 		String path = generatePicFileName();
 		File file = generatePicFile(path);
 		System.out.println(file.getAbsolutePath());

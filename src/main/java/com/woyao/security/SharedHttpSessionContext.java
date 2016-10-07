@@ -5,7 +5,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import javax.servlet.http.HttpSession;
 
-public class SharedSessionContext {
+public abstract class SharedHttpSessionContext {
 
 	private static Map<String, HttpSession> container = new ConcurrentHashMap<>();
 

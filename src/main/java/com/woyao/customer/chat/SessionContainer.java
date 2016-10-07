@@ -15,18 +15,19 @@ import org.springframework.web.socket.server.support.HttpSessionHandshakeInterce
 
 import com.woyao.customer.dto.ChatterDTO;
 
-@Component("websocketSessionHttpSessionContainer")
-public class WebsocketSessionHttpSessionContainer {
+@Component("sessionContainer")
+public class SessionContainer {
 
 	public static final String SESSION_ATTR_HTTPSESSION_ID = HttpSessionHandshakeInterceptor.HTTP_SESSION_ID_ATTR_NAME;
-	public static final String SESSION_ATTR_CHATTER_ID = "CHATTER_ID";
 	public static final String SESSION_ATTR_CHATTER = "CHATTER";
 	public static final String SESSION_ATTR_CHATROOM_ID = "CHATROOM_ID";
+	public static final String SESSION_ATTR_MSG_CACHE_LOCK = "MSG_CACHE_LOCK";
+	public static final String SESSION_ATTR_MSG_CACHE = "MSG_CACHE";
 
 	/**
 	 * websocketSession id为key， httpSession id 为value
 	 */
-	private Map<String, String> sessionContainer = new ConcurrentHashMap<>();
+	private Map<String, String> wsHttpSessionMap = new ConcurrentHashMap<>();
 
 	/**
 	 * websocketSession id为key， websocketSession 为value
@@ -50,12 +51,10 @@ public class WebsocketSessionHttpSessionContainer {
 	private ReentrantLock chatRoomLock = new ReentrantLock();
 
 	public void wsEnabled(WebSocketSession wsSession, HttpSession httpSession) {
-		wsSession.getAttributes().put(SESSION_ATTR_CHATTER, httpSession.getAttribute(SESSION_ATTR_CHATTER));
 		String wsSessionId = wsSession.getId();
-		this.sessionContainer.put(wsSessionId, httpSession.getId());
+		this.wsHttpSessionMap.put(wsSessionId, httpSession.getId());
 		this.wsSessionMap.put(wsSessionId, wsSession);
-		Long chatterId = (Long) httpSession.getAttribute(SESSION_ATTR_CHATTER_ID);
-		wsSession.getAttributes().put(SESSION_ATTR_CHATTER_ID, chatterId);
+		Long chatterId = WebSocketUtils.getChatterId(wsSession);
 		ReentrantReadWriteLock chatterLk = this.getChatterLock(chatterId);
 		try {
 			chatterLk.writeLock().lock();
@@ -69,8 +68,7 @@ public class WebsocketSessionHttpSessionContainer {
 			chatterLk.writeLock().unlock();
 		}
 
-		Long chatRoomId = (Long) httpSession.getAttribute(SESSION_ATTR_CHATROOM_ID);
-		wsSession.getAttributes().put(SESSION_ATTR_CHATROOM_ID, chatRoomId);
+		Long chatRoomId = WebSocketUtils.getChatRoomId(wsSession);
 		ReentrantReadWriteLock roomLk = this.getChatterLock(chatRoomId);
 		try {
 			roomLk.writeLock().lock();
@@ -87,7 +85,7 @@ public class WebsocketSessionHttpSessionContainer {
 
 	public void wsClosed(String sessionId) {
 		WebSocketSession wsSession = this.wsSessionMap.get(sessionId);
-		Long chatterId = this.getChatterId(wsSession);
+		Long chatterId = WebSocketUtils.getChatterId(wsSession);
 		ReentrantReadWriteLock chatterLk = this.getChatterLock(chatterId);
 		try {
 			chatterLk.writeLock().lock();
@@ -105,7 +103,7 @@ public class WebsocketSessionHttpSessionContainer {
 			chatterLk.writeLock().unlock();
 		}
 
-		Long chatRoomId = this.getChatRoomId(wsSession);
+		Long chatRoomId = WebSocketUtils.getChatRoomId(wsSession);
 		ReentrantReadWriteLock roomLk = this.getChatRoomLock(chatRoomId);
 		try {
 			roomLk.writeLock().lock();
@@ -122,8 +120,18 @@ public class WebsocketSessionHttpSessionContainer {
 		} finally {
 			roomLk.writeLock().unlock();
 		}
-		this.sessionContainer.remove(sessionId);
+		this.wsHttpSessionMap.remove(sessionId);
 		this.wsSessionMap.remove(sessionId);
+	}
+
+	public ChatterDTO getChatter(long chatterId) {
+		Set<String> sessionIds = this.chatterWsSessionMap.get(chatterId);
+		if (sessionIds != null && !sessionIds.isEmpty()) {
+			String sessionId = sessionIds.iterator().next();
+			WebSocketSession wsSession = this.wsSessionMap.get(sessionId);
+			return WebSocketUtils.getChatter(wsSession);
+		}
+		return null;
 	}
 
 	public Set<WebSocketSession> getWsSessionOfChatter(long chatterId) {
@@ -146,18 +154,6 @@ public class WebsocketSessionHttpSessionContainer {
 			}
 		}
 		return rs;
-	}
-
-	public static ChatterDTO getChatter(WebSocketSession wsSession) {
-		return (ChatterDTO) wsSession.getAttributes().get(SESSION_ATTR_CHATTER);
-	}
-
-	public static Long getChatterId(WebSocketSession wsSession) {
-		return (Long) wsSession.getAttributes().get(SESSION_ATTR_CHATTER_ID);
-	}
-
-	public static Long getChatRoomId(WebSocketSession wsSession) {
-		return (Long) wsSession.getAttributes().get(SESSION_ATTR_CHATROOM_ID);
 	}
 
 	private ReentrantReadWriteLock getChatterLock(Long chatterId) {

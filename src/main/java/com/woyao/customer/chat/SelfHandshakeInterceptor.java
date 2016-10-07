@@ -1,7 +1,9 @@
 package com.woyao.customer.chat;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.locks.ReentrantLock;
 
 import javax.servlet.http.HttpSession;
 
@@ -14,6 +16,7 @@ import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor;
 
 import com.snowm.security.profile.domain.Gender;
+import com.woyao.customer.chat.dto.InMsg;
 import com.woyao.customer.dto.ChatterDTO;
 
 public class SelfHandshakeInterceptor extends HttpSessionHandshakeInterceptor {
@@ -42,9 +45,13 @@ public class SelfHandshakeInterceptor extends HttpSessionHandshakeInterceptor {
 
 		boolean rs = super.beforeHandshake(request, response, wsHandler, attributes);
 		ChatterDTO dto = this.generateDTO();
-		session.setAttribute(WebsocketSessionHttpSessionContainer.SESSION_ATTR_CHATTER, dto);
-		session.setAttribute(WebsocketSessionHttpSessionContainer.SESSION_ATTR_CHATTER_ID, dto.getId());
-		session.setAttribute(WebsocketSessionHttpSessionContainer.SESSION_ATTR_CHATROOM_ID, 1L);
+		session.setAttribute(SessionContainer.SESSION_ATTR_CHATTER, dto);
+		session.setAttribute(SessionContainer.SESSION_ATTR_CHATROOM_ID, 1L);
+		
+		attributes.put(SessionContainer.SESSION_ATTR_CHATTER, dto);
+		attributes.put(SessionContainer.SESSION_ATTR_CHATROOM_ID, 1L);
+		attributes.put(SessionContainer.SESSION_ATTR_MSG_CACHE_LOCK, new ReentrantLock());
+		attributes.put(SessionContainer.SESSION_ATTR_MSG_CACHE, new HashMap<Long, InMsg>());
 		log.debug("Before Handshake:" + rs);
 		return rs;
 	}
@@ -58,7 +65,7 @@ public class SelfHandshakeInterceptor extends HttpSessionHandshakeInterceptor {
 		dto.setNickname("nickname" + id);
 		dto.setCity("city" + id);
 		dto.setCountry("country" + id);
-		dto.setHeadImg("headImg" + id);
+		dto.setHeadImg("/pic/head/" + ((id % 4) + 1) + ".jpg");
 		dto.setGender(Gender.FEMALE);
 		return dto;
 	}
