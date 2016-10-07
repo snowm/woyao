@@ -31,7 +31,7 @@ define([],function(){
   	      		  data:date,
   	      		  success: function(data){
   	      			  console.log(data)
-//  	      			  chatController.chatList = data;  	      			  
+  	      			  chatRoomController.chatRoomList = data.results;  	      			  
   	      		  },
   	      		  dataType: 'json'
   	      		});

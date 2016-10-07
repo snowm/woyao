@@ -27,12 +27,25 @@ define([],function(){
   	      		  url: '/admin/chatMsg/search',
   	      		  data:data,
   	      		  success: function(data){
-  	      			  console.log(data)
-//  	      			  chatController.chatList = data;  	      			  
+  	      			  console.log(data);
+  	      			  chatController.chatList = data.results;  
+  	      			  console.log(chatController.chatList);
   	      		  },
   	      		  dataType: 'json'
   	      		});
     		},
+    		 deleteChat:function(id){
+    	    	 if(confirm("确认删除 ？")) {
+    	    		 $.ajax({
+    	  	      		  type: "put",
+    	  	      		  url: '/admin/chatMsg/delete/' + id,
+    	  	      		  success: function(data){
+    	  	      			  console.log(data);
+    	  	      		  },
+    	  	      		  dataType: 'json'
+    	  	      	});
+    	    	 }
+    	    },
     	});
     	console.log("load chat-manage");
     	avalon.scan();

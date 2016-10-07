@@ -57,22 +57,22 @@
         <table class="table table-striped table-hover text-center">
             <thead>
             <tr>
-                <th class="text-center">头像</th>
+               <th class="text-center">头像</th> 
                 <th class="text-center">昵称</th>
                 <th class="text-center">内容</th>
-                <th class="text-center">发送时间</th>
+                <th class="text-center">时间</th>
                 <th class="text-center text-right" width="200">操作</th>
             </tr>
             </thead>
             <tbody>
-            <tr>
+            <tr  ms-repeat-p="chatList">
                 <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td ms-text="p.chatRoomName"></td>
+                <td ms-text="p.content"></td>
+                <td ms-text="p.creationDate"></td>
                 <td>
                     <!--<button class="btn btn-xs btn-info"><i class="fa fa-pencil"></i> 修改</button>-->
-                    <button class="btn btn-xs btn-danger"><i class="fa fa-trash-o"></i> 删除</button>
+                    <button class="btn btn-xs btn-danger" ms-click="deleteChat(p.id)"><i class="fa fa-trash-o"></i> 删除</button>
                 </td>
             </tr>
             </tbody>
