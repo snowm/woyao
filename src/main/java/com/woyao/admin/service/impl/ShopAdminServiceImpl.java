@@ -113,7 +113,9 @@ public class ShopAdminServiceImpl extends AbstractAdminService<Shop, ShopDTO> im
 	@Override
 	public ShopDTO transferToFullDTO(Shop m) {
 		ShopDTO dto = this.transferToSimpleDTO(m);
-		dto.setPicUrl(m.getPic().getUrl());
+		if (m.getPic() != null) {
+			dto.setPicUrl(m.getPic().getUrl());
+		}
 		String managerName = profileService.get(m.getManagerProfileId()).getUsername();
 		dto.setManagerName(managerName);
 		return dto;
