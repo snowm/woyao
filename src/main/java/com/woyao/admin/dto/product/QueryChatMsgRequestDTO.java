@@ -20,6 +20,8 @@ public class QueryChatMsgRequestDTO extends PaginationQueryRequestDTO {
 	private Boolean free;
 	
 	private Long productName;
+	
+	private Boolean deleted = null;
 
 	public Long getFrom() {
 		return from;
@@ -70,9 +72,12 @@ public class QueryChatMsgRequestDTO extends PaginationQueryRequestDTO {
 	public void setProductName(Long productName) {
 		this.productName = productName;
 	}
-	
 
-	
-	
+	public Boolean getDeleted() {
+		return deleted;
+	}
 
+	public void setDeleted(Boolean deleted) {
+		this.deleted = deleted;
+	}
 }

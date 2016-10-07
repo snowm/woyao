@@ -95,6 +95,12 @@ public class ProductDTO extends BasePKDTO {
 	public void setMainPicId(Long mainPicId) {
 		this.mainPicId = mainPicId;
 	}
+
+	@Override
+	public String toString() {
+		return "ProductDTO [code=" + code + ", name=" + name + ", description=" + description + ", mainPic=" + mainPic + ", mainPicId="
+				+ mainPicId + ", typeId=" + typeId + ", shopId=" + shopId + ", shopName=" + shopName + ", unitPrice=" + unitPrice + "]";
+	}
 	
 
 }

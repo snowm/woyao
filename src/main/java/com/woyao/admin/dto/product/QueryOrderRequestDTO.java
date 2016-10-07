@@ -24,12 +24,6 @@ public class QueryOrderRequestDTO extends PaginationQueryRequestDTO{
 	
 	private Integer maxtotalFee;//最大费用
 	
-	private Integer productId;//商品Id
-	
-	private Integer productType;//商品类型
-	
-	private Integer shopId;//商店Id
-	
 	@JsonFormat(pattern = DTOConfig.DATE_TIME_FULL_FMT)
 	private Date startcreationDate;//开始创建时间
 
@@ -58,30 +52,6 @@ public class QueryOrderRequestDTO extends PaginationQueryRequestDTO{
 
 	public void setMaxtotalFee(Integer maxtotalFee) {
 		this.maxtotalFee = maxtotalFee;
-	}
-
-	public Integer getProductId() {
-		return productId;
-	}
-
-	public void setProductId(Integer productId) {
-		this.productId = productId;
-	}
-
-	public Integer getProductType() {
-		return productType;
-	}
-
-	public void setProductType(Integer productType) {
-		this.productType = productType;
-	}
-
-	public Integer getShopId() {
-		return shopId;
-	}
-
-	public void setShopId(Integer shopId) {
-		this.shopId = shopId;
 	}
 
 	public Date getStartcreationDate() {

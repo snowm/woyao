@@ -12,8 +12,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.snowm.utils.query.PaginationBean;
 import com.woyao.admin.dto.product.OrderDTO;
+import com.woyao.admin.dto.product.ProductDTO;
 import com.woyao.admin.dto.product.QueryOrderRequestDTO;
 import com.woyao.admin.service.IOrderAdminService;
+import com.woyao.domain.product.Product;
 import com.woyao.domain.purchase.Order;
 import com.woyao.domain.purchase.OrderItem;
 
@@ -34,15 +36,6 @@ public class OrderAdminServiceImpl extends AbstractAdminService<Order, OrderDTO>
 		}
 		if(queryRequest.getMaxtotalFee()!=null){
 			criterions.add(Restrictions.gt("totalFee", queryRequest.getMaxtotalFee()));
-		}
-		if(queryRequest.getProductId()!=null){
-			criterions.add(Restrictions.eq("productId", queryRequest.getProductId()));
-		}
-		if(queryRequest.getProductType()!=null){
-			criterions.add(Restrictions.eq("productType", queryRequest.getProductType()));
-		}
-		if(queryRequest.getShopId()!=null){
-			criterions.add(Restrictions.eq("shopId", queryRequest.getShopId()));
 		}
 		if(queryRequest.getStartcreationDate()!=null){
 			criterions.add(Restrictions.gt("creationDate", queryRequest.getStartcreationDate()));
@@ -73,25 +66,32 @@ public class OrderAdminServiceImpl extends AbstractAdminService<Order, OrderDTO>
 
 	@Override
 	public OrderDTO transferToSimpleDTO(Order m) {
-		OrderDTO dto = new OrderDTO();
-		BeanUtils.copyProperties(m, dto);
+		//通过订单ID获取该订单下的所有产品
+		String hql="from OrderItem where order.id="+m.getId();
+		List<OrderItem> orderItems=dao.query(hql);
+		OrderDTO dto=new OrderDTO();
+		BeanUtils.copyProperties(m,dto);
+		List<ProductDTO> pdtos=new ArrayList<>();
+		for (OrderItem orderItem : orderItems) {
+			System.out.println(orderItem.getId());
+			hql="from Product where id="+orderItem.getProduct().getId();
+			List<Product> products=dao.query(hql);		
+			for (Product product : products) {
+				ProductDTO pdto=new ProductDTO();
+				BeanUtils.copyProperties(product,pdto);
+				pdto.setTypeId(product.getType().getPersistedValue());
+				pdto.setShopId(product.getShop().getId());
+				pdto.setShopName(product.getShop().getName());
+				pdtos.add(pdto);
+			}
+		} 
+		dto.setProducts(pdtos);	
 		dto.setConsumerId(m.getConsumer().getId());
 		dto.setConsumerName(m.getConsumer().getNickname());
 		dto.setToProfileId(m.getToProfile().getId());
 		dto.setToProfileName(m.getToProfile().getNickname());
 		dto.setPrepayInfoId(m.getPrepayInfo().getId());
 		dto.setStatusId(m.getStatus().getPersistedValue());
-		//订单下的产品
-		dto.setProductId(this.dao.get(OrderItem.class, m.getId()).getProduct().getId());
-		dto.setProductName(this.dao.get(OrderItem.class, m.getId()).getProduct().getName());
-		dto.setProductType(this.dao.get(OrderItem.class, m.getId()).getProduct().getType().getPersistedValue());
-		dto.setProductdescription(this.dao.get(OrderItem.class, m.getId()).getProduct().getDescription());
-		dto.setProductunitPrice(this.dao.get(OrderItem.class, m.getId()).getUnitPrice());
-		dto.setProductquantity(this.dao.get(OrderItem.class, m.getId()).getQuantity());
-		dto.setTotalFee(Integer.valueOf((int)this.dao.get(OrderItem.class, m.getId()).getTotalFee()));
-		//通过订单获取商品，在通过商品获取商店
-		dto.setShopId(this.dao.get(OrderItem.class, m.getId()).getProduct().getShop().getId());
-		dto.setShopName(this.dao.get(OrderItem.class, m.getId()).getProduct().getShop().getName());
 		
 		dto.setEnabled(m.getLogicalDelete().isEnabled());
 		dto.setDeleted(m.getLogicalDelete().isDeleted());

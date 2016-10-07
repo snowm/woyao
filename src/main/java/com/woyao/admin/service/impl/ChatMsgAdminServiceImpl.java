@@ -3,8 +3,6 @@ package com.woyao.admin.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.Resource;
-
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
@@ -18,7 +16,6 @@ import com.snowm.utils.query.PaginationBean;
 import com.woyao.admin.dto.product.ChatMsgDTO;
 import com.woyao.admin.dto.product.QueryChatMsgRequestDTO;
 import com.woyao.admin.service.IChatMsgAdminService;
-import com.woyao.dao.CommonDao;
 import com.woyao.domain.chat.ChatMsg;
 import com.woyao.domain.chat.ChatRoom;
 import com.woyao.domain.product.Product;
@@ -33,13 +30,15 @@ public class ChatMsgAdminServiceImpl extends AbstractAdminService<ChatMsg, ChatM
 	}
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true, isolation = Isolation.READ_UNCOMMITTED)
 	public PaginationBean<ChatMsgDTO> query(QueryChatMsgRequestDTO request) {
-		System.out.println(request.getFree()+"11111111111111");
 		List<Criterion> criterions = new ArrayList<Criterion>();
 		/*if (!StringUtils.isEmpty(request.getName())) {
 			criterions.add(Restrictions.like("name", "%" + request.getName() + "%"));
 		}*/
 		if (request.getFree()!=null) {
 			criterions.add(Restrictions.eq("free",request.getFree()));
+		}
+		if (request.getDeleted() != null) {
+			criterions.add(Restrictions.eq("logicalDelete.deleted", request.getDeleted()));
 		}
 		List<Order> orders = new ArrayList<>();
 		orders.add(Order.desc("id"));
