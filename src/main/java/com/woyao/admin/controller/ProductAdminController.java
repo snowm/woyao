@@ -35,7 +35,7 @@ public class ProductAdminController extends AbstractBaseController<Product, Prod
 	@RequestMapping(value = { "", "/" }, method = { RequestMethod.PUT,
 			RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
-	public ProductDTO saveOrUpdate(@RequestBody ProductDTO dto) {
+	public ProductDTO saveOrUpdate(ProductDTO dto) {
 		if (dto.getId() != null) {
 			return this.service.update(dto);
 		} else {

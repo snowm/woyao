@@ -122,4 +122,10 @@ public class Product extends DefaultModelImpl {
 		this.pic = pic;
 	}
 
+	@Override
+	public String toString() {
+		return "Product [id=" + id + ", code=" + code + ", type=" + type + ", shop=" + shop + ", name=" + name + ", description="
+				+ description + ", unitPrice=" + unitPrice + ", pic=" + pic + "]";
+	}
+	
 }
