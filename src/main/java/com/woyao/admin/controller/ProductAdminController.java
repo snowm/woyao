@@ -35,14 +35,14 @@ public class ProductAdminController extends AbstractBaseController<Product, Prod
 	@RequestMapping(value = { "", "/" }, method = { RequestMethod.PUT,
 			RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
-	public ProductDTO saveOrUpdate(ProductDTO dto) {
+	public ProductDTO saveOrUpdate(@RequestBody ProductDTO dto) {
 		if (dto.getId() != null) {
 			return this.service.update(dto);
 		} else {
 			return this.service.create(dto);
 		}
 	}
-
+	
 	@Autowired
 	@Override
 	public void setBaseService(@Qualifier("productAdminService") IAdminService<Product, ProductDTO> baseService) {

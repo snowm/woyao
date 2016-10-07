@@ -57,7 +57,7 @@ define([],function(){
      	    		}
      	    	})
     			 
-     	    },
+     	    }, 
      	    Sava:function(){     	    	
      	    	var date={
      	    			name:goodsController.goodsChg.name,
