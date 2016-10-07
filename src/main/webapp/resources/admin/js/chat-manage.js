@@ -10,6 +10,7 @@ define([],function(){
     		chatList:[],
     		freeDate:{
     			free:"",
+    			deleted:false,
     			pageNumber:1,
     	    	pageSize:21
     		},
@@ -18,6 +19,7 @@ define([],function(){
     			console.log(chatController.freeDate.free);
     			var data = { 
     					free:chatController.freeDate.free,
+    					deleted:chatController.freeDate.deleted,
     	    			pageNumber:chatController.freeDate.pageNumber,
     	    	    	pageSize:chatController.freeDate.pageSize
     			}    			

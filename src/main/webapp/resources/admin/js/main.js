@@ -89,6 +89,7 @@ require(["/admin/resources/js/common.js",'mmRouter',"domReady!"],function(mmRout
     avalon.router.get("/chat-manage", callback);
     avalon.router.get("/user-manage", callback);
     avalon.router.get("/chatRoom-manage", callback);
+    avalon.router.get("/goods-manage", callback);
     avalon.router.get("/home", callback);   
 
     avalon.history.start({

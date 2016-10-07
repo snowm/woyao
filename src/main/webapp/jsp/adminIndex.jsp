@@ -47,6 +47,7 @@
                 <li class="nav-parent"><a href=""><i class="fa fa-fire"></i> <span>商户管理</span></a>
                     <ul class="children">
                         <li><a href="#!/business-manage"><i class="fa fa-caret-right"></i> 商户查询</a></li>
+                        <li><a href="#!/goods-manage"><i class="fa fa-caret-right"></i> 商品管理</a></li>
                     </ul>
                 </li>
                 <li class="nav-parent"><a href=""><i class="fa fa-users"></i> <span>用户管理</span></a>
