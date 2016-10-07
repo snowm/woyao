@@ -2,6 +2,8 @@ package com.woyao.admin.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import javax.annotation.Resource;
 
@@ -15,7 +17,6 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.snowm.security.profile.service.ProfileService;
 import com.snowm.utils.query.PaginationBean;
 import com.woyao.admin.dto.product.ProductDTO;
 import com.woyao.admin.dto.product.QueryProductsRequestDTO;
@@ -24,6 +25,7 @@ import com.woyao.dao.CommonDao;
 import com.woyao.domain.Pic;
 import com.woyao.domain.Shop;
 import com.woyao.domain.product.Product;
+import com.woyao.domain.product.ProductType;
 
 @Service("productAdminService")
 public class ProductAdminServiceImpl extends AbstractAdminService<Product, ProductDTO> implements IProductAdminService {
@@ -69,6 +71,8 @@ public class ProductAdminServiceImpl extends AbstractAdminService<Product, Produ
 	public Product transferToDomain(ProductDTO dto) {
 		Product m=new Product();
 		BeanUtils.copyProperties(dto, m);
+		dto.getTypeId();	
+		m.setType(ProductType.getEnum(dto.getTypeId()));
 		m.getLogicalDelete().setEnabled(dto.isEnabled());
 		m.getLogicalDelete().setDeleted(dto.isDeleted());
 		Shop shop=new Shop();

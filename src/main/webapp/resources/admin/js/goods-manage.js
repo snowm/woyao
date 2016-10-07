@@ -80,7 +80,7 @@ define([],function(){
     	      			  console.log(data);
 //    	      			  goodsController.goodsList = data.results;  	      			  
     	      		  },
-    	      		  dataType: 'json'
+    	      		  dataType: 'json',	 
     	      		});
      	    },
      	    add:function(){
