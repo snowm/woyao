@@ -43,7 +43,9 @@ public class ProfileWXAdminServiceImpl extends AbstractAdminService<ProfileWX, P
 		if (!StringUtils.isEmpty(request.getCountry())) {
 			criterions.add(Restrictions.like("country", "%" + request.getCountry() + "%"));
 		}
-		
+		if (request.getDeleted() != null) {
+			criterions.add(Restrictions.eq("logicalDelete.deleted", request.getDeleted()));
+		}
 		List<Order> orders = new ArrayList<>();
 		orders.add(Order.desc("id"));
 

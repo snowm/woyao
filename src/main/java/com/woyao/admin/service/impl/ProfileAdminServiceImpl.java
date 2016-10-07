@@ -53,6 +53,9 @@ public class ProfileAdminServiceImpl extends AbstractAdminService<Profile, Profi
 		if (!StringUtils.isEmpty(request.getEmail())) {
 			criterions.add(Restrictions.like("email", "%" + request.getEmail() + "%"));
 		}	
+		if (request.getDeleted() != null) {
+			criterions.add(Restrictions.eq("logicalDelete.deleted", request.getDeleted()));
+		}
 		List<Order> orders = new ArrayList<>();
 		orders.add(Order.desc("id"));
 

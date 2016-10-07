@@ -22,6 +22,17 @@ public class QueryProfileRequestDTO extends PaginationQueryRequestDTO{
 	private String mobileNumber;//电话
 	
 	private String email;//邮箱
+	
+	private Boolean deleted=null;
+	
+
+	public Boolean getDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(Boolean deleted) {
+		this.deleted = deleted;
+	}
 
 	public String getUsername() {
 		return username;

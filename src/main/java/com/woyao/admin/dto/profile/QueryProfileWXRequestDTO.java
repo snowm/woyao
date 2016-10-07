@@ -13,6 +13,17 @@ public class QueryProfileWXRequestDTO extends PaginationQueryRequestDTO {
 	private String city;
 	
 	private String country;
+	
+	private Boolean deleted=null;
+	
+
+	public Boolean getDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(Boolean deleted) {
+		this.deleted = deleted;
+	}
 
 	public String getNickname() {
 		return nickname;

@@ -46,6 +46,9 @@ public class ProductPicAdminServiceImpl extends AbstractAdminService<ProductPic,
 		if (request.getProductId()!=null) {
 			criterions.add(Restrictions.eq("productId", request.getProductId()));
 		}
+		if (request.getDeleted() != null) {
+			criterions.add(Restrictions.eq("logicalDelete.deleted", request.getDeleted()));
+		}
 		List<Order> orders = new ArrayList<>();
 		orders.add(Order.desc("id"));
 

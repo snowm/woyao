@@ -43,6 +43,9 @@ public class OrderAdminServiceImpl extends AbstractAdminService<Order, OrderDTO>
 		if(queryRequest.getEndcreationDate()!=null){
 			criterions.add(Restrictions.gt("creationDate", queryRequest.getEndcreationDate()));
 		}
+		if (queryRequest.getDeleted() != null) {
+			criterions.add(Restrictions.eq("logicalDelete.deleted", queryRequest.getDeleted()));
+		}
 		List<org.hibernate.criterion.Order> orders = new ArrayList<>();
 		orders.add(org.hibernate.criterion.Order.desc("logicalDelete.enabled"));
 		orders.add(org.hibernate.criterion.Order.desc("id"));

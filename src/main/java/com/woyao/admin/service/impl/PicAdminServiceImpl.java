@@ -51,6 +51,9 @@ public class PicAdminServiceImpl extends AbstractAdminService<Pic, PicDTO> imple
 		if (!StringUtils.isEmpty(request.getUrl())) {
 			criterions.add(Restrictions.like("url", "%" + request.getUrl() + "%"));
 		}
+		if (request.getDeleted() != null) {
+			criterions.add(Restrictions.eq("logicalDelete.deleted", request.getDeleted()));
+		}
 		List<Order> orders = new ArrayList<>();
 		orders.add(Order.desc("id"));
 
