@@ -29,16 +29,15 @@ import com.woyao.domain.chat.ChatRoom;
 @Service("shopAdminService")
 public class ShopAdminServiceImpl extends AbstractAdminService<Shop, ShopDTO> implements IShopAdminService {
 
-
 	@Resource(name = "commonDao")
 	private CommonDao dao;
 
 	@Resource(name = "defaultProfileService")
 	private ProfileService profileService;
-	
-	@Resource(name="chatAdminService")
+
+	@Resource(name = "chatAdminService")
 	private IChatAdminService chatAdminService;
-	
+
 	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED)
 	@Override
 	public ShopDTO update(ShopDTO dto) {
@@ -70,10 +69,10 @@ public class ShopAdminServiceImpl extends AbstractAdminService<Shop, ShopDTO> im
 		rs.setTotalCount(count);
 		List<ShopDTO> results = new ArrayList<>();
 		for (Shop m : ms) {
-			ShopDTO dto = this.transferToDTO(m, false);	
-			String hql="from ChatRoom c where c.shop.id="+m.getId();	
-			ChatRoom c=(ChatRoom)dao.queryUnique(hql);
-			if(c!=null){				
+			ShopDTO dto = this.transferToDTO(m, false);
+			String hql = "from ChatRoom c where c.shop.id=" + m.getId();
+			ChatRoom c = (ChatRoom) dao.queryUnique(hql);
+			if (c != null) {
 				dto.setChatRoomId(c.getId());
 				dto.setChatRoomName(c.getName());
 			}
@@ -89,9 +88,11 @@ public class ShopAdminServiceImpl extends AbstractAdminService<Shop, ShopDTO> im
 		BeanUtils.copyProperties(dto, m);
 		m.getLogicalDelete().setEnabled(dto.isEnabled());
 		m.getLogicalDelete().setDeleted(dto.isDeleted());
-		Pic pic = new Pic();
-		pic.setId(dto.getId());
-		m.setPic(pic);
+		if (dto.getPicId() != null) {
+			Pic pic = new Pic();
+			pic.setId(dto.getPicId());
+			m.setPic(pic);
+		}
 		return m;
 	}
 
