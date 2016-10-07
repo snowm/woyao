@@ -77,11 +77,9 @@ public class ProductAdminServiceImpl extends AbstractAdminService<Product, Produ
 		m.getLogicalDelete().setDeleted(dto.isDeleted());
 		Shop shop=new Shop();
 		shop.setId(dto.getShopId());
-		shop.setName(dto.getShopName());
 		m.setShop(shop);
 		Pic pic=new Pic();
 		pic.setId(dto.getMainPicId());
-		pic.setUrl(dto.getMainPic());
 		m.setPic(pic);
 		return m;
 	}
