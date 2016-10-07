@@ -56,8 +56,7 @@
     <div class="table-responsive" style="border-top: 1px solid #dadada" ms-if="chat">
         <table class="table table-striped table-hover text-center">
             <thead>
-            <tr>
-               <th class="text-center">头像</th> 
+            <tr>              
                 <th class="text-center">昵称</th>
                 <th class="text-center">内容</th>
                 <th class="text-center">时间</th>
@@ -65,8 +64,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr  ms-repeat-p="chatList">
-                <td></td>
+            <tr  ms-repeat-p="chatList">                
                 <td ms-text="p.chatRoomName"></td>
                 <td ms-text="p.content"></td>
                 <td ms-text="p.creationDate"></td>

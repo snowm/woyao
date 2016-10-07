@@ -35,6 +35,7 @@ define([],function(){
   	      		});
     		},
     		 deleteChat:function(id){
+    			 console.log(id);
     	    	 if(confirm("确认删除 ？")) {
     	    		 $.ajax({
     	  	      		  type: "put",

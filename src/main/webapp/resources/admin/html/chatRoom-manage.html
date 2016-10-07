@@ -28,21 +28,19 @@
             <thead>
             <tr>
                 <th class="text-center">聊天室名称</th>
-                <th class="text-center">聊天室人数</th>
-                <th class="text-center">内容</th>
+                <th class="text-center">商店名字</th>                
                 <th class="text-center">发送时间</th>
                 <th class="text-center text-right" width="200">操作</th>
             </tr>
             </thead>
             <tbody>
             <tr ms-repeat-p="chatRoomList">
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td ms-text="p.name"></td>
+                <td ms-text="p.shopName"></td>
+                <td ms-text="p.creationDate"></td>               
                 <td>
                     <!--<button class="btn btn-xs btn-info"><i class="fa fa-pencil"></i> 修改</button>-->
-                    <button class="btn btn-xs btn-danger"><i class="fa fa-trash-o"></i> 删除</button>
+                    <button class="btn btn-xs btn-danger" ms-click="deletedRoom(p.id)"><i class="fa fa-trash-o"></i> 删除</button>
                 </td>
             </tr>
             </tbody>

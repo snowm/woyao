@@ -36,6 +36,18 @@ define([],function(){
   	      		  dataType: 'json'
   	      		});
     		},
+    		deletedRoom:function(id){
+    			 if(confirm("确认删除 ？")) {
+    	    		 $.ajax({
+    	  	      		  type: "put",
+    	  	      		  url: '/admin/chatroom/delete/' + id,
+    	  	      		  success: function(data){
+    	  	      			  console.log(data)
+    	  	      		  },
+    	  	      		  dataType: 'json'
+    	  	      		});
+    	    	 }
+    		},
     	});
     	console.log("load chatroom-manage");
     	avalon.scan();
