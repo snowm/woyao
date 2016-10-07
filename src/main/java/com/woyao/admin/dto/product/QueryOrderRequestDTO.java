@@ -29,6 +29,16 @@ public class QueryOrderRequestDTO extends PaginationQueryRequestDTO{
 
 	@JsonFormat(pattern = DTOConfig.DATE_TIME_FULL_FMT)
 	private Date endcreationDate; //最后创建时间
+	
+	private Boolean deleted = null;
+
+	public Boolean getDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(Boolean deleted) {
+		this.deleted = deleted;
+	}
 
 	public Integer getStatusId() {
 		return statusId;

@@ -12,6 +12,16 @@ public class QueryProductPicRequestDTO extends PaginationQueryRequestDTO{
 	private Integer productId;
 	
 	private Integer picId;
+	
+	private Boolean deleted = null;
+
+	public Boolean getDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(Boolean deleted) {
+		this.deleted = deleted;
+	}
 
 	public Integer getProductId() {
 		return productId;
