@@ -18,11 +18,13 @@
            
             <div class="col-sm-12 text-right">
                 <button class="btn btn-xs btn-info" ms-click="btnGoods">查 询</button>
-                <button class="btn btn-xs btn-info">新 增</button>
+                <button class="btn btn-xs btn-info" ms-click="add">新 增</button>
             </div>
             <!-- col-sm-6 -->
         </div><!-- row -->
     </div><!-- panel-body -->
+    
+    
     <!--修改管理  -->
     
     <div class="tab-content mb30" ms-if="goodsShow">
@@ -73,6 +75,61 @@
           </div>
         <div class="panel-footer text-right">
 	    	<button class="btn btn-success" ms-click="Sava">保存</button>
+	  	</div>
+        </div>       
+        
+        
+        <!-- 新增商品 -->
+        
+        
+        <div class="tab-content mb30" ms-if="goodsAdd">
+          <div class="tab-pane active" id="home">
+          <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="control-label">商品名字</label>
+                        <input type="text" name="name" class="form-control" ms-duplex="goodsChg.name">
+                    </div>
+                </div><!-- col-sm-6 -->
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="control-label">code</label>
+                        <input type="text" name="address" class="form-control" ms-duplex="goodsChg.code">
+                    </div>
+                </div><!-- col-sm-6 -->
+            </div><!-- row -->
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="control-label">商品描述</label>
+                        <input type="text" name="chatRoomName" class="form-control" ms-duplex="goodsChg.description">
+                    </div>
+                </div><!-- col-sm-6 -->
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="control-label">价格</label>
+                        <input type="text" name="description" class="form-control" ms-duplex="goodsChg.unitPrice">
+                    </div>
+                </div><!-- col-sm-6 -->
+            </div><!-- row --> 
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="control-label">商户名称</label>
+                        <input type="text" name="latitude" class="form-control" ms-duplex="goodsChg.shopName">
+                    </div>
+                </div><!-- col-sm-6 -->
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="control-label">商品图片</label>
+                        <input type="text" name="longitude" class="form-control" ms-duplex="goodsChg.mainPic">
+                    </div>
+                </div><!-- col-sm-6 -->
+            </div><!-- row -->            
+          </div>
+        <div class="panel-footer text-right">
+	    	<button class="btn btn-success" ms-click="addSave">保存</button>
 	  	</div>
         </div>
 
