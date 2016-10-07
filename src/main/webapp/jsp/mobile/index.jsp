@@ -11,10 +11,8 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="format-detection" content="telephone=no" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <script type="text/javascript" src="/resources/plugin/fastclick-master/lib/fastclick.js"></script>
-    <!--<script type="text/javascript" src="/resources/node_modules/socket.io/lib/socket.web.js"></script>-->
+    <script type="text/javascript" src="/resources/js/fastclick.js"></script>
     <link rel="stylesheet" href="/resources/static/css/bar-list.css"/>
-    <link rel="stylesheet" href="/resources/plugin/swiper-master/dist/css/swiper.min.css"/>
     <link rel="SHORTCUT ICON" href=""/>
     <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=mZm3GQOvw7AFyZIKrkeomWMbhMbpP2Cc"></script>
     <script type="text/javascript" src="http://developer.baidu.com/map/jsdemo/demo/convertor.js"></script>
@@ -79,9 +77,8 @@
     </div>
     <div class="map-ctn" id="map" ms-if="listShow == 'map'"></div>
 </body>
-<script type="text/javascript" src="/resources/plugin/avalon-master/dist/avalon.mobile.min.js"></script>
-<script type="text/javascript" src="/resources/plugin/jquery-1.9.1/jquery.js"></script>
-<!--<script type="text/javascript" src="/resources/plugin/swiper-master/dist/js/swiper.jquery.min.js"></script>-->
-<script type="text/javascript" src="/resources/static/js/main.js"></script>
-<script type="text/javascript" src="/resources/static/js/bar-list.js"></script>
+<script type="text/javascript" src="/resources/js/avalon/avalon.mobile.shim.js"></script>
+<script type="text/javascript" src="/resources/js/jquery-1.9.1/jquery.min.js"></script>
+<!-- <script type="text/javascript" src="/resources/static/js/main.js"></script> -->
+<script type="text/javascript" src="/resources/modules/bar-list.js"></script>
 </html>
