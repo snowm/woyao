@@ -9,6 +9,7 @@ define([],function(){
     		$id:"goodsController",
     		goods:false,
     		goodsShow:false,
+    		goodsAdd:false,
     		goodsList:[],
     		goodsDate:{
     			name:"",
@@ -34,7 +35,7 @@ define([],function(){
     					deleted:goodsController.goodsDate.deleted,
     	    			pageNumber:goodsController.goodsDate.pageNumber,
     	    	    	pageSize:goodsController.goodsDate.pageSize
-    			}    			
+    			}   			
     			
     			$.ajax({
   	      		  type: "post",
@@ -81,6 +82,33 @@ define([],function(){
     	      		  },
     	      		  dataType: 'json'
     	      		});
+     	    },
+     	    add:function(){
+     	    	goodsController.goodsAdd=true;
+     	    },
+     	    addSave:function(){
+     	    	goodsController.goodsAdd=false;
+     	    	var date={
+     	    			name:goodsController.goodsChg.name,
+     	    			code:goodsController.goodsChg.code,
+     	    			description:goodsController.goodsChg.description,
+     	    			mainPic:goodsController.goodsChg.mainPic,
+     	    			mainPicId:goodsController.goodsChg.mainPicId,
+     	    			typeId:goodsController.goodsChg.typeId,
+     	    			shopId:goodsController.goodsChg.shopId,
+     	    			shopName:goodsController.goodsChg.shopName,
+     	    			unitPrice:goodsController.goodsChg.unitPrice     	    			
+     	    	}
+     	    	$.ajax({
+  	      		  type: "post",
+  	      		  url: '/admin/product/',
+  	      		  data:date,
+  	      		  success: function(data){
+  	      			  console.log(data);
+//  	      			  goodsController.goodsList = data.results;  	      			  
+  	      		  },
+  	      		  dataType: 'json'
+  	      		});
      	    },
     		deletedGoods:function(id){
     			if(confirm("确认删除 ？")) {
