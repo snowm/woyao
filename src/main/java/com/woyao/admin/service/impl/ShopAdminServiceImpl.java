@@ -38,6 +38,15 @@ public class ShopAdminServiceImpl extends AbstractAdminService<Shop, ShopDTO> im
 	
 	@Resource(name="chatAdminService")
 	private IChatAdminService chatAdminService;
+
+	@Transactional
+	@Override
+	public ShopDTO create(ShopDTO dto) {
+		Shop m = this.transferToDomain(dto);
+		this.dao.save(m);
+		ShopDTO rs = this.get(m.getId());
+		return rs;
+	}
 	
 	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED)
 	@Override

@@ -69,6 +69,7 @@ public class ProductAdminServiceImpl extends AbstractAdminService<Product, Produ
 
 	@Override
 	public Product transferToDomain(ProductDTO dto) {
+		System.out.println(dto);
 		Product m=new Product();
 		BeanUtils.copyProperties(dto, m);
 		dto.getTypeId();	
