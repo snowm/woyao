@@ -43,7 +43,7 @@ define([],function(){
   	      		  data:date,
   	      		  success: function(data){
   	      			  console.log(data);
-  	      			  goodsController.goodsList = data.results;  	      			  
+  	      			  goodsController.goodsList = data.results;  	      			  		  	      			  
   	      		  },
   	      		  dataType: 'json'
   	      		});
@@ -58,6 +58,7 @@ define([],function(){
      	    	})
     			 
      	    }, 
+     	   
      	    Sava:function(){     	    	
      	    	var date={
      	    			name:goodsController.goodsChg.name,
@@ -85,9 +86,21 @@ define([],function(){
      	    },
      	    add:function(){
      	    	goodsController.goodsAdd=true;
+     	    	goodsController.goodsShow=false;
+     	    	goodsController.goodsChg = {
+     	    			name:"",
+     	    			code:"",
+     	    			description:"",
+     	    			mainPic:"",
+     	    			mainPicId:"",
+     	    			typeId:"",
+     	    			shopId:"",
+     	    			shopName:"",
+     	    			unitPrice:""
+    	    	}    
      	    },
      	    addSave:function(){
-     	    	goodsController.goodsAdd=false;
+     	    	goodsController.goodsAdd=false;	    	    		    	
      	    	var date={
      	    			name:goodsController.goodsChg.name,
      	    			code:goodsController.goodsChg.code,
@@ -99,6 +112,7 @@ define([],function(){
      	    			shopName:goodsController.goodsChg.shopName,
      	    			unitPrice:goodsController.goodsChg.unitPrice     	    			
      	    	}
+     	    	console.log(date);     	    	
      	    	$.ajax({
   	      		  type: "post",
   	      		  url: '/admin/product/',
