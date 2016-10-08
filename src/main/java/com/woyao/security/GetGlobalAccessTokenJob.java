@@ -4,11 +4,9 @@ import javax.annotation.Resource;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import com.woyao.GlobalConfig;
-import com.woyao.dao.CommonDao;
 import com.woyao.domain.wx.GlobalAccessToken;
 import com.woyao.service.GlobalAccessTokenService;
 import com.woyao.wx.WxEndpoint;
@@ -31,7 +29,7 @@ public class GetGlobalAccessTokenJob {
 	/**
 	 * 延迟20s，固定等待2m
 	 */
-	@Scheduled(fixedDelay = 120000, initialDelay = 20000)
+//	@Scheduled(fixedDelay = 120000, initialDelay = 20000)
 	public void executeInternal() {
 		if (this.log.isDebugEnabled()) {
 			this.log.debug("Starting to get global access token...");
@@ -49,7 +47,6 @@ public class GetGlobalAccessTokenJob {
 				token.setExpiresIn(resp.getExpiresIn());
 				token.setEffective(true);
 				this.service.saveOrUpdate(token);
-			} else {
 			}
 		} finally {
 			if (this.log.isDebugEnabled()) {
