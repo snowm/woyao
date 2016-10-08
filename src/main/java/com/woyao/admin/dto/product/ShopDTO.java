@@ -18,6 +18,8 @@ public class ShopDTO extends BasePKDTO {
 	private String managerName;
 	
 	private String managerPwd;
+	
+	private int managerType;
 
 	private String name;
 
@@ -147,6 +149,14 @@ public class ShopDTO extends BasePKDTO {
 
 	public void setManagerPwd(String managerPwd) {
 		this.managerPwd = managerPwd;
+	}
+
+	public int getManagerType() {
+		return managerType;
+	}
+
+	public void setManagerType(int managerType) {
+		this.managerType = managerType;
 	}
 
 

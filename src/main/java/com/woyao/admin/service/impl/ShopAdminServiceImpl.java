@@ -15,6 +15,8 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.snowm.hibernate.ext.domain.Modification;
+import com.snowm.security.profile.domain.Gender;
 import com.snowm.security.profile.domain.Profile;
 import com.snowm.security.profile.service.ProfileService;
 import com.snowm.utils.query.PaginationBean;
@@ -34,19 +36,21 @@ public class ShopAdminServiceImpl extends AbstractAdminService<Shop, ShopDTO> im
 
 	@Resource(name = "defaultProfileService")
 	private ProfileService profileService;
+
 	@Transactional
 	@Override
 	public ShopDTO create(ShopDTO dto) {
-		Profile p=new Profile();
-		p.setUsername(dto.getManagerName());
-		p.setPassword(dto.getManagerPwd());
-		if(!p.getUsername().isEmpty() && !p.getPassword().isEmpty()){			
-			this.dao.save(p);
+		if (!dto.getManagerName().isEmpty() && !dto.getManagerPwd().isEmpty()) {
+			Profile p = new Profile();
+			p.setUsername(dto.getManagerName());
+			p.setPassword(dto.getManagerPwd());
+			p.setGender(Gender.getEnum(dto.getManagerType()));
 			Shop m = this.transferToDomain(dto);
 			this.dao.save(m);
+			this.dao.save(p);
 			ShopDTO rs = this.get(m.getId());
 			return rs;
-		}else{		
+		} else {
 			return null;
 		}
 	}
@@ -54,9 +58,19 @@ public class ShopAdminServiceImpl extends AbstractAdminService<Shop, ShopDTO> im
 	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED)
 	@Override
 	public ShopDTO update(ShopDTO dto) {
-		Shop m = this.transferToDomain(dto);
-		dao.saveOrUpdate(m);
-		return this.transferToFullDTO(m);
+		if (!dto.getManagerPwd().isEmpty()) {
+			Shop m = this.transferToDomain(dto);
+			Profile p = new Profile();
+			p.setId(dto.getManagerProfileId());
+			p.setUsername(dto.getManagerName());
+			p.setPassword(dto.getManagerPwd());
+			p.setGender(Gender.getEnum(dto.getManagerType()));
+			dao.saveOrUpdate(m);
+			dao.saveOrUpdate(p);
+			return this.transferToFullDTO(m);
+		}else{		
+			return null;
+		}
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true, isolation = Isolation.READ_UNCOMMITTED)
@@ -82,10 +96,10 @@ public class ShopAdminServiceImpl extends AbstractAdminService<Shop, ShopDTO> im
 		rs.setTotalCount(count);
 		List<ShopDTO> results = new ArrayList<>();
 		for (Shop m : ms) {
-			ShopDTO dto = this.transferToDTO(m, false);	
-			String hql="from ChatRoom c where c.shop.id="+m.getId();	
-			ChatRoom c=(ChatRoom)dao.queryUnique(hql);
-			if(c!=null){				
+			ShopDTO dto = this.transferToDTO(m, false);
+			String hql = "from ChatRoom c where c.shop.id=" + m.getId();
+			ChatRoom c = (ChatRoom) dao.queryUnique(hql);
+			if (c != null) {
 				dto.setChatRoomId(c.getId());
 				dto.setChatRoomName(c.getName());
 			}
@@ -123,8 +137,10 @@ public class ShopAdminServiceImpl extends AbstractAdminService<Shop, ShopDTO> im
 	public ShopDTO transferToFullDTO(Shop m) {
 		ShopDTO dto = this.transferToSimpleDTO(m);
 		dto.setPicUrl(m.getPic().getUrl());
-		String managerName = profileService.get(m.getManagerProfileId()).getUsername();
-		dto.setManagerName(managerName);
+		Profile p = profileService.get(m.getManagerProfileId());
+		dto.setManagerName(p.getUsername());
+		dto.setManagerType(p.getType().getTypeValue());
+		dto.setManagerPwd(p.getPassword());
 		return dto;
 	}
 }
