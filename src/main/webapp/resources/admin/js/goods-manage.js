@@ -13,6 +13,7 @@ define([],function(){
     		goodsAdd:false,
     		goodsList:[],
     		shopList:[],
+    	    imgViewSrc:'/admin/resources/images/photos/upload1.png',
     		goodsDate:{
     			name:"",
     			deleted:false,
@@ -166,7 +167,10 @@ define([],function(){
     		chooseShopItem:function(data){
 	    			goodsController.goodsChg.shopId = data.id;
 	    			goodsController.goodsChg.shopName = data.name;
-    		}
+    		},
+    	    uploadImg:function(){
+    	    	$("#uploadfile").click();
+    	    }
     	})
     	});
     	console.log("load goods-manage");

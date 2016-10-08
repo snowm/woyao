@@ -69,19 +69,6 @@ define(['jquery','avalon', 'text!./chatRoom.html','swiper',"domReady!",'qqface']
                     mainController.tabShowFlag = true;
                 }
             },
-            //choiseImg:function(){
-            //    wx.ready(function(){
-            //        // config信息验证后会执行ready方法，所有接口调用都必须在config接口获得结果之后，config是一个客户端的异步操作，所以如果需要在页面加载时就调用相关接口，则须把相关接口放在ready函数中调用来确保正确执行。对于用户触发时才调用的接口，则可以直接调用，不需要放在ready函数中。
-            //        wx.chooseImage({
-            //            count: 1, // 默认9
-            //            sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
-            //            sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
-            //            success: function (res) {
-            //                var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
-            //            }
-            //        });
-            //    });
-            //},
             richerList:function(){
                 window.location.href='#!/richer';
             },
@@ -125,10 +112,6 @@ define(['jquery','avalon', 'text!./chatRoom.html','swiper',"domReady!",'qqface']
                 if(mainController.msgType == ''){
                     alert('请选择霸屏时间');
                 }else{
-                	
-//                	console.log(mainController.imgUrl)
-//                	return
-                	
                 	
                 	var content = {
                 		text:mainController.msgText,
@@ -191,51 +174,90 @@ define(['jquery','avalon', 'text!./chatRoom.html','swiper',"domReady!",'qqface']
             ,
             imgViewSrc:'/resources/static/img/photo.png',
             fileChange:function(e){
-                var f = e.files[0];//一次只上传1个文件，其实可以上传多个的
-                var FR = new FileReader();
-                FR.onload = function(f){
-                    var img = this.result;
-                    compressImg(img,600,function(data){//压缩完成后执行的callback
-                        mainController.imgViewSrc = img;
-                        mainController.imgUrl = data;
-                    });
-                };
-                FR.readAsDataURL(f);//先注册onload，再读取文件内容，否则读取内容是空的
+//                var f = e.files[0];//一次只上传1个文件，其实可以上传多个的
+//                var FR = new FileReader();
+//                FR.onload = function(f){
+//                    var img = this.result;
+//                    compressImg(img,600,function(data){//压缩完成后执行的callback
+//                        mainController.imgViewSrc = img;
+//                        mainController.imgUrl = data;
+//                    });
+//                };
+//                FR.readAsDataURL(f);//先注册onload，再读取文件内容，否则读取内容是空的
+            	if (!this.files.length) return;
+                var files = Array.prototype.slice.call(this.files);
+                if (files.length > 1) {
+                    alert("一次只能上传一张图片");
+                    return;
+                }
+                files.forEach(function(file, i) {
+                    if (!/\/(?:jpeg|png|gif)/i.test(file.type)) return;
+                    var reader = new FileReader();
+                    var li = document.createElement("li");
+                    var size = file.size / 1024 > 1024 ? (~~(10 * file.size / 1024 / 1024)) / 10 + "MB" : ~~(file.size / 1024) + "KB";
+                    console.log("图片原始大小：" + size);
+                    reader.onload = function() {
+                        var result = this.result;
+                        var img = new Image();
+                        img.src = result;
+                        mainController.imgViewSrc = result;
+                        //如果图片大小小于200kb，则直接上传
+                        if (result.length <= 200 * 1024) {
+                            img = null;
+                            alert("图片小于200KB 可以直接上传。图片原始大小：" + size);
+                            mainController.imgUrl = result;
+                            return;
+                        }
+//                  图片加载完毕之后进行压缩，然后上传
+                        if (img.complete) {
+                            callback();
+                        } else {
+                            img.onload = callback;
+                        }
+                        function callback() {
+                            alert("图片大于200KB 进行压缩。图片原始大小：" + size);
+                            var data = compress(img);
+                            mainController.imgUrl = imgdata;
+                            img = null;
+                        }
+                    };
+                    reader.readAsDataURL(file);
+                });
             }
         });
         avalon.scan();
         
         
         /* update file */
-        function compressImg(imgData,maxHeight,onCompress){
-            if(!imgData){
-                alert("请传入图片");
-                return;
-            }
-            onCompress = onCompress || function(){};
-            maxHeight = maxHeight || 300;//默认最大高度300px
-            var canvas = document.createElement('canvas');
-            var img = new Image();
-            img.onload = function(){
-                if(img.height > maxHeight) {//按最大高度等比缩放
-                    img.width *= maxHeight / img.height;
-                    img.height = maxHeight;
-                    console.log(img.width +"h:"+img.height);
-                    canvas.width = img.width;
-                    canvas.height = img.height;
-                }else{
-                    canvas.width = img.width;
-                    canvas.height = img.height;
-                }
-                var ctx = canvas.getContext("2d");
-                ctx.clearRect(0, 0, canvas.width, canvas.height); // canvas清屏
-                //重置canvans宽高 canvas.width = img.width; canvas.height = img.height;
-                ctx.drawImage(img, 0, 0, img.width, img.height); // 将图像绘制到canvas上
-                onCompress(canvas.toDataURL("image/jpeg"));//必须等压缩完才读取canvas值，否则canvas内容是黑帆布
-            };
-            // 记住必须先绑定事件，才能设置src属性，否则img没内容可以画到canvas
-            img.src = imgData;
-        }
+//        function compressImg(imgData,maxHeight,onCompress){
+//            if(!imgData){
+//                alert("请传入图片");
+//                return;
+//            }
+//            onCompress = onCompress || function(){};
+//            maxHeight = maxHeight || 300;//默认最大高度300px
+//            var canvas = document.createElement('canvas');
+//            var img = new Image();
+//            img.onload = function(){
+//                if(img.height > maxHeight) {//按最大高度等比缩放
+//                    img.width *= maxHeight / img.height;
+//                    img.height = maxHeight;
+//                    console.log(img.width +"h:"+img.height);
+//                    canvas.width = img.width;
+//                    canvas.height = img.height;
+//                }else{
+//                    canvas.width = img.width;
+//                    canvas.height = img.height;
+//                }
+//                var ctx = canvas.getContext("2d");
+//                ctx.clearRect(0, 0, canvas.width, canvas.height); // canvas清屏
+//                //重置canvans宽高 canvas.width = img.width; canvas.height = img.height;
+//                ctx.drawImage(img, 0, 0, img.width, img.height); // 将图像绘制到canvas上
+//                onCompress(canvas.toDataURL("image/jpeg"));//必须等压缩完才读取canvas值，否则canvas内容是黑帆布
+//            };
+//            // 记住必须先绑定事件，才能设置src属性，否则img没内容可以画到canvas
+//            img.src = imgData;
+//        }
         /* update file */
         
         
@@ -371,131 +393,7 @@ define(['jquery','avalon', 'text!./chatRoom.html','swiper',"domReady!",'qqface']
             return ndata;
         }
 
-//    图片上传，将base64的图片转成二进制对象，塞进formdata上传
-        function upload(basestr, type) {
-            var text = window.atob(basestr.split(",")[1]);
-            var buffer = new Uint8Array(text.length);
-            var pecent = 0, loop = null;
-
-            for (var i = 0; i < text.length; i++) {
-                buffer[i] = text.charCodeAt(i);
-            }
-
-            var blob = getBlob([buffer], type);
-
-            var xhr = new XMLHttpRequest();
-
-            var formdata = getFormData();
-
-            formdata.append('imagefile', blob);
-
-            xhr.open('post', '/');
-
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState == 4 && xhr.status == 200) {
-                    console.log(JSON.parse(xhr.responseText));
-                    //if (!imagedata.path) return;
-                }
-            };
-
-            xhr.send(formdata);
-        }
-
-        /**
-         * 获取blob对象的兼容性写法
-         * @param buffer
-         * @param format
-         * @returns {*}
-         */
-        function getBlob(buffer, format) {
-            try {
-                return new Blob(buffer, {type: format});
-            } catch (e) {
-                var bb = new (window.BlobBuilder || window.WebKitBlobBuilder || window.MSBlobBuilder);
-                buffer.forEach(function(buf) {
-                    bb.append(buf);
-                });
-                return bb.getBlob(format);
-            }
-        }
-
-        /**
-         * 获取formdata
-         */
-        function getFormData() {
-            var isNeedShim = ~navigator.userAgent.indexOf('Android')
-                && ~navigator.vendor.indexOf('Google')
-                && !~navigator.userAgent.indexOf('Chrome')
-                && navigator.userAgent.match(/AppleWebKit\/(\d+)/).pop() <= 534;
-
-            return isNeedShim ? new FormDataShim() : new FormData()
-        }
-
-        /**
-         * formdata 补丁, 给不支持formdata上传blob的android机打补丁
-         * @constructor
-         */
-        function FormDataShim() {
-            console.warn('using formdata shim');
-
-            var o = this,
-                parts = [],
-                boundary = Array(21).join('-') + (+new Date() * (1e16 * Math.random())).toString(36),
-                oldSend = XMLHttpRequest.prototype.send;
-
-            this.append = function(name, value, filename) {
-                parts.push('--' + boundary + '\r\nContent-Disposition: form-data; name="' + name + '"');
-
-                if (value instanceof Blob) {
-                    parts.push('; filename="' + (filename || 'blob') + '"\r\nContent-Type: ' + value.type + '\r\n\r\n');
-                    parts.push(value);
-                }
-                else {
-                    parts.push('\r\n\r\n' + value);
-                }
-                parts.push('\r\n');
-            };
-
-            // Override XHR send()
-            XMLHttpRequest.prototype.send = function(val) {
-                var fr,
-                    data,
-                    oXHR = this;
-
-                if (val === o) {
-                    // Append the final boundary string
-                    parts.push('--' + boundary + '--\r\n');
-
-                    // Create the blob
-                    data = getBlob(parts);
-
-                    // Set up and read the blob into an array to be sent
-                    fr = new FileReader();
-                    fr.onload = function() {
-                        oldSend.call(oXHR, fr.result);
-                    };
-                    fr.onerror = function(err) {
-                        throw err;
-                    };
-                    fr.readAsArrayBuffer(data);
-
-                    // Set the multipart content type and boudary
-                    this.setRequestHeader('Content-Type', 'multipart/form-data; boundary=' + boundary);
-                    XMLHttpRequest.prototype.send = oldSend;
-                }
-                else {
-                    oldSend.call(this, val);
-                }
-            };
-        }
-
-
-
         /*  图片压缩 上传  */
-
-
-
-
 
 
 
@@ -570,23 +468,20 @@ define(['jquery','avalon', 'text!./chatRoom.html','swiper',"domReady!",'qqface']
 
     initData();
 
+    // 获取初始化数据 滑动到底部
+    function initData(){
+        console.log(textcontainer.height() - textContain.height());
+        textContain.animate({scrollTop:textcontainer.height() - textContain.height() + 100},500,'swing');
+    }
 
 
 
-        // 获取初始化数据 滑动到底部
-        function initData(){
-            console.log(textcontainer.height() - textContain.height());
-            textContain.animate({scrollTop:textcontainer.height() - textContain.height() + 100},500,'swing');
+
+    return chatRoom = {
+        init:function(){
+            init();
         }
-
-
-
-
-        return chatRoom = {
-            init:function(){
-                init();
-            }
-        }
+    }
 
 
 });

@@ -29,6 +29,21 @@
     <div class="tab-content mb30" ms-if="goodsShow">
           <div class="tab-pane active" id="home">
           <div class="row">
+          <!-- 选择图片 -->
+	           <div class="row">
+                	<div class="panel panel-stat">
+                        <div class="panel-heading">
+                            <div class="row text-center">
+                                <img class="media-object thumbnail center-block" ms-attr-src="imgViewSrc" style="max-width:300px;max-height:300px;min-height:100px;min-width:100px" alt="">
+                                <input type="file" name="uploadFile" id="uploadfile" style="visibility: hidden">
+                                <a class="btn btn-xs btn-success" ms-click="uploadImg">修改图片</a>
+                                <div class="clearfix"></div>
+                            </div><!-- row -->
+
+                        </div><!-- panel-heading -->
+                    </div><!-- panel -->
+            </div>
+            <!-- 选择图片 -->
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label class="control-label">商品名字</label>

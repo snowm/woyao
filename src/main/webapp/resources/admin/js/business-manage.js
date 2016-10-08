@@ -19,14 +19,15 @@ define(['uploadfile'],function(){
     	    formData:{
     	    	name:'',
     	    	address:'',
-    	    	chatRoomName:'',
+//    	    	chatRoomName:'',
     	    	description:'',
     	    	latitude:'',
     	    	longitude:'',
     	    	managerName:'',
     	    	managerProfileId:'',
     	    	description:'',
-    	    	picId:''
+    	    	picId:'',
+    	    	managerPwd:''
     	    },
     	    Alter:function(){
     	    	shopController.business=false;
@@ -53,14 +54,15 @@ define(['uploadfile'],function(){
     	    	shopController.formData = {
     	    			name:'',
     	    	    	address:'',
-    	    	    	chatRoomName:'',
+//    	    	    	chatRoomName:'',
     	    	    	description:'',
     	    	    	latitude:'',
     	    	    	longitude:'',
     	    	    	managerName:'',
     	    	    	managerProfileId:'',
     	    	    	description:'',
-    	        	    picId:''
+    	        	    picId:'',
+    	        	    managerPwd:'',
     	    	}
     	    },
     	    hideNewShop:function(){
@@ -91,7 +93,7 @@ define(['uploadfile'],function(){
     	    	var data = {
     	    			name:shopController.formData.name,
     	    	    	address:shopController.formData.address,
-    	    	    	chatRoomName:shopController.formData.chatRoomName,
+//    	    	    	chatRoomName:shopController.formData.chatRoomName,
     	    	    	description:shopController.formData.description,
     	    	    	latitude:shopController.formData.latitude,
     	    	    	longitude:shopController.formData.longitude,
@@ -99,9 +101,11 @@ define(['uploadfile'],function(){
     	    	    	managerProfileId:shopController.formData.managerProfileId,
     	    	    	description:shopController.formData.description,
     	    	    	id:shopController.formData.id,
-    	    	    	picId:shopController.formData.picId
+    	    	    	picId:shopController.formData.picId,
+    	    	    	managerPwd:shopController.formData.managerPwd,
     	    	}
-    	    	
+    	    	//性别 -------------------------------------------------------------------------------------------------
+    	    	data.managerType = 1;
     	    	if(shopController.formData.id){
         	    	console.log(data);
         	    	$.ajax({
@@ -128,10 +132,6 @@ define(['uploadfile'],function(){
     	    },
     	    uploadImg:function(){
     	    	$("#uploadfile").click();
-    	    },
-    	    imgChange:function(e){
-    	    	alert(1)
-    	    	
     	    }
     	});
     	avalon.scan();
@@ -146,14 +146,10 @@ define(['uploadfile'],function(){
                     alert("一次只能上传一张图片");
                     return;
                 }
-
                 files.forEach(function(file, i) {
                     if (!/\/(?:jpeg|png|gif)/i.test(file.type)) return;
-
                     var reader = new FileReader();
-
                     var li = document.createElement("li");
-
 //              获取图片大小
                     var size = file.size / 1024 > 1024 ? (~~(10 * file.size / 1024 / 1024)) / 10 + "MB" : ~~(file.size / 1024) + "KB";
                     console.log("图片原始大小：" + size);
@@ -162,10 +158,7 @@ define(['uploadfile'],function(){
                         var result = this.result;
                         var img = new Image();
                         img.src = result;
-
                         shopController.imgViewSrc = result;
-                        
-                        
                         // 上传图片
                         $.ajaxFileUpload
                         (
@@ -178,6 +171,7 @@ define(['uploadfile'],function(){
                                 {
                                     console.log(data);
                                     alert("上传成功了！返回值" + data.result)
+                                    shopController.formData.picId = data.result.id;
 //                	    			shopController.formData = item;
 //                	    			shopController.imgViewSrc = item.picUrl;
                                 },
@@ -210,16 +204,11 @@ define(['uploadfile'],function(){
 
                             img = null;
                         }*/
-
                     };
 
                     reader.readAsDataURL(file);
                 });
     	})
-    	
-    	
-    	
-    	
     	
     	
     	 /*  图片压缩 上传 */
@@ -287,126 +276,6 @@ define(['uploadfile'],function(){
             return ndata;
         }
     	
-//      图片上传，将base64的图片转成二进制对象，塞进formdata上传
-        function upload(basestr, type) {
-            var text = window.atob(basestr.split(",")[1]);
-            var buffer = new Uint8Array(text.length);
-            var pecent = 0, loop = null;
-
-            for (var i = 0; i < text.length; i++) {
-                buffer[i] = text.charCodeAt(i);
-            }
-
-            var blob = getBlob([buffer], type);
-
-            var xhr = new XMLHttpRequest();
-
-            var formdata = getFormData();
-
-            formdata.append('uploadFile', blob);
-
-            xhr.open('post', '/admin/upload/file');
-
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState == 4 && xhr.status == 200) {
-                	var data = JSON.parse(xhr.responseText);
-                	
-                    console.log(JSON.parse(xhr.responseText));
-                    alert("上传成功 图片ID：" + data.result)
-//                    shopController.formData.picId = '';
-                }
-            };
-
-            xhr.send(formdata);
-        }
-
-        /**
-         * 获取blob对象的兼容性写法
-         * @param buffer
-         * @param format
-         * @returns {*}
-         */
-        function getBlob(buffer, format) {
-            try {
-                return new Blob(buffer, {type: format});
-            } catch (e) {
-                var bb = new (window.BlobBuilder || window.WebKitBlobBuilder || window.MSBlobBuilder);
-                buffer.forEach(function(buf) {
-                    bb.append(buf);
-                });
-                return bb.getBlob(format);
-            }
-        }
-
-        /**
-         * 获取formdata
-         */
-        function getFormData() {
-            var isNeedShim = ~navigator.userAgent.indexOf('Android')
-                && ~navigator.vendor.indexOf('Google')
-                && !~navigator.userAgent.indexOf('Chrome')
-                && navigator.userAgent.match(/AppleWebKit\/(\d+)/).pop() <= 534;
-
-            return isNeedShim ? new FormDataShim() : new FormData()
-        }
-
-        /**
-         * formdata 补丁, 给不支持formdata上传blob的android机打补丁
-         * @constructor
-         */
-        function FormDataShim() {
-            console.warn('using formdata shim');
-
-            var o = this,
-                parts = [],
-                boundary = Array(21).join('-') + (+new Date() * (1e16 * Math.random())).toString(36),
-                oldSend = XMLHttpRequest.prototype.send;
-
-            this.append = function(name, value, filename) {
-                parts.push('--' + boundary + '\r\nContent-Disposition: form-data; name="' + name + '"');
-
-                if (value instanceof Blob) {
-                    parts.push('; filename="' + (filename || 'blob') + '"\r\nContent-Type: ' + value.type + '\r\n\r\n');
-                    parts.push(value);
-                }
-                else {
-                    parts.push('\r\n\r\n' + value);
-                }
-                parts.push('\r\n');
-            };
-
-            // Override XHR send()
-            XMLHttpRequest.prototype.send = function(val) {
-                var fr,
-                    data,
-                    oXHR = this;
-
-                if (val === o) {
-                    // Append the final boundary string
-                    parts.push('--' + boundary + '--\r\n');
-
-                    // Create the blob
-                    data = getBlob(parts);
-
-                    // Set up and read the blob into an array to be sent
-                    fr = new FileReader();
-                    fr.onload = function() {
-                        oldSend.call(oXHR, fr.result);
-                    };
-                    fr.onerror = function(err) {
-                        throw err;
-                    };
-                    fr.readAsArrayBuffer(data);
-
-                    // Set the multipart content type and boudary
-                    this.setRequestHeader('Content-Type', 'multipart/form-data; boundary=' + boundary);
-                    XMLHttpRequest.prototype.send = oldSend;
-                }
-                else {
-                    oldSend.call(this, val);
-                }
-            };
-        }
 
 
 
