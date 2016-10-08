@@ -13,4 +13,45 @@
 			<input value="提交" type="submit" /> 
 		</form>
     </div>
+    <button class="btn btn-primary mr5" data-toggle="modal" data-target=".bs-example-modal-lg">Large Modal</button>
 </div>
+
+<!-- Preloader -->
+<button class="btn btn-primary mr5" data-toggle="modal" data-target=".bs-example-modal-lg">Large Modal</button>
+
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button aria-hidden="true" data-dismiss="modal" class="close" type="button">&times;</button>
+            <h4 class="modal-title">Large Modal</h4>
+        </div>
+        <div class="modal-body">
+        	<div class="table-responsive" style="border-top: 1px solid #dadada" ms-if='shopList.length != 0'>
+	    <table class="table table-striped table-hover text-center">
+	      <thead>
+	      <tr>
+	        <th class="text-center">商家名称</th>
+	        <th class="text-center">商家编号</th>
+	        <th class="text-center">联系人</th>
+	        <th class="text-center text-right" width="200">操作</th>
+	      </tr>
+	      </thead>
+	      <tbody>
+	      <tr ms-repeat-p="shopList">
+	        <td ms-text="p.name"></td>
+	        <td ms-text="p.id"></td>
+	        <td ms-text="p.managerName"></td>
+	        <td class="table-action">
+		        <button class="btn btn-xs btn-info" ms-click="updateShop(p.id)"><i class="fa fa-pencil"></i> 修改</button>
+		        <button class="btn btn-xs btn-danger"  ms-click="deleteShop(p.id)"><i class="fa fa-trash-o"></i> 删除</button>
+	        </td>
+	      </tr>
+	      </tbody>
+	    </table>
+	  </div>
+        </div>
+    </div>
+  </div>
+</div>
+
