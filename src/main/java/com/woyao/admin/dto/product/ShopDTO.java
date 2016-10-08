@@ -4,13 +4,6 @@ import com.woyao.admin.dto.BasePKDTO;
 
 public class ShopDTO extends BasePKDTO {
 
-	@Override
-	public String toString() {
-		return "ShopDTO [managerProfileId=" + managerProfileId + ", managerName=" + managerName + ", name=" + name + ", address=" + address
-				+ ", longitude=" + longitude + ", latitude=" + latitude + ", description=" + description + ", publicAccURL=" + publicAccURL
-				+ ", picId=" + picId + ", picUrl=" + picUrl + ", chatRoomName=" + chatRoomName + ", chatRoomId=" + chatRoomId + "]";
-	}
-
 	private static final long serialVersionUID = 1L;
 
 	private Long managerProfileId;
@@ -42,10 +35,6 @@ public class ShopDTO extends BasePKDTO {
 	private long picId;
 
 	private String picUrl;
-	
-	private String chatRoomName;
-	
-	private Long chatRoomId;
 
 	public Long getManagerProfileId() {
 		return managerProfileId;
@@ -125,22 +114,6 @@ public class ShopDTO extends BasePKDTO {
 
 	public void setPicUrl(String picUrl) {
 		this.picUrl = picUrl;
-	}
-
-	public String getChatRoomName() {
-		return chatRoomName;
-	}
-
-	public void setChatRoomName(String chatRoomName) {
-		this.chatRoomName = chatRoomName;
-	}
-
-	public Long getChatRoomId() {
-		return chatRoomId;
-	}
-
-	public void setChatRoomId(Long chatRoomId) {
-		this.chatRoomId = chatRoomId;
 	}
 
 	public String getManagerPwd() {
