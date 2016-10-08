@@ -16,19 +16,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.oauth2.client.resource.UserRedirectRequiredException;
-import org.springframework.security.oauth2.common.DefaultThrowableAnalyzer;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
-import org.springframework.security.web.util.ThrowableAnalyzer;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import org.springframework.web.util.NestedServletException;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -37,11 +33,11 @@ import com.woyao.GlobalConfig;
 import com.woyao.customer.chat.SessionContainer;
 import com.woyao.customer.dto.ChatterDTO;
 import com.woyao.wx.WxEndpoint;
-import com.woyao.wx.dto.GetGlobalAccessTokenResponse;
 
 @Component("oauth2SecurityFilter")
 public class Oauth2SecurityFilter implements Filter, InitializingBean {
 
+	private static final String PARA_OAUTH_CODE = "code";
 	private static final String SESSION_ATTR_OAUTH_CODE = "code";
 
 	private Log log = LogFactory.getLog(this.getClass());
@@ -92,11 +88,19 @@ public class Oauth2SecurityFilter implements Filter, InitializingBean {
 	}
 
 	private boolean authorize(HttpServletRequest request, HttpServletResponse response) {
-		String code = request.getParameter(SESSION_ATTR_OAUTH_CODE);
 		HttpSession session = request.getSession();
-		session.setAttribute(SESSION_ATTR_OAUTH_CODE, code);
+		ChatterDTO dto = (ChatterDTO) session.getAttribute(SessionContainer.SESSION_ATTR_CHATTER);
+		if (dto != null) {
+			return true;
+		}
 
-		ChatterDTO dto = this.getChatterInfo();
+		String code = request.getParameter(PARA_OAUTH_CODE);
+		if (StringUtils.isBlank(code)) {
+			return false;
+		}
+		session.setAttribute(SESSION_ATTR_OAUTH_CODE, code);
+		
+		dto = this.getChatterInfo(code);
 		session.setAttribute(SessionContainer.SESSION_ATTR_CHATTER, dto);
 
 		return true;
@@ -154,7 +158,7 @@ public class Oauth2SecurityFilter implements Filter, InitializingBean {
 		}
 		UriComponents uri = null;
 		try {
-			uri = builder.replaceQueryParam(SESSION_ATTR_OAUTH_CODE).build(true);
+			uri = builder.replaceQueryParam(PARA_OAUTH_CODE).build(true);
 		} catch (IllegalArgumentException ex) {
 			// ignore failures to parse the url (including query string). does't
 			// make sense for redirection purposes anyway.
@@ -170,8 +174,11 @@ public class Oauth2SecurityFilter implements Filter, InitializingBean {
 	// mock code
 	private AtomicLong idGenerator = new AtomicLong();
 
-	private ChatterDTO getChatterInfo() {
-		// this.wxEndpoint.getAccessToken(appId, appSecret, code, grantType)
+	private ChatterDTO getChatterInfo(String code) {
+//		GetAccessTokenResponse tokenResponse = this.wxEndpoint.getAccessToken(globalConfig.getAppId(), globalConfig.getAppSecret(), code, "authorization_code");
+//		GetUserInfoResponse userInfoResponse = this.wxEndpoint.getUserInfo(tokenResponse.getAccessToken(), tokenResponse.getOpenid(), "zh_CN");
+//		System.out.println(userInfoResponse);
+		
 		long id = idGenerator.incrementAndGet();
 		ChatterDTO dto = new ChatterDTO();
 		dto.setId(id);
@@ -182,15 +189,5 @@ public class Oauth2SecurityFilter implements Filter, InitializingBean {
 		dto.setGender(Gender.FEMALE);
 		return dto;
 	}
-
-	private String getGlobalAccessToken() {
-		GetGlobalAccessTokenResponse token = this.wxEndpoint.getGlobalAccessToken(globalConfig.getAppId(), globalConfig.getAppSecret(),
-				"client_credential");
-		return token.getAccessToken();
-	}
-
-	// private String getUserAccessToken() {
-	//
-	// }
 
 }
