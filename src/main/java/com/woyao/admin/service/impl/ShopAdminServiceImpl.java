@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.snowm.security.profile.domain.Profile;
 import com.snowm.security.profile.service.ProfileService;
 import com.snowm.utils.query.PaginationBean;
 import com.woyao.admin.dto.product.QueryShopsRequestDTO;
@@ -36,10 +37,18 @@ public class ShopAdminServiceImpl extends AbstractAdminService<Shop, ShopDTO> im
 	@Transactional
 	@Override
 	public ShopDTO create(ShopDTO dto) {
-		Shop m = this.transferToDomain(dto);
-		this.dao.save(m);
-		ShopDTO rs = this.get(m.getId());
-		return rs;
+		Profile p=new Profile();
+		p.setUsername(dto.getManagerName());
+		p.setPassword(dto.getManagerPwd());
+		if(!p.getUsername().isEmpty() && !p.getPassword().isEmpty()){			
+			this.dao.save(p);
+			Shop m = this.transferToDomain(dto);
+			this.dao.save(m);
+			ShopDTO rs = this.get(m.getId());
+			return rs;
+		}else{		
+			return null;
+		}
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED)
