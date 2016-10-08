@@ -19,7 +19,6 @@ import com.snowm.security.profile.service.ProfileService;
 import com.snowm.utils.query.PaginationBean;
 import com.woyao.admin.dto.product.QueryShopsRequestDTO;
 import com.woyao.admin.dto.product.ShopDTO;
-import com.woyao.admin.service.IChatAdminService;
 import com.woyao.admin.service.IShopAdminService;
 import com.woyao.dao.CommonDao;
 import com.woyao.domain.Pic;
@@ -29,16 +28,11 @@ import com.woyao.domain.chat.ChatRoom;
 @Service("shopAdminService")
 public class ShopAdminServiceImpl extends AbstractAdminService<Shop, ShopDTO> implements IShopAdminService {
 
-
 	@Resource(name = "commonDao")
 	private CommonDao dao;
 
 	@Resource(name = "defaultProfileService")
 	private ProfileService profileService;
-	
-	@Resource(name="chatAdminService")
-	private IChatAdminService chatAdminService;
-
 	@Transactional
 	@Override
 	public ShopDTO create(ShopDTO dto) {
@@ -47,7 +41,7 @@ public class ShopAdminServiceImpl extends AbstractAdminService<Shop, ShopDTO> im
 		ShopDTO rs = this.get(m.getId());
 		return rs;
 	}
-	
+
 	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED)
 	@Override
 	public ShopDTO update(ShopDTO dto) {
