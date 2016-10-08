@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,12 +30,13 @@ public class MobileController {
 		return "mobile/index";
 	}
 
-	@RequestMapping(value = { "/chatRoom" })
-	public String chatRoom(Long shopId, HttpServletRequest request) {
+	@RequestMapping(value = { "/chatRoom/{shopId}" })
+	public String chatRoom(@PathVariable("shopId") Long shopId, HttpServletRequest request) {
 		ChatRoomDTO room = this.mobileService.getChatRoom(shopId);
 		HttpSession session = request.getSession();
-		session.setAttribute(SessionContainer.SESSION_ATTR_CHATROOM_ID, room.getId());
-		
+		long roomId = room != null ? room.getId() : 1L;
+		session.setAttribute(SessionContainer.SESSION_ATTR_CHATROOM_ID, roomId);
+
 		return "mobile/chatRoom";
 	}
 

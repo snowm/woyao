@@ -70,6 +70,11 @@ public class Oauth2SecurityFilter implements Filter, InitializingBean {
 
 		if (authorize(request, response)) {
 			try {
+				// 去掉微信授权的的code
+				if (request.getParameterMap().containsKey(PARA_OAUTH_CODE)) {
+					String url = this.removeCodeParam(request);
+					this.redirectUser(request, response, url);
+				}
 				chain.doFilter(servletRequest, servletResponse);
 				return;
 			} catch (Exception ex) {
@@ -115,33 +120,6 @@ public class Oauth2SecurityFilter implements Filter, InitializingBean {
 	}
 
 	/**
-	 * Redirect the user according to the specified exception.
-	 * 
-	 * @param e
-	 *            The user redirect exception.
-	 * @param request
-	 *            The request.
-	 * @param response
-	 *            The response.
-	 */
-	protected void redirectUser(UserRedirectRequiredException e, HttpServletRequest request, HttpServletResponse response)
-			throws IOException {
-
-		String redirectUri = e.getRedirectUri();
-		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(redirectUri);
-		Map<String, String> requestParams = e.getRequestParams();
-		for (Map.Entry<String, String> param : requestParams.entrySet()) {
-			builder.queryParam(param.getKey(), param.getValue());
-		}
-
-		if (e.getStateKey() != null) {
-			builder.queryParam("state", e.getStateKey());
-		}
-
-		this.redirectStrategy.sendRedirect(request, response, builder.build().encode().toUriString());
-	}
-
-	/**
 	 * Calculate the current URI given the request.
 	 * 
 	 * @param request
@@ -169,6 +147,29 @@ public class Oauth2SecurityFilter implements Filter, InitializingBean {
 			query = query.replace("%20", "+");
 		}
 		return ServletUriComponentsBuilder.fromUri(uri.toUri()).replaceQuery(query).build().toString();
+	}
+
+	protected String removeCodeParam(HttpServletRequest request) throws UnsupportedEncodingException {
+		ServletUriComponentsBuilder builder = ServletUriComponentsBuilder.fromRequest(request);
+		String queryString = request.getQueryString();
+		boolean legalSpaces = queryString != null && queryString.contains("+");
+		if (legalSpaces) {
+			builder.replaceQuery(queryString.replace("+", "%20"));
+		}
+		UriComponents uri = null;
+		try {
+			uri = builder.replaceQueryParam(PARA_OAUTH_CODE).build(true);
+		} catch (IllegalArgumentException ex) {
+			// ignore failures to parse the url (including query string). does't
+			// make sense for redirection purposes anyway.
+			return null;
+		}
+		String query = uri.getQuery();
+		if (legalSpaces) {
+			query = query.replace("%20", "+");
+		}
+		log.info(uri.toUri());
+		return uri.toUriString();
 	}
 
 	// mock code
