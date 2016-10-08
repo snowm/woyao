@@ -25,7 +25,7 @@ import com.snowm.utils.query.PaginationBean;
 @Service("userAdminService")
 public class UserAdminServiceImpl extends AbstractAdminService<Profile, ProfileDTO> implements IUserAdminService {
 
-	@Resource(name = "cat2PasswordEncoder")
+	@Resource(name = "woyaoPasswordEncoder")
 	private PasswordEncoder passwordEncoder;
 
 	@Resource(name = "defaultProfileRoleService")
@@ -52,7 +52,7 @@ public class UserAdminServiceImpl extends AbstractAdminService<Profile, ProfileD
 		ProfileRole profileRole = new ProfileRole();
 		profileRole.setProfile(profile);
 		Role role = new Role();
-		role.setId(-102l);
+		role.setId(-103L);
 		profileRole.setRole(role);
 		List<ProfileRole> profileRoles = new ArrayList<>();
 		profileRoles.add(profileRole);
@@ -119,5 +119,6 @@ public class UserAdminServiceImpl extends AbstractAdminService<Profile, ProfileD
 	public ProfileDTO transferToFullDTO(Profile m) {
 		return transferToSimpleDTO(m);
 	}
+
 
 }

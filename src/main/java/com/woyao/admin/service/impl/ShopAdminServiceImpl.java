@@ -14,19 +14,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
-import com.snowm.hibernate.ext.domain.Modification;
 import com.snowm.security.profile.domain.Gender;
-import com.snowm.security.profile.domain.Profile;
-import com.snowm.security.profile.service.ProfileService;
 import com.snowm.utils.query.PaginationBean;
 import com.woyao.admin.dto.product.QueryShopsRequestDTO;
 import com.woyao.admin.dto.product.ShopDTO;
+import com.woyao.admin.dto.profile.ProfileDTO;
 import com.woyao.admin.service.IShopAdminService;
+import com.woyao.admin.service.IUserAdminService;
 import com.woyao.dao.CommonDao;
 import com.woyao.domain.Pic;
 import com.woyao.domain.Shop;
-import com.woyao.domain.chat.ChatRoom;
 
 @Service("shopAdminService")
 public class ShopAdminServiceImpl extends AbstractAdminService<Shop, ShopDTO> implements IShopAdminService {
@@ -34,43 +33,46 @@ public class ShopAdminServiceImpl extends AbstractAdminService<Shop, ShopDTO> im
 	@Resource(name = "commonDao")
 	private CommonDao dao;
 
-	@Resource(name = "defaultProfileService")
-	private ProfileService profileService;
+	@Resource(name = "userAdminService")
+	private IUserAdminService userAdminService;
 
 	@Transactional
 	@Override
 	public ShopDTO create(ShopDTO dto) {
-		if (!dto.getManagerName().isEmpty() && !dto.getManagerPwd().isEmpty()) {
-			Profile p = new Profile();
-			p.setUsername(dto.getManagerName());
-			p.setPassword(dto.getManagerPwd());
-			p.setGender(Gender.getEnum(dto.getManagerType()));
-			Shop m = this.transferToDomain(dto);
-			this.dao.save(m);
-			this.dao.save(p);
-			ShopDTO rs = this.get(m.getId());
-			return rs;
-		} else {
-			return null;
+		if (StringUtils.isEmpty(dto.getManagerName()) || StringUtils.isEmpty(dto.getManagerPwd())) {
+			throw new RuntimeException("Name and password of manager should be not null!");
 		}
+		ProfileDTO profileDTO = new ProfileDTO();
+		profileDTO.setUsername(dto.getManagerName());
+		profileDTO.setPassword(dto.getManagerPwd());
+		profileDTO.setGender(Gender.FEMALE);
+
+		ProfileDTO savedProfileDTO = this.userAdminService.create(profileDTO);
+
+		dto.setManagerProfileId(savedProfileDTO.getId());
+		Shop m = this.transferToDomain(dto);
+		this.dao.save(m);
+
+		ShopDTO rs = this.get(m.getId());
+		return rs;
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED)
 	@Override
 	public ShopDTO update(ShopDTO dto) {
-		if (!dto.getManagerPwd().isEmpty()) {
-			Shop m = this.transferToDomain(dto);
-			Profile p = new Profile();
-			p.setId(dto.getManagerProfileId());
-			p.setUsername(dto.getManagerName());
-			p.setPassword(dto.getManagerPwd());
-			p.setGender(Gender.getEnum(dto.getManagerType()));
-			dao.saveOrUpdate(m);
-			dao.saveOrUpdate(p);
-			return this.transferToFullDTO(m);
-		}else{		
-			return null;
-		}
+		Shop existed = this.dao.get(Shop.class, dto.getId());
+		Assert.notNull(existed, "shot not exist!");
+		long managerProfileId = existed.getManagerProfileId();
+		Shop m = this.transferToDomain(dto);
+		BeanUtils.copyProperties(m, existed, "managerProfileId", "id");
+		
+		ProfileDTO profileDTO = new ProfileDTO();
+		profileDTO.setId(managerProfileId);
+		profileDTO.setUsername(dto.getManagerName());
+		profileDTO.setPassword(dto.getManagerPwd());
+		profileDTO.setGender(Gender.FEMALE);
+		this.userAdminService.update(profileDTO);
+		return this.transferToFullDTO(m);
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true, isolation = Isolation.READ_UNCOMMITTED)
@@ -110,7 +112,7 @@ public class ShopAdminServiceImpl extends AbstractAdminService<Shop, ShopDTO> im
 		m.getLogicalDelete().setEnabled(dto.isEnabled());
 		m.getLogicalDelete().setDeleted(dto.isDeleted());
 		Pic pic = new Pic();
-		pic.setId(dto.getId());
+		pic.setId(dto.getPicId());
 		m.setPic(pic);
 		return m;
 	}
@@ -131,7 +133,7 @@ public class ShopAdminServiceImpl extends AbstractAdminService<Shop, ShopDTO> im
 	public ShopDTO transferToFullDTO(Shop m) {
 		ShopDTO dto = this.transferToSimpleDTO(m);
 		dto.setPicUrl(m.getPic().getUrl());
-		Profile p = profileService.get(m.getManagerProfileId());
+		ProfileDTO p = userAdminService.get(m.getManagerProfileId());
 		dto.setManagerName(p.getUsername());
 		dto.setManagerType(p.getType().getTypeValue());
 		dto.setManagerPwd(p.getPassword());

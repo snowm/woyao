@@ -82,9 +82,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		return authenticationProvider;
 	}
 
-	@Bean(name = "cat2PasswordEncoder")
+	@Bean(name = "woyaoPasswordEncoder")
 	public PasswordEncoder passwordEncoder() {
-		String secret = this.env.getProperty("passwordEncoder.secret", "cat2.1");
+		String secret = this.env.getProperty("passwordEncoder.secret", "woyao1");
 		PasswordEncoder encoder = new StandardPasswordEncoder(secret);
 		return encoder;
 	}
