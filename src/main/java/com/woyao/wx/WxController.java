@@ -10,6 +10,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,6 +28,12 @@ public class WxController {
 
 	@Resource(name = "globalConfig")
 	private GlobalConfig globalConfig;
+
+	@RequestMapping(value = { "/callback/{APPID}" }, method = RequestMethod.POST, produces = MediaType.TEXT_PLAIN_VALUE)
+	@ResponseBody
+	public String msgCallback(@PathVariable("APPID") String appId, @RequestBody String msg) {
+		return "success";
+	}
 
 	@RequestMapping(value = { "/verifyToken" }, method = RequestMethod.GET, produces = MediaType.TEXT_PLAIN_VALUE)
 	@ResponseBody

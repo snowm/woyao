@@ -19,7 +19,7 @@ import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
 
-public class JerseyClientFactory implements FactoryBean<Client>, InitializingBean, DisposableBean {
+public class JerseyApacheClientFactory implements FactoryBean<Client>, InitializingBean, DisposableBean {
 
     private Client client;
 

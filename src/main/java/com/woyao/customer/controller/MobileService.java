@@ -1,10 +1,13 @@
 package com.woyao.customer.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.hibernate.Query;
 import org.hibernate.criterion.Criterion;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -12,9 +15,11 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.snowm.utils.query.PaginationBean;
+import com.woyao.customer.dto.ChatRoomDTO;
 import com.woyao.customer.dto.ShopDTO;
 import com.woyao.dao.CommonDao;
 import com.woyao.domain.Shop;
+import com.woyao.domain.chat.ChatRoom;
 
 @Service("mobileService")
 public class MobileService {
@@ -25,7 +30,7 @@ public class MobileService {
 	@Transactional(isolation = Isolation.READ_UNCOMMITTED, readOnly = true)
 	public PaginationBean<ShopDTO> findShop(long pageNumber, int pageSize) {
 		List<Criterion> criterions = new ArrayList<>();
-		
+
 		PaginationBean<ShopDTO> pb = new PaginationBean<>();
 		pb.setPageNumber(pageNumber);
 		pb.setPageSize(pageSize);
@@ -42,6 +47,19 @@ public class MobileService {
 			pb.setResults(dtos);
 		}
 		return pb;
+	}
+
+	@Transactional(isolation = Isolation.READ_UNCOMMITTED, readOnly = true)
+	public ChatRoomDTO getChatRoom(long shopId) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("shopId", shopId);
+		ChatRoom room = this.dao.queryUnique("from ChatRoom where shop.id = :shopId", params);
+		if (room == null) {
+			return null;
+		}
+		ChatRoomDTO rs = new ChatRoomDTO();
+		BeanUtils.copyProperties(room, rs);
+		return rs;
 	}
 
 }

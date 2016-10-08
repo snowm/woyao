@@ -17,7 +17,7 @@ import com.snowm.hibernate.ext.multi.SwitchableTransactionManagerWrapper;
 import com.woyao.GlobalConfig;
 
 @Configuration("mainConfig")
-@PropertySource(name = "mainProperty", value = "classpath:/config.properties")
+@PropertySource(name = "mainProperty", value = {"classpath:/config.properties", "classpath:/wx.properties"})
 @Import({ com.snowm.hibernate.ext.config.AppConfig.class, com.snowm.security.config.AppConfig.class, SecurityConfig.class })
 @ComponentScan({ "com.snowm", "com.woyao" })
 // @Profile("dev")
@@ -65,17 +65,18 @@ public class AppConfig {
 	public PlatformTransactionManager securityTxManager() {
 		return this.txManager();
 	}
-	
+
 	@Bean(name = "globalConfig")
 	public GlobalConfig globalConfig() {
 		GlobalConfig globalConfig = new GlobalConfig();
 		globalConfig.setVerifyToken(this.env.getProperty("wx.verifyToken", "test"));
-//		globalConfig.setPrivateKey(this.env.getProperty("privateKey", "111111"));
-//
-//		globalConfig.setAliConnectionRequestTimeout(Integer.parseInt(this.env.getProperty("http.ali.ConnectionTimeout", "5000")));
-//		globalConfig.setAliConnectionTimeout(Integer.parseInt(this.env.getProperty("http.ali.SocketTimeout", "10000")));
-//		globalConfig.setAliConnectionRequestTimeout(Integer.parseInt(this.env.getProperty("http.ali.ConnectionRequestTimeout", "10000")));
-//		globalConfig.setChannelTimeout(Integer.parseInt(this.env.getProperty("channel.callback.timeout", "600")));
+		globalConfig.setAppId(this.env.getProperty("wx.appId", "test"));
+		globalConfig.setAppSecret(this.env.getProperty("wx.appSecret", "test"));
+		
+		globalConfig.setThirdMsgToken(this.env.getProperty("wx.3rd.msg.token", "test1"));
+		globalConfig.setThirdEncodingAesKey(this.env.getProperty("wx.3rd.msg.encodingAesKey", "kjADF9IKj1iuwe98237k23972j9097ca91MNie83176"));
+		globalConfig.setThirdAppId(this.env.getProperty("wx.3rd.appId", "wxc72bd2fb81d08c06"));
+
 		return globalConfig;
 	}
 

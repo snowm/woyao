@@ -44,12 +44,14 @@ public class SelfHandshakeInterceptor extends HttpSessionHandshakeInterceptor {
 		// }
 
 		boolean rs = super.beforeHandshake(request, response, wsHandler, attributes);
-		ChatterDTO dto = this.generateDTO();
-		session.setAttribute(SessionContainer.SESSION_ATTR_CHATTER, dto);
-		session.setAttribute(SessionContainer.SESSION_ATTR_CHATROOM_ID, 1L);
-		
+		if (!rs) {
+			return rs;
+		}
+		ChatterDTO dto = (ChatterDTO) session.getAttribute(SessionContainer.SESSION_ATTR_CHATTER);
+		Long chatRoomId = (Long) session.getAttribute(SessionContainer.SESSION_ATTR_CHATROOM_ID);
+
 		attributes.put(SessionContainer.SESSION_ATTR_CHATTER, dto);
-		attributes.put(SessionContainer.SESSION_ATTR_CHATROOM_ID, 1L);
+		attributes.put(SessionContainer.SESSION_ATTR_CHATROOM_ID, chatRoomId);
 		attributes.put(SessionContainer.SESSION_ATTR_MSG_CACHE_LOCK, new ReentrantLock());
 		attributes.put(SessionContainer.SESSION_ATTR_MSG_CACHE, new HashMap<Long, InMsg>());
 		log.debug("Before Handshake:" + rs);

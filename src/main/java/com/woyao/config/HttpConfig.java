@@ -10,7 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
 
-import com.woyao.jersey.JerseyClientFactory;
+import com.woyao.jersey.JerseyApacheClientFactory;
+import com.woyao.jersey.JerseyNettyClientFactory;
 
 public class HttpConfig {
 
@@ -25,9 +26,9 @@ public class HttpConfig {
 		return connectionManager;
 	}
 
-	@Bean(name = "wxJerseyClientFactory")
-	public JerseyClientFactory wxJerseyClientFactory() {
-		JerseyClientFactory cf = new JerseyClientFactory();
+	@Bean(name = "wxJerseyApacheClientFactory")
+	public JerseyApacheClientFactory wxJerseyApacheClientFactory() {
+		JerseyApacheClientFactory cf = new JerseyApacheClientFactory();
 		cf.setConnectTimeout(this.env.getProperty("wx.conn.connectTimeout", Integer.class));
 		cf.setSocketTimeout(this.env.getProperty("wx.conn.socketTimeout", Integer.class));
 		cf.setConnectionRequestTimeout(this.env.getProperty("wx.conn.connectionRequestTimeout", Integer.class));
@@ -36,10 +37,18 @@ public class HttpConfig {
 		cf.setConnManager(this.connectionManager());
 		return cf;
 	}
+	
+	@Bean(name = "wxJerseyNettyClientFactory")
+	public JerseyNettyClientFactory wxJerseyNettyClientFactory() {
+		JerseyNettyClientFactory cf = new JerseyNettyClientFactory();
+		cf.setConnectTimeout(this.env.getProperty("wx.conn.connectTimeout", Integer.class));
+		cf.setSocketTimeout(this.env.getProperty("wx.conn.socketTimeout", Integer.class));
+		return cf;
+	}
 
 	@Bean(name = "wxJerseyClient")
 	public Client wxJerseyClient() throws Exception {
-		Client client = this.wxJerseyClientFactory().getObject();
+		Client client = this.wxJerseyNettyClientFactory().getObject();
 		return client;
 	}
 }

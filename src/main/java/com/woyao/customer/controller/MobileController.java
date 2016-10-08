@@ -1,6 +1,8 @@
 package com.woyao.customer.controller;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -11,6 +13,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.snowm.utils.query.PaginationBean;
 import com.woyao.PaginationQueryRequestDTO;
+import com.woyao.customer.chat.SessionContainer;
+import com.woyao.customer.dto.ChatRoomDTO;
 import com.woyao.customer.dto.ShopDTO;
 
 @Controller
@@ -19,29 +23,33 @@ public class MobileController {
 
 	@Resource(name = "mobileService")
 	private MobileService mobileService;
-	
-	@RequestMapping(value={"/", ""})
-	public String index(){
+
+	@RequestMapping(value = { "/", "" })
+	public String index() {
 		return "mobile/index";
 	}
 
-	@RequestMapping(value = { "/chatRoom", "" })
-	public String chatRoom(Long shopId) {
+	@RequestMapping(value = { "/chatRoom" })
+	public String chatRoom(Long shopId, HttpServletRequest request) {
+		ChatRoomDTO room = this.mobileService.getChatRoom(shopId);
+		HttpSession session = request.getSession();
+		session.setAttribute(SessionContainer.SESSION_ATTR_CHATROOM_ID, room.getId());
+		
 		return "mobile/chatRoom";
 	}
-	
-	@RequestMapping(value={"/chatterList"})
-	public String chatterList(@RequestParam("shopId") Long shopId){
+
+	@RequestMapping(value = { "/chatterList" })
+	public String chatterList(@RequestParam("shopId") Long shopId) {
 		return "mobile/chatterList";
 	}
 
-	@RequestMapping(value={"/privacyChat"})
-	public String privacyChat(@RequestParam("toId") Long toId){
+	@RequestMapping(value = { "/privacyChat" })
+	public String privacyChat(@RequestParam("toId") Long toId) {
 		return "mobile/privacyChat";
 	}
 
-	@RequestMapping(value={"/richer"})
-	public String richer(@RequestParam("shopId") Long shopId){
+	@RequestMapping(value = { "/richer" })
+	public String richer(@RequestParam("shopId") Long shopId) {
 		return "mobile/richer";
 	}
 
@@ -49,7 +57,7 @@ public class MobileController {
 	@ResponseBody
 	public PaginationBean<ShopDTO> findShop(PaginationQueryRequestDTO queryRequest) {
 		try {
-			Thread.sleep(100*1000);
+			Thread.sleep(100 * 1000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -60,7 +68,7 @@ public class MobileController {
 	@ResponseBody
 	public PaginationBean<ShopDTO> test() {
 		try {
-			Thread.sleep(5*1000);
+			Thread.sleep(5 * 1000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}

@@ -18,10 +18,11 @@ import org.apache.commons.logging.LogFactory;
 
 public abstract class ChatUtils {
 
+	public static final String DT_PATTERN = "yyyyMMdd";
+	public static final DateFormat DF = new SimpleDateFormat(DT_PATTERN);
+
 	private static final Log log = LogFactory.getLog(ChatUtils.class);
 
-	private static final String DT_PATTERN = "yyyyMMdd";
-	private static final DateFormat DF = new SimpleDateFormat(DT_PATTERN);
 	private static final String PIC_ROOT_PATH = "src/main/webapp" + File.separator + "upload";
 	private static File root;
 
