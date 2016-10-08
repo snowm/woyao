@@ -96,7 +96,7 @@ public class ShopAdminServiceImpl extends AbstractAdminService<Shop, ShopDTO> im
 		rs.setTotalCount(count);
 		List<ShopDTO> results = new ArrayList<>();
 		for (Shop m : ms) {
-			ShopDTO dto = this.transferToDTO(m, false);
+			ShopDTO dto = transferToFullDTO(m);
 			String hql = "from ChatRoom c where c.shop.id=" + m.getId();
 			ChatRoom c = (ChatRoom) dao.queryUnique(hql);
 			if (c != null) {
