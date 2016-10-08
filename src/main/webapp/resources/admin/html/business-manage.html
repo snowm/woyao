@@ -1,4 +1,4 @@
-﻿<div class="panel panel-default" ms-controller='shopController'>
+﻿﻿<div class="panel panel-default" ms-controller='shopController'>
 	  <div class="panel panel-default" ms-if="formShow">
         <div class="panel-heading">
             <div class="panel-btns">
@@ -13,13 +13,27 @@
 <!-- 商品管理 -->
 
 		<ul class="nav nav-tabs">
-          <li class="active"><a href="#home" data-toggle="tab"><strong>基本信息</strong></a></li>
-          <li class=""><a href="#profile" data-toggle="tab"><strong>商品管理</strong></a></li>
-          <li class=""><a href="#about" data-toggle="tab"><strong>图片管理</strong></a></li>
+          <li class="active"><a href="#msgsCtn" data-toggle="tab"><strong>基本信息</strong></a></li>
+          <!-- <li class=""><a href="#profile" data-toggle="tab"><strong>商品管理</strong></a></li> -->
         </ul>
         <div class="tab-content mb30">
-          <div class="tab-pane active" id="home">
+          <div class="tab-pane active" id="msgsCtn">
           <div class="row">
+         	<!-- 选择图片 -->
+	           <div class="row">
+                	<div class="panel panel-stat">
+                        <div class="panel-heading">
+                            <div class="row text-center">
+                                <img class="media-object thumbnail center-block" ms-attr-src="imgViewSrc" style="max-width:300px;max-height:300px;min-height:100px;min-width:100px" alt="">
+                                <input type="file" name="uploadFile" id="uploadfile" ms-change="imgChange" style="visibility: hidden">
+                                <a class="btn btn-xs btn-success" ms-click="uploadImg">修改图片</a>
+                                <div class="clearfix"></div>
+                            </div><!-- row -->
+
+                        </div><!-- panel-heading -->
+                    </div><!-- panel -->
+            </div>
+            <!-- 选择图片 -->
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label class="control-label">商家名称</label>
@@ -144,9 +158,6 @@
           </div>   
           
                 
-          <div class="tab-pane" id="about">
-            c c
-          </div>
         </div>
         
         
