@@ -9,8 +9,10 @@ define([],function(){
     		$id:"goodsController",
     		goods:false,
     		goodsShow:false,
+    		choose:false,
     		goodsAdd:false,
     		goodsList:[],
+    		shopList:[],
     		goodsDate:{
     			name:"",
     			deleted:false,
@@ -28,8 +30,11 @@ define([],function(){
     			shopName:"",
     			unitPrice:""
     		},
+    		//查询商品
     		btnGoods:function(){
-    			goodsController.goods=true;    		
+    			goodsController.goods=true; 
+    			goodsController.goodsAdd = false;
+    			goodsController.goodsShow = false;
     			var date = {
     					name:goodsController.goodsDate.name,
     					deleted:goodsController.goodsDate.deleted,
@@ -50,7 +55,7 @@ define([],function(){
     		},
     		 Alter:function(id){
     			 goodsController.goodsShow = true;
-    			 goodsController.goods = false;
+    			 goodsController.goods = false;    			 
     			 goodsController.goodsList.forEach(function(item){
      	    		if(item.id == id){
      	    			goodsController.goodsChg = item;
@@ -58,8 +63,9 @@ define([],function(){
      	    	})
     			 
      	    }, 
-     	   
-     	    Sava:function(){     	    	
+     	   //修改并保存
+     	    Sava:function(){  
+     	    	goodsController.goodsShow=false;
      	    	var date={
      	    			name:goodsController.goodsChg.name,
      	    			code:goodsController.goodsChg.code,
@@ -78,15 +84,15 @@ define([],function(){
     	      		  url: '/admin/product/',
     	      		  data:date,
     	      		  success: function(data){
-    	      			  console.log(data);
-//    	      			  goodsController.goodsList = data.results;  	      			  
+    	      			  console.log(data);	      			  
     	      		  },
     	      		  dataType: 'json',	 
     	      		});
      	    },
-     	    add:function(){
-     	    	goodsController.goodsAdd=true;
-     	    	goodsController.goodsShow=false;
+     	    //新增
+     	    add:function(){     	    	
+     	    	goodsController.goodsShow=true;
+     	    	goodsController.goods=false;
      	    	goodsController.goodsChg = {
      	    			name:"",
      	    			code:"",
@@ -99,8 +105,10 @@ define([],function(){
      	    			unitPrice:""
     	    	}    
      	    },
+     	    //新增保存
      	    addSave:function(){
-     	    	goodsController.goodsAdd=false;	    	    		    	
+     	    	goodsController.goodsAdd=false;	 
+     	    	goodsController.goods=false;	 
      	    	var date={
      	    			name:goodsController.goodsChg.name,
      	    			code:goodsController.goodsChg.code,
@@ -136,6 +144,29 @@ define([],function(){
    	  	      		});
    	    	 }
     		},
+    		//选择商店
+    		chooseShop:function(){
+    			$.ajax({
+  	      		  type: "post",
+  	      		  url: '/admin/shop/search',
+  	      		  data:{
+  	      			  name:"",
+  	      			  deleted:false,
+  	      			pageNumber:1,
+  	    	    	pageSize:21
+  	      		  },
+  	      		  success: function(data){
+  	      			  console.log(data);
+  	      			goodsController.shopList=data.results;  	      			
+	      			       			  
+  	      		  },
+  	      		  dataType: 'json',	 
+  	      		});
+    		},
+    		chooseShopItem:function(data){
+	    			goodsController.goodsChg.shopId = data.id;
+	    			goodsController.goodsChg.shopName = data.name;
+    		}
     	})
     	});
     	console.log("load goods-manage");

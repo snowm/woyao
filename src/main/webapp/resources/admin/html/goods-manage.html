@@ -13,8 +13,7 @@
                     <label class="control-label">商品名字</label>
                     <input type="text" name="firstname" class="form-control" ms-duplex="goodsDate.name">
                 </div>
-            </div><!--col-sm-6 -->
-            
+            </div><!--col-sm-6 -->           
            
             <div class="col-sm-12 text-right">
                 <button class="btn btn-xs btn-info" ms-click="btnGoods">查 询</button>
@@ -61,8 +60,45 @@
             <div class="row">
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label class="control-label">商户名称</label>
-                        <input type="text" name="latitude" class="form-control" ms-duplex="goodsChg.shopName">
+                        <label class="control-label">商家名称</label> 
+                        <input type="text" name="latitude" class="form-control" data-toggle="modal"  data-target=".bs-example-modal-lg" ms-click="chooseShop"  readonly="readonly" ms-duplex="goodsChg.shopName">
+                       <!--  <button class="btn btn-primary mr5" data-toggle="modal" data-target=".bs-example-modal-lg">Large Modal</button> -->
+                       
+                       
+                       
+<div class="modal bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="false">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="modal-header">           
+            <h4 class="modal-title">商店选择</h4>
+        </div>
+        <div class="modal-body">
+        	<div class="table-responsive" style="border-top: 1px solid #dadada">
+	    <table class="table table-striped table-hover text-center">
+	      <thead>
+            <tr>
+                <th class="text-center">商家名称</th>
+                <th class="text-center">商家编号</th>                
+                <th class="text-center">联系人</th>                
+                <th class="text-center text-right" width="200">操作</th>
+            </tr>
+            </thead> 
+            <tbody>
+            <tr ms-repeat-p="shopList">
+                <td ms-text="p.name"></td>
+                <td ms-text="p.id"></td>
+                <td ms-text="p.managerName"></td>                                
+                <td>
+                    <button class="btn btn-xs btn-info" ms-click='chooseShopItem(p)'><i class="fa fa-pencil"></i> 选择</button>                    
+                </td>
+            </tr>
+            </tbody>
+	    </table>
+	  </div>
+        </div>
+    </div>
+  </div>
+</div>
                     </div>
                 </div><!-- col-sm-6 -->
                 <div class="col-sm-6">
@@ -79,59 +115,9 @@
         </div>       
         
         
-        <!-- 新增商品 -->
+        <!-- 新增商品 -->        
         
-        
-        <div class="tab-content mb30" ms-if="goodsAdd">
-          <div class="tab-pane active" id="home">
-          <div class="row">
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <label class="control-label">商品名字</label>
-                        <input type="text" name="name" class="form-control" ms-duplex="goodsChg.name">
-                    </div>
-                </div><!-- col-sm-6 -->
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <label class="control-label">code</label>
-                        <input type="text" name="address" class="form-control" ms-duplex="goodsChg.code">
-                    </div>
-                </div><!-- col-sm-6 -->
-            </div><!-- row -->
-            <div class="row">
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <label class="control-label">商品描述</label>
-                        <input type="text" name="chatRoomName" class="form-control" ms-duplex="goodsChg.description">
-                    </div>
-                </div><!-- col-sm-6 -->
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <label class="control-label">价格</label>
-                        <input type="text" name="description" class="form-control" ms-duplex="goodsChg.unitPrice">
-                    </div>
-                </div><!-- col-sm-6 -->
-            </div><!-- row --> 
-
-            <div class="row">
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <label class="control-label">商户名称</label>
-                        <input type="text" name="latitude" class="form-control" ms-duplex="goodsChg.shopName">
-                    </div>
-                </div><!-- col-sm-6 -->
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <label class="control-label">商品图片</label>
-                        <input type="text" name="longitude" class="form-control" ms-duplex="goodsChg.mainPic">
-                    </div>
-                </div><!-- col-sm-6 -->
-            </div><!-- row -->            
-          </div>
-        <div class="panel-footer text-right">
-	    	<button class="btn btn-success" ms-click="addSave">保存</button>
-	  	</div>
-        </div>
+     
 
     <div class="table-responsive" style="border-top: 1px solid #dadada" ms-if="goods">
         <table class="table table-striped table-hover text-center">
