@@ -129,7 +129,10 @@ define(['uploadfile'],function(){
     	    uploadImg:function(){
     	    	$("#uploadfile").click();
     	    },
-    	   
+    	    imgChange:function(e){
+    	    	alert(1)
+    	    	
+    	    }
     	});
     	avalon.scan();
     	
