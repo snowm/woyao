@@ -10,12 +10,14 @@ import javax.annotation.Resource;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.snowm.hibernate.ext.dao.ICommonDao;
 import com.snowm.hibernate.ext.domain.DefaultModelImpl;
 import com.snowm.hibernate.ext.utils.AliasInfo;
 
 @Repository("commonDao")
+@Transactional
 public class CommonDao {
 
 	@Resource(name = "commonHibernateDao")

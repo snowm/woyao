@@ -1,12 +1,12 @@
 package com.woyao.customer.service;
 
-import java.util.List;
 import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.web.socket.WebSocketSession;
 
+import com.snowm.utils.query.PaginationBean;
 import com.woyao.customer.chat.dto.Inbound;
 import com.woyao.customer.chat.dto.Outbound;
 import com.woyao.customer.dto.ChatterDTO;
@@ -30,7 +30,7 @@ public interface IChatService {
 	 * @param wsSession
 	 */
 	void leave(WebSocketSession wsSession);
-	
+
 	void acceptMsg(WebSocketSession wsSession, Inbound inbound);
 
 	void sendOutMsg(Outbound outbound, Long to, Long chatRoomId);
@@ -42,7 +42,6 @@ public interface IChatService {
 	/**
 	 * 获取聊天者信息
 	 * 
-	 * @param wsSession
 	 * @param chatterId
 	 * @return
 	 */
@@ -53,5 +52,6 @@ public interface IChatService {
 	 * 
 	 * @return
 	 */
-	List<ChatterDTO> listOnlineChatters(long chatRoomId);
+	PaginationBean<ChatterDTO> listOnlineChatters(long chatRoomId, long pageNumber, int pageSize);
+	
 }

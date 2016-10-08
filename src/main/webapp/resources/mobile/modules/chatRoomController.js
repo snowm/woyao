@@ -141,7 +141,7 @@ define(['jquery','avalon', 'text!./chatRoom.html','swiper',"domReady!",'qqface']
                 			type = 'msg';
                 			msg = {
                                     msgId:1,
-                                    to:'2',
+                                    to:'',
                                     blockSize:blocks.length,
                                     productId:'',
                                     block:blocks[0],

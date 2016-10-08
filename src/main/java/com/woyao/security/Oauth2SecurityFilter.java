@@ -2,7 +2,6 @@ package com.woyao.security;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
 import javax.annotation.Resource;
@@ -20,13 +19,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.security.oauth2.client.resource.UserRedirectRequiredException;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.web.util.UriComponents;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import com.snowm.security.profile.domain.Gender;
 import com.woyao.GlobalConfig;

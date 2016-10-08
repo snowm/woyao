@@ -26,6 +26,7 @@ import com.woyao.admin.service.IUserAdminService;
 import com.woyao.dao.CommonDao;
 import com.woyao.domain.Pic;
 import com.woyao.domain.Shop;
+import com.woyao.domain.chat.ChatRoom;
 
 @Service("shopAdminService")
 public class ShopAdminServiceImpl extends AbstractAdminService<Shop, ShopDTO> implements IShopAdminService {
@@ -52,6 +53,11 @@ public class ShopAdminServiceImpl extends AbstractAdminService<Shop, ShopDTO> im
 		dto.setManagerProfileId(savedProfileDTO.getId());
 		Shop m = this.transferToDomain(dto);
 		this.dao.save(m);
+		
+		ChatRoom chatRoom = new ChatRoom();
+		chatRoom.setShop(m);
+		chatRoom.setName(m.getName());
+		this.dao.save(chatRoom);
 
 		ShopDTO rs = this.get(m.getId());
 		return rs;

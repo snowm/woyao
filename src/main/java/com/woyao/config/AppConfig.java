@@ -82,6 +82,11 @@ public class AppConfig {
 				.setThirdEncodingAesKey(this.env.getProperty("wx.3rd.msg.encodingAesKey", "kjADF9IKj1iuwe98237k23972j9097ca91MNie83176"));
 		globalConfig.setThirdAppId(this.env.getProperty("wx.3rd.appId", "wxc72bd2fb81d08c06"));
 
+		globalConfig.setEarthRadius(this.env.getProperty("earth.radius", double.class));
+		globalConfig.setLatitudeRadius(this.env.getProperty("latitude.radius", double.class));
+		globalConfig.setLongitudeRadius(this.env.getProperty("longitude.radius", double.class));
+		globalConfig.setShopAvailableDistance(this.env.getProperty("shop.available.distance", double.class));
+
 		return globalConfig;
 	}
 

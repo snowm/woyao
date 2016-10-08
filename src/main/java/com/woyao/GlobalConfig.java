@@ -21,6 +21,14 @@ public class GlobalConfig {
 
 	private String thirdEncodingAesKey;
 
+	private double earthRadius;
+
+	private double latitudeRadius;
+
+	private double longitudeRadius;
+
+	private double shopAvailableDistance;
+
 	public String getVerifyToken() {
 		return verifyToken;
 	}
@@ -66,7 +74,7 @@ public class GlobalConfig {
 	}
 
 	public void generateAuthorizeFormat() {
-		this.authorizeFormat = this.authorizeUrl + "?" + this.authorizeFormat;
+		this.authorizeFormat = this.authorizeUrl + "?" + this.authorizeParamFormat;
 	}
 
 	public String getThirdAppId() {
@@ -91,6 +99,38 @@ public class GlobalConfig {
 
 	public void setThirdEncodingAesKey(String thirdEncodingAesKey) {
 		this.thirdEncodingAesKey = thirdEncodingAesKey;
+	}
+
+	public double getEarthRadius() {
+		return earthRadius;
+	}
+
+	public void setEarthRadius(double earthRadius) {
+		this.earthRadius = earthRadius;
+	}
+
+	public double getLatitudeRadius() {
+		return latitudeRadius;
+	}
+
+	public void setLatitudeRadius(double latitudeRadius) {
+		this.latitudeRadius = latitudeRadius;
+	}
+
+	public double getLongitudeRadius() {
+		return longitudeRadius;
+	}
+
+	public void setLongitudeRadius(double longitudeRadius) {
+		this.longitudeRadius = longitudeRadius;
+	}
+
+	public double getShopAvailableDistance() {
+		return shopAvailableDistance;
+	}
+
+	public void setShopAvailableDistance(double shopAvailableDistance) {
+		this.shopAvailableDistance = shopAvailableDistance;
 	}
 
 }

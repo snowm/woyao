@@ -1,4 +1,4 @@
-package com.woyao.customer.controller;
+package com.woyao.customer.service.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,29 +7,51 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
-import org.hibernate.Query;
 import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.snowm.utils.query.PaginationBean;
+import com.woyao.GlobalConfig;
 import com.woyao.customer.dto.ChatRoomDTO;
 import com.woyao.customer.dto.ShopDTO;
+import com.woyao.customer.service.IMobileService;
 import com.woyao.dao.CommonDao;
 import com.woyao.domain.Shop;
 import com.woyao.domain.chat.ChatRoom;
+import com.woyao.utils.DistanceUtils;
 
 @Service("mobileService")
-public class MobileService {
+public class MobileServiceImpl implements IMobileService {
 
 	@Resource(name = "commonDao")
 	private CommonDao dao;
 
+	@Resource(name = "distanceUtils")
+	private DistanceUtils distanceUtils;
+
+	@Resource(name = "globalConfig")
+	private GlobalConfig globalConfig;
+
 	@Transactional(isolation = Isolation.READ_UNCOMMITTED, readOnly = true)
-	public PaginationBean<ShopDTO> findShop(long pageNumber, int pageSize) {
+	public PaginationBean<ShopDTO> findShop(Double latitude, Double longitude, long pageNumber, int pageSize) {
 		List<Criterion> criterions = new ArrayList<>();
+		if (latitude != null && longitude != null) {
+			DistanceUtils.SquareItudes squareItudes = this.distanceUtils.returnLLSquarePoint(latitude, longitude,
+					globalConfig.getShopAvailableDistance());
+			double topLat = squareItudes.getLeftTop()[0];
+			double bottomLat = squareItudes.getLeftBottom()[0];
+			double leftLng = squareItudes.getLeftTop()[1];
+			double rightLng = squareItudes.getRightTop()[1];
+
+			criterions.add(Restrictions.le("latitude", topLat));
+			criterions.add(Restrictions.ge("latitude", bottomLat));
+			criterions.add(Restrictions.le("longitude", rightLng));
+			criterions.add(Restrictions.ge("longitude", leftLng));
+		}
 
 		PaginationBean<ShopDTO> pb = new PaginationBean<>();
 		pb.setPageNumber(pageNumber);

@@ -13,17 +13,24 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.snowm.utils.query.PaginationBean;
-import com.woyao.PaginationQueryRequestDTO;
 import com.woyao.customer.chat.SessionContainer;
 import com.woyao.customer.dto.ChatRoomDTO;
+import com.woyao.customer.dto.ChatterDTO;
+import com.woyao.customer.dto.ChatterPaginationQueryRequest;
 import com.woyao.customer.dto.ShopDTO;
+import com.woyao.customer.dto.ShopPaginationQueryRequest;
+import com.woyao.customer.service.IChatService;
+import com.woyao.customer.service.impl.MobileServiceImpl;
 
 @Controller
 @RequestMapping(value = "/m")
 public class MobileController {
 
 	@Resource(name = "mobileService")
-	private MobileService mobileService;
+	private MobileServiceImpl mobileService;
+
+	@Resource(name = "chatService")
+	private IChatService chatService;
 
 	@RequestMapping(value = { "/", "" })
 	public String index() {
@@ -34,15 +41,10 @@ public class MobileController {
 	public String chatRoom(@PathVariable("shopId") Long shopId, HttpServletRequest request) {
 		ChatRoomDTO room = this.mobileService.getChatRoom(shopId);
 		HttpSession session = request.getSession();
-		long roomId = room != null ? room.getId() : 1L;
+		long roomId = room != null ? room.getId() : shopId;
 		session.setAttribute(SessionContainer.SESSION_ATTR_CHATROOM_ID, roomId);
 
 		return "mobile/chatRoom";
-	}
-
-	@RequestMapping(value = { "/chatterList" })
-	public String chatterList(@RequestParam("shopId") Long shopId) {
-		return "mobile/chatterList";
 	}
 
 	@RequestMapping(value = { "/privacyChat" })
@@ -50,30 +52,21 @@ public class MobileController {
 		return "mobile/privacyChat";
 	}
 
-	@RequestMapping(value = { "/richer" })
-	public String richer(@RequestParam("shopId") Long shopId) {
-		return "mobile/richer";
+	@RequestMapping(value = { "/shopList" }, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@ResponseBody
+	public PaginationBean<ShopDTO> findShop(ShopPaginationQueryRequest request) {
+		return this.mobileService.findShop(request.getLatitude(), request.getLongitude(), request.getPageNumber(), request.getPageSize());
+	}	
+
+	@RequestMapping(value = { "/chat/chatterList" }, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@ResponseBody
+	public PaginationBean<ChatterDTO> chatterList(ChatterPaginationQueryRequest request) {
+		return this.chatService.listOnlineChatters(request.getChatRoomId(), request.getPageNumber(), request.getPageSize());
 	}
 
-	@RequestMapping(value = { "/shop" }, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@RequestMapping(value = { "/chat/richerList" }, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
-	public PaginationBean<ShopDTO> findShop(PaginationQueryRequestDTO queryRequest) {
-		try {
-			Thread.sleep(100 * 1000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		return this.mobileService.findShop(queryRequest.getPageNumber(), queryRequest.getPageSize());
-	}
-
-	@RequestMapping(value = { "/test" })
-	@ResponseBody
-	public PaginationBean<ShopDTO> test() {
-		try {
-			Thread.sleep(5 * 1000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+	public PaginationBean<ChatterDTO> richerList(ChatterPaginationQueryRequest request) {
 		return null;
 	}
 
