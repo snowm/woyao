@@ -14,11 +14,11 @@ public class ProductDTO extends BasePKDTO {
 
 	private String mainPic;
 	
-	private Long mainPicId;
+	private long mainPicId;
 	
-	private Integer typeId;
+	private int typeId;
 	
-	private long shopId;
+	private Long shopId;
 	
 	private String shopName;
 	
@@ -56,19 +56,19 @@ public class ProductDTO extends BasePKDTO {
 		this.mainPic = mainPic;
 	}
 
-	public Integer getTypeId() {
+	public int getTypeId() {
 		return typeId;
 	}
 
-	public void setTypeId(Integer typeId) {
+	public void setTypeId(int typeId) {
 		this.typeId = typeId;
 	}
 
-	public long getShopId() {
+	public Long getShopId() {
 		return shopId;
 	}
 
-	public void setShopId(long shopId) {
+	public void setShopId(Long shopId) {
 		this.shopId = shopId;
 	}
 
@@ -88,11 +88,13 @@ public class ProductDTO extends BasePKDTO {
 		this.unitPrice = unitPrice;
 	}
 
-	public Long getMainPicId() {
+
+
+	public long getMainPicId() {
 		return mainPicId;
 	}
 
-	public void setMainPicId(Long mainPicId) {
+	public void setMainPicId(long mainPicId) {
 		this.mainPicId = mainPicId;
 	}
 

@@ -1,6 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>我要-聊天室</title>
@@ -11,24 +10,26 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="format-detection" content="telephone=no" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <script type="text/javascript" src="/resources/plugin/fastclick-master/lib/fastclick.js"></script>
-    <link rel="stylesheet" href="/resources/static/css/main.css"/>
-    <link rel="stylesheet" href="/resources/plugin/swiper-master/dist/css/swiper.min.css"/>
+    <script type="text/javascript" src="../plugin/fastclick-master/lib/fastclick.js"></script>
+    <script type="text/javascript" src="../node_modules/socket.io/lib/socket.web.js"></script>
+    <link rel="stylesheet" href="../static/css/main.css"/>
+    <link rel="stylesheet" href="../plugin/swiper-master/dist/css/swiper.min.css"/>
     <link rel="SHORTCUT ICON" href=""/>
+
 </head>
 <body class="user-sexy-man" ms-controller="mainController">
 <div class="pop-sreen" ms-class-pop-sreen-show="sreenShow">
 <!--<div class="pop-sreen" ms-class-pop-sreen-show="1">-->
-    <img class="pop-sreen-img blur" --src="/resources/static/img/delate/photo1.jpg" ms-attr-src="sreenImg" alt="">
+    <img class="pop-sreen-img blur" --src="../static/img/delate/photo1.jpg" ms-attr-src="sreenImg" alt="">
     <div class="pop-sreen-img-flt"></div>
     <div class="pop-sreen-bg">
         <div class="pop-sreen-block">
-            <img class="pop-sreen-head" src="/resources/static/img/head.jpg" alt="">
-            <p class="pop-sreen-name">隔壁老王 <span><img class="header-sexy" src="/resources/static/img/weman.png" alt=""></span></p>
+            <img class="pop-sreen-head" src="../static/img/head.jpg" alt="">
+            <p class="pop-sreen-name">隔壁老王 <span><img class="header-sexy" src="../static/img/weman.png" alt=""></span></p>
         </div>
         <div class="pop-sreen-block">
-            <img class="pop-sreen-head" src="/resources/static/img/head.jpg" alt="">
-            <p class="pop-sreen-name">隔壁老王 <span><img class="header-sexy" src="/resources/static/img/weman.png" alt=""></span></p>
+            <img class="pop-sreen-head" src="../static/img/head.jpg" alt="">
+            <p class="pop-sreen-name">隔壁老王 <span><img class="header-sexy" src="../static/img/weman.png" alt=""></span></p>
         </div>
         <div class="pop-sreen-msg">
             <span class="text-org">我要霸屏<span ms-text="sreenTime"></span>秒：</span><span ms-text="sreenMsg"></span>
@@ -44,7 +45,7 @@
             <div class="gift-ctn">
                 <ul class="gift-list">
                     <li>
-                        <img class="gift-img" src="/resources/static/img/num.png" alt="">
+                        <img class="gift-img" src="../static/img/num.png" alt="">
                         <div class="gift-msg">
                             <p class="gift-name">空瓶子</p>
                             <p class="gift-transilate">霸屏15秒</p>
@@ -60,7 +61,7 @@
                     </li>
                     <div class="clearfix"></div>
                     <li>
-                        <img src="/resources/static/img/mac.png" alt="">
+                        <img src="../static/img/mac.png" alt="">
                         <div class="gift-msg">
                             <p class="gift-name">麦霸</p>
                             <p class="gift-transilate">霸屏15秒</p>
@@ -77,7 +78,7 @@
                     </li>
                     <div class="clearfix"></div>
                     <li>
-                        <img src="/resources/static/img/plane.png" alt="">
+                        <img src="../static/img/plane.png" alt="">
                         <div class="gift-msg">
                             <p class="gift-name">飞机</p>
                             <p class="gift-transilate">霸屏15秒</p>
@@ -95,7 +96,7 @@
                     <div class="clearfix"></div>
                     <div class="clearfix"></div>
                     <li>
-                        <img src="/resources/static/img/mac.png" alt="">
+                        <img src="../static/img/mac.png" alt="">
                         <div class="gift-msg">
                             <p class="gift-name">麦霸</p>
                             <p class="gift-transilate">霸屏15秒</p>
@@ -112,7 +113,7 @@
                     </li>
                     <div class="clearfix"></div>
                     <li>
-                        <img src="/resources/static/img/plane.png" alt="">
+                        <img src="../static/img/plane.png" alt="">
                         <div class="gift-msg">
                             <p class="gift-name">飞机</p>
                             <p class="gift-transilate">霸屏15秒</p>
@@ -166,7 +167,7 @@
                 <div class="bp-img">
                     <div class="bp-img-ctn">
                         <input type="file" value='' ms-change="fileChange(this)" style="width: 60px;height: 60px;position: absolute;left: 0;top: 0;z-index: 9;opacity:0;">
-                        <img src="/resources/static/img/photo.png" ms-attr-src="imgViewSrc" alt="" style="border-radius: 5px;">
+                        <img src="../static/img/photo.png" ms-attr-src="imgViewSrc" alt="" style="border-radius: 5px;">
                     </div>
                 </div>
             </div>
@@ -187,7 +188,7 @@
                 <div class="gift-ctn">
                     <ul class="gift-list">
                         <li>
-                            <img class="gift-img" src="/resources/static/img/num.png" alt="">
+                            <img class="gift-img" src="../static/img/num.png" alt="">
                             <div class="gift-msg">
                                 <p class="gift-name">空瓶子</p>
                                 <p class="gift-transilate">霸屏15秒</p>
@@ -203,7 +204,7 @@
                         </li>
                         <div class="clearfix"></div>
                         <li>
-                            <img src="/resources/static/img/mac.png" alt="">
+                            <img src="../static/img/mac.png" alt="">
                             <div class="gift-msg">
                                 <p class="gift-name">麦霸</p>
                                 <p class="gift-transilate">霸屏15秒</p>
@@ -220,7 +221,7 @@
                         </li>
                         <div class="clearfix"></div>
                         <li>
-                            <img src="/resources/static/img/plane.png" alt="">
+                            <img src="../static/img/plane.png" alt="">
                             <div class="gift-msg">
                                 <p class="gift-name">飞机</p>
                                 <p class="gift-transilate">霸屏15秒</p>
@@ -238,7 +239,7 @@
                         <div class="clearfix"></div>
                         <div class="clearfix"></div>
                         <li>
-                            <img src="/resources/static/img/mac.png" alt="">
+                            <img src="../static/img/mac.png" alt="">
                             <div class="gift-msg">
                                 <p class="gift-name">麦霸</p>
                                 <p class="gift-transilate">霸屏15秒</p>
@@ -255,7 +256,7 @@
                         </li>
                         <div class="clearfix"></div>
                         <li>
-                            <img src="/resources/static/img/plane.png" alt="">
+                            <img src="../static/img/plane.png" alt="">
                             <div class="gift-msg">
                                 <p class="gift-name">飞机</p>
                                 <p class="gift-transilate">霸屏15秒</p>
@@ -287,11 +288,11 @@
     <div class="pop-photoWall" ms-class="pop-phone-show:isShowPhoto">
         <div class="swiper-container pop-photoWall-ctn" ms-click="showPhotoWall">
             <div class="swiper-wrapper">
-                <div class="swiper-slide pop-phones"><img class="swiper-lazy" src="/resources/static/img/delate/photo1.jpg" alt=""><div class="swiper-lazy-preloader"></div></div>
-                <div class="swiper-slide pop-phones"><img class="swiper-lazy" src="/resources/static/img/diamond.png" alt=""><div class="swiper-lazy-preloader"></div></div>
-                <div class="swiper-slide pop-phones"><img class="swiper-lazy" src="/resources/static/img/delate/photo1.jpg" alt=""><div class="swiper-lazy-preloader"></div></div>
-                <div class="swiper-slide pop-phones"><img class="swiper-lazy" src="/resources/static/img/delate/photo1.jpg" alt=""><div class="swiper-lazy-preloader"></div></div>
-                <div class="swiper-slide pop-phones"><img class="swiper-lazy" src="/resources/static/img/delate/photo1.jpg" alt=""><div class="swiper-lazy-preloader"></div></div>
+                <div class="swiper-slide pop-phones"><img class="swiper-lazy" src="../static/img/delate/photo1.jpg" alt=""><div class="swiper-lazy-preloader"></div></div>
+                <div class="swiper-slide pop-phones"><img class="swiper-lazy" src="../static/img/diamond.png" alt=""><div class="swiper-lazy-preloader"></div></div>
+                <div class="swiper-slide pop-phones"><img class="swiper-lazy" src="../static/img/delate/photo1.jpg" alt=""><div class="swiper-lazy-preloader"></div></div>
+                <div class="swiper-slide pop-phones"><img class="swiper-lazy" src="../static/img/delate/photo1.jpg" alt=""><div class="swiper-lazy-preloader"></div></div>
+                <div class="swiper-slide pop-phones"><img class="swiper-lazy" src="../static/img/delate/photo1.jpg" alt=""><div class="swiper-lazy-preloader"></div></div>
             </div>
         </div>
         <div class="pop-wall-text">
@@ -301,7 +302,7 @@
         <div class="pop-wall-msg">
             <table>
                 <tr>
-                    <td><span class="pop-wall-name">奥特曼</span> <img class="pop-wall-sexy" src="/resources/static/img/weman.png" alt=""></td>
+                    <td><span class="pop-wall-name">奥特曼</span> <img class="pop-wall-sexy" src="../static/img/weman.png" alt=""></td>
                     <td width="70"><div class="pop-wall-chat" ms-on-tap="forHer()">送 礼</div></td>
                     <td width="70"><div class="pop-wall-chat" ms-on-tap="privateChat">搭 讪</div></td>
                 </tr>
@@ -311,11 +312,11 @@
 </div>
 <div class="contain">
     <div class="richer-list-btn" ms-on-tap="richerList">
-        <img src="/resources/static/img/diamond.png" alt="">
+        <img src="../static/img/diamond.png" alt="">
         土豪榜
     </div>
     <div class="chat-list-btn" ms-on-tap="userList">
-        <img src="/resources/static/img/chats.png" alt="">
+        <img src="../static/img/chats.png" alt="">
         私聊
     </div>
     <div class="header-contain">
@@ -325,8 +326,8 @@
                     <span class="header-rich-title">今日土豪</span>
                 </td>
                 <td>
-                    <img class="header-richer" src="/resources/static/img/head.jpg" alt="">
-                    <span class="text-heightlight">隔壁老王</span> <img ms-if="false" class="header-sexy" src="/resources/static/img/man.png" alt=""><img class="header-sexy" src="/resources/static/img/weman.png" alt="">
+                    <img class="header-richer" src="../static/img/head.jpg" alt="">
+                    <span class="text-heightlight">隔壁老王</span> <img ms-if="false" class="header-sexy" src="../static/img/man.png" alt=""><img class="header-sexy" src="../static/img/weman.png" alt="">
                 </td>
                 <td width="80">
                     <span>霸屏<span class="text-dark"> 5 </span>次</span>
@@ -338,23 +339,23 @@
         <div class="msg-block-container">
             <div class="msg-block clearfix" ms-repeat-item="msgList" ms-class="msg-block-self:item.isMe == 'true'">
                 <div class="msg-header">
-                    <img src="/resources/static/img/head.jpg" alt=""  ms-on-tap="showPhotoWall">
+                    <img src="../static/img/head.jpg" alt=""  ms-on-tap="showPhotoWall">
                 </div>
                 <div class="msg-ctn clearfix">
                     <p class="msg-titles"><span class="msg-name" ms-text="item.name">name</span></p>
                     <div class="msg-contant" ms-class-msg-blue="item.sexy == 'man'" ms-class-msg-purple="item.sexy == 'weman'">
-                        <img class="msg-arr" src="/resources/static/img/arblue.png" ms-if="item.sexy == 'man'" alt="">
-                        <img class="msg-arr" src="/resources/static/img/arred.png" ms-if="item.sexy == 'weman'" alt="">
+                        <img class="msg-arr" src="../static/img/arblue.png" ms-if="item.sexy == 'man'" alt="">
+                        <img class="msg-arr" src="../static/img/arred.png" ms-if="item.sexy == 'weman'" alt="">
 
                         <!--<div class="msg-smgs"><span class="text-org">为 sreen 霸屏30秒：</span><span ms-text="item.msg">xxx</span></div>-->
                         <div class="msg-smgs"><span ms-html="item.msg"></span></div>
                         <div class="msg-img" ms-if="item.imgUrl">
-                            <img --src="/resources/static/img/delate/photo1.jpg" ms-attr-src="item.imgUrl" alt="">
+                            <img --src="../static/img/delate/photo1.jpg" ms-attr-src="item.imgUrl" alt="">
                         </div>
                         <!--<p class="msg-forhe" ms-on-tap="forHer()">给<span ms-if="item.sexy == 'man'">他</span><span ms-if="item.sexy == 'weman'">她</span>送礼物</p>-->
                         <p class="msg-forhe" ms-on-tap="forHer()" ms-if="item.imgUrl">送礼物</p>
-                        <img class="msg-icon-right" src="/resources/static/img/cgrt.png" ms-if="item.sexy == 'man'" alt="">
-                        <img class="msg-icon-right" src="/resources/static/img/lips.png" ms-if="item.sexy == 'weman'" alt="">
+                        <img class="msg-icon-right" src="../static/img/cgrt.png" ms-if="item.sexy == 'man'" alt="">
+                        <img class="msg-icon-right" src="../static/img/lips.png" ms-if="item.sexy == 'weman'" alt="">
                     </div>
                 </div>
                 <p class="msg-time"><span ms-if=""></span>{{ item.time | date("dd:HH")}}</p>
@@ -388,7 +389,7 @@
                 <td class="plug-btn">
                     <div class="plug-photo">
                         <input type="file" value='' ms-change="fileChange(this)" style="width: 60px;height: 60px;position: absolute;left: 0;top: 0;z-index: 9;opacity:0;">
-                        <img src="/resources/static/img/photo.png" ms-attr-src="imgViewSrc" alt="" style="border-radius: 5px;">
+                        <img src="../static/img/photo.png" ms-attr-src="imgViewSrc" alt="" style="border-radius: 5px;">
                     </div>
                 </td>
                 <td> </td>
@@ -404,10 +405,10 @@
     </div>
 </div>
 </body>
-<script type="text/javascript" src="/resources/plugin/avalon-master/dist/avalon.mobile.min.js"></script>
-<script type="text/javascript" src="/resources/plugin/jquery-1.9.1/jquery.js"></script>
-<script type="text/javascript" src="/resources/plugin/swiper-master/dist/js/swiper.jquery.min.js"></script>
-<script type="text/javascript" src="/resources/plugin/qqface/jquery.qqFace.js"></script>
-<script type="text/javascript" src="/resources/static/js/main.js"></script>
-<script type="text/javascript" src="/resources/static/js/index.js"></script>
+<script type="text/javascript" src="../plugin/avalon-master/dist/avalon.mobile.min.js"></script>
+<script type="text/javascript" src="../plugin/jquery-1.9.1/jquery.js"></script>
+<script type="text/javascript" src="../plugin/swiper-master/dist/js/swiper.jquery.min.js"></script>
+<script type="text/javascript" src="../plugin/qqface/jquery.qqFace.js"></script>
+<script type="text/javascript" src="../static/js/main.js"></script>
+<script type="text/javascript" src="../static/js/index.js"></script>
 </html>

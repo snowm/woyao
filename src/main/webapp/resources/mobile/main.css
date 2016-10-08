@@ -1,0 +1,255 @@
+/* @import "bootstrap/bootstrap.min.css"; */
+@import "bootstrap/bootstrap-cerulean.min.css";
+@import "bootstrap/datetimepicker4/bootstrap-datetimepicker.min.css";
+@import "bootstrap/select/bootstrap-select.min.css";
+@import "fontawesome/font-awesome.min.css";
+/*@import "bootstrap-theme.min.css";*/
+/* Override some defaults */
+
+html, body {
+	width: 100%;
+    height: 100%;
+}
+
+input.error {
+    border: 1px dotted red;
+}
+
+label.error {
+	font-weight: normal;
+	float: none;
+	color: red;
+	margin-left: 5px;
+}
+
+span.error {
+	font-weight: normal;
+	float: none;
+	color: red;
+	margin-left: 5px;
+}
+
+.required:after {
+	margin-left: 5px;
+	font-size: 20px;
+	line-height: 14px;
+	content:"*"; 
+	color:red;
+}
+
+/* .tab-content {
+	width:95%;
+} */
+.actions {
+	text-align: right;
+	padding: 50px 40px 0px 0px;
+}
+/* 
+.form-horizontal .control-label-wide {
+float: left;
+width: 220px;
+padding-top: 5px;
+text-align: right;
+padding-right: 10px;
+}
+
+.form-horizontal .controls-wide {
+	margin-left: 230px;
+}
+
+.form-horizontal .control-label-small {
+float: left;
+width: 90px;
+padding-top: 5px;
+text-align: right;
+padding-right: 10px;
+}
+
+.form-horizontal .controls-small {
+	margin-left: 100px;
+} */
+
+.report {
+	display: block; 
+	margin: 0 auto; 
+	border: 0;
+	width: 100%;
+	height: 600px;
+}
+
+object {
+	vertical-align: bottom;
+}
+
+/* */
+
+.container {
+  padding-right: 0px;
+  padding-left: 0px;
+  margin-right: auto;
+  margin-left: auto;
+}
+@media (min-width: 768px) {
+  .container {
+    width: 100%;
+  }
+}
+@media (min-width: 992px) {
+  .container {
+    width: 100%;
+  }
+}
+@media (min-width: 1200px) {
+  .container {
+    width: 100%;
+  }
+}
+/* nav */
+.navbar-brand {
+  font-size: 22px;
+}
+.navbar-right {
+  margin-right: 0px;
+}
+.navbar.header .navbar-nav .glyphicon {
+  font-size: 17px;
+}
+.navbar.header .navbar-nav .msg-count {
+  font-size: 14px;
+  color: red;
+}
+.navbar.header .navbar-nav > li > a {
+  font-size: 18px;
+}
+/* .navbar-default.header {
+  border-bottom-color: #2e3d54;
+} */
+.navbar.header {
+  border-radius: 0px;
+  border-left-width: 0px; 
+  border-top-width: 0px; 
+  border-right-width: 0px; 
+}
+
+/* container-fluid */
+.container-fluid.index {
+	margin-top: 55px;
+    padding-left: 4px;
+    padding-right: 4px;
+}
+/* panel */
+.panel-heading > .navbar-nav > li > a,
+.panel-heading > .navbar-nav > li > a:focus {
+  color: #ccc;
+  padding: 0px 0px 0px 15px;
+  background-color:transparent;
+}
+.panel-heading > .navbar-nav > li > a:hover {
+  color: #fff;
+}
+
+.panel.main-panel .panel-heading .title {
+	font-size:18px;
+}
+
+.panel-heading > div.row {
+	margin-left: 0px;
+	margin-right: 0px;
+}
+
+.modal-body .panel-body,
+.index .panel-body {
+  padding: 4px 0px 4px 0px;
+}
+
+/* .index .panel-body .table > thead > tr > th {
+  padding-top: 5px;
+  padding-bottom: 5px;
+} */
+
+/* pagination */
+.pagination {
+  margin: 0px 5px;
+}
+
+.pagination-mini > li > a,
+.pagination-mini > li > span {
+  padding: 3px 5px;
+  font-size: 12px;
+  line-height: 1.5;
+}
+.pagination-mini > li:first-child > a,
+.pagination-mini > li:first-child > span {
+  border-top-left-radius: 1px;
+  border-bottom-left-radius: 1px;
+}
+.pagination-mini > li:last-child > a,
+.pagination-mini > li:last-child > span {
+  border-top-right-radius: 1px;
+  border-bottom-right-radius: 1px;
+}
+.paging.form-inline .form-group {
+	display: inline-block;
+	margin-bottom:0;
+	vertical-align:middel;
+}
+.btn-op-col {
+	padding:2px 4px 2px 4px;
+	margin-left:4px;
+	margin-right:4px;
+}
+
+select.form-control,
+input.form-control {
+	min-width:120px;
+	/* max-width:400px; */
+}
+.panel-heading input.form-control,
+.panel-heading select.form-control {
+	min-width:120px;
+	max-width:200px;
+}
+textarea.form-control {
+	min-width:100px;
+	/* max-width:400px; */
+	min-height:90px;
+	max-height:150px;
+}
+
+.scrollspy-example {
+    position: relative;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+table.dataTable tbody tr.selected, table.dataTable tbody th.selected, table.dataTable tbody td.selected {
+    color: white !important;
+}
+table.dataTable tbody tr.selected>td, table.dataTable tbody th.selected>td, table.dataTable tbody td.selected {
+    color: white !important;
+}
+table.dataTable tbody>tr.selected, table.dataTable tbody>tr>.selected {
+    background-color: #08C !important;
+}
+table.dataTable tbody>tr.selected>td {
+    background-color: #08C !important;
+}
+.dt-bootstrap > .row > .col-sm-12 {
+	padding-left:2px;
+	padding-right:2px;
+}
+
+/* modal-dialog */
+.bootbox.modal.info h4.modal-title,
+.bootbox.modal.warning h4.modal-title,
+.bootbox.modal.error h4.modal-title{
+	color: #ffffff;
+}
+.bootbox.modal.info .modal-header{
+	background-color: #3a87ad;
+}
+.bootbox.modal.warning .modal-header{
+	background-color: #ffd017;
+}
+.bootbox.modal.error .modal-header{
+	background-color: #b94a48;
+}

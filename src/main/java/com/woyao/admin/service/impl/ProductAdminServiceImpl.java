@@ -1,6 +1,7 @@
 package com.woyao.admin.service.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.snowm.hibernate.ext.domain.Modification;
 import com.snowm.utils.query.PaginationBean;
 import com.woyao.admin.dto.product.ProductDTO;
 import com.woyao.admin.dto.product.QueryProductsRequestDTO;
@@ -36,6 +38,9 @@ public class ProductAdminServiceImpl extends AbstractAdminService<Product, Produ
 	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED)
 	public ProductDTO update(ProductDTO dto) {
 		Product m=this.transferToDomain(dto);
+		Modification md=new Modification();
+		md.setLastModifiedDate(new Date());
+		m.setModification(md);
 		dao.saveOrUpdate(m);
 		return dto;
 	}
@@ -69,6 +74,7 @@ public class ProductAdminServiceImpl extends AbstractAdminService<Product, Produ
 
 	@Override
 	public Product transferToDomain(ProductDTO dto) {
+		System.out.println(dto);
 		Product m=new Product();
 		BeanUtils.copyProperties(dto, m);
 		dto.getTypeId();	
