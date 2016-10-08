@@ -25,18 +25,18 @@
             <li class='active launcher'>
                 <i class='fa fa-home'></i>
                 <a href="#!/home">首页</a>
-            </li>
+            </li>           
             <li class='launcher'>
-                <i class='fa fa-wrench'></i>
-                <a href="#!/setting">设置</a>
+                <i class='fa fa-star'></i>
+                <a href="#!/income">收入管理</a>
             </li>
             <li class='launcher'>
                 <i class='fa fa-star'></i>
-                <a href="#!/setting">收入明细</a>
+                <a href="#!/chat">聊天管理</a>
             </li>
             <li class='launcher'>
                 <i class='fa fa-gift'></i>
-                <a href="tables.html">礼物管理</a>
+                <a href="#!/gift">商品管理</a>
             </li>
         </ul>
         <div data-toggle='tooltip' id='beaker' title='Made by lab2023'></div>
@@ -44,40 +44,10 @@
     <!-- Tools -->
     <section id='tools'>
         <ul class='breadcrumb' id='breadcrumb'>
-            <li class='title'>Tables</li>
-            <li><a href="#">Lorem</a></li>
-            <li class='active'><a href="#">ipsum</a></li>
+            <li class='title'>XXXX酒吧管理系统</li>           
         </ul>
         <div id='toolbar'>
-            <ul class='nav navbar-nav pull-right'>
-                <li class='dropdown'>
-                    <a class='dropdown-toggle' data-toggle='dropdown' href='#'>
-                        <i class='icon-envelope'></i>
-                        Messages
-                        <span class='badge'>5</span>
-                        <b class='caret'></b>
-                    </a>
-                    <ul class='dropdown-menu'>
-                        <li>
-                            <a href='#'>New message</a>
-                        </li>
-                        <li>
-                            <a href='#'>Inbox</a>
-                        </li>
-                        <li>
-                            <a href='#'>Out box</a>
-                        </li>
-                        <li>
-                            <a href='#'>Trash</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a href='#'>
-                        <i class='icon-cog'></i>
-                        Settings
-                    </a>
-                </li>
+            <ul class='nav navbar-nav pull-right'>             
                 <li class='dropdown user'>
                     <a class='dropdown-toggle' data-toggle='dropdown' href='#'>
                         <i class='icon-user'></i>
@@ -91,7 +61,7 @@
                         </li>
                         <li class='divider'></li>
                         <li>
-                            <a href="/">Sign out</a>
+                            <a href="#">Sign out</a>
                         </li>
                     </ul>
                 </li>
@@ -99,7 +69,7 @@
         </div>
     </section>
     <!-- Content -->
-    <div id='content' ms-include-src="content">
+  <div id='content' ms-include-src="content">
     </div>
 </div>
 </body>

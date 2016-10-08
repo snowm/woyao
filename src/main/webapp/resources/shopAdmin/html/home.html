@@ -1,351 +1,57 @@
-<div class='panel panel-default grid'>
-    <div class='panel-heading'>
-        <i class='icon-table icon-large'></i>
-        Default Table
-        <div class='panel-tools'>
-            <div class='btn-group'>
-                <a class='btn' href='#'>
-                    <i class='icon-wrench'></i>
-                    Settings
-                </a>
-                <a class='btn' href='#'>
-                    <i class='icon-filter'></i>
-                    Filters
-                </a>
-                <a class='btn' data-toggle='toolbar-tooltip' href='#' title='Reload'>
-                    <i class='icon-refresh'></i>
-                </a>
-            </div>
-            <div class='badge'>3 record</div>
-        </div>
+<div class="pageheader">
+    <h2><i class="fa fa-home"></i> 首 页</h2>
+    <div class="breadcrumb-wrapper">
+        <span class="label">位 置 :</span>
+        <ol class="breadcrumb">
+            <li><a href="index.html">首 页</a></li>
+            <li class="active"></li>
+        </ol>
     </div>
-    <div class='panel-body filters'>
-        <div class='row'>
-            鎼滅储
-        </div>
+    <div>
+    	<form name="form1" action="upload/file" method="post" enctype="multipart/form-data">
+			图片一 :<input type="file" name= "uploadFile" value=""/>
+			<input value="提交" type="submit" /> 
+		</form>
     </div>
-    <table class='table'>
-        <thead>
-        <tr>
-            <th>#</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Username</th>
-            <th class='actions'>
-                Actions
-            </th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr class='success'>
-            <td>1</td>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-            <td class='action'>
-                <a class='btn btn-success' data-toggle='tooltip' href='#' title='Zoom'>
-                    <i class='icon-zoom-in'></i>
-                </a>
-                <a class='btn btn-info' href='#'>
-                    <i class='icon-edit'></i>
-                </a>
-                <a class='btn btn-danger' href='#'>
-                    <i class='icon-trash'></i>
-                </a>
-            </td>
-        </tr>
-        <tr class='danger'>
-            <td>2</td>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-            <td class='action'>
-                <a class='btn btn-success' data-toggle='tooltip' href='#' title='Zoom'>
-                    <i class='icon-zoom-in'></i>
-                </a>
-                <a class='btn btn-info' href='#'>
-                    <i class='icon-edit'></i>
-                </a>
-                <a class='btn btn-danger' href='#'>
-                    <i class='icon-trash'></i>
-                </a>
-            </td>
-        </tr>
-        <tr class='warning'>
-            <td>3</td>
-            <td>Larry</td>
-            <td>the Bird</td>
-            <td>@twitter</td>
-            <td class='action'>
-                <a class='btn btn-success' data-toggle='tooltip' href='#' title='Zoom'>
-                    <i class='icon-zoom-in'></i>
-                </a>
-                <a class='btn btn-info' href='#'>
-                    <i class='icon-edit'></i>
-                </a>
-                <a class='btn btn-danger' href='#'>
-                    <i class='icon-trash'></i>
-                </a>
-            </td>
-        </tr>
-        <tr class='active'>
-            <td>4</td>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-            <td class='action'>
-                <a class='btn btn-success' data-toggle='tooltip' href='#' title='Zoom'>
-                    <i class='icon-zoom-in'></i>
-                </a>
-                <a class='btn btn-info' href='#'>
-                    <i class='icon-edit'></i>
-                </a>
-                <a class='btn btn-danger' href='#'>
-                    <i class='icon-trash'></i>
-                </a>
-            </td>
-        </tr>
-        <tr class='disabled'>
-            <td>5</td>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-            <td class='action'>
-                <a class='btn btn-success' data-toggle='tooltip' href='#' title='Zoom'>
-                    <i class='icon-zoom-in'></i>
-                </a>
-                <a class='btn btn-info' href='#'>
-                    <i class='icon-edit'></i>
-                </a>
-                <a class='btn btn-danger' href='#'>
-                    <i class='icon-trash'></i>
-                </a>
-            </td>
-        </tr>
-        <tr>
-            <td>6</td>
-            <td>Larry</td>
-            <td>the Bird</td>
-            <td>@twitter</td>
-            <td class='action'>
-                <a class='btn btn-success' data-toggle='tooltip' href='#' title='Zoom'>
-                    <i class='icon-zoom-in'></i>
-                </a>
-                <a class='btn btn-info' href='#'>
-                    <i class='icon-edit'></i>
-                </a>
-                <a class='btn btn-danger' href='#'>
-                    <i class='icon-trash'></i>
-                </a>
-            </td>
-        </tr>
-        <tr>
-            <td>7</td>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-            <td class='action'>
-                <a class='btn btn-success' data-toggle='tooltip' href='#' title='Zoom'>
-                    <i class='icon-zoom-in'></i>
-                </a>
-                <a class='btn btn-info' href='#'>
-                    <i class='icon-edit'></i>
-                </a>
-                <a class='btn btn-danger' href='#'>
-                    <i class='icon-trash'></i>
-                </a>
-            </td>
-        </tr>
-        <tr>
-            <td>7</td>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-            <td class='action'>
-                <a class='btn btn-success' data-toggle='tooltip' href='#' title='Zoom'>
-                    <i class='icon-zoom-in'></i>
-                </a>
-                <a class='btn btn-info' href='#'>
-                    <i class='icon-edit'></i>
-                </a>
-                <a class='btn btn-danger' href='#'>
-                    <i class='icon-trash'></i>
-                </a>
-            </td>
-        </tr>
-        <tr>
-            <td>7</td>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-            <td class='action'>
-                <a class='btn btn-success' data-toggle='tooltip' href='#' title='Zoom'>
-                    <i class='icon-zoom-in'></i>
-                </a>
-                <a class='btn btn-info' href='#'>
-                    <i class='icon-edit'></i>
-                </a>
-                <a class='btn btn-danger' href='#'>
-                    <i class='icon-trash'></i>
-                </a>
-            </td>
-        </tr>
-        <tr>
-            <td>7</td>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-            <td class='action'>
-                <a class='btn btn-success' data-toggle='tooltip' href='#' title='Zoom'>
-                    <i class='icon-zoom-in'></i>
-                </a>
-                <a class='btn btn-info' href='#'>
-                    <i class='icon-edit'></i>
-                </a>
-                <a class='btn btn-danger' href='#'>
-                    <i class='icon-trash'></i>
-                </a>
-            </td>
-        </tr>
-        <tr>
-            <td>7</td>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-            <td class='action'>
-                <a class='btn btn-success' data-toggle='tooltip' href='#' title='Zoom'>
-                    <i class='icon-zoom-in'></i>
-                </a>
-                <a class='btn btn-info' href='#'>
-                    <i class='icon-edit'></i>
-                </a>
-                <a class='btn btn-danger' href='#'>
-                    <i class='icon-trash'></i>
-                </a>
-            </td>
-        </tr>
-        <tr>
-            <td>7</td>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-            <td class='action'>
-                <a class='btn btn-success' data-toggle='tooltip' href='#' title='Zoom'>
-                    <i class='icon-zoom-in'>aaa</i>
-                </a>
-                <a class='btn btn-info' href='#'>
-                    <i class='icon-edit'></i>
-                </a>
-                <a class='btn btn-danger' href='#'>
-                    <i class='icon-trash'></i>
-                </a>
-            </td>
-        </tr>
-        <tr>
-            <td>7</td>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-            <td class='action'>
-                <a class='btn btn-success' data-toggle='tooltip' href='#' title='Zoom'>
-                    <i class='icon-zoom-in'></i>
-                </a>
-                <a class='btn btn-info' href='#'>
-                    <i class='icon-edit'></i>
-                </a>
-                <a class='btn btn-danger' href='#'>
-                    <i class='icon-trash'></i>
-                </a>
-            </td>
-        </tr>
-        <tr>
-            <td>8</td>
-            <td>Larry</td>
-            <td>the Bird</td>
-            <td>@twitter</td>
-            <td class='action'>
-                <a class='btn btn-success' data-toggle='tooltip' href='#' title='Zoom'>
-                    <i class='icon-zoom-in'></i>
-                </a>
-                <a class='btn btn-info' href='#'>
-                    <i class='icon-edit'></i>
-                </a>
-                <a class='btn btn-danger' href='#'>
-                    <i class='icon-trash'></i>
-                </a>
-            </td>
-        </tr>
-        <tr>
-            <td>9</td>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-            <td class='action'>
-                <a class='btn btn-success' data-toggle='tooltip' href='#' title='Zoom'>
-                    <i class='icon-zoom-in'></i>
-                </a>
-                <a class='btn btn-info' href='#'>
-                    <i class='icon-edit'></i>
-                </a>
-                <a class='btn btn-danger' href='#'>
-                    <i class='icon-trash'></i>
-                </a>
-            </td>
-        </tr>
-        <tr>
-            <td>10</td>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-            <td class='action'>
-                <a class='btn btn-success' data-toggle='tooltip' href='#' title='Zoom'>
-                    <i class='icon-zoom-in'></i>
-                </a>
-                <a class='btn btn-info' href='#'>
-                    <i class='icon-edit'></i>
-                </a>
-                <a class='btn btn-danger' href='#'>
-                    <i class='icon-trash'></i>
-                </a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-    <div class='panel-footer'>
-        <ul class='pagination pagination-sm'>
-            <li>
-                <a href='#'>芦</a>
-            </li>
-            <li class='active'>
-                <a href='#'>1</a>
-            </li>
-            <li>
-                <a href='#'>2</a>
-            </li>
-            <li>
-                <a href='#'>3</a>
-            </li>
-            <li>
-                <a href='#'>4</a>
-            </li>
-            <li>
-                <a href='#'>5</a>
-            </li>
-            <li>
-                <a href='#'>6</a>
-            </li>
-            <li>
-                <a href='#'>7</a>
-            </li>
-            <li>
-                <a href='#'>8</a>
-            </li>
-            <li>
-                <a href='#'>禄</a>
-            </li>
-        </ul>
-        <div class='pull-right'>
-            Showing 1 to 10 of 32 entries
-        </div>
-    </div>
+    <button class="btn btn-primary mr5" data-toggle="modal" data-target=".bs-example-modal-lg">Large Modal</button>
 </div>
+
+<!-- Preloader -->
+<button class="btn btn-primary mr5" data-toggle="modal" data-target=".bs-example-modal-lg">Large Modal</button>
+
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button aria-hidden="true" data-dismiss="modal" class="close" type="button">&times;</button>
+            <h4 class="modal-title">Large Modal</h4>
+        </div>
+        <div class="modal-body">
+        	<div class="table-responsive" style="border-top: 1px solid #dadada" ms-if='shopList.length != 0'>
+	    <table class="table table-striped table-hover text-center">
+	      <thead>
+	      <tr>
+	        <th class="text-center">商家名称</th>
+	        <th class="text-center">商家编号</th>
+	        <th class="text-center">联系人</th>
+	        <th class="text-center text-right" width="200">操作</th>
+	      </tr>
+	      </thead>
+	      <tbody>
+	      <tr ms-repeat-p="shopList">
+	        <td ms-text="p.name"></td>
+	        <td ms-text="p.id"></td>
+	        <td ms-text="p.managerName"></td>
+	        <td class="table-action">
+		        <button class="btn btn-xs btn-info" ms-click="updateShop(p.id)"><i class="fa fa-pencil"></i> 修改</button>
+		        <button class="btn btn-xs btn-danger"  ms-click="deleteShop(p.id)"><i class="fa fa-trash-o"></i> 删除</button>
+	        </td>
+	      </tr>
+	      </tbody>
+	    </table>
+	  </div>
+        </div>
+    </div>
+  </div>
+</div>
+
