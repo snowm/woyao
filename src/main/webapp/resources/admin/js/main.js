@@ -18,6 +18,7 @@ require.config({
         'custom': ['./js/plugin/custom'],
         'toggles': ['./js/plugin/toggles.min'],
         'modernizr': ['./js/plugin/modernizr.min'],
+        'uploadfile': ['./js/plugin/uploadfile'],
     },shim: {
         "jquery":{
             "expotrs":'$'
@@ -28,6 +29,7 @@ require.config({
         "custom":["jquery"],
         "toggles":["jquery"],
         "bootstrap":["jquery"],
+        "uploadfile":["jquery"],
     },
     priority: ['text']
 });
