@@ -40,7 +40,6 @@ import com.woyao.wx.WxEndpoint;
 import com.woyao.wx.dto.GetGlobalAccessTokenResponse;
 
 @Component("oauth2SecurityFilter")
-@PropertySource("classpath:/wx.properties")
 public class Oauth2SecurityFilter implements Filter, InitializingBean {
 
 	private static final String SESSION_ATTR_OAUTH_CODE = "code";
@@ -50,16 +49,6 @@ public class Oauth2SecurityFilter implements Filter, InitializingBean {
 	@Resource(name = "globalConfig")
 	private GlobalConfig globalConfig;
 
-	@Value("${wx.api.authorize.url}")
-	private String authorizeUrl;
-
-	// snsapi_userinfo
-	@Value("${wx.api.authorize.paramFormat}")
-	private String authorizeParamFormat;
-
-	// https://{wxUrl}?appid=%s&redirect_uri=%s&response_type=code&scope=%s&state=%s#wechat_redirect
-	private String authorizeFormat;
-
 	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
 	@Resource(name = "wxEndpoint")
@@ -67,7 +56,6 @@ public class Oauth2SecurityFilter implements Filter, InitializingBean {
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		this.authorizeFormat = this.authorizeUrl + "?" + this.authorizeFormat;
 	}
 
 	@Override
@@ -115,7 +103,7 @@ public class Oauth2SecurityFilter implements Filter, InitializingBean {
 	}
 
 	private String calculateRedirectUrl(String appId, String currentUrl, String scope, String state) {
-		return String.format(this.authorizeFormat, appId, currentUrl, scope, state);
+		return String.format(this.globalConfig.getAuthorizeFormat(), appId, currentUrl, scope, state);
 	}
 
 	protected void redirectUser(HttpServletRequest request, HttpServletResponse response, String url) throws IOException {
@@ -183,7 +171,7 @@ public class Oauth2SecurityFilter implements Filter, InitializingBean {
 	private AtomicLong idGenerator = new AtomicLong();
 
 	private ChatterDTO getChatterInfo() {
-//		this.wxEndpoint.getAccessToken(appId, appSecret, code, grantType)
+		// this.wxEndpoint.getAccessToken(appId, appSecret, code, grantType)
 		long id = idGenerator.incrementAndGet();
 		ChatterDTO dto = new ChatterDTO();
 		dto.setId(id);
@@ -201,8 +189,8 @@ public class Oauth2SecurityFilter implements Filter, InitializingBean {
 		return token.getAccessToken();
 	}
 
-//	private String getUserAccessToken() {
-//
-//	}
+	// private String getUserAccessToken() {
+	//
+	// }
 
 }

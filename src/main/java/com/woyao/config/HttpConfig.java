@@ -7,12 +7,15 @@ import javax.ws.rs.client.Client;
 import org.apache.http.conn.HttpClientConnectionManager;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 
 import com.woyao.jersey.JerseyApacheClientFactory;
 import com.woyao.jersey.JerseyNettyClientFactory;
 
+@Configuration
 public class HttpConfig {
 
 	@Autowired
@@ -27,17 +30,17 @@ public class HttpConfig {
 	}
 
 	@Bean(name = "wxJerseyApacheClientFactory")
-	public JerseyApacheClientFactory wxJerseyApacheClientFactory() {
+	public JerseyApacheClientFactory wxJerseyApacheClientFactory(@Qualifier("httpConnManager") HttpClientConnectionManager connManager) {
 		JerseyApacheClientFactory cf = new JerseyApacheClientFactory();
 		cf.setConnectTimeout(this.env.getProperty("wx.conn.connectTimeout", Integer.class));
 		cf.setSocketTimeout(this.env.getProperty("wx.conn.socketTimeout", Integer.class));
 		cf.setConnectionRequestTimeout(this.env.getProperty("wx.conn.connectionRequestTimeout", Integer.class));
 		cf.setMaxIdleTime(this.env.getProperty("wx.conn.maxIdleTime", Long.class));
 		cf.setMaxIdleTimeUnit(this.env.getProperty("wx.conn.maxIdleTimeUnit", TimeUnit.class));
-		cf.setConnManager(this.connectionManager());
+		cf.setConnManager(connManager);
 		return cf;
 	}
-	
+
 	@Bean(name = "wxJerseyNettyClientFactory")
 	public JerseyNettyClientFactory wxJerseyNettyClientFactory() {
 		JerseyNettyClientFactory cf = new JerseyNettyClientFactory();
@@ -51,4 +54,5 @@ public class HttpConfig {
 		Client client = this.wxJerseyNettyClientFactory().getObject();
 		return client;
 	}
+
 }

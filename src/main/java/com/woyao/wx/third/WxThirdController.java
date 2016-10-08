@@ -20,8 +20,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.snowm.utils.encrypt.SHA1Encrypt;
 import com.woyao.GlobalConfig;
 
-@Controller
-@RequestMapping(value = "/wx")
+//@Controller
+//@RequestMapping(value = "/wx")
 public class WxThirdController {
 
 	private Log log = LogFactory.getLog(this.getClass());

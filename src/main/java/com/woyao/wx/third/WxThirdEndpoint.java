@@ -25,8 +25,8 @@ import com.woyao.wx.third.dto.GetAuthorizerTokenResponse;
 import com.woyao.wx.third.dto.GetPreAuthCodeRequest;
 import com.woyao.wx.third.dto.GetPreAuthCodeResponse;
 
-@Component("wxThirdEndpoint")
-@PropertySource("classpath:/wx.properties")
+//@Component("wxThirdEndpoint")
+//@PropertySource("classpath:/wx.properties")
 public class WxThirdEndpoint {
 
 	private Log log = LogFactory.getLog(this.getClass());

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import com.woyao.GlobalConfig;
 import com.woyao.dao.CommonDao;
 import com.woyao.domain.wx.GlobalAccessToken;
+import com.woyao.service.GlobalAccessTokenService;
 import com.woyao.wx.WxEndpoint;
 import com.woyao.wx.dto.GetGlobalAccessTokenResponse;
 
@@ -18,8 +19,8 @@ public class GetGlobalAccessTokenJob {
 
 	private Log log = LogFactory.getLog(this.getClass());
 
-	@Resource(name = "commonDao")
-	private CommonDao dao;
+	@Resource(name = "globalAccessTokenService")
+	private GlobalAccessTokenService service;
 
 	@Resource(name = "wxEndpoint")
 	private WxEndpoint wxEndpoint;
@@ -37,7 +38,7 @@ public class GetGlobalAccessTokenJob {
 		}
 		long start = System.currentTimeMillis();
 		try {
-			GlobalAccessToken token = this.dao.queryUnique("from GlobalAccessToken order by id desc");
+			GlobalAccessToken token = this.service.getToken();
 			if (token == null || !token.isEffective() || token.isExpired() || token.getRemainExpiringTime() <= 600) {
 				if (token == null) {
 					token = new GlobalAccessToken();
@@ -47,8 +48,7 @@ public class GetGlobalAccessTokenJob {
 				token.setAccessToken(resp.getAccessToken());
 				token.setExpiresIn(resp.getExpiresIn());
 				token.setEffective(true);
-				this.dao.save(token);
-
+				this.service.saveOrUpdate(token);
 			} else {
 			}
 		} finally {

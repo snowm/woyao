@@ -1,16 +1,11 @@
 package com.woyao.config;
 
-import javax.annotation.Resource;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.env.Environment;
-import org.springframework.security.config.annotation.web.socket.AbstractSecurityWebSocketMessageBrokerConfigurer;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
-import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
 import org.springframework.web.socket.server.standard.ServletServerContainerFactoryBean;
@@ -24,8 +19,8 @@ import com.woyao.customer.chat.SelfHandshakeInterceptor;
 //@Import({ WebSocketSecurityConfig.class })
 //public class WebSocketConfig extends AbstractSecurityWebSocketMessageBrokerConfigurer {
 @Configuration
-@Order(3)
 @EnableWebSocket
+@Order(3)
 public class WebSocketConfig implements WebSocketConfigurer {
 	
 	@Autowired

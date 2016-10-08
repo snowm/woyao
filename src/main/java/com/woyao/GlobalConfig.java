@@ -8,6 +8,13 @@ public class GlobalConfig {
 
 	private String appSecret;
 
+	private String authorizeUrl;
+
+	private String authorizeParamFormat;
+
+	// https://{wxUrl}?appid=%s&redirect_uri=%s&response_type=code&scope=%s&state=%s#wechat_redirect
+	private String authorizeFormat;
+
 	private String thirdAppId;
 
 	private String thirdMsgToken;
@@ -36,6 +43,30 @@ public class GlobalConfig {
 
 	public void setAppSecret(String appSecret) {
 		this.appSecret = appSecret;
+	}
+
+	public String getAuthorizeUrl() {
+		return authorizeUrl;
+	}
+
+	public void setAuthorizeUrl(String authorizeUrl) {
+		this.authorizeUrl = authorizeUrl;
+	}
+
+	public String getAuthorizeParamFormat() {
+		return authorizeParamFormat;
+	}
+
+	public void setAuthorizeParamFormat(String authorizeParamFormat) {
+		this.authorizeParamFormat = authorizeParamFormat;
+	}
+
+	public String getAuthorizeFormat() {
+		return authorizeFormat;
+	}
+
+	public void generateAuthorizeFormat() {
+		this.authorizeFormat = this.authorizeUrl + "?" + this.authorizeFormat;
 	}
 
 	public String getThirdAppId() {

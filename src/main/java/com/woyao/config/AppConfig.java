@@ -15,10 +15,11 @@ import org.springframework.transaction.PlatformTransactionManager;
 import com.snowm.hibernate.ext.multi.SwitchableSessionFactoryWrapper;
 import com.snowm.hibernate.ext.multi.SwitchableTransactionManagerWrapper;
 import com.woyao.GlobalConfig;
+import com.woyao.wx.WxConfig;
 
 @Configuration("mainConfig")
-@PropertySource(name = "mainProperty", value = {"classpath:/config.properties", "classpath:/wx.properties"})
-@Import({ com.snowm.hibernate.ext.config.AppConfig.class, com.snowm.security.config.AppConfig.class, SecurityConfig.class })
+@PropertySource(name = "mainProperty1", value = { "classpath:/config.properties", "classpath:/wx.properties" })
+@Import({ com.snowm.hibernate.ext.config.AppConfig.class, com.snowm.security.config.AppConfig.class, HttpConfig.class, WxConfig.class })
 @ComponentScan({ "com.snowm", "com.woyao" })
 // @Profile("dev")
 public class AppConfig {
@@ -72,9 +73,13 @@ public class AppConfig {
 		globalConfig.setVerifyToken(this.env.getProperty("wx.verifyToken", "test"));
 		globalConfig.setAppId(this.env.getProperty("wx.appId", "test"));
 		globalConfig.setAppSecret(this.env.getProperty("wx.appSecret", "test"));
-		
+		globalConfig.setAuthorizeUrl(this.env.getProperty("wx.api.authorize.url"));
+		globalConfig.setAuthorizeParamFormat(this.env.getProperty("wx.api.authorize.paramFormat"));
+		globalConfig.generateAuthorizeFormat();
+
 		globalConfig.setThirdMsgToken(this.env.getProperty("wx.3rd.msg.token", "test1"));
-		globalConfig.setThirdEncodingAesKey(this.env.getProperty("wx.3rd.msg.encodingAesKey", "kjADF9IKj1iuwe98237k23972j9097ca91MNie83176"));
+		globalConfig
+				.setThirdEncodingAesKey(this.env.getProperty("wx.3rd.msg.encodingAesKey", "kjADF9IKj1iuwe98237k23972j9097ca91MNie83176"));
 		globalConfig.setThirdAppId(this.env.getProperty("wx.3rd.appId", "wxc72bd2fb81d08c06"));
 
 		return globalConfig;

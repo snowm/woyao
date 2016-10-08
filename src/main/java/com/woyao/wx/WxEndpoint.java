@@ -1,6 +1,5 @@
 package com.woyao.wx;
 
-import javax.annotation.Resource;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Invocation.Builder;
 import javax.ws.rs.client.WebTarget;
@@ -9,17 +8,12 @@ import javax.ws.rs.core.Response;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.stereotype.Component;
 
 import com.woyao.wx.dto.ErrorResponse;
 import com.woyao.wx.dto.GetAccessTokenResponse;
 import com.woyao.wx.dto.GetGlobalAccessTokenResponse;
 import com.woyao.wx.dto.GetUserInfoResponse;
 
-@Component("wxEndpoint")
-@PropertySource("classpath:/wx.properties")
 public class WxEndpoint {
 
 	private static final String QUERY_PARA_OPEN_ID = "openid";
@@ -29,19 +23,14 @@ public class WxEndpoint {
 
 	private Log log = LogFactory.getLog(this.getClass());
 
-	@Value("${wx.api.getGlobalAccessToken.url}")
 	private String getGlobalAccessTokenUrl;
 
-	@Value("${wx.api.getAccessToken.url}")
 	private String getAccessTokenUrl;
 
-	@Value("${wx.api.refreshAccessToken.url}")
 	private String refreshAccessTokenUrl;
 
-	@Value("${wx.api.getUserInfo.url}")
 	private String getUserInfoUrl;
 
-	@Resource(name = "wxJerseyClient")
 	private Client client;
 
 	/**
@@ -250,4 +239,25 @@ public class WxEndpoint {
 		}
 		return true;
 	}
+
+	public void setGetGlobalAccessTokenUrl(String getGlobalAccessTokenUrl) {
+		this.getGlobalAccessTokenUrl = getGlobalAccessTokenUrl;
+	}
+
+	public void setGetAccessTokenUrl(String getAccessTokenUrl) {
+		this.getAccessTokenUrl = getAccessTokenUrl;
+	}
+
+	public void setRefreshAccessTokenUrl(String refreshAccessTokenUrl) {
+		this.refreshAccessTokenUrl = refreshAccessTokenUrl;
+	}
+
+	public void setGetUserInfoUrl(String getUserInfoUrl) {
+		this.getUserInfoUrl = getUserInfoUrl;
+	}
+
+	public void setClient(Client client) {
+		this.client = client;
+	}
+
 }

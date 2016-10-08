@@ -59,6 +59,10 @@ public class JerseyNettyClientFactory implements FactoryBean<Client>, Initializi
 		}
 	}
 
+	public void setAsyncThreadPoolSize(int asyncThreadPoolSize) {
+		this.asyncThreadPoolSize = asyncThreadPoolSize;
+	}
+
 	public void setConnectTimeout(int connectTimeout) {
 		this.connectTimeout = connectTimeout;
 	}
