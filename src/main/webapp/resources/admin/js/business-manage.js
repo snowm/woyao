@@ -178,8 +178,8 @@ define(['uploadfile'],function(){
                                 {
                                     console.log(data);
                                     alert("上传成功了！返回值" + data.result)
-                	    			shopController.formData = item;
-                	    			shopController.imgViewSrc = item.picUrl;
+//                	    			shopController.formData = item;
+//                	    			shopController.imgViewSrc = item.picUrl;
                                 },
                                 error: function (data, status, e)//服务器响应失败处理函数
                                 {
