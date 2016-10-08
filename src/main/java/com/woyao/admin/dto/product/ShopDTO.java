@@ -16,6 +16,8 @@ public class ShopDTO extends BasePKDTO {
 	private Long managerProfileId;
 
 	private String managerName;
+	
+	private String managerPwd;
 
 	private String name;
 
@@ -137,6 +139,14 @@ public class ShopDTO extends BasePKDTO {
 
 	public void setChatRoomId(Long chatRoomId) {
 		this.chatRoomId = chatRoomId;
+	}
+
+	public String getManagerPwd() {
+		return managerPwd;
+	}
+
+	public void setManagerPwd(String managerPwd) {
+		this.managerPwd = managerPwd;
 	}
 
 
