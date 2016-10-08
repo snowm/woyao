@@ -7,10 +7,58 @@
             <li class="active"></li>
         </ol>
     </div>
+    
+    
     <div>
     	<form name="form1" action="upload/file" method="post" enctype="multipart/form-data">
 			图片一 :<input type="file" name= "uploadFile" value=""/>
 			<input value="提交" type="submit" /> 
 		</form>
     </div>
+    <button class="btn btn-primary mr5" data-toggle="modal" data-target=".bs-example-modal-lg">Large Modal</button>
 </div>
+
+<!-- Preloader -->
+<button class="btn btn-primary mr5" data-toggle="modal" data-target=".bs-example-modal-lg">Large Modal</button>
+
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button aria-hidden="true" data-dismiss="modal" class="close" type="button">&times;</button>
+            <h4 class="modal-title">Large Modal</h4>
+        </div>
+        <div class="modal-body">
+        		
+			<div class="col-xs-6 col-sm-4 col-md-3 image">
+              <div class="thmb">
+                <div class="ckbox ckbox-default" style="display: none;">
+                  <input type="checkbox" id="check2" value="1">
+                  <label for="check2"></label>
+                </div>
+                <div class="btn-group fm-group" style="display: none;">
+                    <button type="button" class="btn btn-default dropdown-toggle fm-toggle" data-toggle="dropdown">
+                      <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu fm-menu" role="menu">
+                      <li><a href="#"><i class="fa fa-share"></i> Share</a></li>
+                      <li><a href="#"><i class="fa fa-envelope-o"></i> Email</a></li>
+                      <li><a href="#"><i class="fa fa-pencil"></i> Edit</a></li>
+                      <li><a href="#"><i class="fa fa-download"></i> Download</a></li>
+                      <li><a href="#"><i class="fa fa-trash-o"></i> Delete</a></li>
+                    </ul>
+                </div><!-- btn-group -->
+                <div class="thmb-prev">
+                  <a href="images/photos/media1.jpg" data-rel="prettyPhoto">
+                    <img src="images/photos/media1.jpg" class="img-responsive" alt="">
+                  </a>
+                </div>
+                <h5 class="fm-title"><a href="">Vegetarian.png</a></h5>
+                <small class="text-muted">Added: Jan 02, 2014</small>
+              </div><!-- thmb -->
+            </div>
+        </div>
+    </div>
+  </div>
+</div>
+
