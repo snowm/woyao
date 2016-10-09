@@ -78,6 +78,7 @@ public class Oauth2SecurityFilter implements Filter, InitializingBean {
 				if (request.getParameterMap().containsKey(PARA_OAUTH_CODE)) {
 					String url = this.removeCodeParam(request);
 					this.redirectUser(request, response, url);
+					return;
 				}
 				chain.doFilter(servletRequest, servletResponse);
 				return;

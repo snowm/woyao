@@ -1,7 +1,9 @@
 package com.woyao.admin.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -71,6 +73,16 @@ public class ShopAdminServiceImpl extends AbstractAdminService<Shop, ShopDTO> im
 		long managerProfileId = existed.getManagerProfileId();
 		Shop m = this.transferToDomain(dto);
 		BeanUtils.copyProperties(m, existed, "managerProfileId", "id");
+
+		Map<String, Object> params = new HashMap<>();
+		params.put("shopId", dto.getId());
+		ChatRoom room = this.dao.queryUnique("from ChatRoom where shop.id = :shopId", params);
+		if (room == null) {
+			room = new ChatRoom();
+			room.setShop(m);
+			room.setName(m.getName());
+			this.dao.save(room);
+		}
 		
 		ProfileDTO profileDTO = new ProfileDTO();
 		profileDTO.setId(managerProfileId);

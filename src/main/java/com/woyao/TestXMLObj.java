@@ -1,5 +1,8 @@
 package com.woyao;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement(name="xml")
 public class TestXMLObj {
 
 	private String id;

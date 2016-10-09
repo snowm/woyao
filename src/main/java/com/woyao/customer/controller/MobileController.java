@@ -69,7 +69,7 @@ public class MobileController {
 	@RequestMapping(value = { "/chat/chatterList" }, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
 	public PaginationBean<ChatterDTO> listChatter(ChatterPaginationQueryRequest request) {
-		long chatRoomId = mobileService.getChatRoom(request.getShopId()).getId();
+		long chatRoomId = this.mobileService.getChatRoom(request.getShopId()).getId();
 		PaginationBean<ChatterDTO> rs = this.chatService.listOnlineChatters(chatRoomId, request.getGender(), request.getPageNumber(),
 				request.getPageSize());
 		rs.getPageNumber();
