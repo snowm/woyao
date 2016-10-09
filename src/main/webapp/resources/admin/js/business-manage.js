@@ -9,12 +9,13 @@ define(['uploadfile'],function(){
     	    business:true,
     	    businessalter:false,
     	    imgViewSrc:'/admin/resources/images/photos/upload1.png',
-    	    shopList:[],
+    	    shopList:[], 
+    	    totlePage:-1,
     	    queryCdt:{
     	    	name:'',
     	    	deleted:false,
     	    	pageNumber:1,
-    	    	pageSize:21,
+    	    	pageSize:10,
     	    },
     	    formData:{
     	    	name:'',
@@ -37,14 +38,30 @@ define(['uploadfile'],function(){
     	    	shopController.business=true;
     	    	shopController.businessalter=false;
     	    },
-    	    queryData:function(){
+    	    queryData:function(page){
+    	    	var data = shopController.queryCdt;    	    	
+    	    	if(page == "upPage"){
+    	    		if(shopController.queryCdt.pageNumber == 1){
+    	    			alert("已是第一页");
+    	    			return;
+    	    		}
+    	    		shopController.queryCdt.pageNumber--;
+    	    	}else if(page == "nextPage"){
+    	    		if(shopController.queryCdt.pageNumber == shopController.totlePage){
+    	    			alert("已是最后一页");
+    	    			return;
+    	    		}
+    	    		shopController.queryCdt.pageNumber++;
+    	    	}
+    	    	
+    	    	
     	    	$.ajax({
     	      		  type: "post",
     	      		  url: '/admin/shop/search/',
-    	      		  data: shopController.queryCdt,
+    	      		  data:data,
     	      		  success: function(data){
-    	      			  console.log(data)
-    	      			  shopController.shopList = data.results;
+    	      			  shopController.totlePage = data.totalPageCount;
+    	      			  shopController.shopList = data.results;    	      			
     	      		  },
     	      		  dataType: 'json'
     	      		});
@@ -79,7 +96,8 @@ define(['uploadfile'],function(){
     	  	      		  dataType: 'json'
     	  	      		});
     	    	 }
-    	    },
+    	    },	    
+    	 
     	    updateShop:function(id){
     	    	shopController.formShow = true;
     	    	shopController.shopList.forEach(function(item){
@@ -90,6 +108,7 @@ define(['uploadfile'],function(){
     	    	})
     	    },
     	    submitItem:function(){
+    	    	shopController.formShow = false;
     	    	var data = {
     	    			name:shopController.formData.name,
     	    	    	address:shopController.formData.address,
@@ -113,7 +132,9 @@ define(['uploadfile'],function(){
       	      		  url: '/admin/shop/',
       	      		  data: data,
       	      		  success: function(data){
-      	      			  console.log(data)
+      	      			  console.log(data);
+      	      			window.location.reload();
+      	      			  
       	      		  },
       	      		  dataType: 'json',
       	      		});
@@ -123,7 +144,8 @@ define(['uploadfile'],function(){
         	      		  url: '/admin/shop/',
         	      		  data: data,
         	      		  success: function(data){
-        	      			  console.log(data)
+        	      			  console.log(data);
+        	      			window.location.reload();
         	      		  },
         	      		  dataType: 'json'
         	      		});

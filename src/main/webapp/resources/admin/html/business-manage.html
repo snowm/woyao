@@ -1,21 +1,9 @@
 ﻿﻿<div class="panel panel-default" ms-controller='shopController'>
-	  <div class="panel panel-default" ms-if="formShow">
-        <div class="panel-heading">
-            <div class="panel-btns">
-                <a href="" class="panel-close">×</a>
-                <a href="" class="minimize">−</a>
-            </div>
-            <h4 class="panel-title">新建、修改商家信息</h4>
-            <p>修改或者新建商家信息.</p>
-        </div>
+	  <div class="panel panel-default" ms-if="formShow">        
         <div class="panel-body">
             
 <!-- 商品管理 -->
-
-		<ul class="nav nav-tabs">
-          <li class="active"><a href="#msgsCtn" data-toggle="tab"><strong>基本信息</strong></a></li>
-          <!-- <li class=""><a href="#profile" data-toggle="tab"><strong>商品管理</strong></a></li> -->
-        </ul>
+		
         <div class="tab-content mb30">
           <div class="tab-pane active" id="msgsCtn">
           <div class="row">
@@ -48,119 +36,46 @@
                 </div><!-- col-sm-6 -->
             </div><!-- row -->
 
-            <div class="row">
-              <!--   <div class="col-sm-6">
-                    <div class="form-group">
-                        <label class="control-label">聊天室名称</label>
-                        <input type="text" name="chatRoomName" class="form-control" ms-duplex="formData.chatRoomName">
-                    </div>
-                </div> 
-              -->
+            <div class="row">              
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label class="control-label">描述信息</label>
                         <input type="text" name="description" class="form-control" ms-duplex="formData.description">
                     </div>
                 </div><!-- col-sm-6 -->
-            </div><!-- row -->
-
-            <div class="row">
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label class="control-label">维 度</label>
                         <input type="text" name="latitude" class="form-control" ms-duplex="formData.latitude">
                     </div>
                 </div><!-- col-sm-6 -->
+            </div><!-- row -->
+
+            <div class="row">                
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label class="control-label">经度</label>
                         <input type="text" name="longitude" class="form-control" ms-duplex="formData.longitude">
                     </div>
                 </div><!-- col-sm-6 -->
-            </div><!-- row -->
-
-            <div class="row">
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label class="control-label">管理员账号</label>
                         <input type="text" name="managerName" class="form-control" ms-duplex="formData.managerName">
                     </div>
                 </div><!-- col-sm-6 -->
+            </div><!-- row -->
+
+            <div class="row">                
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label class="control-label">管理员密码</label>
                         <input type="text" name="managerPwd" class="form-control" ms-duplex="formData.managerPwd">
                     </div>
                 </div><!-- col-sm-6 -->
-            </div><!-- row -->
-            
-          </div>
-          <div class="tab-pane" id="profile">
-            <div class="col-md-12" ms-if="business">         
-          <div class="table-responsive">
-          <table class="table table-hover">
-            <thead>
-              <tr>
-                <th>商品图片</th>
-                <th>商品名字</th>
-                <th>商品价格</th>
-                <th>商品描述</th>
-                <th>操作</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><img src="/admin/resources/images/minus.png"></td>
-                <td>性感比基尼</td>
-                <td>&yen;36</td>
-                <td>霸屏30秒</td>
-                <td><button class="btn btn-xs btn-info" ms-click="Alter"><i class="fa fa-pencil"></i> 修改</button></td>
-              </tr>              
-            </tbody>
-          	</table>
-          	</div><!-- table-responsive -->
-        	</div>
-        	<!--修改商品  -->
-        	<div class="tab-pane active" ms-if="businessalter">
-          <div class="row">
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <label class="control-label">商品图片</label>
-                        <input type="file" name="name" class="form-control" >
-                    </div>
-                </div><!-- col-sm-6 -->
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <label class="control-label">商品名字</label>
-                        <input type="text" name="address" class="form-control">
-                    </div>
-                </div><!-- col-sm-6 -->
-            </div><!-- row -->
-
-            <div class="row">
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <label class="control-label">商品价格</label>
-                        <input type="text" name="chatRoomName" class="form-control">
-                    </div>
-                </div><!-- col-sm-6 -->
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <label class="control-label">商品描述</label>
-                        <input type="text" name="description" class="form-control">
-                    </div>
-                </div><!-- col-sm-6 -->
             </div><!-- row -->            
-            
-            <div class="panel-footer text-right">
-            <button class="btn btn-success" ms-click="save" >保存</button>            
-        </div>
-          </div>       	
-        	
-          </div>   
-          
-                
-        </div>
+          </div>          
+     </div>
         
         
 <!-- 商品管理 -->
@@ -222,6 +137,13 @@
 	      </tr>
 	      </tbody>
 	    </table>
+	    <div class="row">
+        	<div class="col-sm-1"></div>
+        	<ul class="pagination pagination-split">
+                <li  ms-click="queryData('upPage')"><a href="#">Prev</a></li>             
+                <li><a href="#" ms-click="queryData('nextPage')">Next</a></li>
+            </ul>
+        </div>
 	  </div>
 	
 	  <div class="panel-footer text-right">

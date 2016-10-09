@@ -5,14 +5,14 @@ define([],function(){
 
     $(function(){
     	var chatController=avalon.define({
-    		$id:"chatController",
-    		chat:false,
+    		$id:"chatController",    		
     		chatList:[],
     		freeDate:{
     			free:"",
     			deleted:false,
     			pageNumber:1,
-    	    	pageSize:21
+    	    	pageSize:21,
+    	    	shopId:1
     		},
     		btnChat:function(){
     			chatController.chat=true;
@@ -21,7 +21,8 @@ define([],function(){
     					free:chatController.freeDate.free,
     					deleted:chatController.freeDate.deleted,
     	    			pageNumber:chatController.freeDate.pageNumber,
-    	    	    	pageSize:chatController.freeDate.pageSize
+    	    	    	pageSize:chatController.freeDate.pageSize,
+    	    	    	shopId:chatController.freeDate.shopId
     			}    			
     			   
     			$.ajax({
@@ -30,8 +31,14 @@ define([],function(){
   	      		  data:data,
   	      		  success: function(data){
   	      			  console.log(data);
-  	      			  chatController.chatList = data.results;  
-  	      			  console.log(chatController.chatList);
+  	      			  chatController.chatList = data.results;
+//  	      			  if(chatController.chatList==""){
+//  	      				  var tables=document.getElementsByClassName("table-responsive");
+//  	      				  var p = document.createElement("div");
+//  	      				  p.style.margin="auto";
+//  	      				  p.innerText="暂时没有数据";
+//  	      				 tables.appendChild(p);  	      				
+//  	      			  }
   	      		  },
   	      		  dataType: 'json'
   	      		});

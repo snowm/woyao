@@ -1,11 +1,4 @@
-<div class="panel panel-default" ms-controller="chatController">
-    <div class="panel-heading">
-        <div class="panel-btns">
-            <!--<a href="" class="panel-close">×</a>-->
-            <a href="" class="minimize">−</a>
-        </div>
-        <h4 class="panel-title">查询条件</h4>
-    </div>
+<div class="panel panel-default" ms-controller="chatController">    
     <div class="panel-body">
         <div class="row">
         <div class="col-sm-3">
@@ -16,16 +9,15 @@
 	                  <option value='false'>否</option>
 	             </select>
 	        </div>
-	      </div>   
+	      </div> 	      
             <div class="col-sm-12 text-right">
                 <button class="btn btn-xs btn-info" ms-click="btnChat">查 询</button>
             </div>
             <!-- col-sm-6 --> 
         </div><!-- row -->
     </div><!-- panel-body -->
-
-    <div class="table-responsive" style="border-top: 1px solid #dadada" ms-if="chat">
-        <table class="table table-striped table-hover text-center">
+    <div class="table-responsive" style="border-top: 1px solid #dadada">
+        <table class="table table-striped table-hover text-center"  ms-if="chatList.length!=0">
             <thead>
             <tr>              
                 <th class="text-center">昵称</th>
@@ -45,7 +37,7 @@
                 </td>
             </tr>
             </tbody>
-        </table>
+        </table>  
     </div>
 
     <!--<div class="panel-footer text-right">-->
