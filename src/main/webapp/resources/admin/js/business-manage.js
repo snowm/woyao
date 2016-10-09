@@ -53,7 +53,7 @@ define(['uploadfile'],function(){
     	    		}
     	    		shopController.queryCdt.pageNumber++;
     	    	}
-    	    	
+    	    	 
     	    	
     	    	$.ajax({
     	      		  type: "post",

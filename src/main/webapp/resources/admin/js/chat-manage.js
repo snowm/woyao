@@ -12,7 +12,7 @@ define([],function(){
     			deleted:false,
     			pageNumber:1,
     	    	pageSize:21,
-    	    	shopId:1
+    	    	shopId:1 
     		},
     		btnChat:function(){
     			chatController.chat=true;

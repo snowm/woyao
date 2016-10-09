@@ -22,7 +22,7 @@ define(['uploadfile'],function(){
             pageNumber:1,
             pageSize:7,
         },
-        goodsChg:{
+        goodsChg:{ 
             name:"",
             code:"",
             description:"",

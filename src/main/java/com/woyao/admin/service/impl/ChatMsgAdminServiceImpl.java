@@ -38,7 +38,7 @@ public class ChatMsgAdminServiceImpl extends AbstractAdminService<ChatMsg, ChatM
 			criterions.add(Restrictions.eq("free",request.getFree()));
 		}
 		if (request.getShopId() != null) {
-			String hql="select shop.id from ChatRoom where shop.id in(select id from Shop where id="+request.getShopId()+")";
+			String hql="from ChatRoom where shop.id in(select id from Shop where id="+request.getShopId()+")";
 			ChatRoom chatRoom=this.dao.queryUnique(hql);
 			if(chatRoom!=null){
 				request.setChatRoomId(chatRoom.getId());
