@@ -32,7 +32,9 @@ import com.woyao.customer.chat.dto.OutMsgDTO;
 import com.woyao.customer.chat.dto.Outbound;
 import com.woyao.customer.chat.dto.OutboundCommand;
 import com.woyao.customer.dto.ChatterDTO;
+import com.woyao.customer.dto.MsgProductDTO;
 import com.woyao.customer.service.IChatService;
+import com.woyao.customer.service.IProductService;
 import com.woyao.dao.CommonDao;
 import com.woyao.domain.chat.ChatMsg;
 import com.woyao.utils.PaginationUtils;
@@ -47,6 +49,9 @@ public class ChatServiceImpl implements IChatService {
 
 	@Resource(name = "messageCacheOperator")
 	private MessageCacheOperator messageCacheOperator;
+
+	@Resource(name = "productService")
+	private IProductService productService;
 
 	@Resource(name = "commonDao")
 	private CommonDao dao;
@@ -89,7 +94,13 @@ public class ChatServiceImpl implements IChatService {
 				inMsg.setPic(path);
 			}
 
-			inMsg.getProductId();
+			Long msgProductId = inMsg.getProductId();
+			if (msgProductId != null) {
+				MsgProductDTO msgProductDTO = this.productService.getMsgProduct(msgProductId);
+				if (msgProductDTO == null) {
+
+				}
+			}
 			Long chatRoomId = WebSocketUtils.getChatRoomId(wsSession);
 			ChatterDTO sender = WebSocketUtils.getChatter(wsSession);
 			long id = this.saveMsg(inMsg, sender.getId(), chatRoomId);
