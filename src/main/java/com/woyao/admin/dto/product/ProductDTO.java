@@ -14,7 +14,7 @@ public class ProductDTO extends BasePKDTO {
 
 	private String mainPic;
 	
-	private long mainPicId;
+	private Long mainPicId;
 	
 	private int typeId;
 	
@@ -88,13 +88,11 @@ public class ProductDTO extends BasePKDTO {
 		this.unitPrice = unitPrice;
 	}
 
-
-
-	public long getMainPicId() {
+	public Long getMainPicId() {
 		return mainPicId;
 	}
 
-	public void setMainPicId(long mainPicId) {
+	public void setMainPicId(Long mainPicId) {
 		this.mainPicId = mainPicId;
 	}
 

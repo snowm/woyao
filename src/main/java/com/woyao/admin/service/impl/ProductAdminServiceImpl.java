@@ -3,8 +3,6 @@ package com.woyao.admin.service.impl;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 
 import javax.annotation.Resource;
 
@@ -77,16 +75,19 @@ public class ProductAdminServiceImpl extends AbstractAdminService<Product, Produ
 		System.out.println(dto);
 		Product m=new Product();
 		BeanUtils.copyProperties(dto, m);
-		dto.getTypeId();	
 		m.setType(ProductType.getEnum(dto.getTypeId()));
 		m.getLogicalDelete().setEnabled(dto.isEnabled());
 		m.getLogicalDelete().setDeleted(dto.isDeleted());
-		Shop shop=new Shop();
-		shop.setId(dto.getShopId());
-		m.setShop(shop);
-		Pic pic=new Pic();
-		pic.setId(dto.getMainPicId());
-		m.setPic(pic);
+		if (dto.getShopId() != null) {
+			Shop shop = new Shop();
+			shop.setId(dto.getShopId());
+			m.setShop(shop);
+		}
+		if (dto.getMainPicId() != null) {
+			Pic pic = new Pic();
+			pic.setId(dto.getMainPicId());
+			m.setPic(pic);
+		}
 		return m;
 	}
 
@@ -94,11 +95,16 @@ public class ProductAdminServiceImpl extends AbstractAdminService<Product, Produ
 	public ProductDTO transferToSimpleDTO(Product m) {
 		ProductDTO dto=new ProductDTO();
 		BeanUtils.copyProperties(m, dto);
-		dto.setShopId(m.getShop().getId());
-		dto.setShopName(m.getShop().getName());
+
+		if (m.getShop() != null) {
+			dto.setShopId(m.getShop().getId());
+			dto.setShopName(m.getShop().getName());
+		}
 		dto.setTypeId(m.getType().getPersistedValue());
-		dto.setMainPic(m.getPic().getUrl());
-		dto.setMainPicId(m.getPic().getId());
+		if (m.getPic() != null) {
+			dto.setMainPic(m.getPic().getUrl());
+			dto.setMainPicId(m.getPic().getId());
+		}
 		dto.setEnabled(m.getLogicalDelete().isEnabled());
 		dto.setDeleted(m.getLogicalDelete().isDeleted());
 		dto.setCreationDate(m.getModification().getCreationDate());

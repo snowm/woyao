@@ -1,12 +1,11 @@
 package com.woyao.admin.controller;
 
-import javax.annotation.Resource;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -36,6 +35,7 @@ public class ProductAdminController extends AbstractBaseController<Product, Prod
 			RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
 	public ProductDTO saveOrUpdate(ProductDTO dto) {
+		dto.setCode(UUID.randomUUID().toString());
 		if (dto.getId() != null) {
 			return this.service.update(dto);
 		} else {
