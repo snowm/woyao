@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="shortcut icon" href="/admin/resources/images/add/logo0.png" type="image/png">
+    <link rel="shortcut icon" href="/admin/resources/images/add/luoke.png" type="image/png">
     <title>倮克后台管理系统</title>
     <link href="/admin/resources/css/style.default.css" rel="stylesheet">
 </head>
@@ -19,9 +19,10 @@
 <!-- Preloader -->
 <section>
     <div class="leftpanel">
-        <div class="logopanel">
-            <h1 class="">倮克管理系统</h1>
-        </div><!-- logopanel -->
+          <!-- <div class="logopanel">
+          <h1 class="text-center" style="color:#142E48"><img alt="" src="/admin/resources/images/add/logo-w.png" width=100% style=""></h1> 
+        </div>
+        -->
         <div class="leftpanelinner">
             <!-- This is only visible to small devices -->
             <div class="visible-xs hidden-sm hidden-md hidden-lg">
@@ -40,6 +41,8 @@
                     <li><a href="signin.html"><i class="glyphicon glyphicon-log-out"></i> 注 销</a></li>
                 </ul>
             </div>
+            
+            <img alt="" src="/admin/resources/images/add/luokeW.png" width=100% style="margin:20px 0">
             <h5 class="sidebartitle">Navigation</h5>
             <ul class="nav nav-pills nav-stacked nav-bracket">
                 <li class="active"><a href="#!/home"><i class="fa fa-home"></i> <span>首 页</span></a></li>

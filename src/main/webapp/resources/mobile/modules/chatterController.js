@@ -5,58 +5,40 @@
 define(['jquery','avalon', 'text!./chatter.html',"domReady!"], function ($,avalon,_chatter,domReady) {
     avalon.templateCache._chatter = _chatter;
 
-
+    var _userList = [];
+    
     var chatterController=avalon.define({
             $id:"chatterController",
-            all:true,// 全部界面
-            girls:false,// 美女界面
-            boys:false,//帅哥界面
-            changHide:false,//点击切换消息界面
-            showBottom:true,//显示下边框
-            showBottoms:false,
-            showBottomss:false,
-            showBottomls:false,
-            showChang:function(){
-                chatterController.showBottomls=true;
-                chatterController.showBottom=false;
-                chatterController.showBottoms=false;
-                chatterController.showBottomss=false;
-                chatterController.changHide =!chatterController.changHide;
-                chatterController.boys=false;
-                chatterController.girls=false;
-                chatterController.all=false;
+            tabFlag:'all',
+            userList:[],
+            tabChange:function(tab){
+               if(tab == 'all'){
+            	   chatterController.tabFlag = 'all';
+            	   chatterController.userList = _userList;
+               }else if(tab == 'male'){
+            	   chatterController.tabFlag = 'male';
+            	   var list = [];
+            	   _userList.forEach(function(item){
+            		   if(item.gender == 'MALE'){
+            			   list.push(item);
+            		   }
+            	   })
+            	   chatterController.userList = list;
+               }else if(tab == 'female'){
+            	   chatterController.tabFlag = 'female';
+            	   var list = [];
+            	   _userList.forEach(function(item){
+            		   if(item.gender == 'FEMALE'){
+            			   list.push(item);
+            		   }
+            	   })
+            	   chatterController.userList = list;
+               }else if(tab == 'msg'){
+            	   chatterController.tabFlag = 'msg';
+               }
             },
-            girlsChang:function () {
-                chatterController.showBottoms=true;
-                chatterController.showBottom=false;
-                chatterController.showBottomss=false;
-                chatterController.showBottomls=false;
-                chatterController.all=false;
-                chatterController.girls=true;
-                chatterController.boys=false;
-                chatterController.changHide=false
-            },
-            boysChang:function () {
-                chatterController.showBottomss=true;
-                chatterController.showBottom=false;
-                chatterController.showBottoms=false;
-                chatterController.showBottomls=false;
-                chatterController.boys=true;
-                chatterController.girls=false;
-                chatterController.all=false;
-                chatterController.changHide=false;
-            },
-            allChang:function () {
-                chatterController.showBottom=true;
-                chatterController.showBottomss=false;
-                chatterController.showBottoms=false;
-                chatterController.showBottomls=false;
-                chatterController.all=true;
-                chatterController.boys=false;
-                chatterController.girls=false;
-                chatterController.changHide=false
-            },
-            chat:function () {
+            chat:function (data) {
+            	console.log(data)
                 window.location.hash='#!/privacyChat'
             }
         });
@@ -64,8 +46,30 @@ define(['jquery','avalon', 'text!./chatter.html',"domReady!"], function ($,avalo
 
 
     function init(){
-        console.log('聊天列表初始化')
+        console.log('聊天列表初始化');
+        getUserList();
     }
+    
+    function getUserList(){
+    	var data = {
+    			shopId:1,
+    			pageNumber:1,
+    			pageSize:20,
+    			gender:'',
+    	}
+    	$.ajax({
+			  type: "post",
+			  url: '/m/chat/chatterList',
+			  data: data,
+			  success: function(data){
+				  console.log(data)
+				  _userList = data.results;
+				  chatterController.userList = data.results;
+			  },
+			  dataType: 'json'
+		});
+    }
+    getUserList();
 
     return chatter = {
         'init':function(){

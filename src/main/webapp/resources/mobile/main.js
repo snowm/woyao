@@ -14,6 +14,7 @@ require.config({//第一块，配置
         qqface:'js/qqface/jquery.qqFace',
         swiper:'js/swiper-master/swiper.min',
         'async': 'js/require/async',
+        socket:'modules/socket'
     },
     shim: {
         'qqface': {deps: ['jquery']},
@@ -23,16 +24,22 @@ require.config({//第一块，配置
 });
 
 
-require(['mmRouter',"domReady!"],function(mmRouter,domReady){
-    avalon.log("引入avalon");
-
+require(['mmRouter',"domReady!",'socket'],function(mmRouter,domReady){
     var rootController = avalon.define({
         $id: "rootController",
         content: "",
+        privacyMsg:[],//私聊消息
+        toWho:{},//当前私聊对象
     });
+    
+    
+    
+    var _brageData = {};
+    
 
     //导航回调
     var _pagepathAry = [];
+    
     function callback() {
         var loadedFlag = false;
         var jspath = "modules"; //这里改成您自己的网站地址 ,这个是js路径的变量
@@ -81,10 +88,8 @@ require(['mmRouter',"domReady!"],function(mmRouter,domReady){
             richer.init();
         }
 
-
     }
 
-    avalon.log("加载路由");
     avalon.router.get("/", callback);
     avalon.router.get("/chatter", callback);
     avalon.router.get("/chatRoom", callback);

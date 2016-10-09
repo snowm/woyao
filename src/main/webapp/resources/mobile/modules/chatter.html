@@ -1,13 +1,13 @@
 <div id="chatters" ms-controller="chatterController">
 <div class="all">
     <div class="all-top">
-        <p class="p" ms-on-tap="allChang" ms-class="bottom:showBottom">全部</p>
-        <p class="p" ms-on-tap="girlsChang" ms-class="bottom:showBottoms">美女</p>
-        <p class="p" ms-on-tap="boysChang" ms-class="bottom:showBottomss">帅哥</p>
-        <p class="p" ms-on-tap="showChang" ms-class="bottom:showBottomls">消息</p>
+        <p class="p" ms-on-tap="tabChange('all')" ms-class="bottom:tabFlag == 'all'">全部</p>
+        <p class="p" ms-on-tap="tabChange('female')" ms-class="bottom:tabFlag == 'female'">美女</p>
+        <p class="p" ms-on-tap="tabChange('male')" ms-class="bottom:tabFlag == 'male'">帅哥</p>
+        <p class="p" ms-on-tap="tabChange('msg')" ms-class="bottom:tabFlag == 'msg'">消息</p>
     </div>
     <!--消息界面-->
-    <div ms-if="changHide">
+    <div ms-if="tabFlag == 'msg'">
         <div class="rank-list">
             <div class="fist">
                 <img src="/resources/static/img/head.jpg" alt="">
@@ -38,94 +38,19 @@
         </div>
     </div>
     <!--全部界面-->
-    <div  ms-if="all">
-        <div class="alls">
+    <div ms-if="tabFlag == 'all' || tabFlag == 'male' || tabFlag == 'female'">
+        <div class="alls" ms-repeat-p="userList">
             <div class="all-left">
-                <img src="/resources/static/img/head.jpg" alt="">
+                <img src="/resources/static/img/head.jpg" style='width:60px' ms-attr-src="p.headImg" alt="">
                 <div class="all-left-text">
-                    <span class="text">给我你的心</span>
-                    <img src="/resources/static/img/weman1.png" alt="">
-                    <p>距离5千米</p>
+                    <span class="text" ms-text="p.nickname">给我你的心</span>
+                    <img src="/resources/static/img/weman1.png" ms-if="p.gender == 'FAMALE'" alt="">
+                    <img src="/resources/static/img/man.png" ms-if="p.gender == 'MALE'" alt="">
+                    <p>未传值</p>
                 </div>
             </div>
-            <div class="all-right">
-                <p>上午10：30</p>
-                <p ms-on-tap="chat">发消息</p>
-            </div>
-        </div>
-        <div class="alls">
-            <div class="all-left">
-                <img src="/resources/static/img/head.jpg" alt="">
-                <div class="all-left-text">
-                    <span class="text">给我你的心</span>
-                    <img src="/resources/static/img/weman1.png" alt="">
-                    <p>距离5千米</p>
-                </div>
-            </div>
-            <div class="all-right">
-                <p>上午10：30</p>
-                <p ms-on-tap="chat">发消息</p>
-            </div>
-        </div>
-        <div class="alls">
-            <div class="all-left">
-                <img src="/resources/static/img/head.jpg" alt="">
-                <div class="all-left-text">
-                    <span class="text">给我你的心</span>
-                    <img src="/resources/static/img/weman1.png" alt="">
-                    <p>距离5千米</p>
-                </div>
-            </div>
-            <div class="all-right">
-                <p>上午10：30</p>
-                <p ms-on-tap="chat">发消息</p>
-            </div>
-        </div>
-    </div>
-    <!--美女界面-->
-    <div ms-if="girls">
-        <div class="alls">
-            <div class="all-left">
-                <img src="/resources/static/img/head.jpg" alt="">
-                <div class="all-left-text">
-                    <span class="text">给我你的心</span>
-                    <img src="/resources/static/img/weman1.png" alt="">
-                    <p>距离5千米</p>
-                </div>
-            </div>
-            <div class="all-right">
-                <p>上午10：30</p>
-                <p ms-on-tap="chat">发消息</p>
-            </div>
-        </div>
-    </div>
-    <!--帅哥界面-->
-    <div ms-if="boys">
-        <div class="alls">
-            <div class="all-left">
-                <img src="/resources/static/img/head.jpg" alt="">
-                <div class="all-left-text">
-                    <span class="text">给我你的心</span>
-                    <img src="/resources/static/img/weman1.png" alt="">
-                    <p>距离5千米</p>
-                </div>
-            </div>
-            <div class="all-right">
-                <p>上午10：30</p>
-                <p>发消息</p>
-            </div>
-        </div>
-        <div class="alls">
-            <div class="all-left">
-                <img src="/resources/static/img/head.jpg" alt="">
-                <div class="all-left-text">
-                    <span class="text">给我你的心</span>
-                    <img src="/resources/static/img/weman1.png" alt="">
-                    <p>距离5千米</p>
-                </div>
-            </div>
-            <div class="all-right">
-                <p>上午10：30</p>
+            <div class="all-right" style='text-align:center;'>
+                <p>登录时间</p>
                 <p ms-on-tap="chat">发消息</p>
             </div>
         </div>

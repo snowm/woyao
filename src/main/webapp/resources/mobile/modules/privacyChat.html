@@ -25,28 +25,28 @@
        </div> -->
     <div class="msg-block-contain">
         <div class="msg-block-container">
-            <div class="msg-block clearfix" ms-repeat-item="msgList" ms-class="msg-block-self:item.isMe == 'true'">
+            <div class="msg-block clearfix" ms-repeat-item="msgList" ms-class="msg-block-self:item.command == 'smACK'">
                 <div class="msg-header">
-                    <img src="/resources/static/img/head.jpg" alt=""  ms-on-tap="showPhotoWall">
+                    <img src="/resources/static/img/head.jpg" alt="" ms-attr-src="item.sender.headImg"  ms-on-tap="showPhotoWall">
                 </div>
                 <div class="msg-ctn clearfix">
-                    <p class="msg-titles"><span class="msg-name" ms-text="item.name">name</span></p>
-                    <div class="msg-contant" ms-class-msg-blue="item.sexy == 'man'" ms-class-msg-purple="item.sexy == 'weman'">
-                        <img class="msg-arr" src="/resources/static/img/arblue.png" ms-if="item.sexy == 'man'" alt="">
-                        <img class="msg-arr" src="/resources/static/img/arred.png" ms-if="item.sexy == 'weman'" alt="">
+                    <p class="msg-titles"><span class="msg-name" ms-text="item.sender.nickname">name</span></p>
+                    <div class="msg-contant" ms-class-msg-blue="item.sender.gender == 'MALE'" ms-class-msg-purple="item.sender.gender == 'FEMALE'">
+                        <img class="msg-arr" src="/resources/static/img/arblue.png" ms-if="item.sender.gender == 'MALE'" alt="">
+                        <img class="msg-arr" src="/resources/static/img/arred.png" ms-if="item.sender.gender == 'FEMALE'" alt="">
 
                         <!--<div class="msg-smgs"><span class="text-org">为 sreen 霸屏30秒：</span><span ms-text="item.msg">xxx</span></div>-->
-                        <div class="msg-smgs"><span ms-html="item.msg"></span></div>
-                        <div class="msg-img" ms-if="item.imgUrl">
-                            <img --src="/resources/static/img/delate/photo1.jpg" ms-attr-src="item.imgUrl" alt="">
+                        <div class="msg-smgs"><span ms-html="item.text"></span></div>
+                        <div class="msg-img" ms-if="item.pic">
+                            <img --src="/resources/static/img/delate/photo1.jpg" ms-attr-src="item.pic" alt="">
                         </div>
-                        <!--<p class="msg-forhe" ms-on-tap="forHer()">给<span ms-if="item.sexy == 'man'">他</span><span ms-if="item.sexy == 'weman'">她</span>送礼物</p>-->
-                        <p class="msg-forhe" ms-on-tap="forHer()" ms-if="item.imgUrl">送礼物</p>
-                        <img class="msg-icon-right" src="/resources/static/img/cgrt.png" ms-if="item.sexy == 'man'" alt="">
-                        <img class="msg-icon-right" src="/resources/static/img/lips.png" ms-if="item.sexy == 'weman'" alt="">
+                        <!--<p class="msg-forhe" ms-on-tap="forHer()">给<span ms-if="item.sexy == 'man'">他</span><span ms-if="item.sexy == 'weman'">她</span>送礼物</p>
+                        <p class="msg-forhe" ms-on-tap="forHer()" ms-if="item.pic">送礼物</p>
+                        <img class="msg-icon-right" src="/resources/static/img/cgrt.png" ms-if="item.sender.gender == 'MALE'" alt="">
+                        <img class="msg-icon-right" src="/resources/static/img/lips.png" ms-if="item.sender.gender == 'FEMALE'" alt=""> -->
                     </div>
                 </div>
-                <p class="msg-time"><span ms-if=""></span>{{ item.time | date("dd:HH")}}</p>
+                <p class="msg-time"><span ms-if="1"></span>{{ 11.11 | date("dd:HH")}}</p>
             </div>
         </div>
 

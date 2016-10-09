@@ -303,7 +303,7 @@ html,body{
     padding: 6px;
     margin: 0 5px;
     min-height: 20px;
-    min-width: 50px;
+    min-width: 20px;
     /*padding-bottom: 10px;*/
     color: #c9f09a;
     background: rgba(0, 0, 0, 0);
@@ -710,7 +710,7 @@ html,body{
     padding: 2px 0;
 }
 
-  /*pop-photoWall*/
+/*pop-photoWall*/
 .pop-photoWall{
     position: fixed;
     width: 100%;
@@ -805,8 +805,8 @@ html,body{
     border: 1px solid rgba(210, 95, 155, 0.83);
     text-align: center;
 }
-  /*pop-photoWall*/
-  /*pop-sreen*/
+/*pop-photoWall*/
+/*pop-sreen*/
 .pop-sreen{
     position: fixed;
     width: 100%;
@@ -895,7 +895,7 @@ html,body{
     color: white;
     font-size: 10px;
 }
-  /*pop-sreen*/
+/*pop-sreen*/
 /*  pop  */
 /*  header  */
 .header-contain{
@@ -945,6 +945,9 @@ html,body{
     border-spacing: 0;
     border: none;
     color: #b3b3b3;
+    z-index:99;
+    position:relative;
+    background:#fff;
 }
 .header-ctn td{
     line-height: 30px;
@@ -956,6 +959,22 @@ html,body{
     width: 20px;
     height:20px;
     border-radius: 5px;
+}
+.main-tips{
+    position: absolute;
+    top:0;
+    left:0;
+    width: 100%;
+    color: #ffffff;
+    background: rgba(255, 23, 45, 0.77);
+    -webkit-transition: top .3s;
+    -moz-transition: top .3s;
+    -ms-transition: top .3s;
+    -o-transition: top .3s;
+    transition: top .3s;
+}
+.main-tips-show{
+    top:30px;
 }
 /*  header  */
 .richer-list-btn,.chat-list-btn{
@@ -971,6 +990,20 @@ html,body{
 }
 .chat-list-btn{
     top:120px;
+}
+.chat-msg-tips{
+    position: absolute;
+    right: 5px;
+    top:-5px;
+    width: 14px;
+    height: 14px;
+    line-height: 14px;
+    background: red;
+    border-radius: 50%;
+    text-align: center;
+    color: white;
+    z-index: 9;
+    font-size: 7px;
 }
 .richer-list-btn > img,.chat-list-btn > img{
     width: 28px;
