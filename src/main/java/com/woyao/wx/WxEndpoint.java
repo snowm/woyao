@@ -9,6 +9,7 @@ import javax.ws.rs.core.Response;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.woyao.JsonUtils;
 import com.woyao.wx.dto.ErrorResponse;
 import com.woyao.wx.dto.GetAccessTokenResponse;
 import com.woyao.wx.dto.GetGlobalAccessTokenResponse;
@@ -76,8 +77,9 @@ public class WxEndpoint {
 		}
 
 		try {
-			GetGlobalAccessTokenResponse result = resp.readEntity(GetGlobalAccessTokenResponse.class);
-			return result;
+			String result = resp.readEntity(String.class);
+			GetGlobalAccessTokenResponse token = JsonUtils.toObject(result, GetGlobalAccessTokenResponse.class);
+			return token;
 		} catch (Exception e) {
 			String msg = "Can not parse response!";
 			log.error(msg, e);
@@ -118,8 +120,9 @@ public class WxEndpoint {
 		}
 
 		try {
-			GetAccessTokenResponse result = resp.readEntity(GetAccessTokenResponse.class);
-			return result;
+			String result = resp.readEntity(String.class);
+			GetAccessTokenResponse token = JsonUtils.toObject(result, GetAccessTokenResponse.class);
+			return token;
 		} catch (Exception e) {
 			String msg = "Can not parse response!";
 			log.error(msg, e);
@@ -150,8 +153,9 @@ public class WxEndpoint {
 		}
 
 		try {
-			GetAccessTokenResponse result = resp.readEntity(GetAccessTokenResponse.class);
-			return result;
+			String result = resp.readEntity(String.class);
+			GetAccessTokenResponse token = JsonUtils.toObject(result, GetAccessTokenResponse.class);
+			return token;
 		} catch (Exception e) {
 			String msg = "Can not parse response!";
 			log.error(msg, e);
@@ -180,8 +184,9 @@ public class WxEndpoint {
 		}
 
 		try {
-			GetUserInfoResponse result = resp.readEntity(GetUserInfoResponse.class);
-			return result;
+			String result = resp.readEntity(String.class);
+			GetUserInfoResponse token = JsonUtils.toObject(result, GetUserInfoResponse.class);
+			return token;
 		} catch (Exception e) {
 			String msg = "Can not parse response!";
 			log.error(msg, e);
@@ -209,9 +214,10 @@ public class WxEndpoint {
 		}
 
 		try {
-			ErrorResponse result = resp.readEntity(ErrorResponse.class);
-			if (result.getErrCode() != null) {
-				return result.getErrCode().equals("0");
+			String result = resp.readEntity(String.class);
+			ErrorResponse token = JsonUtils.toObject(result, ErrorResponse.class);
+			if (token.getErrCode() != null) {
+				return token.getErrCode().equals("0");
 			}
 			return false;
 		} catch (Exception e) {
@@ -222,8 +228,8 @@ public class WxEndpoint {
 	}
 
 	private Builder createRequestBuilder(WebTarget target) {
-		return target.request(MediaType.APPLICATION_JSON_TYPE).accept(MediaType.APPLICATION_JSON_TYPE).header("User-Agent",
-				MediaType.APPLICATION_JSON);
+		return target.request(MediaType.APPLICATION_JSON_TYPE).accept(MediaType.APPLICATION_JSON_TYPE, MediaType.TEXT_PLAIN_TYPE)
+				.header("User-Agent", MediaType.APPLICATION_JSON);
 	}
 
 	private boolean validateResponse(Response resp) throws RuntimeException {

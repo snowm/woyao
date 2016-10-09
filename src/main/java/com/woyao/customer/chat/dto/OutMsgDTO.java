@@ -14,6 +14,8 @@ public class OutMsgDTO extends Outbound {
 
 	private long duration = 0;
 
+	private boolean isPrivacy = false;
+
 	public Long getId() {
 		return id;
 	}
@@ -52,6 +54,14 @@ public class OutMsgDTO extends Outbound {
 
 	public void setDuration(long duration) {
 		this.duration = duration;
+	}
+
+	public boolean isPrivacy() {
+		return isPrivacy;
+	}
+
+	public void setPrivacy(boolean isPrivacy) {
+		this.isPrivacy = isPrivacy;
 	}
 
 }

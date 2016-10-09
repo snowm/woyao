@@ -33,7 +33,7 @@ public interface IChatService {
 
 	void acceptMsg(WebSocketSession wsSession, Inbound inbound);
 
-	void sendOutMsg(Outbound outbound, Long to, Long chatRoomId);
+	void sendOutMsg(Outbound outbound, Long to, Long chatRoomId, WebSocketSession wsSession);
 
 	Set<WebSocketSession> getTargetChatterSessions(long chatterId);
 

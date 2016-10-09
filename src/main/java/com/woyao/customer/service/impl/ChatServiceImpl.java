@@ -97,7 +97,8 @@ public class ChatServiceImpl implements IChatService {
 			outMsg.setPic(inMsg.getPic());
 			outMsg.setCommand(OutboundCommand.SEND_MSG);
 			outMsg.setDuration(0);
-			this.sendOutMsg(outMsg, inMsg.getTo(), WebSocketUtils.getChatRoomId(wsSession));
+			outMsg.setPrivacy(inMsg.getTo() == null);
+			this.sendOutMsg(outMsg, inMsg.getTo(), chatRoomId, wsSession);
 		} catch (IOException e) {
 			log.error("Process message failure!", e);
 		}
@@ -117,15 +118,18 @@ public class ChatServiceImpl implements IChatService {
 		return m.getId();
 	}
 
-	public void sendOutMsg(Outbound outbound, Long to, Long chatRoomId) {
-		Set<WebSocketSession> targetSessions = new HashSet<>();
+	public void sendOutMsg(Outbound outbound, Long to, Long chatRoomId, WebSocketSession wsSession) {
+		Set<WebSocketSession> targetSessions = null;
 		if (to == null && chatRoomId != null) {
 			targetSessions = this.getAllRoomChatterSessions(chatRoomId);
 		} else {
 			targetSessions = this.getTargetChatterSessions(to);
 		}
-		if (targetSessions == null || targetSessions.isEmpty()) {
-			return;
+		if (targetSessions == null) {
+			targetSessions = new HashSet<>();
+		}
+		if (!targetSessions.contains(wsSession)) {
+			targetSessions.add(wsSession);
 		}
 		for (WebSocketSession session : targetSessions) {
 			try {
