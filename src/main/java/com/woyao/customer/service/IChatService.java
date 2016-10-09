@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.web.socket.WebSocketSession;
 
+import com.snowm.security.profile.domain.Gender;
 import com.snowm.utils.query.PaginationBean;
 import com.woyao.customer.chat.dto.Inbound;
 import com.woyao.customer.chat.dto.Outbound;
@@ -52,6 +53,6 @@ public interface IChatService {
 	 * 
 	 * @return
 	 */
-	PaginationBean<ChatterDTO> listOnlineChatters(long chatRoomId, long pageNumber, int pageSize);
+	PaginationBean<ChatterDTO> listOnlineChatters(long chatRoomId, Gender gender, long pageNumber, int pageSize);
 	
 }

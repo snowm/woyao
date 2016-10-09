@@ -18,6 +18,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.socket.WebSocketSession;
 
+import com.snowm.security.profile.domain.Gender;
 import com.snowm.utils.query.PaginationBean;
 import com.woyao.JsonUtils;
 import com.woyao.customer.chat.ChatUtils;
@@ -82,10 +83,13 @@ public class ChatServiceImpl implements IChatService {
 			String base64PicString = tmpMsg.getPic();
 			if (!StringUtils.isBlank(base64PicString)) {
 				String path = "/pic/" + ChatUtils.savePic(base64PicString);
-				log.info("saved pic:" + path);
+				if (log.isDebugEnabled()) {
+					log.debug("saved pic:" + path);
+				}
 				inMsg.setPic(path);
 			}
 
+			inMsg.getProductId();
 			Long chatRoomId = WebSocketUtils.getChatRoomId(wsSession);
 			ChatterDTO sender = WebSocketUtils.getChatter(wsSession);
 			long id = this.saveMsg(inMsg, sender.getId(), chatRoomId);
@@ -110,7 +114,8 @@ public class ChatServiceImpl implements IChatService {
 			m.setChatRoomId(chatRoomId);
 		}
 		m.setTo(msg.getTo());
-		m.setContent(msg.getText() + "\n" + msg.getPic());
+		m.setText(msg.getText());
+		m.setPicURL(msg.getPic());
 		m.setFree(true);
 		m.setFrom(senderId);
 		m.setProductId(msg.getProductId());
@@ -128,15 +133,19 @@ public class ChatServiceImpl implements IChatService {
 		if (targetSessions == null) {
 			targetSessions = new HashSet<>();
 		}
-		if (!targetSessions.contains(wsSession)) {
-			targetSessions.add(wsSession);
-		}
+		targetSessions.remove(wsSession);
 		for (WebSocketSession session : targetSessions) {
 			try {
 				outbound.send(session);
 			} catch (IOException e) {
 				log.warn("Msg send fail to session:" + session.getId(), e);
 			}
+		}
+		try {
+			outbound.setCommand(OutboundCommand.SEND_MSG_ACK);
+			outbound.send(wsSession);
+		} catch (IOException e) {
+			log.warn("Msg send fail to sender session:" + wsSession.getId(), e);
 		}
 	}
 
@@ -154,12 +163,15 @@ public class ChatServiceImpl implements IChatService {
 	}
 
 	@Override
-	public PaginationBean<ChatterDTO> listOnlineChatters(long chatRoomId, long pageNumber, int pageSize) {
+	public PaginationBean<ChatterDTO> listOnlineChatters(long chatRoomId, Gender gender, long pageNumber, int pageSize) {
 		Set<WebSocketSession> wsSessions = this.sessionContainer.getWsSessionOfRoom(chatRoomId);
 		List<ChatterDTO> dtos = new ArrayList<>();
 		if (wsSessions != null && !wsSessions.isEmpty()) {
 			for (WebSocketSession wsSession : wsSessions) {
-				dtos.add(WebSocketUtils.getChatter(wsSession));
+				ChatterDTO chatter = WebSocketUtils.getChatter(wsSession);
+				if (gender == null || chatter.getGender() == gender) {
+					dtos.add(chatter);
+				}
 			}
 		}
 		return PaginationUtils.paging(dtos, pageNumber, pageSize);

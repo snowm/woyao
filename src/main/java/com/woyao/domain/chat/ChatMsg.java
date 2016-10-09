@@ -31,8 +31,14 @@ public class ChatMsg extends DefaultModelImpl {
 	@Column(name = "PROFILE_WX_TO")
 	private Long to;
 
-	@Column(name = "CONTENT", nullable = false, length = 500)
-	private String content;
+	@Column(name = "CONTENT", nullable = true)
+	private String content = "1";
+
+	@Column(name = "TEXT", nullable = false, length = 500)
+	private String text;
+
+	@Column(name = "PIC_URL", length = 100)
+	private String picURL;
 
 	/**
 	 * 是否免费
@@ -88,6 +94,21 @@ public class ChatMsg extends DefaultModelImpl {
 		this.content = content;
 	}
 
+	public String getText() {
+		return text;
+	}
+
+	public void setText(String text) {
+		this.text = text;
+	}
+
+	public String getPicURL() {
+		return picURL;
+	}
+
+	public void setPicURL(String picURL) {
+		this.picURL = picURL;
+	}
 
 	public boolean isFree() {
 		return free;
@@ -104,5 +125,5 @@ public class ChatMsg extends DefaultModelImpl {
 	public void setProductId(Long productId) {
 		this.productId = productId;
 	}
-	
+
 }

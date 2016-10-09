@@ -35,9 +35,6 @@ public class PaidMsgProductConfig extends DefaultModelImpl {
 	@JoinColumn(referencedColumnName = "id", name = "PRODUCT_ID", nullable = false)
 	private Product product;
 
-	@Column(name = "NAME", nullable = false)
-	private String name;
-
 	@Column(name = "HOLD_TIME", nullable = false)
 	private int holdTime;
 
@@ -57,14 +54,6 @@ public class PaidMsgProductConfig extends DefaultModelImpl {
 
 	public void setProduct(Product product) {
 		this.product = product;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	public int getHoldTime() {

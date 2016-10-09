@@ -181,18 +181,26 @@ public class Oauth2SecurityFilter implements Filter, InitializingBean {
 
 	// mock code
 	private AtomicLong idGenerator = new AtomicLong();
+	
+	public ChatterDTO createMockDTO(){
+		long id = idGenerator.incrementAndGet();
+		ChatterDTO dto = new ChatterDTO();
+		dto.setId(id);
+		dto.setNickname("nickname" + id);
+		dto.setCity("city" + id);
+		dto.setCountry("country" + id);
+		dto.setHeadImg("/pic/head/" + ((id % 4) + 1) + ".jpg");
+		Gender gender = Gender.FEMALE;
+		if ((id % 2) == 0) {
+			gender = Gender.FEMALE;
+		}
+		dto.setGender(gender);
+		return dto;
+	}
 
 	private ChatterDTO getChatterInfo(String code) {
 		if ("woyao".equals(code)) {
-			long id = idGenerator.incrementAndGet();
-			ChatterDTO dto = new ChatterDTO();
-			dto.setId(id);
-			dto.setNickname("nickname" + id);
-			dto.setCity("city" + id);
-			dto.setCountry("country" + id);
-			dto.setHeadImg("/pic/head/" + ((id % 4) + 1) + ".jpg");
-			dto.setGender(Gender.FEMALE);
-			return dto;
+			return this.createMockDTO();
 		}
 		try {
 			GetAccessTokenResponse tokenResponse = this.wxEndpoint.getAccessToken(globalConfig.getAppId(), globalConfig.getAppSecret(),
