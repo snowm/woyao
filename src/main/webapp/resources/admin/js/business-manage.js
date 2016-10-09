@@ -39,32 +39,7 @@ define(['uploadfile'],function(){
     	    	shopController.businessalter=false;
     	    },
     	    queryData:function(page){
-    	    	var data = shopController.queryCdt;    	    	
-    	    	if(page == "upPage"){
-    	    		if(shopController.queryCdt.pageNumber == 1){
-    	    			alert("已是第一页");
-    	    			return;
-    	    		}
-    	    		shopController.queryCdt.pageNumber--;
-    	    	}else if(page == "nextPage"){
-    	    		if(shopController.queryCdt.pageNumber == shopController.totlePage){
-    	    			alert("已是最后一页");
-    	    			return;
-    	    		}
-    	    		shopController.queryCdt.pageNumber++;
-    	    	}
-    	    	 
-    	    	
-    	    	$.ajax({
-    	      		  type: "post",
-    	      		  url: '/admin/shop/search/',
-    	      		  data:data,
-    	      		  success: function(data){
-    	      			  shopController.totlePage = data.totalPageCount;
-    	      			  shopController.shopList = data.results;    	      			
-    	      		  },
-    	      		  dataType: 'json'
-    	      		});
+    	    	queryData(page);
     	    },
     	    newShop:function(){
     	    	shopController.formShow = true;
@@ -84,6 +59,9 @@ define(['uploadfile'],function(){
     	    },
     	    hideNewShop:function(){
     	    	shopController.formShow = false;
+    	    	  shopController.formData.picId = '';
+      	    	  shopController.imgViewSrc = '/admin/resources/images/photos/upload1.png';
+                  $("#uploadfile").val('');
     	    },
     	    deleteShop:function(id){
     	    	 if(confirm("确认删除 ？")) {
@@ -108,7 +86,6 @@ define(['uploadfile'],function(){
     	    	})
     	    },
     	    submitItem:function(){
-    	    	shopController.formShow = false;
     	    	var data = {
     	    			name:shopController.formData.name,
     	    	    	address:shopController.formData.address,
@@ -132,9 +109,13 @@ define(['uploadfile'],function(){
       	      		  url: '/admin/shop/',
       	      		  data: data,
       	      		  success: function(data){
+     	      			 alert('提交成功')
+     	      	    	  shopController.formShow = false;
+	   	      	    	  shopController.formData.picId = '';
+		      	    	  shopController.imgViewSrc = '/admin/resources/images/photos/upload1.png';
+		                  $("#uploadfile").val('');
       	      			  console.log(data);
-      	      			window.location.reload();
-      	      			  
+      	      			  queryData();
       	      		  },
       	      		  dataType: 'json',
       	      		});
@@ -144,8 +125,13 @@ define(['uploadfile'],function(){
         	      		  url: '/admin/shop/',
         	      		  data: data,
         	      		  success: function(data){
+        	      			  alert('提交成功')
+        	      	    	  shopController.formShow = false;
+        	      	    	  shopController.formData.picId = '';
+        	      	    	  shopController.imgViewSrc = '/admin/resources/images/photos/upload1.png';
+        	                  $("#uploadfile").val('');
         	      			  console.log(data);
-        	      			window.location.reload();
+        	      			  queryData();
         	      		  },
         	      		  dataType: 'json'
         	      		});
@@ -157,6 +143,37 @@ define(['uploadfile'],function(){
     	    }
     	});
     	avalon.scan();
+    	
+    	function queryData(page){
+    		var data = shopController.queryCdt;
+    		var pageFlag = page || '';
+	    	if(page == "upPage"){
+	    		if(shopController.queryCdt.pageNumber == 1){
+	    			alert("已是第一页");
+	    			return;
+	    		}
+	    		shopController.queryCdt.pageNumber--;
+	    	}else if(page == "nextPage"){
+	    		if(shopController.queryCdt.pageNumber == shopController.totlePage){
+	    			alert("已是最后一页");
+	    			return;
+	    		}
+	    		shopController.queryCdt.pageNumber++;
+	    	}
+	    	 
+	    	
+	    	$.ajax({
+	      		  type: "post",
+	      		  url: '/admin/shop/search/',
+	      		  data:data,
+	      		  success: function(data){
+	      			  shopController.totlePage = data.totalPageCount;
+	      			  shopController.shopList = data.results;    	      			
+	      		  },
+	      		  dataType: 'json'
+	      		});
+    	}
+    	
     	
     	
     	$("#uploadfile").live("change",function(){  
