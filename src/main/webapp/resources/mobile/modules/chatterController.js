@@ -14,31 +14,22 @@ define(['jquery','avalon', 'text!./chatter.html',"domReady!"], function ($,avalo
             tabChange:function(tab){
                if(tab == 'all'){
             	   chatterController.tabFlag = 'all';
-            	   chatterController.userList = _userList;
+            	   getUserList('ALL');
                }else if(tab == 'male'){
             	   chatterController.tabFlag = 'male';
             	   var list = [];
-            	   _userList.forEach(function(item){
-            		   if(item.gender == 'MALE'){
-            			   list.push(item);
-            		   }
-            	   })
-            	   chatterController.userList = list;
+            	   getUserList('MALE');
                }else if(tab == 'female'){
             	   chatterController.tabFlag = 'female';
             	   var list = [];
-            	   _userList.forEach(function(item){
-            		   if(item.gender == 'FEMALE'){
-            			   list.push(item);
-            		   }
-            	   })
-            	   chatterController.userList = list;
+            	   getUserList('FEMALE');
                }else if(tab == 'msg'){
             	   chatterController.tabFlag = 'msg';
                }
             },
             chat:function (data) {
             	console.log(data)
+                avalon.vmodels.rootController.toWho = data;
                 window.location.hash='#!/privacyChat'
             }
         });
@@ -50,13 +41,38 @@ define(['jquery','avalon', 'text!./chatter.html',"domReady!"], function ($,avalo
         getUserList();
     }
     
-    function getUserList(){
+    function getUserList(type){
     	var data = {
     			shopId:1,
     			pageNumber:1,
-    			pageSize:20,
+    			pageSize:500,
     			gender:'',
+        	}
+    	
+    	if(type == 'ALL'){
+    	  	data = {
+    			shopId:1,
+    			pageNumber:1,
+    			pageSize:500,
+    			gender:'',
+        	}
+    	}else if(type == 'FEMALE'){
+    		data = {
+        			shopId:1,
+        			pageNumber:1,
+        			pageSize:500,
+        			gender:'FEMALE',
+            	}
+    	}else if(type == 'MALE'){
+    		data = {
+        			shopId:1,
+        			pageNumber:1,
+        			pageSize:500,
+        			gender:'MALE',
+            	}
     	}
+    	
+    	
     	$.ajax({
 			  type: "post",
 			  url: '/m/chat/chatterList',
