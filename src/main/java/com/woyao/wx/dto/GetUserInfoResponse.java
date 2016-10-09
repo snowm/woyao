@@ -13,7 +13,7 @@ public class GetUserInfoResponse {
 	private String openid;
 
 	@JsonProperty("nickname")
-	private Long nickname;
+	private String nickname;
 
 	@JsonProperty("sex")
 	private String sex;
@@ -44,11 +44,11 @@ public class GetUserInfoResponse {
 		this.openid = openid;
 	}
 
-	public Long getNickname() {
+	public String getNickname() {
 		return nickname;
 	}
 
-	public void setNickname(Long nickname) {
+	public void setNickname(String nickname) {
 		this.nickname = nickname;
 	}
 

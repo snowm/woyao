@@ -18,6 +18,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
@@ -29,7 +30,10 @@ import com.snowm.security.profile.domain.Gender;
 import com.woyao.GlobalConfig;
 import com.woyao.customer.chat.SessionContainer;
 import com.woyao.customer.dto.ChatterDTO;
+import com.woyao.customer.service.IProfileWxService;
 import com.woyao.wx.WxEndpoint;
+import com.woyao.wx.dto.GetAccessTokenResponse;
+import com.woyao.wx.dto.GetUserInfoResponse;
 
 @Component("oauth2SecurityFilter")
 public class Oauth2SecurityFilter implements Filter, InitializingBean {
@@ -46,6 +50,9 @@ public class Oauth2SecurityFilter implements Filter, InitializingBean {
 
 	@Resource(name = "wxEndpoint")
 	private WxEndpoint wxEndpoint;
+
+	@Resource(name = "profileWxService")
+	private IProfileWxService profileWxService;
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
@@ -101,8 +108,11 @@ public class Oauth2SecurityFilter implements Filter, InitializingBean {
 			return false;
 		}
 		session.setAttribute(SESSION_ATTR_OAUTH_CODE, code);
-		
+
 		dto = this.getChatterInfo(code);
+		if (dto == null) {
+			return false;
+		}
 		session.setAttribute(SessionContainer.SESSION_ATTR_CHATTER, dto);
 
 		return true;
@@ -173,19 +183,52 @@ public class Oauth2SecurityFilter implements Filter, InitializingBean {
 	private AtomicLong idGenerator = new AtomicLong();
 
 	private ChatterDTO getChatterInfo(String code) {
-//		GetAccessTokenResponse tokenResponse = this.wxEndpoint.getAccessToken(globalConfig.getAppId(), globalConfig.getAppSecret(), code, "authorization_code");
-//		GetUserInfoResponse userInfoResponse = this.wxEndpoint.getUserInfo(tokenResponse.getAccessToken(), tokenResponse.getOpenid(), "zh_CN");
-//		System.out.println(userInfoResponse);
-		
-		long id = idGenerator.incrementAndGet();
-		ChatterDTO dto = new ChatterDTO();
-		dto.setId(id);
-		dto.setNickname("nickname" + id);
-		dto.setCity("city" + id);
-		dto.setCountry("country" + id);
-		dto.setHeadImg("/pic/head/" + ((id % 4) + 1) + ".jpg");
-		dto.setGender(Gender.FEMALE);
-		return dto;
+		if ("woyao".equals(code)) {
+			long id = idGenerator.incrementAndGet();
+			ChatterDTO dto = new ChatterDTO();
+			dto.setId(id);
+			dto.setNickname("nickname" + id);
+			dto.setCity("city" + id);
+			dto.setCountry("country" + id);
+			dto.setHeadImg("/pic/head/" + ((id % 4) + 1) + ".jpg");
+			dto.setGender(Gender.FEMALE);
+			return dto;
+		}
+		try {
+			GetAccessTokenResponse tokenResponse = this.wxEndpoint.getAccessToken(globalConfig.getAppId(), globalConfig.getAppSecret(),
+					code, "authorization_code");
+			GetUserInfoResponse userInfoResponse = this.wxEndpoint.getUserInfo(tokenResponse.getAccessToken(), tokenResponse.getOpenid(),
+					"zh_CN");
+			String openId = userInfoResponse.getOpenid();
+			if (StringUtils.isBlank(openId)) {
+				throw new RuntimeException("open id blank!");
+			}
+			ChatterDTO dto = this.profileWxService.getByOpenId(openId);
+			if (dto == null) {
+				dto = new ChatterDTO();
+			}
+			BeanUtils.copyProperties(userInfoResponse, dto);
+			dto.setGender(this.parseGender(userInfoResponse.getSex()));
+
+			return this.profileWxService.saveChatterInfo(dto);
+		} catch (Exception ex) {
+			log.warn("Get user info from weixin failure!", ex);
+			return null;
+		}
+	}
+
+	private Gender parseGender(String sex) {
+		if (sex == null) {
+			return Gender.OTHER;
+		}
+		switch (sex) {
+		case "2":
+			return Gender.FEMALE;
+		case "1":
+			return Gender.MALE;
+		default:
+			return Gender.OTHER;
+		}
 	}
 
 }
