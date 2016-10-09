@@ -78,7 +78,13 @@ public class ChatServiceImpl implements IChatService {
 		try {
 			InMsg tmpMsg = JsonUtils.toObject(sb.toString(), InMsg.class);
 			inMsg.setText(tmpMsg.getText());
-			inMsg.setPic(tmpMsg.getPic());
+
+			String base64PicString = tmpMsg.getPic();
+			if (!StringUtils.isBlank(base64PicString)) {
+				String path = "/pic/" + ChatUtils.savePic(base64PicString);
+				log.info("saved pic:" + path);
+				inMsg.setPic(path);
+			}
 
 			Long chatRoomId = WebSocketUtils.getChatRoomId(wsSession);
 			ChatterDTO sender = WebSocketUtils.getChatter(wsSession);
@@ -88,14 +94,9 @@ public class ChatServiceImpl implements IChatService {
 			outMsg.setId(id);
 			outMsg.setSender(sender);
 			outMsg.setText(inMsg.getText());
+			outMsg.setPic(inMsg.getPic());
 			outMsg.setCommand(OutboundCommand.SEND_MSG);
 			outMsg.setDuration(0);
-			String base64PicString = inMsg.getPic();
-			if (!StringUtils.isBlank(base64PicString)) {
-				String path = "/pic/" + ChatUtils.savePic(base64PicString);
-				log.info("saved pic:" + path);
-				outMsg.setPic(path);
-			}
 			this.sendOutMsg(outMsg, inMsg.getTo(), WebSocketUtils.getChatRoomId(wsSession));
 		} catch (IOException e) {
 			log.error("Process message failure!", e);

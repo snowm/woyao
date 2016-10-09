@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -56,12 +57,15 @@ public class MobileController {
 	@ResponseBody
 	public PaginationBean<ShopDTO> findShop(ShopPaginationQueryRequest request) {
 		return this.mobileService.findShop(request.getLatitude(), request.getLongitude(), request.getPageNumber(), request.getPageSize());
-	}	
+	}
 
 	@RequestMapping(value = { "/chat/chatterList" }, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
 	public PaginationBean<ChatterDTO> chatterList(ChatterPaginationQueryRequest request) {
-		return this.chatService.listOnlineChatters(request.getChatRoomId(), request.getPageNumber(), request.getPageSize());
+		PaginationBean<ChatterDTO> rs = this.chatService.listOnlineChatters(request.getChatRoomId(), request.getPageNumber(),
+				request.getPageSize());
+		rs.getPageNumber();
+		return rs;
 	}
 
 	@RequestMapping(value = { "/chat/richerList" }, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)

@@ -31,25 +31,25 @@ public abstract class ChatUtils {
 		if (!root.exists()) {
 			root.mkdir();
 		}
-		// } catch (URISyntaxException e) {
-		// e.printStackTrace();
-		// }
 	}
 
 	public static byte[] decodePicString(String base64String) {
 		Decoder decoder = Base64.getDecoder();
-		String str = base64String.substring(23);
-		byte[] bytes = decoder.decode(str);
+		byte[] bytes = decoder.decode(base64String);
 		return bytes;
 	}
 
 	public static String generatePicFileName() {
+		return generatePicFileName("jpg");
+	}
+	
+	public static String generatePicFileName(String postfix) {
 		String dateDir = DF.format(new Date());
 		File d = new File(root, dateDir);
 		if (!d.exists()) {
 			d.mkdirs();
 		}
-		return dateDir + "/" + UUID.randomUUID().toString() + ".jpg";
+		return dateDir + "/" + UUID.randomUUID().toString() + "." + postfix;
 	}
 
 	public static File generatePicFile(String name) {
@@ -90,10 +90,10 @@ public abstract class ChatUtils {
 	}
 
 	public static String savePic(String base64String) throws IOException {
-		String path = generatePicFileName();
+		PicInfo info = generatePicInfo(base64String);
+		String path = generatePicFileName(info.postfix);
 		File file = generatePicFile(path);
-		System.out.println(file.getAbsolutePath());
-		byte[] bytes = decodePicString(base64String);
+		byte[] bytes = decodePicString(info.content);
 		storePic(bytes, file);
 		return path;
 	}
@@ -101,7 +101,6 @@ public abstract class ChatUtils {
 	public static String savePic(ByteBuffer in) throws IOException {
 		String path = generatePicFileName();
 		File file = generatePicFile(path);
-		System.out.println(file.getAbsolutePath());
 		storePic(in, file);
 		return path;
 	}
@@ -109,8 +108,22 @@ public abstract class ChatUtils {
 	public static String savePic(InputStream in) throws IOException {
 		String path = generatePicFileName();
 		File file = generatePicFile(path);
-		System.out.println(file.getAbsolutePath());
 		storePic(in, file);
 		return path;
+	}
+
+	private static PicInfo generatePicInfo(String base64String) {
+		PicInfo info = new PicInfo();
+		info.codeDesc = base64String.substring(0, base64String.indexOf(','));
+		info.content = base64String.substring(info.codeDesc.length() + 1);
+		info.postfix = info.codeDesc.substring(info.codeDesc.indexOf("image/") + "image/".length(), info.codeDesc.indexOf(";"));
+
+		return info;
+	}
+
+	static class PicInfo {
+		private String codeDesc;
+		private String postfix;
+		private String content;
 	}
 }
