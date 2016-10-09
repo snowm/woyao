@@ -323,7 +323,7 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"domReady!",
         //进行最小压缩
         var ndata = canvas.toDataURL('image/jpeg', 0.1);
 
-        alert("图片大于200KB 进行压缩。图片原始大小：" + size + '压缩前：' + initSize + '压缩后：' + ndata.length);
+        alert("图片大于200KB 进行压缩 压缩前：" + initSize + '压缩后：' + ndata.length);
 
         tCanvas.width = tCanvas.height = canvas.width = canvas.height = 0;
 
