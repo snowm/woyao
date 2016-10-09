@@ -22,6 +22,27 @@ public class QueryChatMsgRequestDTO extends PaginationQueryRequestDTO {
 	private Long productName;
 	
 	private Boolean deleted = null;
+	
+	private Integer shopId;
+	
+	private Long chatRoomId;
+	
+	
+	public Long getChatRoomId() {
+		return chatRoomId;
+	}
+
+	public void setChatRoomId(Long chatRoomId) {
+		this.chatRoomId = chatRoomId;
+	}
+
+	public Integer getShopId() {
+		return shopId;
+	}
+
+	public void setShopId(Integer shopId) {
+		this.shopId = shopId;
+	}
 
 	public Long getFrom() {
 		return from;

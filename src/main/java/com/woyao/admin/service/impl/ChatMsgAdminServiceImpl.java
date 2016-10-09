@@ -37,6 +37,14 @@ public class ChatMsgAdminServiceImpl extends AbstractAdminService<ChatMsg, ChatM
 		if (request.getFree()!=null) {
 			criterions.add(Restrictions.eq("free",request.getFree()));
 		}
+		if (request.getShopId() != null) {
+			String hql="select SHOP_ID from chat_room where SHOP_ID in(select id from shop where id="+request.getShopId()+")";
+			ChatRoom chatRoom=this.dao.queryUnique(hql);
+			if(chatRoom!=null){
+				request.setChatRoomId(chatRoom.getId());
+				criterions.add(Restrictions.eq("chatRoomId",request.getChatRoomId()));
+			}
+		}
 		if (request.getDeleted() != null) {
 			criterions.add(Restrictions.eq("logicalDelete.deleted", request.getDeleted()));
 		}
@@ -70,7 +78,10 @@ public class ChatMsgAdminServiceImpl extends AbstractAdminService<ChatMsg, ChatM
 		ChatMsgDTO dto=new ChatMsgDTO();
 		BeanUtils.copyProperties(m, dto);
 		dto.setChatRoomName(this.dao.get(ChatRoom.class, m.getChatRoomId()).getName());
-		dto.setProductName(this.dao.get(Product.class, m.getProductId()).getName());
+		Product p=this.dao.get(Product.class, m.getProductId());
+		if(p!=null){
+			dto.setProductName(p.getName());
+		}
 		dto.setEnabled(m.getLogicalDelete().isEnabled());
 		dto.setDeleted(m.getLogicalDelete().isDeleted());
 		dto.setCreationDate(m.getModification().getCreationDate());
