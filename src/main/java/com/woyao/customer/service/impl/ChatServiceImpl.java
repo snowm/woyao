@@ -214,6 +214,8 @@ public class ChatServiceImpl implements IChatService {
 
 	@Override
 	public List<OutMsgDTO> listMsg(MsgQueryRequest request) {
+
+		System.out.println(request.toString());
 		List<Criterion> criterions = new ArrayList<>();
 		List<Order> orders = new ArrayList<>();
 		if (request.getMaxId() != null) {

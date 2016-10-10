@@ -66,7 +66,6 @@ define(['jquery','avalon', 'text!./chatter.html',"domReady!"], function ($,avalo
     
     function getUserList(type){
     	var data = {
-    			shopId:1,
     			pageNumber:1,
     			pageSize:500,
     			gender:'',
@@ -74,21 +73,18 @@ define(['jquery','avalon', 'text!./chatter.html',"domReady!"], function ($,avalo
     	
     	if(type == 'ALL'){
     	  	data = {
-    			shopId:1,
     			pageNumber:1,
     			pageSize:500,
     			gender:'',
         	}
     	}else if(type == 'FEMALE'){
     		data = {
-        			shopId:1,
         			pageNumber:1,
         			pageSize:500,
         			gender:'FEMALE',
             	}
     	}else if(type == 'MALE'){
     		data = {
-        			shopId:1,
         			pageNumber:1,
         			pageSize:500,
         			gender:'MALE',

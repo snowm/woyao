@@ -133,6 +133,8 @@ public class MobileController {
 	@RequestMapping(value = { "/chat/listMsg" }, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
 	public List<OutMsgDTO> listMsg(MsgQueryRequest request, HttpServletRequest httpRequest) {
+		String format = "pageSize:%s,withChatterId:%s,maxId:%s";
+		System.out.println(String.format(format, request.getPageSize(), request.getWithChatterId(), request.getMaxId()));
 		Long shopId = SessionUtils.getShopId(httpRequest.getSession());
 		Long chatterId = SessionUtils.getChatterId(httpRequest.getSession());
 		request.setShopId(shopId);

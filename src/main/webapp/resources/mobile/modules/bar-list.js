@@ -10,6 +10,7 @@ window.onload = function(){
     var barListController = avalon.define({
         $id: "barListController",
         listShow:'list',
+        barList:[],
         tabChange:function(tab){
             if(tab == 'list'){
                 barListController.listShow = 'list';
@@ -17,47 +18,44 @@ window.onload = function(){
                 barListController.listShow = 'map';
             }
         },
-        toChatRooms:function(){
-            window.location.href = '/m/chatRoom.html'
+        toChatRooms:function(id){
+            window.location.href = '/m/chatRoom/' + id + '#!/'
         },
     });
 
-
+    function queryData(){
+    	 $.ajax({
+            url: "/m/shopList",   
+            dataType: "JSON",  
+            async: true, 
+            data: {
+            	 latitude:30.663780,
+            	 longitude:104.072227, 
+            	 pageNumber:1,
+            	 pageSize:50
+            },
+            type: "POST",
+            success: function(data) {
+            	console.log();
+            	barListController.barList = data.results;
+            },
+            complete: function() {
+            },
+            error: function() {
+                
+            }
+        });
+    }
+    
+    queryData();
+    
 
 
     var mlocation = {};
     var map = new BMap.Map("map");
-
-    //$.ajax({
-    //    url: "http://api.map.baidu.com/location/ip",    //请求的url地址
-    //    dataType: "JSONP",   //返回格式为json
-    //    async: true, //请求是否异步，默认为异步，这也是ajax重要特性
-    //    data: {
-    //        'ak':'mZm3GQOvw7AFyZIKrkeomWMbhMbpP2Cc',
-    //        'coor':'bd09ll',
-    //        //'ip':"171.214.225.0"
-    //    },
-    //    type: "GET",   //请求方式
-    //    beforeSend: function() {
-    //    },
-    //    success: function(req) {
-    //        console.log(req);
-    //        mlocation = req;
-    //
-    //        map.centerAndZoom(new BMap.Point(req.content.point.x, req.content.point.y), 13);
-    //        //map.centerAndZoom(new BMap.Point(104.072227, 30.663456), 13);
-    //    },
-    //    complete: function() {
-    //    },
-    //    error: function() {
-    //        alert("获取定位失败!")
-    //    }
-    //});
     map.centerAndZoom(new BMap.Point(104.072227,30.663456), 13);
 
     //map.setMapStyle({style:'googlelite'});
-
-    //map.addControl(new BMap.PanoramaControl({offset: new BMap.Size(10, 60)}));
     map.addControl(new BMap.NavigationControl({offset: new BMap.Size(10, 50)}));
 
 

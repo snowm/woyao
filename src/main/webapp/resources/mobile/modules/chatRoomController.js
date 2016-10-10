@@ -402,7 +402,73 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"domReady!",
     }
     init();
 
-
+    // 查询消息商品
+    function queryMsgGoodsData(){
+      	 $.ajax({
+              url: "/m/chat/msgProductList",   
+              dataType: "JSON",  
+              async: true,
+              type: "get",
+              success: function(data) {
+              	   console.log(data);
+              },
+              complete: function() {
+              },
+              error: function() {
+                  
+              }
+          });
+      }
+    queryMsgGoodsData();
+    
+    
+    // 查询商品
+    function queryGoodsData(){
+     	 $.ajax({
+             url: "/m/chat/productList",   
+             dataType: "JSON",  
+             async: true,
+             type: "get",
+             success: function(data) {
+             	   console.log(data);
+             },
+             complete: function() {
+             },
+             error: function() {
+                 
+             }
+         });
+     }
+    queryGoodsData();
+    
+    
+    function queryHistoryMsg(){
+    	 $.ajax({
+            url: "/m/chat/listMsg",   
+            dataType: "JSON", 
+            data:{
+            	withChatterId:'', // 私聊对象id
+            	minId:'',
+            	maxId:'',
+            	pageSize:20,
+            },
+            async: true,
+            type: "post",
+            success: function(data) {
+            	   console.log("msg: ___________");
+            	   console.log(data);
+            },
+            complete: function() {
+            },
+            error: function() {
+                
+            }
+        });
+    }
+    queryHistoryMsg();
+    
+    
+    
 
     // init Swiper
     function showPhoto(){

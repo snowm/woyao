@@ -58,4 +58,13 @@ public class MsgQueryRequest {
 		this.withChatterId = withChatterId;
 	}
 
+	@Override
+	public String toString() {
+		return "MsgQueryRequest [minId=" + minId + ", maxId=" + maxId
+				+ ", pageSize=" + pageSize + ", shopId=" + shopId
+				+ ", selfChatterId=" + selfChatterId + ", withChatterId="
+				+ withChatterId + "]";
+	}
+
+	
 }
