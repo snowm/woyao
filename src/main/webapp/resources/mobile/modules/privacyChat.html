@@ -25,7 +25,7 @@
        </div> -->
     <div class="msg-block-contain">
         <div class="msg-block-container">
-            <div class="msg-block clearfix" ms-repeat-item="msgList" ms-class="msg-block-self:item.command == 'smACK'">
+            <div class="msg-block clearfix" ms-repeat-item="pMsgList" ms-class="msg-block-self:item.command == 'smACK'">
                 <div class="msg-header">
                     <img src="/resources/static/img/head.jpg" alt="" ms-attr-src="item.sender.headImg"  ms-on-tap="showPhotoWall">
                 </div>
@@ -76,8 +76,8 @@
             <tr>
                 <td class="plug-btn">
                     <div class="plug-photo">
-                        <img class="delete-img" src="/resources/static/img/delete.png" >
-                        <input type="file" value='' ms-change="fileChange(this)" style="width: 60px;height: 60px;position: absolute;left: 0;top: 0;z-index: 9;opacity:0;">
+                        <img class="delete-img" ms-on-tap='pClearImg' src="/resources/static/img/delete.png" ms-if="imgViewSrc != '/resources/static/img/photo.png'">
+                        <input type="file" value='' id='pPhotoInput' ms-change="fileChange(this)" style="width: 60px;height: 60px;position: absolute;left: 0;top: 0;z-index: 9;opacity:0;">
                         <img class="plug-photo-view" src="/resources/static/img/photo.png" ms-attr-src="imgViewSrc" alt="" style="border-radius: 5px;">
                     </div>
                 </td>

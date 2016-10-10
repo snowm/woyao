@@ -7,25 +7,25 @@ define(['jquery','avalon', 'text!./privacyChat.html','socket','swiper',"domReady
     avalon.templateCache._privacyChat = _privacyChat;
 
     var privacySocket = socket;
-    privacySocket.onmessage = function(message) {
-        var msg = JSON.parse(message.data);
-        console.log("get masage:");
-        console.log(msg);
-
-//        console.log(msg.text);
-        msg.text = replace_em(msg.text);
-
-        
-        // 判断是否为私聊消息 同时判断 发送者是否为当前聊天对象
-        if(!msg.privacy){
-            if(msg.sender.id == pChatController.toWho.id || msg.command == 'smACK'){
-            	 pChatController.msgList.push(msg);
-                 $(".msg-block-contain").animate({scrollTop:$(".msg-block-container").height() -  $(".msg-block-contain").height() + 100},500,'swing');
-            }else{
-            	avalon.vmodels.rootController.privacyMsg.push(msg);
-            	avalon.vmodels.mainController.pMsgCount = avalon.vmodels.rootController.privacyMsg.length;
-            }
-        }
+//    privacySocket.onmessage = function(message) {
+//        var msg = JSON.parse(message.data);
+//        console.log("get masage:");
+//        console.log(msg);
+//
+////        console.log(msg.text);
+//        msg.text = replace_em(msg.text);
+//
+//        
+//        // 判断是否为私聊消息 同时判断 发送者是否为当前聊天对象
+//        if(!msg.privacy){
+//            if(msg.sender.id == pChatController.toWho.id || msg.command == 'smACK'){
+//            	 pChatController.msgList.push(msg);
+//                 $(".msg-block-contain").animate({scrollTop:$(".msg-block-container").height() -  $(".msg-block-contain").height() + 100},500,'swing');
+//            }else{
+//            	avalon.vmodels.rootController.privacyMsg.push(msg);
+//            	avalon.vmodels.mainController.pMsgCount = avalon.vmodels.rootController.privacyMsg.length;
+//            }
+//        }
         
         
 
@@ -50,9 +50,8 @@ define(['jquery','avalon', 'text!./privacyChat.html','socket','swiper',"domReady
 //                }
 //            },1000)
 //        }
-    }
+//    }
 
-    
     
         var pChatController = avalon.define({
             $id : "pChatController",
@@ -70,7 +69,7 @@ define(['jquery','avalon', 'text!./privacyChat.html','socket','swiper',"domReady
             sreenImg:'/resources/static/img/delate/photo1.jpg', // 霸屏图片
             sreenMsg:'', // 霸屏文字
             sreenTime:'', // 霸屏时间
-            msgList:[],
+            pMsgList:[],
             userInfo:{
             	id:1
             },
@@ -132,19 +131,6 @@ define(['jquery','avalon', 'text!./privacyChat.html','socket','swiper',"domReady
                     },10)
                 }
             },
-            privateChat:function(){
-                window.location.href='./privacyChat.html';
-            },
-            forHer:function(id){
-                if(pChatController.isShowPhoto){
-                    pChatController.showPhotoWall();
-                }
-                pChatController.forHerShow = true;
-            },
-            hideForOther:function(){
-                pChatController.forHerShow = false;
-            },
-            msgType: '0',//霸屏消息类型
             msgText:'', //文字内容
             imgUrl:'', //发送图片 base64
             sendMsg:function(){
@@ -202,6 +188,7 @@ define(['jquery','avalon', 'text!./privacyChat.html','socket','swiper',"domReady
                 pChatController.pluginShow = false;
                 pChatController.imgUrl = '';
                 pChatController.imgViewSrc = '/resources/static/img/photo.png';
+                $("#pPhotoInput").val('');
             }
             ,
             imgViewSrc:'/resources/static/img/photo.png',
@@ -242,63 +229,29 @@ define(['jquery','avalon', 'text!./privacyChat.html','socket','swiper',"domReady
                     };
                     reader.readAsDataURL(file);
                 });
+            },
+            pClearImg:function(){
+            	pChatController.imgUrl = '';
+            	pChatController.imgViewSrc = '/resources/static/img/photo.png';
+                $("#pPhotoInput").val('');
             }
         });
 
+        avalon.scan();
+        
+        
+        pChatController.pMsgList.$watch('length', function( a, b) {
+        	initData();
+        });
+        
+        
+        
         function init(){
         	privacySocket = socket;
-            privacySocket.onmessage = function(message) {
-                var msg = JSON.parse(message.data);
-                console.log("get masage:");
-                console.log(msg);
-
-//                console.log(msg.text);
-                msg.text = replace_em(msg.text);
-
-                
-                // 判断是否为私聊消息 同时判断 发送者是否为当前聊天对象
-                if(!msg.privacy){
-                    if(msg.sender.id == pChatController.toWho.id || msg.command == 'smACK'){
-                    	 pChatController.msgList.push(msg);
-                         $(".msg-block-contain").animate({scrollTop:$(".msg-block-container").height() -  $(".msg-block-contain").height() + 100},500,'swing');
-                    }else{
-                    	avalon.vmodels.rootController.privacyMsg.push(msg);
-                    	avalon.vmodels.mainController.pMsgCount = avalon.vmodels.rootController.privacyMsg.length;
-                    }
-                }
-                
-
-
-//                var seconds = msg.msgType*1000;
-//                if(seconds != 0){
-//                    mainController.sreenShow = true;
-//                    mainController.sreenImg = text.imgUrl;
-//                    mainController.sreenMsg = text.msg;
-//                    mainController.sreenTime = text.msgType;
-//                    mainController.sreenShowSeconds = seconds/1000;
-//                    var fl = '';
-//                    fl = setInterval(function(){
-//                        mainController.sreenShowSeconds--;
-//                        if(mainController.sreenShowSeconds == 0){
-//                            clearTimeout(fl);
-//                            mainController.sreenImg = '';
-//                            mainController.sreenMsg = '';
-//                            mainController.sreenTime = '';
-//                            mainController.sreenShow = false;
-//                            return
-//                        }
-//                    },1000)
-//                }
-            }
-
-        	
-        	
         	// 保存toId
         	pChatController.toWho = avalon.vmodels.rootController.toWho;
 //        	document.title
-        	
             /* qqface */
-            // init QQ face
             setTimeout(function(){
                 $('.emoji-btn').qqFace({
                     id : 'facebox', //表情容器的ID
@@ -307,29 +260,27 @@ define(['jquery','avalon', 'text!./privacyChat.html','socket','swiper',"domReady
                     container:'faceCtn'
                 });
             },300);
-            
-            
-            
-            
-            pChatController.msgList = [];
-            avalon.vmodels.rootController.privacyMsg.forEach(function(item){
-            	if(item.sender.id == pChatController.toWho.id){
-            		pChatController.msgList.push(item);
-            	}
-            });
-            
-            
-            
+            /* qqface */
+            getMsg();
         }
-
+        
         init();
 
-        avalon.scan();
+      
+       
+        // 从消息池获取消息
+        function getMsg(){
+        	// 从消息池里面抽出消息
+            pChatController.pMsgList = [];
+            avalon.vmodels.rootController._privacyMsg.forEach(function(item){
+            	if(item.sender.id == pChatController.toWho.id){
+            		pChatController.pMsgList.push(item);
+            	}
+            });
+            initData();
+        }
         
         
-        
-        
-
 
         // compile QQ faceCode
         function replace_em(str){
@@ -366,9 +317,8 @@ define(['jquery','avalon', 'text!./privacyChat.html','socket','swiper',"domReady
 
         // 获取初始化数据 滑动到底部
         function initData(){
-            textContain.animate({scrollTop:textcontainer.height() - textContain.height() + 100},500,'swing');
+        	 $(".msg-block-contain").animate({scrollTop:$(".msg-block-container").height() -  $(".msg-block-contain").height() + 100},500,'swing');
         }
-        initData();
 
         // init Swiper
         function showPhoto(){

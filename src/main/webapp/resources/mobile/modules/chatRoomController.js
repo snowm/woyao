@@ -12,22 +12,22 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"domReady!",
     
     
     var main_socket = socket;
-    main_socket.onmessage = function(message) {
-        var msg = JSON.parse(message.data);
-        console.log("get masage:");
-        console.log(msg);
-        msg.text = replace_em(msg.text);
-        
-        if(!msg.privacy){
-        	alert(avalon.vmodels.rootController.privacyMsg.length)
-        	avalon.vmodels.rootController.privacyMsg.push(msg);
-        	mainController.pMsgCount = avalon.vmodels.rootController.privacyMsg.length;
-        	return;
-        }
-        
-        mainController.msgList.push(msg);
-
-        $(".msg-block-contain").animate({scrollTop:$(".msg-block-container").height() -  $(".msg-block-contain").height() + 100},500,'swing');
+//    main_socket.onmessage = function(message) {
+//        var msg = JSON.parse(message.data);
+//        console.log("get masage:");
+//        console.log(msg);
+//        msg.text = replace_em(msg.text);
+//        
+//        if(!msg.privacy){
+//        	alert(avalon.vmodels.rootController.privacyMsg.length)
+//        	avalon.vmodels.rootController.privacyMsg.push(msg);
+//        	mainController.pMsgCount = avalon.vmodels.rootController.privacyMsg.length;
+//        	return;
+//        }
+//        
+//        mainController.msgList.push(msg);
+//
+//        $(".msg-block-contain").animate({scrollTop:$(".msg-block-container").height() -  $(".msg-block-contain").height() + 100},500,'swing');
 
 //        var seconds = msg.msgType*1000;
 //        if(seconds != 0){
@@ -49,7 +49,7 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"domReady!",
 //                }
 //            },1000)
 //        }
-    }
+//    }
 
 
 
@@ -73,7 +73,7 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"domReady!",
         sreenTime:'', // 霸屏时间
         showUser:{},
         msgList:[],
-        pMsgCount:'',//私聊消息
+        pMsgCount: '',//私聊消息
         tipsShow:false, // tip show
         tipsMsg:'', // tip
         togglePlugin : function(){ // 显示功能区 按钮
@@ -212,11 +212,11 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"domReady!",
                     mainController.emojiShow = false;
                 }
 
-                mainController.msgType = '0';
                 mainController.msgText = '';
                 mainController.pluginShow = false;
                 mainController.imgUrl = '';
                 mainController.imgViewSrc = '/resources/static/img/photo.png';
+                $("#photoInput").val('');
             }
         }
         ,
@@ -258,10 +258,21 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"domReady!",
                 };
                 reader.readAsDataURL(file);
             });
+        },
+        clearImg:function(){
+        	alert(1)
+            mainController.imgUrl = '';
+            mainController.imgViewSrc = '/resources/static/img/photo.png';
+            $("#photoInput").val('');
         }
     });
     avalon.scan();
-
+    
+    
+    
+    mainController.$watch("msgList", function(v) {
+      $(".msg-block-contain").animate({scrollTop:$(".msg-block-container").height() -  $(".msg-block-contain").height() + 100},500,'swing');
+    })
 
 
 
@@ -337,23 +348,26 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"domReady!",
 
 
     function init(){
+    	mainController.msgList = avalon.vmodels.rootController._publicMsg;
+    	
+    	
     	main_socket = socket;
-    	main_socket.onmessage = function(message) {
-            var msg = JSON.parse(message.data);
-            console.log("get masage:");
-            console.log(msg);
-            msg.text = replace_em(msg.text);
-            
-            if(!msg.privacy){
-            	avalon.vmodels.rootController.privacyMsg.push(msg);
-            	mainController.pMsgCount = avalon.vmodels.rootController.privacyMsg.length;
-            	return;
-            }
-            
-            
-            mainController.msgList.push(msg);
-
-            $(".msg-block-contain").animate({scrollTop:$(".msg-block-container").height() -  $(".msg-block-contain").height() + 100},500,'swing');
+//    	main_socket.onmessage = function(message) {
+//            var msg = JSON.parse(message.data);
+//            console.log("get masage:");
+//            console.log(msg);
+//            msg.text = replace_em(msg.text);
+//            
+//            if(!msg.privacy){
+//            	avalon.vmodels.rootController.privacyMsg.push(msg);
+//            	mainController.pMsgCount = avalon.vmodels.rootController.privacyMsg.length;
+//            	return;
+//            }
+//            
+//            
+//            mainController.msgList.push(msg);
+//
+//            $(".msg-block-contain").animate({scrollTop:$(".msg-block-container").height() -  $(".msg-block-contain").height() + 100},500,'swing');
 
 //            var seconds = msg.msgType*1000;
 //            if(seconds != 0){
@@ -375,7 +389,7 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"domReady!",
 //                    }
 //                },1000)
 //            }
-        }
+//        }
     	
         setTimeout(function(){
             $('.emoji-btn').qqFace({

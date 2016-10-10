@@ -28,10 +28,27 @@ require(['mmRouter',"domReady!",'socket'],function(mmRouter,domReady){
     var rootController = avalon.define({
         $id: "rootController",
         content: "",
-        privacyMsg:[],//私聊消息
+        _privacyMsg:[],//私聊消息
+        privacyMsglength:0,//私聊消息总数
+        _publicMsg:[],//公共消息
         toWho:{},//当前私聊对象
     });
     
+
+    avalon.scan();
+    
+//   监控数据长度 超过 x 删掉第一个
+    rootController._publicMsg.$watch('length', function(a, b) {
+    	if(a >80){
+    		rootController._publicMsg.splice(0,1)
+    	}
+    })
+    
+    rootController._privacyMsg.$watch('length', function(a, b) {
+    	if(a > 80){
+    		rootController._privacyMsg.splice(0,1)
+    	}
+    })
     
     
     var _brageData = {};
@@ -89,7 +106,10 @@ require(['mmRouter',"domReady!",'socket'],function(mmRouter,domReady){
         }
 
     }
+    
 
+    
+    
     avalon.router.get("/", callback);
     avalon.router.get("/chatter", callback);
     avalon.router.get("/chatRoom", callback);
@@ -98,6 +118,5 @@ require(['mmRouter',"domReady!",'socket'],function(mmRouter,domReady){
     avalon.history.start({
         basepath: "/"
     });
-    avalon.scan();
 });
 
