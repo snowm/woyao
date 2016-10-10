@@ -1,6 +1,10 @@
 package com.woyao.admin.dto.product;
 
+import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.woyao.admin.dto.BasePKDTO;
+import com.woyao.admin.dto.DTOConfig;
 
 public class ChatMsgDTO  extends BasePKDTO {
 
@@ -24,6 +28,12 @@ public class ChatMsgDTO  extends BasePKDTO {
 	private Long productId;
 	
 	private String productName;
+	
+	@JsonFormat(pattern = DTOConfig.DATE_TIME_FULL_FMT)
+	private Date startcreationDate;//开始创建时间
+
+	@JsonFormat(pattern = DTOConfig.DATE_TIME_FULL_FMT)
+	private Date endcreationDate; //最后创建时间
 
 	public Long getChatRoomId() {
 		return chatRoomId;
@@ -87,6 +97,22 @@ public class ChatMsgDTO  extends BasePKDTO {
 
 	public void setProductName(String productName) {
 		this.productName = productName;
+	}
+
+	public Date getStartcreationDate() {
+		return startcreationDate;
+	}
+
+	public void setStartcreationDate(Date startcreationDate) {
+		this.startcreationDate = startcreationDate;
+	}
+
+	public Date getEndcreationDate() {
+		return endcreationDate;
+	}
+
+	public void setEndcreationDate(Date endcreationDate) {
+		this.endcreationDate = endcreationDate;
 	}
 	
 	
