@@ -8,94 +8,95 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.eclipse.persistence.oxm.annotations.XmlCDATA;
+
 @XmlRootElement(name = "xml")
 @XmlAccessorType(value = XmlAccessType.FIELD)
-public class UnifiedorderRequest implements Serializable{
+public class UnifiedOrderRequest implements Serializable {
 
 	/**
 	 * 统一下单请求参数
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	@XmlCDATA
 	@XmlElement(name = "appid", required = true)
-	private String appid;//公众账号ID
-	
+	private String appid;// 公众账号ID
+
 	@XmlCDATA
 	@XmlElement(name = "mch_id", required = true)
-	private String mchId;//商户号
-	
+	private String mchId;// 商户号
+
 	@XmlCDATA
 	@XmlElement(name = "device_info")
-	private String deviceInfo;//设备号
-	
+	private String deviceInfo;// 设备号
+
 	@XmlCDATA
 	@XmlElement(name = "nonce_str", required = true)
-	private String nonceStr;//设备号
-	
+	private String nonceStr;// 设备号
+
 	@XmlCDATA
 	@XmlElement(name = "sign", required = true)
-	private String sign;//签名
-	
+	private String sign;// 签名
+
 	@XmlCDATA
 	@XmlElement(name = "body", required = true)
-	private String body;//商品描述
-	
+	private String body;// 商品描述
+
 	@XmlCDATA
 	@XmlElement(name = "detail")
-	private String detail;//商品详情
-	
+	private String detail;// 商品详情
+
 	@XmlCDATA
 	@XmlElement(name = "attach")
-	private String attach;//附加数据
-	
+	private String attach;// 附加数据
+
 	@XmlCDATA
-	@XmlElement(name = "out_trade_no" ,required=true)
-	private String outTradeNo;//商户订单号
-	
+	@XmlElement(name = "out_trade_no", required = true)
+	private String outTradeNo;// 商户订单号
+
 	@XmlCDATA
-	@XmlElement(name = "fee_type" )
-	private String feeType;//货币类型
-	
+	@XmlElement(name = "fee_type")
+	private String feeType;// 货币类型
+
 	@XmlCDATA
-	@XmlElement(name = "total_fee",required=true)
-	private int totalFee;//总金额
-	
+	@XmlElement(name = "total_fee", required = true)
+	private int totalFee;// 总金额
+
 	@XmlCDATA
-	@XmlElement(name = "spbill_create_ip",required=true)
-	private String spbillCreateIp;//终端IP
-	
+	@XmlElement(name = "spbill_create_ip", required = true)
+	private String spbillCreateIp;// 终端IP
+
 	@XmlCDATA
 	@XmlElement(name = "time_start")
-	private String timeStart;//交易起始时间
-	
+	private String timeStart;// 交易起始时间
+
 	@XmlCDATA
 	@XmlElement(name = "time_expire")
-	private String timeExpire;//交易结束时间
-	
+	private String timeExpire;// 交易结束时间
+
 	@XmlCDATA
 	@XmlElement(name = "goods_tag")
-	private String goodsTag;//商品标记
-	
+	private String goodsTag;// 商品标记
+
 	@XmlCDATA
-	@XmlElement(name = "notify_url",required=true)
-	private String notifyUrl;//通知地址
-	
+	@XmlElement(name = "notify_url", required = true)
+	private String notifyUrl;// 通知地址
+
 	@XmlCDATA
-	@XmlElement(name = "trade_type",required=true)
-	private String tradeType;//交易类型
-	
+	@XmlElement(name = "trade_type", required = true)
+	private String tradeType;// 交易类型
+
 	@XmlCDATA
 	@XmlElement(name = "product_id")
-	private String productId;//商品ID
-	
+	private String productId;// 商品ID
+
 	@XmlCDATA
 	@XmlElement(name = "limit_pay")
-	private String limitPay;//指定支付方式
-	
+	private String limitPay;// 指定支付方式
+
 	@XmlCDATA
 	@XmlElement(name = "openid")
-	private String openid;//用户标识
+	private String openid;// 用户标识
 
 	public String getAppid() {
 		return appid;
@@ -256,9 +257,5 @@ public class UnifiedorderRequest implements Serializable{
 	public void setOpenid(String openid) {
 		this.openid = openid;
 	}
-
-	
-	
-	
 
 }

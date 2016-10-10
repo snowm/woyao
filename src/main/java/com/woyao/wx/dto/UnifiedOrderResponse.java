@@ -10,7 +10,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import org.eclipse.persistence.oxm.annotations.XmlCDATA;
 @XmlRootElement(name = "xml")
 @XmlAccessorType(value = XmlAccessType.FIELD)
-public class UnifiedorderResponse implements Serializable{
+public class UnifiedOrderResponse implements Serializable{
 
 	/**
 	 * 统一下单返回参数
