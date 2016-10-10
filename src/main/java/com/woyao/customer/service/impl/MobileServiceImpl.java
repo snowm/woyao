@@ -52,6 +52,7 @@ public class MobileServiceImpl implements IMobileService {
 			criterions.add(Restrictions.le("longitude", rightLng));
 			criterions.add(Restrictions.ge("longitude", leftLng));
 		}
+		criterions.add(Restrictions.eq("logicalDelete.deleted", false));
 
 		PaginationBean<ShopDTO> pb = new PaginationBean<>();
 		pb.setPageNumber(pageNumber);
