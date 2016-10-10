@@ -214,6 +214,8 @@ public class ChatServiceImpl implements IChatService {
 
 	@Override
 	public List<OutMsgDTO> listMsg(MsgQueryRequest request) {
+
+		System.out.println(request.toString());
 		List<Criterion> criterions = new ArrayList<>();
 		List<Order> orders = new ArrayList<>();
 		if (request.getMaxId() != null) {
@@ -223,15 +225,15 @@ public class ChatServiceImpl implements IChatService {
 			criterions.add(Restrictions.gt("id", request.getMinId()));
 			orders.add(Order.asc("id"));
 		}
-		if (request.getShopId() != null) {
-			ChatRoomDTO room = this.mobileService.getChatRoom(request.getShopId());
-			criterions.add(Restrictions.eq("chatRoomId", room.getId()));
-		} else {
+		if (request.getWithChatterId() != null) {
 			Criterion to = Restrictions.and(Restrictions.eq("from", request.getSelfChatterId()),
 					Restrictions.eq("to", request.getWithChatterId()));
 			Criterion from = Restrictions.and(Restrictions.eq("to", request.getSelfChatterId()),
 					Restrictions.eq("from", request.getWithChatterId()));
 			criterions.add(Restrictions.or(to, from));
+		} else {
+			ChatRoomDTO room = this.mobileService.getChatRoom(request.getShopId());
+			criterions.add(Restrictions.eq("chatRoomId", room.getId()));
 		}
 		List<ChatMsg> result = this.dao.query(ChatMsg.class, criterions, orders, 1L, request.getPageSize());
 		List<OutMsgDTO> dtos = new ArrayList<>();
@@ -250,6 +252,6 @@ public class ChatServiceImpl implements IChatService {
 			dtos.add(dto);
 		}
 
-		return null;
+		return dtos;
 	}
 }

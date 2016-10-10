@@ -6,126 +6,163 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
+
+import org.eclipse.persistence.oxm.annotations.XmlCDATA;
 
 @XmlRootElement(name = "xml")
 @XmlAccessorType(value = XmlAccessType.FIELD)
-@XmlType(name = "OrderNotify")
 public class OrderNotifyRequest implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	@XmlCDATA
 	@XmlElement(name = "return_code", required = true)
 	private String returnCode;
 
+	@XmlCDATA
 	@XmlElement(name = "return_msg", required = true)
 	private String returnMsg;
 
+	@XmlCDATA
 	@XmlElement(name = "appid")
 	private String appId;
 
+	@XmlCDATA
 	@XmlElement(name = "mch_id")
 	private String mchId;
 
+	@XmlCDATA
 	@XmlElement(name = "device_info")
 	private String deviceInfo;
 
+	@XmlCDATA
 	@XmlElement(name = "nonce_str", required = true)
 	private String nonce;
 
+	@XmlCDATA
 	@XmlElement(name = "sign", required = true)
 	private String sign;
 
+	@XmlCDATA
 	@XmlElement(name = "result_code", required = true)
 	private String resultCode;
 
+	@XmlCDATA
 	@XmlElement(name = "err_code")
 	private String errCode;
 
+	@XmlCDATA
 	@XmlElement(name = "err_code_des")
 	private String errCodeDes;
 
+	@XmlCDATA
 	@XmlElement(name = "openid")
 	private String openId;
 
+	@XmlCDATA
 	@XmlElement(name = "is_subscribe")
 	private String isSubscribe;
 
+	@XmlCDATA
 	@XmlElement(name = "trade_type")
 	private String tradeType;
 
+	@XmlCDATA
 	@XmlElement(name = "bank_type")
 	private String bankType;
 
+	@XmlCDATA
 	@XmlElement(name = "total_fee")
 	private int totalFee;
-
+	
+	@XmlCDATA
 	@XmlElement(name = "settlement_total_fee")
 	private Integer settlementTotalFee;
 
+	@XmlCDATA
 	@XmlElement(name = "fee_type")
 	private String feeType;
 
+	@XmlCDATA
 	@XmlElement(name = "cash_fee")
 	private int cashFee;
 
+	@XmlCDATA
 	@XmlElement(name = "cash_fee_type")
 	private String cashFeeType;
 
+	@XmlCDATA
 	@XmlElement(name = "coupon_fee")
 	private Integer couponFee;
 
+	@XmlCDATA
 	@XmlElement(name = "coupon_count")
 	private Integer couponCount;
 
+	@XmlCDATA
 	@XmlElement(name = "coupon_type_0")
 	private String couponType0;
+	@XmlCDATA
 	@XmlElement(name = "coupon_type_1")
 	private String couponType1;
+	@XmlCDATA
 	@XmlElement(name = "coupon_type_2")
 	private String couponType2;
+	@XmlCDATA
 	@XmlElement(name = "coupon_type_3")
 	private String couponType3;
+	@XmlCDATA
 	@XmlElement(name = "coupon_type_4")
 	private String couponType4;
+	@XmlCDATA
 	@XmlElement(name = "coupon_type_5")
 	private String couponType5;
-
+	@XmlCDATA
 	@XmlElement(name = "coupon_id_0")
 	private String couponId0;
+	@XmlCDATA
 	@XmlElement(name = "coupon_id_1")
 	private String couponId1;
+	@XmlCDATA
 	@XmlElement(name = "coupon_id_2")
 	private String couponId2;
+	@XmlCDATA
 	@XmlElement(name = "coupon_id_3")
 	private String couponId3;
+	@XmlCDATA
 	@XmlElement(name = "coupon_id_4")
 	private String couponId4;
+	@XmlCDATA
 	@XmlElement(name = "coupon_id_5")
 	private String couponId5;
-
+	@XmlCDATA
 	@XmlElement(name = "coupon_fee_0")
 	private String couponFee0;
+	@XmlCDATA
 	@XmlElement(name = "coupon_fee_1")
 	private String couponFee1;
+	@XmlCDATA
 	@XmlElement(name = "coupon_fee_2")
 	private String couponFee2;
+	@XmlCDATA
 	@XmlElement(name = "coupon_fee_3")
 	private String couponFee3;
+	@XmlCDATA
 	@XmlElement(name = "coupon_fee_4")
 	private String couponFee4;
+	@XmlCDATA
 	@XmlElement(name = "coupon_fee_5")
 	private String couponFee5;
-
+	@XmlCDATA
 	@XmlElement(name = "transaction_id")
 	private String transactionId;
-
+	@XmlCDATA
 	@XmlElement(name = "out_trade_no")
 	private String outTradeNo;
-
+	@XmlCDATA
 	@XmlElement(name = "attach")
 	private String attach;
-
+	@XmlCDATA
 	@XmlElement(name = "time_end")
 	private String timeEnd;
 

@@ -9,12 +9,22 @@ public class ChatterQueryRequest extends PaginationQueryRequestDTO {
 
 	private Gender gender;
 
+	private RicherType richerType;
+
 	public Gender getGender() {
 		return gender;
 	}
 
 	public void setGender(Gender gender) {
 		this.gender = gender;
+	}
+
+	public RicherType getRicherType() {
+		return richerType;
+	}
+
+	public void setRicherType(RicherType richerType) {
+		this.richerType = richerType;
 	}
 
 }

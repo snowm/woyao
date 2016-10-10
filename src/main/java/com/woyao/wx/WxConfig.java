@@ -32,4 +32,13 @@ public class WxConfig {
 		t.setClient(this.client);
 		return t;
 	}
+
+	@Bean(name = "wxPayEndpoint")
+	public WxPayEndpoint wxPayEndpoint() {
+		WxPayEndpoint t = new WxPayEndpoint();
+		String unifiedOrderUrl = this.env.getProperty("wx.api.pay.unifiedOrder.url");
+		t.setWxUnifiedOrderUrl(unifiedOrderUrl);
+		t.setClient(this.client);
+		return t;
+	}
 }

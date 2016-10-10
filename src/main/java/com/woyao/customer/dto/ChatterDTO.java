@@ -1,8 +1,11 @@
 package com.woyao.customer.dto;
 
 import java.io.Serializable;
+import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.snowm.security.profile.domain.Gender;
+import com.woyao.admin.dto.DTOConfig;
 
 public class ChatterDTO implements Serializable {
 
@@ -37,6 +40,9 @@ public class ChatterDTO implements Serializable {
 	private Double latitude;
 
 	private Long distanceToRoom;
+
+	@JsonFormat(pattern = DTOConfig.DATE_TIME_FULL_FMT)
+	private Date loginDate;
 
 	public Long getId() {
 		return id;
@@ -134,5 +140,12 @@ public class ChatterDTO implements Serializable {
 		this.distanceToRoom = distanceToRoom;
 	}
 
+	public Date getLoginDate() {
+		return loginDate;
+	}
+
+	public void setLoginDate(Date loginDate) {
+		this.loginDate = loginDate;
+	}
 
 }

@@ -64,6 +64,9 @@ public class MobileServiceImpl implements IMobileService {
 			for (Shop e : result) {
 				ShopDTO dto = new ShopDTO();
 				BeanUtils.copyProperties(e, dto);
+				if (e.getPic() != null) {
+					dto.setPicURL(e.getPic().getUrl());
+				}
 				dtos.add(dto);
 			}
 			pb.setResults(dtos);
@@ -82,6 +85,18 @@ public class MobileServiceImpl implements IMobileService {
 		ChatRoomDTO rs = new ChatRoomDTO();
 		BeanUtils.copyProperties(room, rs);
 		return rs;
+	}
+
+	@Transactional(isolation = Isolation.READ_UNCOMMITTED, readOnly = true)
+	@Override
+	public Long calculateDistanceToShop(Double latitude, Double longitude, long shopId) {
+		if (latitude == null || longitude == null) {
+			return null;
+		}
+		Shop shop = this.dao.get(Shop.class, shopId);
+		double distance = this.distanceUtils.distance(latitude, longitude, shop.getLatitude(), shop.getLongitude());
+		Long x = Math.round(distance);
+		return x;
 	}
 
 }

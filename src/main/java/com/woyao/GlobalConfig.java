@@ -15,6 +15,9 @@ public class GlobalConfig {
 	// https://{wxUrl}?appid=%s&redirect_uri=%s&response_type=code&scope=%s&state=%s#wechat_redirect
 	private String authorizeFormat;
 
+	private String mrchId;
+
+	// 3rd party
 	private String thirdAppId;
 
 	private String thirdMsgToken;
@@ -75,6 +78,14 @@ public class GlobalConfig {
 
 	public void generateAuthorizeFormat() {
 		this.authorizeFormat = this.authorizeUrl + "?" + this.authorizeParamFormat;
+	}
+
+	public String getMrchId() {
+		return mrchId;
+	}
+
+	public void setMrchId(String mrchId) {
+		this.mrchId = mrchId;
 	}
 
 	public String getThirdAppId() {

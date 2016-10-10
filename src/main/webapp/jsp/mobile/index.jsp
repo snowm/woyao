@@ -28,46 +28,10 @@
     </div>
     <div class="list-ctn" ms-if="listShow == 'list'">
         <div>
-            <div class="block-ctn" ms-on-tap="toChatRooms(1)">
+            <div class="block-ctn" ms-on-tap="toChatRooms(p.id)" ms-repeat-p="barList">
                 <div class="block-ctn-m">
-                    <div class="metro-ctn" style="background: url('/resources/static/img/delate/0813131.jpg') center;">
-                        <p class="b-name">兰桂坊</p>
-                        <span class="hots"><img src="/resources/static/img/hot.png" alt=""> 热度:60</span>
-                        <span class="lct"><img src="/resources/static/img/dits.png" alt=""> 距离:50km</span>
-                    </div>
-                </div>
-            </div>
-            <div class="block-ctn">
-                <div class="block-ctn-m">
-                    <div class="metro-ctn" style="background: url('/resources/static/img/delate/1.jpg') center;">
-                        <p class="b-name">兰桂坊</p>
-                        <span class="hots"><img src="/resources/static/img/hot.png" alt=""> 热度:60</span>
-                        <span class="lct"><img src="/resources/static/img/dits.png" alt=""> 距离:50km</span>
-                    </div>
-                </div>
-            </div>
-            <div class="block-ctn">
-                <div class="block-ctn-m">
-                    <div class="metro-ctn" style="background: url('/resources/static/img/delate/3.jpg') center;">
-                        <p class="b-name">兰桂坊</p>
-                        <span class="hots"><img src="/resources/static/img/hot.png" alt=""> 热度:60</span>
-                        <span class="lct"><img src="/resources/static/img/dits.png" alt=""> 距离:50km</span>
-                    </div>
-                </div>
-            </div>
-            <div class="block-ctn">
-                <div class="block-ctn-m">
-                    <div class="metro-ctn" style="background: url('/resources/static/img/delate/2.jpg') center;">
-                        <p class="b-name">兰桂坊</p>
-                        <span class="hots"><img src="/resources/static/img/hot.png" alt=""> 热度:60</span>
-                        <span class="lct"><img src="/resources/static/img/dits.png" alt=""> 距离:50km</span>
-                    </div>
-                </div>
-            </div>
-            <div class="block-ctn">
-                <div class="block-ctn-m">
-                    <div class="metro-ctn" style="background: url('/resources/static/img/delate/4.jpg') center;">
-                        <p class="b-name">兰桂坊</p>
+                    <div class="metro-ctn" style="background: url('/resources/static/{{p.picURL}}') center;" --style="background: url('/resources/static/img/delate/0813131.jpg') center;">
+                        <p class="b-name" ms-text="p.name">name</p>
                         <span class="hots"><img src="/resources/static/img/hot.png" alt=""> 热度:60</span>
                         <span class="lct"><img src="/resources/static/img/dits.png" alt=""> 距离:50km</span>
                     </div>

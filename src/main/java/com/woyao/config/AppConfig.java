@@ -76,6 +76,7 @@ public class AppConfig {
 		globalConfig.setAuthorizeUrl(this.env.getProperty("wx.api.authorize.url"));
 		globalConfig.setAuthorizeParamFormat(this.env.getProperty("wx.api.authorize.paramFormat"));
 		globalConfig.generateAuthorizeFormat();
+		globalConfig.setMrchId(this.env.getProperty("wx.pay.mrchId"));
 
 		globalConfig.setThirdMsgToken(this.env.getProperty("wx.3rd.msg.token", "test1"));
 		globalConfig
