@@ -100,8 +100,8 @@
                     <div class="form-group">
                         <label class="control-label" >商品类型</label>
                         <select class="form-control" ms-duplex="goodsChg.typeId">
-                            <option value="1">MATERIA</option>
-                            <option value="2">MSG</option>
+                            <option ms-value="1">MATERIA</option>
+                            <option ms-value="2">MSG</option>
                         </select>
                     </div>
                 </div>
@@ -148,7 +148,7 @@
         	<div class="col-sm-1"></div>
         	<ul class="pagination pagination-split">
                 <li  ms-click="btnGoods('upPage')"><a href="#">Prev</a></li>             
-                <li><a href="#" ms-click="btnGoods('nextPage')">Next</a></li>
+                <li ms-click="btnGoods('nextPage')"><a href="#">Next</a></li>
             </ul>
         </div>
     </div>

@@ -13,8 +13,8 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.AbstractWebSocketHandler;
 
-import com.woyao.customer.chat.dto.ErrorOutbound;
-import com.woyao.customer.chat.dto.Inbound;
+import com.woyao.customer.dto.chat.ErrorOutbound;
+import com.woyao.customer.dto.chat.Inbound;
 import com.woyao.customer.service.IChatService;
 import com.woyao.security.SharedHttpSessionContext;
 
@@ -57,7 +57,7 @@ public class ChatWebSocketHandler extends AbstractWebSocketHandler {
 	@Override
 	public void afterConnectionEstablished(WebSocketSession wsSession) throws Exception {
 		try {
-			String httpSessionId = WebSocketUtils.getHttpSessionId(wsSession);
+			String httpSessionId = SessionUtils.getHttpSessionId(wsSession);
 			HttpSession httpSession = SharedHttpSessionContext.getSession(httpSessionId);
 			chatService.newChatter(wsSession, httpSession);
 

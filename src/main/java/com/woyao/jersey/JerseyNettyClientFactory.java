@@ -32,8 +32,8 @@ public class JerseyNettyClientFactory implements FactoryBean<Client>, Initializi
 		clientConfig.connectorProvider(connectorProvider);
 
 		Logger logger = new Log4jLogger("JerseyClientLogging", null);
-		LoggingFeature loggineFeature = new LoggingFeature(logger);
-		ClientBuilder cb = ClientBuilder.newBuilder().withConfig(clientConfig).register(JacksonFeature.class).register(loggineFeature);
+		LoggingFeature loggingFeature = new LoggingFeature(logger);
+		ClientBuilder cb = ClientBuilder.newBuilder().withConfig(clientConfig).register(JacksonFeature.class).register(loggingFeature);
 		this.client = cb.build();
 	}
 

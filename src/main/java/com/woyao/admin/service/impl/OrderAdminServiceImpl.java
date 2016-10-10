@@ -35,13 +35,13 @@ public class OrderAdminServiceImpl extends AbstractAdminService<Order, OrderDTO>
 			criterions.add(Restrictions.ge("totalFee", queryRequest.getMintotalFee()));
 		}
 		if(queryRequest.getMaxtotalFee()!=null){
-			criterions.add(Restrictions.gt("totalFee", queryRequest.getMaxtotalFee()));
+			criterions.add(Restrictions.le("totalFee", queryRequest.getMaxtotalFee()));
 		}
 		if(queryRequest.getStartcreationDate()!=null){
-			criterions.add(Restrictions.gt("creationDate", queryRequest.getStartcreationDate()));
+			criterions.add(Restrictions.ge("modification.creationDate", queryRequest.getStartcreationDate()));
 		}
 		if(queryRequest.getEndcreationDate()!=null){
-			criterions.add(Restrictions.gt("creationDate", queryRequest.getEndcreationDate()));
+			criterions.add(Restrictions.le("modification.creationDate", queryRequest.getEndcreationDate()));
 		}
 		if (queryRequest.getDeleted() != null) {
 			criterions.add(Restrictions.eq("logicalDelete.deleted", queryRequest.getDeleted()));

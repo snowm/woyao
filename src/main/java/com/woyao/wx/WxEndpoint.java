@@ -70,7 +70,7 @@ public class WxEndpoint {
 		WebTarget target = client.target(this.getGlobalAccessTokenUrl).queryParam(QUERY_PARA_GRANT_TYPE, grantType)
 				.queryParam(QUERY_PARA_APPID, appId).queryParam("secret", appSecret);
 
-		Response resp = createRequestBuilder(target).get();
+		Response resp = createJsonRequestBuilder(target).get();
 
 		if (!validateResponse(resp)) {
 			return null;
@@ -113,7 +113,7 @@ public class WxEndpoint {
 		WebTarget target = client.target(this.getAccessTokenUrl).queryParam(QUERY_PARA_APPID, appId).queryParam("secret", appSecret)
 				.queryParam("code", code).queryParam(QUERY_PARA_GRANT_TYPE, grantType);
 
-		Response resp = createRequestBuilder(target).get();
+		Response resp = createJsonRequestBuilder(target).get();
 
 		if (!validateResponse(resp)) {
 			return null;
@@ -146,7 +146,7 @@ public class WxEndpoint {
 		WebTarget target = client.target(this.refreshAccessTokenUrl).queryParam(QUERY_PARA_APPID, appId)
 				.queryParam(QUERY_PARA_GRANT_TYPE, grantType).queryParam("refresh_token", refreshToken);
 
-		Response resp = createRequestBuilder(target).get();
+		Response resp = createJsonRequestBuilder(target).get();
 
 		if (!validateResponse(resp)) {
 			return null;
@@ -177,7 +177,7 @@ public class WxEndpoint {
 		WebTarget target = client.target(this.getUserInfoUrl).queryParam(QUERY_PARA_ACCESS_TOKEN, accessToken)
 				.queryParam(QUERY_PARA_OPEN_ID, openId).queryParam("lang", lang);
 
-		Response resp = createRequestBuilder(target).get();
+		Response resp = createJsonRequestBuilder(target).get();
 
 		if (!validateResponse(resp)) {
 			return null;
@@ -207,7 +207,7 @@ public class WxEndpoint {
 		WebTarget target = client.target(this.getUserInfoUrl).queryParam(QUERY_PARA_ACCESS_TOKEN, accessToken)
 				.queryParam(QUERY_PARA_OPEN_ID, openId);
 
-		Response resp = createRequestBuilder(target).get();
+		Response resp = createJsonRequestBuilder(target).get();
 
 		if (!validateResponse(resp)) {
 			return false;
@@ -227,9 +227,14 @@ public class WxEndpoint {
 		return false;
 	}
 
-	private Builder createRequestBuilder(WebTarget target) {
+	private Builder createJsonRequestBuilder(WebTarget target) {
 		return target.request(MediaType.APPLICATION_JSON_TYPE).accept(MediaType.APPLICATION_JSON_TYPE, MediaType.TEXT_PLAIN_TYPE)
 				.header("User-Agent", MediaType.APPLICATION_JSON);
+	}
+
+	private Builder createXmlRequestBuilder(WebTarget target) {
+		return target.request(MediaType.APPLICATION_XML).accept(MediaType.APPLICATION_JSON_TYPE, MediaType.TEXT_PLAIN_TYPE)
+				.header("User-Agent", MediaType.APPLICATION_XML);
 	}
 
 	private boolean validateResponse(Response resp) throws RuntimeException {

@@ -7,6 +7,7 @@ define([],function(){
     	var chatController=avalon.define({
     		$id:"chatController",    		
     		chatList:[],
+    		shopList:[],
     		freeDate:{
     			free:"",
     			deleted:false,

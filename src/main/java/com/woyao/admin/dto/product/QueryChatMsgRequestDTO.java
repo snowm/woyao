@@ -1,6 +1,10 @@
 package com.woyao.admin.dto.product;
 
+import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.woyao.PaginationQueryRequestDTO;
+import com.woyao.admin.dto.DTOConfig;
 
 public class QueryChatMsgRequestDTO extends PaginationQueryRequestDTO {
 
@@ -27,7 +31,31 @@ public class QueryChatMsgRequestDTO extends PaginationQueryRequestDTO {
 	
 	private Long chatRoomId;
 	
+	@JsonFormat(pattern = DTOConfig.DATE_TIME_FULL_FMT)
+	private Date startcreationDate;//开始创建时间
+
+	@JsonFormat(pattern = DTOConfig.DATE_TIME_FULL_FMT)
+	private Date endcreationDate; //最后创建时间
 	
+	
+	
+	
+	public Date getStartcreationDate() {
+		return startcreationDate;
+	}
+
+	public void setStartcreationDate(Date startcreationDate) {
+		this.startcreationDate = startcreationDate;
+	}
+
+	public Date getEndcreationDate() {
+		return endcreationDate;
+	}
+
+	public void setEndcreationDate(Date endcreationDate) {
+		this.endcreationDate = endcreationDate;
+	}
+
 	public Long getChatRoomId() {
 		return chatRoomId;
 	}

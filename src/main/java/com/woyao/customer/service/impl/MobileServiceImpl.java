@@ -58,7 +58,7 @@ public class MobileServiceImpl implements IMobileService {
 		pb.setPageSize(pageSize);
 		long count = this.dao.count(Shop.class, criterions);
 		pb.setTotalCount(count);
-		if (count > 0) {
+		if (count > 0L) {
 			List<Shop> result = this.dao.query(Shop.class, criterions, pageNumber, pageSize);
 			List<ShopDTO> dtos = new ArrayList<>();
 			for (Shop e : result) {

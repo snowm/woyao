@@ -71,6 +71,11 @@
 			<artifactId>jackson-annotations</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>org.eclipse.persistence</groupId>
+			<artifactId>org.eclipse.persistence.moxy</artifactId>
+			<version>2.6.4</version>
+		</dependency>
+		<dependency>
 			<groupId>org.quartz-scheduler</groupId>
 			<artifactId>quartz</artifactId>
 		</dependency>
@@ -222,11 +227,6 @@
 			<artifactId>spring-security-taglibs</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-messaging</artifactId>
-			<version>${spring-security.version}</version>
-		</dependency>
-		<dependency>
 			<groupId>org.springframework.security.oauth</groupId>
 			<artifactId>spring-security-oauth2</artifactId>
 			<version>2.0.11.RELEASE</version>
@@ -255,6 +255,7 @@
 			<artifactId>security-ext</artifactId>
 			<version>1.1-SNAPSHOT</version>
 		</dependency>
+		
 		<!-- Main.DB -->
 		<dependency>
 			<groupId>mysql</groupId>
@@ -275,6 +276,17 @@
 		</dependency>
 	</dependencies>
 	<build>
+		<resources>
+			<resource>
+				<directory>src/main/java</directory>
+				<includes>
+					<include>**/*.properties</include>
+				</includes>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+			</resource>
+		</resources>
 		<finalName>WoYao</finalName>
 		<defaultGoal>install</defaultGoal>
 		<plugins>
@@ -337,7 +349,7 @@
 			<plugin>
 				<groupId>org.eclipse.jetty</groupId>
 				<artifactId>jetty-maven-plugin</artifactId>
-				<version>9.4.0.RC0</version>
+				<version>9.3.12.v20160915</version>
 				<configuration>
 					<stopKey>foo</stopKey>
 					<stopPort>9999</stopPort>
