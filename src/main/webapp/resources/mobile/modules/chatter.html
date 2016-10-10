@@ -8,31 +8,20 @@
     </div>
     <!--消息界面-->
     <div ms-if="tabFlag == 'msg'">
-        <div class="rank-list">
+        <div class="rank-list" ms-repeat-u="senderList">
             <div class="fist">
-                <img src="/resources/static/img/head.jpg" alt="">
+                <img src="/resources/static/img/head.jpg" height=50 ms-attr-src="u.imgUrl" alt="">
                 <div class="rank-name">
-                    <div><span>给我你的心</span><img src="/resources/static/img/weman1.png" alt="">
+                    <div>
+                    	<span class="text" ms-text="u.nickname"></span>
+	                    <img src="/resources/static/img/weman1.png" ms-if="u.gender == 'FAMALE'" alt="">
+	                    <img src="/resources/static/img/man.png" ms-if="u.gender == 'MALE'" alt="">
                     </div>
-                    <div class="rank-number">你在干嘛</div>
+                    <div class="rank-number" ms-text="u.lastMsg"></div>
                 </div>
                 <div class="rank-right">
-                    <p>11:30</p>
-                    <p class="number-one">1</p>
-                </div>
-            </div>
-        </div>
-        <div class="rank-list">
-            <div class="fist">
-                <img src="/resources/static/img/head.jpg" alt="">
-                <div class="rank-name">
-                    <div><span>给我你的心</span><img src="/resources/static/img/weman1.png" alt="">
-                    </div>
-                    <div class="rank-number">你在干嘛</div>
-                </div>
-                <div class="rank-right">
-                    <p>11:30</p>
-                    <p class="number-one" ms-hover="hover">1</p>
+                    <p>&nbsp;</p>
+                    <p class="number-one" ms-text="u.msgCount"></p>
                 </div>
             </div>
         </div>
@@ -43,7 +32,7 @@
             <div class="all-left">
                 <img src="/resources/static/img/head.jpg" style='width:60px' ms-attr-src="p.headImg" alt="">
                 <div class="all-left-text">
-                    <span class="text" ms-text="p.nickname">给我你的心</span>
+                    <span class="text" ms-text="p.nickname">name</span>
                     <img src="/resources/static/img/weman1.png" ms-if="p.gender == 'FAMALE'" alt="">
                     <img src="/resources/static/img/man.png" ms-if="p.gender == 'MALE'" alt="">
                     <p>未传值</p>

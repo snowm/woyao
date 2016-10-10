@@ -11,6 +11,7 @@ define(['jquery','avalon', 'text!./chatter.html',"domReady!"], function ($,avalo
             $id:"chatterController",
             tabFlag:'all',
             userList:[],
+            senderList:[],
             tabChange:function(tab){
                if(tab == 'all'){
             	   chatterController.tabFlag = 'all';
@@ -38,6 +39,28 @@ define(['jquery','avalon', 'text!./chatter.html',"domReady!"], function ($,avalo
 
     function init(){
         console.log('聊天列表初始化');
+        
+        var msgs = avalon.vmodels.rootController._privacyMsg.$model;
+        var senderList = [];
+        
+        for(var i = 0; i < msgs.length ; i++ ){
+        	var flag = false;
+        	for(var j = 0; j < senderList.length ; j++ ){
+        		if(msgs[i].sender.id == senderList[j].id){
+        			senderList[j].msgCount ++;
+        			senderList[j].lastMsg = msgs[i].text;
+        			flag = !flag;
+        		}
+        	}
+        	if(!flag){
+        		senderList.push({id:msgs[i].sender.id,msgCount:1,imgUrl:msgs[i].sender.headImg,nickname:msgs[i].sender.nickname,gender:msgs[i].sender.gender,lastMsg:msgs[i].text})
+        	}
+        }
+        
+        console.log(senderList);
+        
+        chatterController.senderList = senderList;
+        
         getUserList();
     }
     
