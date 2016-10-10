@@ -1,5 +1,6 @@
 package com.woyao.customer.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -92,12 +93,25 @@ public class MobileController {
 	@ResponseBody
 	public PaginationBean<RicherDTO> listRicher(ChatterQueryRequest request, HttpServletRequest httpRequest) {
 		Long chatRoomId = SessionUtils.getChatRoomId(httpRequest.getSession());
-		// PaginationBean<ChatterDTO> rs =
-		// this.chatService.listOnlineChatters(chatRoomId, request.getGender(),
-		// request.getPageNumber(),
-		// request.getPageSize());
-		// rs.getPageNumber();
-		return new PaginationBean<RicherDTO>();
+
+		PaginationBean<ChatterDTO> rs = this.chatService.listOnlineChatters(chatRoomId, request.getGender(), request.getPageNumber(),
+				request.getPageSize());
+		rs.getPageNumber();
+		PaginationBean<RicherDTO> pb = new PaginationBean<>();
+		pb.setPageNumber(rs.getPageNumber());
+		pb.setPageSize(rs.getPageSize());
+		pb.setTotalCount(rs.getTotalCount());
+		List<RicherDTO> list = new ArrayList<>();
+		if (rs.getResults() != null) {
+			for (ChatterDTO c : rs.getResults()) {
+				RicherDTO r = new RicherDTO();
+				r.setChatterDTO(c);
+				r.setPayMsgCount(10);
+				list.add(r);
+			}
+			pb.setResults(list);
+		}
+		return pb;
 	}
 
 	@RequestMapping(value = { "/chat/msgProductList" }, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
