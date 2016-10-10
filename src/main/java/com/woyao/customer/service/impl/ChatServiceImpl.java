@@ -252,6 +252,6 @@ public class ChatServiceImpl implements IChatService {
 			dtos.add(dto);
 		}
 
-		return null;
+		return dtos;
 	}
 }
