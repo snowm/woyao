@@ -221,12 +221,12 @@ public class Oauth2SecurityFilter implements Filter, InitializingBean {
 				BeanUtils.copyProperties(userInfoResponse, dto);
 				dto.setGender(this.parseGender(userInfoResponse.getSex()));
 
-				dto = this.profileWxService.saveChatterInfo(dto);
 			} catch (Exception ex) {
 				log.warn("Get user info from weixin failure!", ex);
 				return null;
 			}
 		}
+		dto = this.profileWxService.saveChatterInfo(dto);
 		dto.setLoginDate(new Date());
 		return dto;
 	}
