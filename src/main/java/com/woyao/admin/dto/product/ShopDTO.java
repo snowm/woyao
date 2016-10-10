@@ -32,7 +32,7 @@ public class ShopDTO extends BasePKDTO {
 
 	private String publicAccURL;
 
-	private Long picId;
+	private long picId;
 
 	private String picUrl;
 
@@ -100,11 +100,11 @@ public class ShopDTO extends BasePKDTO {
 		this.publicAccURL = publicAccURL;
 	}
 
-	public Long getPicId() {
+	public long getPicId() {
 		return picId;
 	}
 
-	public void setPicId(Long picId) {
+	public void setPicId(long picId) {
 		this.picId = picId;
 	}
 
