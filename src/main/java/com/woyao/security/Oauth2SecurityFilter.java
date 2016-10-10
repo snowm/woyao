@@ -183,8 +183,8 @@ public class Oauth2SecurityFilter implements Filter, InitializingBean {
 
 	// mock code
 	private AtomicLong idGenerator = new AtomicLong();
-	
-	public ChatterDTO createMockDTO(){
+
+	public ChatterDTO createMockDTO() {
 		long id = idGenerator.incrementAndGet();
 		ChatterDTO dto = new ChatterDTO();
 		dto.setId(id);
@@ -204,27 +204,28 @@ public class Oauth2SecurityFilter implements Filter, InitializingBean {
 		ChatterDTO dto = null;
 		if ("woyao".equals(code)) {
 			dto = this.createMockDTO();
-		}
-		try {
-			GetAccessTokenResponse tokenResponse = this.wxEndpoint.getAccessToken(globalConfig.getAppId(), globalConfig.getAppSecret(),
-					code, "authorization_code");
-			GetUserInfoResponse userInfoResponse = this.wxEndpoint.getUserInfo(tokenResponse.getAccessToken(), tokenResponse.getOpenid(),
-					"zh_CN");
-			String openId = userInfoResponse.getOpenid();
-			if (StringUtils.isBlank(openId)) {
-				throw new RuntimeException("open id blank!");
-			}
-			dto = this.profileWxService.getByOpenId(openId);
-			if (dto == null) {
-				dto = new ChatterDTO();
-			}
-			BeanUtils.copyProperties(userInfoResponse, dto);
-			dto.setGender(this.parseGender(userInfoResponse.getSex()));
+		} else {
+			try {
+				GetAccessTokenResponse tokenResponse = this.wxEndpoint.getAccessToken(globalConfig.getAppId(), globalConfig.getAppSecret(),
+						code, "authorization_code");
+				GetUserInfoResponse userInfoResponse = this.wxEndpoint.getUserInfo(tokenResponse.getAccessToken(),
+						tokenResponse.getOpenid(), "zh_CN");
+				String openId = userInfoResponse.getOpenid();
+				if (StringUtils.isBlank(openId)) {
+					throw new RuntimeException("open id blank!");
+				}
+				dto = this.profileWxService.getByOpenId(openId);
+				if (dto == null) {
+					dto = new ChatterDTO();
+				}
+				BeanUtils.copyProperties(userInfoResponse, dto);
+				dto.setGender(this.parseGender(userInfoResponse.getSex()));
 
-			dto = this.profileWxService.saveChatterInfo(dto);
-		} catch (Exception ex) {
-			log.warn("Get user info from weixin failure!", ex);
-			return null;
+				dto = this.profileWxService.saveChatterInfo(dto);
+			} catch (Exception ex) {
+				log.warn("Get user info from weixin failure!", ex);
+				return null;
+			}
 		}
 		dto.setLoginDate(new Date());
 		return dto;
