@@ -8,6 +8,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
+import org.eclipse.persistence.oxm.annotations.XmlCDATA;
+
 @XmlRootElement(name = "xml")
 @XmlAccessorType(value = XmlAccessType.FIELD)
 @XmlType(name = "OrderNotify")
@@ -15,6 +17,7 @@ public class OrderNotifyRequest implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	@XmlCDATA
 	@XmlElement(name = "return_code", required = true)
 	private String returnCode;
 
