@@ -187,7 +187,8 @@ public class Oauth2SecurityFilter implements Filter, InitializingBean {
 	public ChatterDTO createMockDTO() {
 		long id = idGenerator.incrementAndGet();
 		ChatterDTO dto = new ChatterDTO();
-		dto.setId(id);
+//		dto.setId(id);
+		dto.setOpenId("openId"+id);
 		dto.setNickname("nickname" + id);
 		dto.setCity("city" + id);
 		dto.setCountry("country" + id);
