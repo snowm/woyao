@@ -101,7 +101,7 @@ define(['uploadfile'],function(){
     	    	    	managerPwd:shopController.formData.managerPwd,
     	    	}
     	    	//性别 -------------------------------------------------------------------------------------------------
-    	    	data.managerType = 1;
+//    	    	data.managerType = 1;
     	    	if(shopController.formData.id){
         	    	console.log(data);
         	    	$.ajax({
@@ -145,8 +145,7 @@ define(['uploadfile'],function(){
     	avalon.scan();
     	
     	function queryData(page){
-    		var data = shopController.queryCdt;
-    		var pageFlag = page || '';
+    		var data = shopController.queryCdt;    	
 	    	if(page == "upPage"){
 	    		if(shopController.queryCdt.pageNumber == 1){
 	    			alert("已是第一页");
