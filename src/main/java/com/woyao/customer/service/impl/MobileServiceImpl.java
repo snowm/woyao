@@ -87,4 +87,16 @@ public class MobileServiceImpl implements IMobileService {
 		return rs;
 	}
 
+	@Transactional(isolation = Isolation.READ_UNCOMMITTED, readOnly = true)
+	@Override
+	public Long calculateDistanceToShop(Double latitude, Double longitude, long shopId) {
+		if (latitude == null || longitude == null) {
+			return null;
+		}
+		Shop shop = this.dao.get(Shop.class, shopId);
+		double distance = this.distanceUtils.distance(latitude, longitude, shop.getLatitude(), shop.getLongitude());
+		Long x = Math.round(distance);
+		return x;
+	}
+
 }

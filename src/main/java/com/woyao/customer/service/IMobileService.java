@@ -10,4 +10,6 @@ public interface IMobileService {
 
 	ChatRoomDTO getChatRoom(long shopId);
 
+	Long calculateDistanceToShop(Double latitude, Double longitude, long shopId);
+	
 }

@@ -22,6 +22,7 @@ import com.woyao.customer.dto.ChatterDTO;
 import com.woyao.customer.dto.ChatterQueryRequest;
 import com.woyao.customer.dto.MsgProductDTO;
 import com.woyao.customer.dto.ProductDTO;
+import com.woyao.customer.dto.RicherDTO;
 import com.woyao.customer.dto.ShopDTO;
 import com.woyao.customer.dto.ShopPaginationQueryRequest;
 import com.woyao.customer.dto.chat.MsgQueryRequest;
@@ -57,6 +58,8 @@ public class MobileController {
 		long roomId = room != null ? room.getId() : shopId;
 		session.setAttribute(SessionContainer.SESSION_ATTR_CHATROOM_ID, roomId);
 
+		ChatterDTO chatter = SessionUtils.getChatter(session);
+		chatter.setDistanceToRoom(this.mobileService.calculateDistanceToShop(chatter.getLatitude(), chatter.getLongitude(), shopId));
 		return "mobile/chatRoom";
 	}
 
@@ -67,7 +70,11 @@ public class MobileController {
 
 	@RequestMapping(value = { "/shopList" }, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
-	public PaginationBean<ShopDTO> findShop(ShopPaginationQueryRequest request) {
+	public PaginationBean<ShopDTO> findShop(ShopPaginationQueryRequest request, HttpServletRequest httpRequest) {
+		HttpSession session = httpRequest.getSession();
+		ChatterDTO chatter = SessionUtils.getChatter(session);
+		chatter.setLatitude(request.getLatitude());
+		chatter.setLongitude(request.getLongitude());
 		return this.mobileService.findShop(request.getLatitude(), request.getLongitude(), request.getPageNumber(), request.getPageSize());
 	}
 
@@ -83,12 +90,14 @@ public class MobileController {
 
 	@RequestMapping(value = { "/chat/richerList" }, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
-	public PaginationBean<ChatterDTO> listRicher(ChatterQueryRequest request, HttpServletRequest httpRequest) {
+	public PaginationBean<RicherDTO> listRicher(ChatterQueryRequest request, HttpServletRequest httpRequest) {
 		Long chatRoomId = SessionUtils.getChatRoomId(httpRequest.getSession());
-		PaginationBean<ChatterDTO> rs = this.chatService.listOnlineChatters(chatRoomId, request.getGender(), request.getPageNumber(),
-				request.getPageSize());
-		rs.getPageNumber();
-		return rs;
+		// PaginationBean<ChatterDTO> rs =
+		// this.chatService.listOnlineChatters(chatRoomId, request.getGender(),
+		// request.getPageNumber(),
+		// request.getPageSize());
+		// rs.getPageNumber();
+		return new PaginationBean<RicherDTO>();
 	}
 
 	@RequestMapping(value = { "/chat/msgProductList" }, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
