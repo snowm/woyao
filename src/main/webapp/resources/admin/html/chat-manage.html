@@ -9,7 +9,33 @@
 	                  <option value='false'>否</option>
 	             </select>
 	        </div>
-	      </div> 	      
+	      </div>
+	       	<div class="col-sm-3">
+	        <div class="form-group" style="position: relative;">
+	          <label class="control-label">商店名称</label>
+	             <input type="text" name="firstname" class="form-control" ms-duplex="">
+	             <div style="position:absolute;top:69px;border:1px solid red;width:256px;height:302px;" ms-if="shopList.length! = 0">
+	             	 <table class="text-center">
+            			<thead>
+				            <tr>              
+				                <th class="text-center">昵称</th>
+				                <th class="text-center">内容</th>
+				                <th class="text-center">时间</th>
+				                <th class="text-center text-right" width="200">操作</th>
+				            </tr>
+           				 </thead>
+            			<tbody>
+			            <tr  ms-repeat-p="shopList">                
+			                <td ms-text="p."></td>
+			                <td ms-text="p."></td>
+			                <td ms-text="p."></td>			                
+			            </tr>
+			            </tbody>
+        			</table>  
+	             </div>
+	           <div style="width:0;height:0; border-style:solid;border-width:5px 5px 0; border-color:black transparent transparent;position:absolute;right:10px;top:50px;"></div>
+	        </div>
+	      </div>      
             <div class="col-sm-12 text-right">
                 <button class="btn btn-xs btn-info" ms-click="btnChat">查 询</button>
             </div>

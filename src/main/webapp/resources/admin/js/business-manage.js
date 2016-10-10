@@ -74,6 +74,7 @@ define(['uploadfile'],function(){
     	  	      		  dataType: 'json'
     	  	      		});
     	    	 }
+    	    	 queryData();
     	    },	    
     	 
     	    updateShop:function(id){

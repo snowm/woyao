@@ -100,8 +100,7 @@ define(['uploadfile'],function(){
                 shopId:"",
                 shopName:"",
                 unitPrice:""
-            }
-            
+            }            
         },        
         deletedGoods:function(id){
             if(confirm("确认删除 ？")) {
@@ -114,6 +113,8 @@ define(['uploadfile'],function(){
                     dataType: 'json'
                 });
             }
+           Submit();
+            
         },
         //选择商店
         chooseShop:function(){        	
