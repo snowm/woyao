@@ -25,7 +25,7 @@ public class ProductServiceImpl implements IProductService {
 	private static final String HQL_GET_MSG_PROD_VIA_MSG_CONFIG_ID = "from PaidMsgProductConfig where product.id = :productId and logicalDelete.deleted = false";
 
 	private static final String HQL_LIST_PROD_SHOP = "from Product where shop.id = :shopId "
-			+ "and type =: type and logicalDelete.deleted = false";
+			+ "and type = :type and logicalDelete.deleted = false";
 
 	@Resource(name = "commonDao")
 	private CommonDao dao;
