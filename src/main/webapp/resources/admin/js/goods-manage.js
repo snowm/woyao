@@ -20,8 +20,8 @@ define(['uploadfile'],function(){
             name:"",
             deleted:false,
             pageNumber:1,
-            pageSize:7,
-        },
+            pageSize:7          
+        },        
         goodsChg:{ 
             name:"",
             code:"",
@@ -40,6 +40,27 @@ define(['uploadfile'],function(){
             goodsController.goodsShow = false;
             Submit(page);
         },
+        change:function(){
+			console.log(goodsController.goodsChg.name);
+			var data=goodsController.goodsChg;    			
+			$.ajax({
+	      		  type: "post",
+	      		  url: '/admin/shop/search/',
+	      		  data:data,
+	      		  success: function(data){
+	      			  console.log(data);
+	      			  goodsController.shopList = data.results;
+	      			  console.log(goodsController.shopList);
+	      		  }
+			});
+			
+		},
+		shopSearch:function(id,name){
+			console.log(id,name);   
+			goodsController.goodsChg.shopId = id;
+			goodsController.goodsChg.name=name;
+			goodsController.shopList=[];
+		},
         Alter:function(id){
             goodsController.goodsShow = true;
             goodsController.goods = false;
@@ -129,7 +150,7 @@ define(['uploadfile'],function(){
                 },
                 success: function(data){
                     console.log(data);
-                    goodsController.shopList=data.results;                 
+                    goodsController.shopList=data.results;                   
 
                 },
                 dataType: 'json',
@@ -253,7 +274,8 @@ define(['uploadfile'],function(){
  	                 name:goodsController.goodsDate.name,
  	                 deleted:goodsController.goodsDate.deleted,                
  	                 pageNumber:goodsController.goodsDate.pageNumber,
- 	                 pageSize:goodsController.goodsDate.pageSize
+ 	                 pageSize:goodsController.goodsDate.pageSize,
+ 	                 shopId:goodsController.goodsChg.shopId
  	             } 
  	    	 
  	    	 

@@ -15,7 +15,7 @@ define(['uploadfile'],function(){
     	    	name:'',
     	    	deleted:false,
     	    	pageNumber:1,
-    	    	pageSize:10,
+    	    	pageSize:7,
     	    },
     	    formData:{
     	    	name:'',
@@ -87,6 +87,7 @@ define(['uploadfile'],function(){
     	    	})
     	    },
     	    submitItem:function(){
+    	    	alert(shopController.formData.name)
     	    	var data = {
     	    			name:shopController.formData.name,
     	    	    	address:shopController.formData.address,

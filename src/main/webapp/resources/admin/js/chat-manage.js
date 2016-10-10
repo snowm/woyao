@@ -1,8 +1,7 @@
 /**
  * Created by Administrator on 2016/10/6 0006.
  */
-define([],function(){
-
+define(['jquery','datapicker','datapicker.cn'],function($){
     $(function(){
     	var chatController=avalon.define({
     		$id:"chatController",    		
@@ -10,21 +9,47 @@ define([],function(){
     		shopList:[],
     		freeDate:{
     			free:"",
+    			name:"",
     			deleted:false,
     			pageNumber:1,
-    	    	pageSize:21,
-    	    	shopId:1 
+    	    	pageSize:10,
+    	    	shopId:"",
+    	    	creationDate:"",
+    	    	lastModifiedDate:""
     		},
-    		btnChat:function(){
-    			chatController.chat=true;
-    			console.log(chatController.freeDate.free);
+    		change:function(){
+    			console.log(chatController.freeDate.name);
+    			var data=chatController.freeDate;    			
+    			$.ajax({
+    	      		  type: "post",
+    	      		  url: '/admin/shop/search/',
+    	      		  data:data,
+    	      		  success: function(data){
+    	      			  console.log(data);
+    	      			  chatController.shopList = data.results;
+    	      			  console.log(chatController.shopList);
+    	      		  }
+    			});
+    			
+    		},
+    		chooseShop:function(id,name){
+    			console.log(id,name);   
+    			chatController.freeDate.shopId = id;
+    			chatController.freeDate.name=name;
+    			chatController.shopList=[];
+    		},
+    		
+    		btnChat:function(){     			
+    			chatController.chat=true;    			
     			var data = { 
     					free:chatController.freeDate.free,
     					deleted:chatController.freeDate.deleted,
     	    			pageNumber:chatController.freeDate.pageNumber,
     	    	    	pageSize:chatController.freeDate.pageSize,
-    	    	    	shopId:chatController.freeDate.shopId
-    			}    			
+    	    	    	shopId:chatController.freeDate.shopId,
+    	    	    	creationDate:chatController.freeDate.creationDate,
+    	    	    	lastModifiedDate:chatController.freeDate.lastModifiedDate
+    	    	    	}    			
     			   
     			$.ajax({
   	      		  type: "post",
@@ -58,10 +83,17 @@ define([],function(){
     	    	 }
     	    },
     	});
-    	console.log("load chat-manage");
-    	avalon.scan();
+    	console.log("load chat-manage");    
+    	avalon.scan();    	
+    	
+    
+    	setTimeout(function(){
+    		$('#date_picker1').datetimepicker({format: 'yyyy-mm-dd hh:ii',language: 'zh-CN'});
+    		$('#date_picker2').datetimepicker({format: 'yyyy-mm-dd hh:ii',language: 'zh-CN'});
+    	},300)
         
     });
-
+    
+    
 
 });
