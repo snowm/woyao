@@ -48,6 +48,15 @@ public class ChatMsgAdminServiceImpl extends AbstractAdminService<ChatMsg, ChatM
 		if (request.getDeleted() != null) {
 			criterions.add(Restrictions.eq("logicalDelete.deleted", request.getDeleted()));
 		}
+		if (request.getFrom() != null) {
+			criterions.add(Restrictions.eq("from", request.getFrom()));
+		}
+		if (request.getStartcreationDate() != null) {
+			criterions.add(Restrictions.ge("modification.creationDate", request.getStartcreationDate()));
+		}
+		if (request.getEndcreationDate() != null) {
+			criterions.add(Restrictions.le("modification.creationDate", request.getEndcreationDate()));
+		}
 		List<Order> orders = new ArrayList<>();
 		orders.add(Order.desc("id"));
 
