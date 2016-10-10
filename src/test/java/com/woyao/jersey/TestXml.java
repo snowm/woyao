@@ -18,20 +18,15 @@ import org.glassfish.jersey.client.ClientProperties;
 import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.logging.LoggingFeature;
 import org.glassfish.jersey.netty.connector.NettyConnectorProvider;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
 
 import com.woyao.utils.JaxbUtils;
 import com.woyao.wx.dto.TestXMLObj;
 
-@Ignore
 public class TestXml {
 
 	private Client client;
 
-	@Before
-	public void init() {
+	public TestXml() {
 		this.client = this.initClient();
 	}
 
@@ -47,15 +42,23 @@ public class TestXml {
 		return cb.build();
 	}
 
-	@Test
-	public void testPostXML() throws JAXBException {
+	private void testPostXML() throws JAXBException {
 		String uri = "http://localhost:8080/wx/orderNotify";
 		WebTarget target = this.client.target(uri);
-		String content = "<xml><Id><![CDATA[id1]]></Id><Name><![CDATA[name1]]></Name></xml>";
+		String content = "<xml><Id><![CDATA[id2]]></Id><Name><![CDATA[name1]]></Name></xml>";
 		Entity<String> entity = Entity.entity(content, MediaType.TEXT_PLAIN_TYPE);
 		Response resp = target.request().post(entity);
 		String respBody = resp.readEntity(String.class);
 		TestXMLObj respObj = JaxbUtils.unmarshall(TestXMLObj.class, respBody);
-		assertEquals("id1-1", respObj.getId());
+		assertEquals("id2-1", respObj.getId());
+	}
+
+	public static void main(String[] args) {
+		TestXml t = new TestXml();
+		try {
+			t.testPostXML();
+		} catch (JAXBException e) {
+			e.printStackTrace();
+		}
 	}
 }

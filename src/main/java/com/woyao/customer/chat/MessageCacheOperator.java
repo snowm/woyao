@@ -7,11 +7,11 @@ import java.util.concurrent.locks.Lock;
 
 import org.springframework.stereotype.Component;
 
-import com.woyao.customer.chat.dto.BlockDTO;
-import com.woyao.customer.chat.dto.InMsg;
-import com.woyao.customer.chat.dto.InMsgBlockDTO;
-import com.woyao.customer.chat.dto.InMsgDTO;
-import com.woyao.customer.chat.dto.Inbound;
+import com.woyao.customer.dto.chat.BlockDTO;
+import com.woyao.customer.dto.chat.InMsg;
+import com.woyao.customer.dto.chat.InMsgBlockDTO;
+import com.woyao.customer.dto.chat.InMsgDTO;
+import com.woyao.customer.dto.chat.Inbound;
 
 @Component("messageCacheOperator")
 public class MessageCacheOperator {

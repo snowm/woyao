@@ -20,6 +20,7 @@ public class SessionContainer {
 
 	public static final String SESSION_ATTR_HTTPSESSION_ID = HttpSessionHandshakeInterceptor.HTTP_SESSION_ID_ATTR_NAME;
 	public static final String SESSION_ATTR_CHATTER = "CHATTER";
+	public static final String SESSION_ATTR_SHOP_ID = "SHOP_ID";
 	public static final String SESSION_ATTR_CHATROOM_ID = "CHATROOM_ID";
 	public static final String SESSION_ATTR_MSG_CACHE_LOCK = "MSG_CACHE_LOCK";
 	public static final String SESSION_ATTR_MSG_CACHE = "MSG_CACHE";
@@ -54,7 +55,7 @@ public class SessionContainer {
 		String wsSessionId = wsSession.getId();
 		this.wsHttpSessionMap.put(wsSessionId, httpSession.getId());
 		this.wsSessionMap.put(wsSessionId, wsSession);
-		Long chatterId = WebSocketUtils.getChatterId(wsSession);
+		Long chatterId = SessionUtils.getChatterId(wsSession);
 		ReentrantReadWriteLock chatterLk = this.getChatterLock(chatterId);
 		try {
 			chatterLk.writeLock().lock();
@@ -68,7 +69,7 @@ public class SessionContainer {
 			chatterLk.writeLock().unlock();
 		}
 
-		Long chatRoomId = WebSocketUtils.getChatRoomId(wsSession);
+		Long chatRoomId = SessionUtils.getChatRoomId(wsSession);
 		ReentrantReadWriteLock roomLk = this.getChatterLock(chatRoomId);
 		try {
 			roomLk.writeLock().lock();
@@ -85,7 +86,7 @@ public class SessionContainer {
 
 	public void wsClosed(String sessionId) {
 		WebSocketSession wsSession = this.wsSessionMap.get(sessionId);
-		Long chatterId = WebSocketUtils.getChatterId(wsSession);
+		Long chatterId = SessionUtils.getChatterId(wsSession);
 		ReentrantReadWriteLock chatterLk = this.getChatterLock(chatterId);
 		try {
 			chatterLk.writeLock().lock();
@@ -103,7 +104,7 @@ public class SessionContainer {
 			chatterLk.writeLock().unlock();
 		}
 
-		Long chatRoomId = WebSocketUtils.getChatRoomId(wsSession);
+		Long chatRoomId = SessionUtils.getChatRoomId(wsSession);
 		ReentrantReadWriteLock roomLk = this.getChatRoomLock(chatRoomId);
 		try {
 			roomLk.writeLock().lock();
@@ -129,7 +130,7 @@ public class SessionContainer {
 		if (sessionIds != null && !sessionIds.isEmpty()) {
 			String sessionId = sessionIds.iterator().next();
 			WebSocketSession wsSession = this.wsSessionMap.get(sessionId);
-			return WebSocketUtils.getChatter(wsSession);
+			return SessionUtils.getChatter(wsSession);
 		}
 		return null;
 	}

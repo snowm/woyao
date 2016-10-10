@@ -14,6 +14,10 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.socket.WebSocketSession;
@@ -24,19 +28,23 @@ import com.woyao.JsonUtils;
 import com.woyao.customer.chat.ChatUtils;
 import com.woyao.customer.chat.MessageCacheOperator;
 import com.woyao.customer.chat.SessionContainer;
-import com.woyao.customer.chat.WebSocketUtils;
-import com.woyao.customer.chat.dto.BlockDTO;
-import com.woyao.customer.chat.dto.InMsg;
-import com.woyao.customer.chat.dto.Inbound;
-import com.woyao.customer.chat.dto.OutMsgDTO;
-import com.woyao.customer.chat.dto.Outbound;
-import com.woyao.customer.chat.dto.OutboundCommand;
+import com.woyao.customer.chat.SessionUtils;
+import com.woyao.customer.dto.ChatRoomDTO;
 import com.woyao.customer.dto.ChatterDTO;
 import com.woyao.customer.dto.MsgProductDTO;
+import com.woyao.customer.dto.chat.BlockDTO;
+import com.woyao.customer.dto.chat.InMsg;
+import com.woyao.customer.dto.chat.Inbound;
+import com.woyao.customer.dto.chat.MsgQueryRequest;
+import com.woyao.customer.dto.chat.OutMsgDTO;
+import com.woyao.customer.dto.chat.Outbound;
+import com.woyao.customer.dto.chat.OutboundCommand;
 import com.woyao.customer.service.IChatService;
+import com.woyao.customer.service.IMobileService;
 import com.woyao.customer.service.IProductService;
 import com.woyao.dao.CommonDao;
 import com.woyao.domain.chat.ChatMsg;
+import com.woyao.domain.profile.ProfileWX;
 import com.woyao.utils.PaginationUtils;
 
 @Component("chatService")
@@ -52,6 +60,9 @@ public class ChatServiceImpl implements IChatService {
 
 	@Resource(name = "productService")
 	private IProductService productService;
+
+	@Resource(name = "mobileService")
+	private IMobileService mobileService;
 
 	@Resource(name = "commonDao")
 	private CommonDao dao;
@@ -70,8 +81,8 @@ public class ChatServiceImpl implements IChatService {
 
 	@Override
 	public void acceptMsg(WebSocketSession wsSession, Inbound inbound) {
-		Lock lock = WebSocketUtils.getMsgCacheLock(wsSession);
-		Map<Long, InMsg> cache = WebSocketUtils.getMsgCache(wsSession);
+		Lock lock = SessionUtils.getMsgCacheLock(wsSession);
+		Map<Long, InMsg> cache = SessionUtils.getMsgCache(wsSession);
 		InMsg inMsg = this.messageCacheOperator.receiveMsg(lock, cache, inbound);
 		if (inMsg == null) {
 			return;
@@ -101,8 +112,8 @@ public class ChatServiceImpl implements IChatService {
 
 				}
 			}
-			Long chatRoomId = WebSocketUtils.getChatRoomId(wsSession);
-			ChatterDTO sender = WebSocketUtils.getChatter(wsSession);
+			Long chatRoomId = SessionUtils.getChatRoomId(wsSession);
+			ChatterDTO sender = SessionUtils.getChatter(wsSession);
 			long id = this.saveMsg(inMsg, sender.getId(), chatRoomId);
 
 			OutMsgDTO outMsg = new OutMsgDTO();
@@ -170,7 +181,10 @@ public class ChatServiceImpl implements IChatService {
 	}
 
 	private ChatterDTO getChatterFromDB(long chatterId) {
-		return null;
+		ProfileWX profile = this.dao.get(ProfileWX.class, chatterId);
+		ChatterDTO dto = new ChatterDTO();
+		BeanUtils.copyProperties(profile, dto);
+		return dto;
 	}
 
 	@Override
@@ -179,7 +193,7 @@ public class ChatServiceImpl implements IChatService {
 		List<ChatterDTO> dtos = new ArrayList<>();
 		if (wsSessions != null && !wsSessions.isEmpty()) {
 			for (WebSocketSession wsSession : wsSessions) {
-				ChatterDTO chatter = WebSocketUtils.getChatter(wsSession);
+				ChatterDTO chatter = SessionUtils.getChatter(wsSession);
 				if (gender == null || chatter.getGender() == gender) {
 					dtos.add(chatter);
 				}
@@ -198,4 +212,44 @@ public class ChatServiceImpl implements IChatService {
 		return this.sessionContainer.getWsSessionOfRoom(chatRoomId);
 	}
 
+	@Override
+	public List<OutMsgDTO> listMsg(MsgQueryRequest request) {
+		List<Criterion> criterions = new ArrayList<>();
+		List<Order> orders = new ArrayList<>();
+		if (request.getMaxId() != null) {
+			criterions.add(Restrictions.lt("id", request.getMaxId()));
+			orders.add(Order.desc("id"));
+		} else if (request.getMinId() != null) {
+			criterions.add(Restrictions.gt("id", request.getMinId()));
+			orders.add(Order.asc("id"));
+		}
+		if (request.getShopId() != null) {
+			ChatRoomDTO room = this.mobileService.getChatRoom(request.getShopId());
+			criterions.add(Restrictions.eq("chatRoomId", room.getId()));
+		} else {
+			Criterion to = Restrictions.and(Restrictions.eq("from", request.getSelfChatterId()),
+					Restrictions.eq("to", request.getWithChatterId()));
+			Criterion from = Restrictions.and(Restrictions.eq("to", request.getSelfChatterId()),
+					Restrictions.eq("from", request.getWithChatterId()));
+			criterions.add(Restrictions.or(to, from));
+		}
+		List<ChatMsg> result = this.dao.query(ChatMsg.class, criterions, orders, 1L, request.getPageSize());
+		List<OutMsgDTO> dtos = new ArrayList<>();
+		for (ChatMsg e : result) {
+			OutMsgDTO dto = new OutMsgDTO();
+			dto.setId(e.getId());
+			dto.setPic(e.getPicURL());
+			dto.setText(e.getText());
+			ChatterDTO sender = this.getChatter(e.getFrom());
+			dto.setSender(sender);
+			if (!e.getFrom().equals(request.getSelfChatterId())) {
+				dto.setCommand(OutboundCommand.SEND_MSG);
+			} else {
+				dto.setCommand(OutboundCommand.SEND_MSG_ACK);
+			}
+			dtos.add(dto);
+		}
+
+		return null;
+	}
 }

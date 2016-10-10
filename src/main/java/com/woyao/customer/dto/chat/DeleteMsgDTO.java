@@ -1,8 +1,8 @@
-package com.woyao.customer.chat.dto;
+package com.woyao.customer.dto.chat;
 
 import com.woyao.customer.dto.ChatterDTO;
 
-public class OutMsgDTO extends Outbound {
+public class DeleteMsgDTO extends Inbound {
 
 	private Long id;
 
@@ -13,8 +13,6 @@ public class OutMsgDTO extends Outbound {
 	private String pic;
 
 	private long duration = 0;
-
-	private boolean isPrivacy = false;
 
 	public Long getId() {
 		return id;
@@ -54,14 +52,6 @@ public class OutMsgDTO extends Outbound {
 
 	public void setDuration(long duration) {
 		this.duration = duration;
-	}
-
-	public boolean isPrivacy() {
-		return isPrivacy;
-	}
-
-	public void setPrivacy(boolean isPrivacy) {
-		this.isPrivacy = isPrivacy;
 	}
 
 }

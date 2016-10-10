@@ -1,4 +1,4 @@
-package com.woyao.customer.chat.dto;
+package com.woyao.customer.dto.chat;
 
 import java.util.ArrayList;
 import java.util.List;

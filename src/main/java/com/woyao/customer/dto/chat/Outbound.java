@@ -1,4 +1,4 @@
-package com.woyao.customer.chat.dto;
+package com.woyao.customer.dto.chat;
 
 import java.io.IOException;
 
@@ -11,27 +11,31 @@ import com.woyao.JsonUtils;
 public abstract class Outbound {
 
 	protected String command;
-	
-	private String content;
-	
-	private boolean contentGenerated = false;
+
+	private transient String content;
+
+	private transient boolean contentGenerated = false;
 
 	protected Outbound() {
 	}
-	
+
 	public void send(WebSocketSession session) throws IOException {
-		session.sendMessage(new TextMessage(JsonUtils.toString(this)));
+		session.sendMessage(new TextMessage(this.getContent()));
 	}
 
-	private synchronized String getContent() {
-		if (!this.contentGenerated) {
+	private String getContent() {
+		if (this.contentGenerated) {
+			return this.content;
+		}
+		synchronized (this) {
 			try {
 				this.content = JsonUtils.toString(this);
+				return this.content;
 			} catch (JsonProcessingException e) {
 				e.printStackTrace();
+				return null;
 			}
 		}
-		return this.content;
 	}
 
 	public String getCommand() {
