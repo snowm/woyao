@@ -64,6 +64,9 @@ public class MobileServiceImpl implements IMobileService {
 			for (Shop e : result) {
 				ShopDTO dto = new ShopDTO();
 				BeanUtils.copyProperties(e, dto);
+				if (e.getPic() != null) {
+					dto.setPicURL(e.getPic().getUrl());
+				}
 				dtos.add(dto);
 			}
 			pb.setResults(dtos);
