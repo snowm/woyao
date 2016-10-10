@@ -130,8 +130,10 @@ public class ShopAdminServiceImpl extends AbstractAdminService<Shop, ShopDTO> im
 		m.getLogicalDelete().setEnabled(dto.isEnabled());
 		m.getLogicalDelete().setDeleted(dto.isDeleted());
 		Pic pic = new Pic();
-		pic.setId(dto.getPicId());
-		m.setPic(pic);
+		if(dto.getPicId()!=null){		
+			pic.setId(dto.getPicId());
+			m.setPic(pic);
+		}
 		return m;
 	}
 
@@ -139,7 +141,9 @@ public class ShopAdminServiceImpl extends AbstractAdminService<Shop, ShopDTO> im
 	public ShopDTO transferToSimpleDTO(Shop m) {
 		ShopDTO dto = new ShopDTO();
 		BeanUtils.copyProperties(m, dto);
-		dto.setPicId(m.getPic().getId());
+		if(m.getPic()!=null){			
+			dto.setPicId(m.getPic().getId());
+		}
 		dto.setEnabled(m.getLogicalDelete().isEnabled());
 		dto.setDeleted(m.getLogicalDelete().isDeleted());
 		dto.setCreationDate(m.getModification().getCreationDate());
@@ -150,7 +154,9 @@ public class ShopAdminServiceImpl extends AbstractAdminService<Shop, ShopDTO> im
 	@Override
 	public ShopDTO transferToFullDTO(Shop m) {
 		ShopDTO dto = this.transferToSimpleDTO(m);
-		dto.setPicUrl(m.getPic().getUrl());
+		if(m.getPic()!=null){		
+			dto.setPicUrl(m.getPic().getUrl());
+		}
 		ProfileDTO p = userAdminService.get(m.getManagerProfileId());
 		dto.setManagerName(p.getUsername());
 		dto.setManagerType(p.getType().getTypeValue());
