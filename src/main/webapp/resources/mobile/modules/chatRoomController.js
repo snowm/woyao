@@ -5,12 +5,12 @@
 define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"domReady!",'qqface'], function ($,avalon,_chatRoom,socket,swiper,domReady) {
     avalon.templateCache._chatRoom = _chatRoom;
 
-    
+
     var _userIofo = { //用户信息待定
-    	id:1
+        id:1
     };
-    
-    
+
+
     var main_socket = socket;
 //    main_socket.onmessage = function(message) {
 //        var msg = JSON.parse(message.data);
@@ -56,7 +56,7 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"domReady!",
     var mainController = avalon.define({
         $id : "mainController",
         userInfo:{
-        	id:1
+            id:1
         },
         pluginShow : false, // 显示功能区标记
         emojiShow : false, // 显示emoji标记
@@ -72,10 +72,17 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"domReady!",
         sreenMsg:'', // 霸屏文字
         sreenTime:'', // 霸屏时间
         showUser:{},
+        payMsgTypes:[], // 付费消息类型
+        payGoodsTypes:[],// 付费商品类型
+        goodsType:{},// 所选择的赠送商品对象
         msgList:[],
+        payCount:0, // 支付金额
         pMsgCount: '',//私聊消息
         tipsShow:false, // tip show
         tipsMsg:'', // tip
+        chatterList:[], // 在线用户列表
+        toChatter:'', //赠送对象id
+        topRicher:{}, // 今日土豪
         togglePlugin : function(){ // 显示功能区 按钮
             mainController.emojiShow = false;
             mainController.pluginShow = !mainController.pluginShow;
@@ -85,6 +92,10 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"domReady!",
             mainController.emojiShow = !mainController.emojiShow;
         },
         showPopSend:function(){ // 显示发送提交面板
+            mainController.goodsType = {};
+            mainController.msgType = '';
+            mainController.tabShowFlag = false;
+
             mainController.popshow = true;
             setTimeout(function(){
                 mainController.popSendCtnShow = true;
@@ -113,10 +124,13 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"domReady!",
         },
         tabChange:function(type){
             if(type == 1){
+                mainController.goodsType = {};
                 mainController.tabShowFlag = false;
             }else{
+                mainController.msgType = '';
                 mainController.tabShowFlag = true;
             }
+            mainController.payCount = 0;
         },
         richerList:function(){
             window.location.href='#!/richer';
@@ -129,7 +143,7 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"domReady!",
                     mainController.popshow = false;
                 },300)
             }else{
-            	mainController.showUser = user.$model; // 记录点击用户信息
+                mainController.showUser = user.$model; // 记录点击用户信息
                 mainController.popshow = true;
                 $(".pop-photoWall").css('display','block');
                 setTimeout(function(){
@@ -146,78 +160,100 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"domReady!",
             avalon.vmodels.rootController.toWho = mainController.showUser;
             window.location.hash='#!/privacyChat'
         },
-        forHer:function(id){
+        forHer:function(){
             if(mainController.isShowPhoto){
                 mainController.showPhotoWall();
             }
             mainController.forHerShow = true;
         },
         hideForOther:function(){
+            avalon.vmodels.rootController.toWho = {};
             mainController.forHerShow = false;
         },
         msgType: '0',//霸屏消息类型
         msgText:'', //文字内容
         imgUrl:'', //发送图片 base64
-        //forWho:'', //赠送对象
         sendMsg:function(){
-            if(mainController.msgType == ''){
-                alert('请选择霸屏时间');
+            var productsId = '';
+            if(!mainController.tabShowFlag){
+                if(mainController.msgType == ''){
+                    alert('请选择霸屏时间');
+                    return;
+                }
+                if(mainController.msgText == '' && mainController.imgUrl == ''){
+                    alert('请输入文字或者添加图片')
+                    return;
+                }
+                productsId = mainController.msgType;
             }else{
-                var content = {
-                    text:mainController.msgText,
-                    pic:mainController.imgUrl,
-                };
-                function sliceContent(content){
-                    var strings = JSON.stringify(content);
-                    var sLength = strings.length;
-                    var size = 2000;
-                    var mod = sLength%size;
-                    var l = Math.ceil(sLength/size);
-                    var blocks = new Array();
-                    for(var i = 0;i<l;i++){
-                        blocks[i] = {
-                            block:strings.substr(size*i, size),
-                            seq:i
-                        }
-                    }
-                    return blocks;
+                if(isEmptyObject(mainController.goodsType.$model)){
+                    alert('请选择礼物');
+                    return;
                 }
-
-                var blocks = sliceContent(content);
-                for(var i = 0;i<blocks.length;i++){
-                    var msg = undefined;
-                    var type = 'msgBlock';
-                    if (i==0) {
-                        type = 'msg';
-                        msg = {
-                            msgId:1,
-                            to:'',
-                            blockSize:blocks.length,
-                            productId:'',
-                            block:blocks[0],
-                        };
-                    }else{
-                        msg = {
-                            msgId:1,
-                            block:blocks[i],
-                        }
-                    }
-                    var msgContent = type+"\n" + JSON.stringify(msg);
-                    main_socket.send(msgContent);
+                if(mainController.toChatter == ''){
+                    alert('请选择赠送对象');
+                    return;
                 }
-
-                mainController.hidePopSend();
-                if(mainController.emojiShow){
-                    mainController.pluginShow = false;
-                    mainController.emojiShow = false;
-                }
-
                 mainController.msgText = '';
-                mainController.pluginShow = false;
                 mainController.imgUrl = '';
-                mainController.imgViewSrc = '/resources/static/img/photo.png';
-                $("#photoInput").val('');
+                productsId = mainController.goodsType.id;
             }
+
+            var content = {
+                text:mainController.msgText,
+                pic:mainController.imgUrl,
+            };
+            function sliceContent(content){
+                var strings = JSON.stringify(content);
+                var sLength = strings.length;
+                var size = 2000;
+                var mod = sLength%size;
+                var l = Math.ceil(sLength/size);
+                var blocks = new Array();
+                for(var i = 0;i<l;i++){
+                    blocks[i] = {
+                        block:strings.substr(size*i, size),
+                        seq:i
+                    }
+                }
+                return blocks;
+            }
+
+            var blocks = sliceContent(content);
+            console.log(productsId)
+            for(var i = 0;i<blocks.length;i++){
+                var msg = undefined;
+                var type = 'msgBlock';
+                if (i==0) {
+                    type = 'msg';
+                    msg = {
+                        msgId:1,
+                        to:'',
+                        blockSize:blocks.length,
+                        productId:productsId,
+                        block:blocks[0],
+                    };
+                }else{
+                    msg = {
+                        msgId:1,
+                        block:blocks[i],
+                    }
+                }
+                var msgContent = type+"\n" + JSON.stringify(msg);
+                main_socket.send(msgContent);
+            }
+
+            mainController.hidePopSend();
+            if(mainController.emojiShow){
+                mainController.pluginShow = false;
+                mainController.emojiShow = false;
+            }
+            mainController.payCount = 0;
+            mainController.msgText = '';
+            mainController.pluginShow = false;
+            mainController.imgUrl = '';
+            mainController.imgViewSrc = '/resources/static/img/photo.png';
+            $("#photoInput").val('');
         }
         ,
         imgViewSrc:'/resources/static/img/photo.png',
@@ -260,18 +296,46 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"domReady!",
             });
         },
         clearImg:function(){
-        	alert(1)
             mainController.imgUrl = '';
             mainController.imgViewSrc = '/resources/static/img/photo.png';
             $("#photoInput").val('');
         }
+        ,
+        choiceGoods:function(id){
+            mainController.payGoodsTypes.forEach(function(item){
+                if(item.id == id){
+                    mainController.goodsType = item;
+                    mainController.payCount = item.unitPrice;
+                }
+            })
+        }
     });
+
+
+    mainController.$watch("msgType", function(t) {
+        if(mainController.msgType == ''){
+            mainController.payCount == 0;
+        }
+        mainController.payMsgTypes.forEach(function(item){
+            if(mainController.msgType == item.id){
+                mainController.payCount = item.unitPrice;
+            }
+        })
+    })
+
+
+
     avalon.scan();
-    
-    
-    
+
+    function isEmptyObject(e) {
+        var t;
+        for (t in e)
+            return !1;
+        return !0
+    }
+
     mainController.$watch("msgList", function(v) {
-      $(".msg-block-contain").animate({scrollTop:$(".msg-block-container").height() -  $(".msg-block-contain").height() + 100},500,'swing');
+        $(".msg-block-contain").animate({scrollTop:$(".msg-block-container").height() -  $(".msg-block-contain").height() + 100},500,'swing');
     })
 
 
@@ -348,10 +412,10 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"domReady!",
 
 
     function init(){
-    	mainController.msgList = avalon.vmodels.rootController._publicMsg;
-    	
-    	
-    	main_socket = socket;
+        mainController.msgList = avalon.vmodels.rootController._publicMsg;
+
+
+        main_socket = socket;
 //    	main_socket.onmessage = function(message) {
 //            var msg = JSON.parse(message.data);
 //            console.log("get masage:");
@@ -390,7 +454,7 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"domReady!",
 //                },1000)
 //            }
 //        }
-    	
+
         setTimeout(function(){
             $('.emoji-btn').qqFace({
                 id : 'facebox', //表情容器的ID
@@ -402,73 +466,146 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"domReady!",
     }
     init();
 
+    function queryChatter(){
+        var data = {
+            pageNumber:1,
+            pageSize:100,
+            gender:'',
+        }
+        $.ajax({
+            type: "post",
+            url: '/m/chat/chatterList',
+            data: data,
+            success: function(data){
+                mainController.chatterList = data.results;
+            },
+            dataType: 'json'
+        });
+    }
+    queryChatter();
+
     // 查询消息商品
     function queryMsgGoodsData(){
-      	 $.ajax({
-              url: "/m/chat/msgProductList",   
-              dataType: "JSON",  
-              async: true,
-              type: "get",
-              success: function(data) {
-              	   console.log(data);
-              },
-              complete: function() {
-              },
-              error: function() {
-                  
-              }
-          });
-      }
-    queryMsgGoodsData();
-    
-    
-    // 查询商品
-    function queryGoodsData(){
-     	 $.ajax({
-             url: "/m/chat/productList",   
-             dataType: "JSON",  
-             async: true,
-             type: "get",
-             success: function(data) {
-             	   console.log(data);
-             },
-             complete: function() {
-             },
-             error: function() {
-                 
-             }
-         });
-     }
-    queryGoodsData();
-    
-    
-    function queryHistoryMsg(){
-    	 $.ajax({
-            url: "/m/chat/listMsg",   
-            dataType: "JSON", 
-            data:{
-            	withChatterId:'', // 私聊对象id
-            	minId:'',
-            	maxId:'',
-            	pageSize:20,
-            },
+        $.ajax({
+            url: "/m/chat/msgProductList",
+            dataType: "JSON",
             async: true,
-            type: "post",
+            type: "get",
             success: function(data) {
-            	   console.log("msg: ___________");
-            	   console.log(data);
+                mainController.payMsgTypes = data;
             },
             complete: function() {
             },
             error: function() {
-                
+                alert("获取消息类型失败");
+            }
+        });
+    }
+    queryMsgGoodsData();
+
+
+    // 查询商品
+    function queryGoodsData(){
+        $.ajax({
+            url: "/m/chat/productList",
+            dataType: "JSON",
+            async: true,
+            type: "get",
+            success: function(data) {
+                mainController.payGoodsTypes = data;
+            },
+            complete: function() {
+            },
+            error: function() {
+                alert("获取商品类型失败");
+            }
+        });
+    }
+    queryGoodsData();
+
+
+    function queryHistoryMsg(){
+        $.ajax({
+            url: "/m/chat/listMsg",
+            dataType: "JSON",
+            data:{
+                withChatterId:'', // 私聊对象id
+                minId:'',
+                maxId:-1,
+                pageSize:10,
+            },
+            async: true,
+            type: "post",
+            success: function(data) {
+                console.log("msg: _____");
+                console.log(data);
+                var msg = data.reverse();
+                for(var i = 0;i < msg.length ; i++){
+                    msg[i].text = replace_em(msg[i].text);
+                    if(msg[i].privacy){
+                        avalon.vmodels.rootController._privacyMsg.push(msg[i]);
+                        mainController.pMsgCount = 0;
+                        for(var j = 0; j < avalon.vmodels.rootController._privacyMsg.$model.length; j++){
+                        	if(avalon.vmodels.rootController._privacyMsg.$model[j].command != 'smACK'){
+                                mainController.pMsgCount++;
+                            }
+                        }
+                    }else{
+                        avalon.vmodels.rootController._publicMsg.push(msg[i]);
+                        mainController.msgList = avalon.vmodels.rootController._publicMsg;
+                    }
+                }
+
+
+
+
+
+            },
+            complete: function() {
+            },
+            error: function() {
+
             }
         });
     }
     queryHistoryMsg();
-    
-    
-    
+
+    // 今日最土豪
+    function queryTopRicher(){
+        $.ajax({
+            url: "/m/chat/richerList",
+            dataType: "JSON",
+            async: true,
+            data:{
+                richerType:"DAY",
+                pageNumber:1,
+                pageSize:1
+            },
+            type: "POST",
+            success: function(data) {
+                if(data.results.length == 0){
+                    mainController.topRicher = {
+                        nickname:' ',
+                        headImg:'/resources/static/img/head.jpg',
+                        gender:'',
+                        payMsgCount:'0',
+                    };
+                }else{
+                    data.results[0].chatterDTO.payMsgCount = data.results[0].payMsgCount;
+                    mainController.topRicher = data.results[0].chatterDTO;
+                }
+
+            },
+            complete: function() {
+            },
+            error: function() {
+
+            }
+        });
+    }
+
+    queryTopRicher();
+
 
     // init Swiper
     function showPhoto(){
@@ -500,19 +637,17 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"domReady!",
         str = str.replace(/\[em_([0-9]*)\]/g,"<img src='/resources/js/qqface/face/$1.gif'/>");
         return str;
     };
-
-
     /* qqface */
 
 
     var textContain = $(".msg-block-contain");
     var textcontainer = $(".msg-block-container");
-    
+
     $(".msg-block-contain").bind('scroll',function(){
-    	var $this =$(this),
-        viewH =$(this).height(),//可见高度
-        contentH =$(this).get(0).scrollHeight,//内容高度
-        scrollTop =$(this).scrollTop();//滚动高度
+        var $this =$(this),
+            viewH =$(this).height(),//可见高度
+            contentH =$(this).get(0).scrollHeight,//内容高度
+            scrollTop =$(this).scrollTop();//滚动高度
         if(scrollTop - (contentH - viewH) == 0){
             $(this).scrollTop(contentH - viewH - 1);
         }
@@ -520,7 +655,7 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"domReady!",
             $(this).scrollTop(1);
         }
     })
-    
+
 
     initData();
 

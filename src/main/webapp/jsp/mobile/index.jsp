@@ -30,7 +30,8 @@
         <div>
             <div class="block-ctn" ms-on-tap="toChatRooms(p.id)" ms-repeat-p="barList">
                 <div class="block-ctn-m">
-                    <div class="metro-ctn" style="background: url('/resources/static/{{p.picURL}}') center;" --style="background: url('/resources/static/img/delate/0813131.jpg') center;">
+                    <div class="metro-ctn">
+                        <img ms-src="p.picURL" alt="" style="position:absolute;width:100%;height:100%;left:0;right:0">
                         <p class="b-name" ms-text="p.name">name</p>
                         <span class="hots"><img src="/resources/static/img/hot.png" alt=""> 热度:60</span>
                         <span class="lct"><img src="/resources/static/img/dits.png" alt=""> 距离:50km</span>

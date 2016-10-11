@@ -8,9 +8,12 @@
     </div>
     <!--消息界面-->
     <div ms-if="tabFlag == 'msg'">
+    	<div ms-if="senderList.length == 0" style="text-align:center">
+    		暂无消息
+    	</div>
         <div class="rank-list" ms-repeat-u="senderList">
-            <div class="fist">
-                <img src="/resources/static/img/head.jpg" height=50 ms-attr-src="u.imgUrl" alt="">
+            <div class="fist" ms-on-tap="chat(u.$model)"  ms-if="u.id != userId">
+                <img src="/resources/static/img/head.jpg" style='width:60px;height:60px' ms-attr-src="u.imgUrl" alt="">
                 <div class="rank-name">
                     <div>
                     	<span class="text" ms-text="u.nickname"></span>
@@ -21,7 +24,7 @@
                 </div>
                 <div class="rank-right">
                     <p>&nbsp;</p>
-                    <p class="number-one" ms-text="u.msgCount"></p>
+                    <p class="number-one" style="font-size:8px" ms-text="u.msgCount"></p>
                 </div>
             </div>
         </div>
@@ -30,8 +33,8 @@
     <div ms-if="tabFlag == 'all' || tabFlag == 'male' || tabFlag == 'female'">
         <div class="alls" ms-repeat-p="userList">
             <div class="all-left">
-                <img src="/resources/static/img/head.jpg" style='width:60px' ms-attr-src="p.headImg" alt="">
-                <div class="all-left-text">
+                <img src="/resources/static/img/head.jpg" style='width:60px;height:60px' ms-attr-src="p.headImg" alt="">
+                <div class="all-left-text" style="padding-top:0px">
                     <span class="text" ms-text="p.nickname">name</span>
                     <img src="/resources/static/img/weman1.png" ms-if="p.gender == 'FAMALE'" alt="">
                     <img src="/resources/static/img/man.png" ms-if="p.gender == 'MALE'" alt="">
@@ -39,8 +42,8 @@
                 </div>
             </div>
             <div class="all-right" style='text-align:center;'>
-                <p ms-text="p.loginDate"></p>
-                <p ms-on-tap="chat(p.$model)">发消息</p>
+                <p ms-text="p.loginDate" style="font-size:10px"></p>
+                <p ms-on-tap="chat(p.$model)" style="margin-top:19px">发消息</p>
             </div>
         </div>
     </div>

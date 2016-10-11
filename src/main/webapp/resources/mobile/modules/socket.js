@@ -24,9 +24,9 @@ define(['jquery','avalon',"domReady!"], function ($,avalon,domReady) {
         var msg = JSON.parse(message.data);
         console.log("get masage:");
         console.log(msg);
-        msg.text = replace_em(msg.text);
+//        msg.text = replace_em(msg.text);
         
-        if(!msg.privacy){
+        if(msg.privacy){
         	if(window.location.hash == '#!/privacyChat'){
         		if(msg.sender.id == avalon.vmodels.pChatController.toWho.id || msg.command == 'smACK'){
             		avalon.vmodels.pChatController.pMsgList.push(msg);

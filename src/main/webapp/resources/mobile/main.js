@@ -5,7 +5,7 @@
 require.config({//第一块，配置
     baseUrl: '/resources/',
     paths: {
-        avalon: ["js/avalon/avalon.mobile.shim"],
+        avalon: ["js/avalon/avalon.mobile"],
         mmHistory: 'js/avalon/mmHistory',
         mmRouter: 'js/avalon/mmRouter',
         text: ['js/require/text'],
@@ -28,6 +28,7 @@ require(['mmRouter',"domReady!",'socket'],function(mmRouter,domReady){
     var rootController = avalon.define({
         $id: "rootController",
         content: "",
+        _userInfo:{id:9}, //当前用户信息
         _privacyMsg:[],//私聊消息
         privacyMsglength:0,//私聊消息总数
         _publicMsg:[],//公共消息

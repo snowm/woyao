@@ -20,108 +20,33 @@
 </div>
 <div class="pop-forOther" ms-class="pop-show:forHerShow">
     <div class="pop-forOther-close" ms-on-tap="hideForOther"></div>
-    <div class="pop-forOther-ctn">
-        <div class="pop-forOther-title">为 <span class="text-blue">隔壁老王</span> 送礼物</div>
+    <div class="pop-forOther-ctn" style="height:273px">
+        <div class="pop-forOther-title">为 <span class="text-blue" ms-text="showUser.nickname"></span> 送礼物</div>
         <div class="pop-gift-ctn" style="margin-top: 10px">
             <div class="gift-ctn">
                 <ul class="gift-list">
-                    <li>
-                        <img class="gift-img" src="/resources/static/img/num.png" alt="">
-                        <div class="gift-msg">
-                            <p class="gift-name">空瓶子</p>
-                            <p class="gift-transilate">霸屏15秒</p>
-                        </div>
-                        <div class="gift-cost">
-                            ￥15
-                        </div>
-                        <div class="radio-ctn">
-                            <div class="radio-back">
-                                <span class="radio-checked"></span>
+                        <li ms-repeat-g="payGoodsTypes">
+                            <img class="gift-img" --src="/resources/static/img/num.png" ms-attr-src="g.picURL" alt="">
+                            <div class="gift-msg">
+                                <p class="gift-name" ms-text="g.name"></p>
+                                <p class="gift-transilate" ms-text="g.description"></p>
                             </div>
-                        </div>
-                    </li>
-                    <div class="clearfix"></div>
-                    <li>
-                        <img src="/resources/static/img/mac.png" alt="">
-                        <div class="gift-msg">
-                            <p class="gift-name">麦霸</p>
-                            <p class="gift-transilate">霸屏15秒</p>
-                        </div>
-                        <div class="gift-cost">
-                            ￥15
-                        </div>
-                        <div class="radio-ctn">
-                            <div class="radio-back">
-                                <span class="radio-checked"></span>
+                            <div class="radio-ctn" style="float:right">
+                                <div class="radio-back">
+                                    <span class="radio-checked"></span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="clearfix"></div>
-                    </li>
-                    <div class="clearfix"></div>
-                    <li>
-                        <img src="/resources/static/img/plane.png" alt="">
-                        <div class="gift-msg">
-                            <p class="gift-name">飞机</p>
-                            <p class="gift-transilate">霸屏15秒</p>
-                        </div>
-                        <div class="gift-cost">
-                            ￥15
-                        </div>
-                        <div class="radio-ctn">
-                            <div class="radio-back">
-                                <span class="radio-checked"></span>
+                            <div class="gift-cost" style="float:right">
+                              	￥{{g.unitPrice}}
                             </div>
-                        </div>
-                        <div class="clearfix"></div>
-                    </li>
-                    <div class="clearfix"></div>
-                    <div class="clearfix"></div>
-                    <li>
-                        <img src="/resources/static/img/mac.png" alt="">
-                        <div class="gift-msg">
-                            <p class="gift-name">麦霸</p>
-                            <p class="gift-transilate">霸屏15秒</p>
-                        </div>
-                        <div class="gift-cost">
-                            ￥15
-                        </div>
-                        <div class="radio-ctn">
-                            <div class="radio-back">
-                                <span class="radio-checked"></span>
-                            </div>
-                        </div>
-                        <div class="clearfix"></div>
-                    </li>
-                    <div class="clearfix"></div>
-                    <li>
-                        <img src="/resources/static/img/plane.png" alt="">
-                        <div class="gift-msg">
-                            <p class="gift-name">飞机</p>
-                            <p class="gift-transilate">霸屏15秒</p>
-                        </div>
-                        <div class="gift-cost">
-                            ￥15
-                        </div>
-                        <div class="radio-ctn">
-                            <div class="radio-back">
-                                <span class="radio-checked"></span>
-                            </div>
-                        </div>
-                        <div class="clearfix"></div>
-                    </li>
-                    <div class="clearfix"></div>
-                </ul>
+                        	<div class="clearfix"></div>
+                        </li>
+                    </ul>
             </div>
         </div>
-        <div class="tab-bp-ctn clearfix" style="margin-top: 20px">
-            <select class="bp-text" ms-duplex="forWho" style="width: 95%;height: 30px">
-                <option value="">请选择赠送对象</option>
-                <option value="0">采蘑菇的小姑娘</option>
-            </select>
-        </div>
-        <div class="price-ctn" style="text-align: left">
+        <div class="price-ctn" style="text-align: left;padding-top:5px">
             <p>需微信支付</p>
-            <p>￥0</p>
+            <p>￥{{payCount}}</p>
         </div>
         <div class="pop-bottom">
             <div class="bp-sub" ms-on-tap="hideForOther">确 认</div>
@@ -140,8 +65,7 @@
             <select class="tab-select" ms-duplex="msgType" style="margin: auto 6%">
                 <option value="">请输入霸屏时间</option>
                 <option value="0">免费消息</option>
-                <option value="15">霸屏15秒 50块</option>
-                <option value="30">霸屏30秒 80块</option>
+                <option ms-repeat-m="payMsgTypes" ms-attr-value="m.id">霸屏{{m.holdTime}}秒  {{m.unitPrice}}元</option>
             </select>
             <div class="tab-bp-ctn clearfix">
                 <textarea class="bp-text" name="" id="" cols="" rows="" ms-duplex="msgText"></textarea>
@@ -154,7 +78,7 @@
             </div>
             <div class="price-ctn">
                 <p>需微信支付</p>
-                <p>￥0</p>
+                <p>￥{{payCount}}</p>
             </div>
             <div class="pop-bottom">
                 <div class="bp-sub" ms-on-tap="sendMsg">霸 屏</div>
@@ -162,103 +86,37 @@
             </div>
         </div>
         <div class="pop-tab-temp" ms-if="tabShowFlag">
-            <div class="tab-select">
-                请选择送礼对象
-            </div>
+             <select class="tab-select" ms-duplex="toChatter" style="margin: auto 6%">
+                <option value="">请选择送礼对象</option>
+                <option value="0">全场观众</option>
+                <option ms-repeat-c="chatterList" ms-attr-value="c.id">{{c.nickname}}</option>
+            </select>
+            
             <div class="pop-gift-ctn">
                 <div class="gift-ctn">
                     <ul class="gift-list">
-                        <li>
-                            <img class="gift-img" src="/resources/static/img/num.png" alt="">
+                        <li ms-repeat-g="payGoodsTypes" ms-on-tap="choiceGoods(g.id)">
+                            <img class="gift-img" --src="/resources/static/img/num.png" ms-attr-src="g.picURL" alt="">
                             <div class="gift-msg">
-                                <p class="gift-name">空瓶子</p>
-                                <p class="gift-transilate">霸屏15秒</p>
+                                <p class="gift-name" ms-text="g.name"></p>
+                                <p class="gift-transilate" ms-text="g.description"></p>
                             </div>
-                            <div class="gift-cost">
-                                ￥15
-                            </div>
-                            <div class="radio-ctn">
+                            <div class="radio-ctn" style="float:right">
                                 <div class="radio-back">
-                                    <span class="radio-checked"></span>
+                                    <span class="radio-checked" ms-if='goodsType.id == g.id'></span>
                                 </div>
                             </div>
+                            <div class="gift-cost" style="float:right">
+                              	￥{{g.unitPrice}}
+                            </div>
+                        	<div class="clearfix"></div>
                         </li>
-                        <div class="clearfix"></div>
-                        <li>
-                            <img src="/resources/static/img/mac.png" alt="">
-                            <div class="gift-msg">
-                                <p class="gift-name">麦霸</p>
-                                <p class="gift-transilate">霸屏15秒</p>
-                            </div>
-                            <div class="gift-cost">
-                                ￥15
-                            </div>
-                            <div class="radio-ctn">
-                                <div class="radio-back">
-                                    <span class="radio-checked"></span>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </li>
-                        <div class="clearfix"></div>
-                        <li>
-                            <img src="/resources/static/img/plane.png" alt="">
-                            <div class="gift-msg">
-                                <p class="gift-name">飞机</p>
-                                <p class="gift-transilate">霸屏15秒</p>
-                            </div>
-                            <div class="gift-cost">
-                                ￥15
-                            </div>
-                            <div class="radio-ctn">
-                                <div class="radio-back">
-                                    <span class="radio-checked"></span>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </li>
-                        <div class="clearfix"></div>
-                        <div class="clearfix"></div>
-                        <li>
-                            <img src="/resources/static/img/mac.png" alt="">
-                            <div class="gift-msg">
-                                <p class="gift-name">麦霸</p>
-                                <p class="gift-transilate">霸屏15秒</p>
-                            </div>
-                            <div class="gift-cost">
-                                ￥15
-                            </div>
-                            <div class="radio-ctn">
-                                <div class="radio-back">
-                                    <span class="radio-checked"></span>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </li>
-                        <div class="clearfix"></div>
-                        <li>
-                            <img src="/resources/static/img/plane.png" alt="">
-                            <div class="gift-msg">
-                                <p class="gift-name">飞机</p>
-                                <p class="gift-transilate">霸屏15秒</p>
-                            </div>
-                            <div class="gift-cost">
-                                ￥15
-                            </div>
-                            <div class="radio-ctn">
-                                <div class="radio-back">
-                                    <span class="radio-checked"></span>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </li>
-                        <div class="clearfix"></div>
                     </ul>
                 </div>
             </div>
             <div class="price-ctn">
                 <p>需微信支付</p>
-                <p>￥0</p>
+                <p>￥{{payCount}}</p>
             </div>
             <div class="pop-bottom">
                 <div class="bp-sub" ms-on-tap="sendMsg">确 认</div>
@@ -308,11 +166,11 @@
                     <span class="header-rich-title">今日土豪</span>
                 </td>
                 <td>
-                    <img class="header-richer" src="/resources/static/img/head.jpg" alt="">
-                    <span class="text-heightlight">隔壁老王</span> <img ms-if="false" class="header-sexy" src="/resources/static/img/man.png" alt=""><img class="header-sexy" src="/resources/static/img/weman.png" alt="">
+                    <img class="header-richer" src="/resources/static/img/head.jpg" ms-attr-src="topRicher.headImg" alt="">
+                    <span class="text-heightlight" ms-text='topRicher.nickname'></span> <img ms-if="topRicher.gender == 'MALE'" class="header-sexy" src="/resources/static/img/man.png" alt=""><img class="header-sexy" ms-if="topRicher.gender == 'FEMALE'"  src="/resources/static/img/weman.png" alt="">
                 </td>
                 <td width="80">
-                    <span>霸屏<span class="text-dark"> 5 </span>次</span>
+                    <span>消费 <span class="text-dark" ms-text='topRicher.payMsgCount'></span> 次</span>
                 </td>
             </tr>
         </table>

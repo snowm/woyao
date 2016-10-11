@@ -273,7 +273,7 @@ define(['jquery','avalon', 'text!./privacyChat.html','socket','swiper',"domReady
         	// 从消息池里面抽出消息
             pChatController.pMsgList = [];
             avalon.vmodels.rootController._privacyMsg.forEach(function(item){
-            	if(item.sender.id == pChatController.toWho.id){
+            	if(item.sender.id == pChatController.toWho.id || item.sender.id ==  avalon.vmodels.rootController._userInfo.id){
             		pChatController.pMsgList.push(item);
             	}
             });

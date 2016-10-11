@@ -1,26 +1,27 @@
 <div id="richers" ms-controller="richerController">
 <div class="head"><img src="/resources/static/img/richers.gif" alt=""></div>
 <div class="rank">
-    <p class="p" ms-on-tap="richerTab('DAY')" ms-class="bottom:showBottom">今日土豪</p>
-    <p class="p" ms-on-tap="richerTab('WEEK')" ms-class="bottom:showBottoms">本周土豪</p>
-    <p class="p" ms-on-tap="richerTab('MONTH')" ms-class="bottom:showBottomss">本月土豪</p>
+    <p class="p" ms-on-tap="richerTab('DAY')" ms-class="bottom:richerType=='DAY'">今日土豪</p>
+    <p class="p" ms-on-tap="richerTab('WEEK')" ms-class="bottom:richerType=='WEEK'">本周土豪</p>
+    <p class="p" ms-on-tap="richerTab('MONTH')" ms-class="bottom:richerType=='MONTH'">本月土豪</p>
     <!--今日土豪-->
-    <div ms-if="everydayRanKs">
+    <div>
         <div class="ranks">
             <div class="rank-list">
                 <div class="fist" ms-repeat-p="richerList">
-                    <img class="fist-img" src="/resources/static/img/hd1.png" alt="">
-                    <!--<p class="number-one">1</p>-->
-                    <img class="number-one" src="/resources/static/img/1.png" alt="">
+                    <img class="fist-img" --src="/resources/static/img/hd1.png" width="50px" height="50px" ms-attr-src="p.chatterDTO.headImg" alt="">
+                    <img class="number-one" ms-if="$index == 1" src="/resources/static/img/1.png" alt="">
+                    <img class="number-one" ms-if="$index == 2" src="/resources/static/img/2.png" alt="">
+                    <img class="number-one" ms-if="$index == 3" src="/resources/static/img/3.png" alt="">
                     <div class="rank-name">
-                        <div><span ms-text="p.chatterDTO.nickname"></span><img class="rank-name-img" src="/resources/static/img/weman1.png" alt="">
+                        <div><span ms-text="p.chatterDTO.nickname"></span><img class="rank-name-img" ms-if="p.chatterDTO.gender == 'FEMALE'" src="/resources/static/img/weman1.png" alt=""><img ms-if="p.chatterDTO.gender == 'MALE'" class="rank-name-img" src="/resources/static/img/man.png" alt="">
                         </div>
-                        <div class="rank-number">霸屏5次</div>
+                        <div class="rank-number">消费<span style="float:none" ms-text='p.payMsgCount'></span>次</div>
                     </div>
                     <div class="rank-right">
-                        <img src="/resources/static/img/pst.gif" alt="">
-                        <span>距离8千米</span>
-                        <div class="msg" ms-on-tap="shsa(p)">发消息</div>
+                        <img src="/resources/static/img/pst.gif" style="position:relative;top:1.5px;width:10px;margin-top:0px;height:auto" alt="">
+                        <span style="font-size:10px">距离{{p.chatterDTO.distanceToRoom}}m</span>
+                        <div class="msg" ms-on-tap="shsa(p.chatterDTO)" style="margin-top:4px">发消息</div>
                     </div>
                 </div>
             </div>
