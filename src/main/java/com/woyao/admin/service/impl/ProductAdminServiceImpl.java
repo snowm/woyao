@@ -48,6 +48,9 @@ public class ProductAdminServiceImpl extends AbstractAdminService<Product, Produ
 		if (!StringUtils.isEmpty(request.getName())) {
 			criterions.add(Restrictions.like("name", "%" + request.getName() + "%"));
 		}
+		if (request.getShopId()!=null) {
+			criterions.add(Restrictions.eq("shop.shopId", request.getShopId()));
+		}
 		if (request.getDeleted() != null) {
 			criterions.add(Restrictions.eq("logicalDelete.deleted", request.getDeleted()));
 		}
