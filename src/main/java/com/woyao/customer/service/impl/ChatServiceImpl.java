@@ -223,13 +223,16 @@ public class ChatServiceImpl implements IChatService {
 			}
 			orders.add(Order.desc("id"));
 		} else if (request.getMinId() != null) {
-			criterions.add(Restrictions.gt("id", request.getMinId()));
+			if (request.getMinId() > 0) {
+				criterions.add(Restrictions.gt("id", request.getMinId()));
+			}
 			orders.add(Order.asc("id"));
 		}
+		Long selfChatterId = request.getSelfChatterId();
 		if (request.getWithChatterId() != null) {
-			Criterion to = Restrictions.and(Restrictions.eq("from", request.getSelfChatterId()),
+			Criterion to = Restrictions.and(Restrictions.eq("from", selfChatterId),
 					Restrictions.eq("to", request.getWithChatterId()));
-			Criterion from = Restrictions.and(Restrictions.eq("to", request.getSelfChatterId()),
+			Criterion from = Restrictions.and(Restrictions.eq("to", selfChatterId),
 					Restrictions.eq("from", request.getWithChatterId()));
 			criterions.add(Restrictions.or(to, from));
 		} else {
@@ -245,10 +248,13 @@ public class ChatServiceImpl implements IChatService {
 			dto.setText(e.getText());
 			ChatterDTO sender = this.getChatter(e.getFrom());
 			dto.setSender(sender);
-			if (!e.getFrom().equals(request.getSelfChatterId())) {
+			if (!selfChatterId.equals(e.getFrom())) {
 				dto.setCommand(OutboundCommand.SEND_MSG);
 			} else {
 				dto.setCommand(OutboundCommand.SEND_MSG_ACK);
+			}
+			if (selfChatterId.equals(e.getTo())) {
+				dto.setPrivacy(true);
 			}
 			dtos.add(dto);
 		}
