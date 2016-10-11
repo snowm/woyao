@@ -8,6 +8,7 @@ define(['uploadfile'],function(){
     	    formShow:false,
     	    business:true,
     	    businessalter:false,
+    	    nothing:false,
     	    imgViewSrc:'/admin/resources/images/photos/upload1.png',
     	    shopList:[], 
     	    totlePage:-1,
@@ -169,7 +170,14 @@ define(['uploadfile'],function(){
 	      		  data:data,
 	      		  success: function(data){
 	      			  shopController.totlePage = data.totalPageCount;
-	      			  shopController.shopList = data.results;    	      			
+	      			  shopController.shopList = data.results;
+	      			if(shopController.shopList.length != 0){
+	      				shopController.nothing=false;
+  	      				console.log(1);
+  	      			}else if(shopController.shopList.length == 0){  	      				
+  	      				shopController.nothing=true;
+  	      				console.log(2);
+  	      			}
 	      		  },
 	      		  dataType: 'json'
 	      		});
