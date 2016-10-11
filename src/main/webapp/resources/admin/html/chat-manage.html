@@ -53,13 +53,14 @@
             </thead>            
         </table>  
     </div>
-    <div class="table-responsive" style="border-top: 1px solid #dadada">
-        <table class="table table-striped table-hover text-center"  ms-if="chatList.length!=0">
+    <div class="table-responsive" style="border-top: 1px solid #dadada" ms-if="chatList.length!=0">
+        <table class="table table-striped table-hover text-center">
             <thead>
             <tr>              
                 <th class="text-center">聊天室名称</th>
                 <th class="text-center">内容</th>
-                <th class="text-center">是否付费</th>               
+                <th class="text-center">是否付费</th>  
+                <th class="text-center">商品价格</th>             
                 <th class="text-center">开始时间</th>
                 <th class="text-center">结束时间</th>                
                 <th class="text-center text-right" width="200">操作</th>
@@ -70,6 +71,7 @@
                 <td ms-text="p.chatRoomName"></td>
                 <td ms-text="p.content"></td>                
                 <td><span ms-if="p.free">是</span><span ms-if="!p.free">否</span></td>
+                <td ms-text="p.productUnitPrice"></td>
                 <td ms-text="p.creationDate"></td>
                 <td ms-text="p.lastModifiedDate"></td>
                 <td>
@@ -78,7 +80,15 @@
                 </td>
             </tr>
             </tbody>
-        </table>  
+              
+        </table>
+        <div class="row">
+        	<div class="col-sm-1"></div>
+        	<ul class="pagination pagination-split">
+                <li  ms-click="btnChat('upPage')"><a href="#">Prev</a></li>             
+                <li><a href="#" ms-click="btnChat('nextPage')">Next</a></li>
+            </ul>
+        </div>     
     </div>
 
     <!--<div class="panel-footer text-right">-->
