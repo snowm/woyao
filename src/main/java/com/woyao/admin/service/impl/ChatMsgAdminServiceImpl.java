@@ -66,6 +66,7 @@ public class ChatMsgAdminServiceImpl extends AbstractAdminService<ChatMsg, ChatM
 			ms = this.dao.query(this.entityClazz, criterions, orders, request.getPageNumber(), request.getPageSize());
 		}
 		PaginationBean<ChatMsgDTO> rs = new PaginationBean<>(request.getPageNumber(), request.getPageSize());
+		rs.setTotalCount(count);
 		List<ChatMsgDTO> results = new ArrayList<>();
 		for (ChatMsg m : ms) {
 			ChatMsgDTO dto = this.transferToDTO(m, false);
