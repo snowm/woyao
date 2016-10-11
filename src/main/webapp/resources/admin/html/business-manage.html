@@ -121,6 +121,7 @@
 	      <thead>
 	      <tr>
 	        <th class="text-center">商家名称</th>
+	        <th class="text-center">商家图片</th>
 	        <th class="text-center">商家编号</th>
 	        <th class="text-center">联系人</th>
 	        <th class="text-center text-right" width="200">操作</th>
@@ -129,6 +130,9 @@
 	      <tbody>
 	      <tr ms-repeat-p="shopList">
 	        <td ms-text="p.name"></td>
+	       	<td>
+	       			<img class="media-object thumbnail center-block" ms-attr-src="p.picUrl" style="width:30px;height:30px;" alt="">
+           	</td>
 	        <td ms-text="p.id"></td>
 	        <td ms-text="p.managerName"></td>
 	        <td class="table-action">

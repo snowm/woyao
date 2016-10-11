@@ -10,6 +10,7 @@ import javax.xml.bind.JAXBException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.BeanUtils;
 
 import com.woyao.JsonUtils;
 import com.woyao.utils.JaxbUtils;
@@ -18,6 +19,7 @@ import com.woyao.wx.dto.GetAccessTokenResponse;
 import com.woyao.wx.dto.GetGlobalAccessTokenResponse;
 import com.woyao.wx.dto.GetUserInfoResponse;
 import com.woyao.wx.dto.UnifiedOrderRequest;
+import com.woyao.wx.dto.UnifiedOrderRequestDTO;
 import com.woyao.wx.dto.UnifiedOrderResponse;
 import com.woyao.wx.third.dto.GetAccessTokenRequest;
 
@@ -34,9 +36,10 @@ public class WxPayEndpoint {
 
 	private Client client;
 
-	public UnifiedOrderResponse unifiedOrder(String appId, String mchId) {
+	public UnifiedOrderResponse unifiedOrder(UnifiedOrderRequestDTO dto) {
 		WebTarget target = client.target(this.wxUnifiedOrderUrl);
 		UnifiedOrderRequest req = new UnifiedOrderRequest();
+		BeanUtils.copyProperties(dto, req);
 		String body = null;
 		try {
 			body = JaxbUtils.marshall(req);

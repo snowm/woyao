@@ -9,7 +9,7 @@ require.config({
         'mmHistory': './js/plugin/mmHistory',
         'mmRouter': './js/plugin/mmRouter',
         'text': ['./js/plugin/require/text'],
-        'domReady': './js/plugin/domReady',
+        'domReady': './js/plugin/domReady', 
         'jquery': ['./js/plugin/jquery-1.11.1.min'],
         'jquery.cookies': ['./js/plugin/jquery.cookies'],
         'jquery-ui': ['./js/plugin/jquery-ui-1.10.3.min'],
@@ -19,17 +19,21 @@ require.config({
         'toggles': ['./js/plugin/toggles.min'],
         'modernizr': ['./js/plugin/modernizr.min'],
         'uploadfile': ['./js/plugin/uploadfile'],
+        'datapicker':['./js/plugin/datapicker'],
+        'datapicker.cn':['./js/plugin/datapicker.cn'],
     },shim: {
         "jquery":{
             "expotrs":'$'
         },
         "jquery.cookies":["jquery"],
-        "jquery-ui":["jquery"],
+        "jquery-ui":["jquery"], 
         "jquery-migrate":["jquery"],
         "custom":["jquery"],
         "toggles":["jquery"],
         "bootstrap":["jquery"],
         "uploadfile":["jquery"],
+        "datapicker":["jquery"],
+        "datapicker.cn":["jquery"] 
     },
     priority: ['text']
 });

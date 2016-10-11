@@ -9,6 +9,7 @@
     <link rel="shortcut icon" href="/admin/resources/images/add/luoke.png" type="image/png">
     <title>倮克后台管理系统</title>
     <link href="/admin/resources/css/style.default.css" rel="stylesheet">
+    <link href="/admin/resources/css/main.css" rel="stylesheet">
 </head>
 <script data-main="/admin/resources/js/main.js" src="/admin/resources/js/plugin/require.js"></script>
 <body ms-controller="root">

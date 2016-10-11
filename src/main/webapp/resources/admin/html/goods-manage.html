@@ -1,12 +1,27 @@
 <div class="panel panel-default" ms-controller="goodsController">    
     <div class="panel-body" ms-if="demand">
         <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-3">
                 <div class="form-group">
                     <label class="control-label">商品名字</label>
                     <input type="text" name="firstname" class="form-control" ms-duplex="goodsDate.name">
                 </div>
-            </div><!--col-sm-6 -->
+            </div>
+            
+             <div class="col-sm-3">
+			        <div class="form-group" style="position: relative;">
+			          <label class="control-label">商店名称</label>
+			             <input type="text" name="firstname" class="form-control" ms-duplex="goodsChg.name" ms-keyup="change">
+			             <div style="position:absolute;top:69px;width:100%;max-height:302px; background-color: white;z-index: 1000000;" ms-if="shopList.length != 0">
+			             	 <table> 
+			             	 	<tr style="cursor: pointer;width:100%;" ms-repeat-p="shopList" ms-hover="chooseShopItem">	             	                 
+					                <td ms-text="p.name" ms-click="shopSearch(p.id,p.name)" style="width:400px;"></td>			                			                
+					            </tr> 
+					          </table>   
+			             </div>
+			           <!-- <div style="width:0;height:0; border-style:solid;border-width:5px 5px 0; border-color:black transparent transparent;position:absolute;right:10px;top:50px;"></div> -->
+			        </div>
+	     	</div>
 
             <div class="col-sm-12 text-right">
                 <button class="btn  btn btn-info" ms-click="btnGoods">查 询</button>                
@@ -42,7 +57,8 @@
                         <label class="control-label">商品名字</label>
                         <input type="text" name="name" class="form-control" ms-duplex="goodsChg.name">
                     </div>
-                </div><!-- col-sm-6 -->  
+                </div>
+               
                  <div class="col-sm-6">
                     <div class="form-group">
                         <label class="control-label">商品描述</label>
