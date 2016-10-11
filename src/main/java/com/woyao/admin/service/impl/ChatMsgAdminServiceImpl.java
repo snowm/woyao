@@ -51,6 +51,7 @@ public class ChatMsgAdminServiceImpl extends AbstractAdminService<ChatMsg, ChatM
 		if (request.getFrom() != null) {
 			criterions.add(Restrictions.eq("from", request.getFrom()));
 		}
+		System.out.println("================="+request.getStartcreationDate());
 		if (request.getStartcreationDate() != null) {
 			criterions.add(Restrictions.ge("modification.creationDate", request.getStartcreationDate()));
 		}
