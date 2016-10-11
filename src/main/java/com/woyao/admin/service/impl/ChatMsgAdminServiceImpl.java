@@ -51,7 +51,6 @@ public class ChatMsgAdminServiceImpl extends AbstractAdminService<ChatMsg, ChatM
 		if (request.getFrom() != null) {
 			criterions.add(Restrictions.eq("from", request.getFrom()));
 		}
-		System.out.println("================="+request.getStartcreationDate());
 		if (request.getStartcreationDate() != null) {
 			criterions.add(Restrictions.ge("modification.creationDate", request.getStartcreationDate()));
 		}
@@ -91,6 +90,7 @@ public class ChatMsgAdminServiceImpl extends AbstractAdminService<ChatMsg, ChatM
 		Product p=this.dao.get(Product.class, m.getProductId());
 		if(p!=null){
 			dto.setProductName(p.getName());
+			dto.setProductUnitPrice(p.getUnitPrice());
 		}
 		dto.setEnabled(m.getLogicalDelete().isEnabled());
 		dto.setDeleted(m.getLogicalDelete().isDeleted());

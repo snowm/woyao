@@ -29,6 +29,8 @@ public class ChatMsgDTO  extends BasePKDTO {
 	
 	private String productName;
 	
+	private Long productUnitPrice;
+	
 	@JsonFormat(pattern = DTOConfig.DATE_TIME_FULL_FMT)
 	private Date startcreationDate;//开始创建时间
 
@@ -113,6 +115,14 @@ public class ChatMsgDTO  extends BasePKDTO {
 
 	public void setEndcreationDate(Date endcreationDate) {
 		this.endcreationDate = endcreationDate;
+	}
+
+	public Long getProductUnitPrice() {
+		return productUnitPrice;
+	}
+
+	public void setProductUnitPrice(Long productUnitPrice) {
+		this.productUnitPrice = productUnitPrice;
 	}
 	
 	

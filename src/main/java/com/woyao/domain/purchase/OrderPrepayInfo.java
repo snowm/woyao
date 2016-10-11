@@ -35,5 +35,13 @@ public class OrderPrepayInfo extends DefaultModelImpl {
 		this.id = id;
 	}
 
+	public String getPrepayId() {
+		return prepayId;
+	}
+
+	public void setPrepayId(String prepayId) {
+		this.prepayId = prepayId;
+	}
+	
 
 }

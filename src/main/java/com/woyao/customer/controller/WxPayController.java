@@ -29,9 +29,10 @@ public class WxPayController {
 
 	@RequestMapping(value = { "/", "" }, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
-	public void order(String productId) {
+	public UnifiedOrderResponse order(String productId) {
 		UnifiedOrderRequestDTO dto=wxAdminService.getUnifiedDTO(productId);
 		//globalConfig.getAppId(), globalConfig.getMrchId()
 		UnifiedOrderResponse resp = this.wxPayEndpoint.unifiedOrder(dto);
+		return resp;
 	}
 }
