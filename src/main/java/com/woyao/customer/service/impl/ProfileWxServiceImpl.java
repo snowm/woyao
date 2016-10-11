@@ -57,9 +57,14 @@ public class ProfileWxServiceImpl implements IProfileWxService {
 				this.dao.update(m);
 			}
 		} else {
-			ProfileWX m = new ProfileWX();
-			BeanUtils.copyProperties(dto, m);
-			id = this.dao.save(m);
+			Map<String, Object> paramMap = new HashMap<>();
+			paramMap.put("openId", dto.getOpenId());
+			ProfileWX existed = this.dao.queryUnique("from ProfileWX where openId = :openId", paramMap);
+			if (existed == null) {
+				existed = new ProfileWX();
+			}
+			BeanUtils.copyProperties(dto, existed, "id");
+			id = this.dao.save(existed);
 		}
 		
 		return this.getById(id);

@@ -11,22 +11,22 @@ public class PaginationQueryRequestDTO implements Serializable {
 
 	private static final long serialVersionUID = 5552361308475291928L;
 
-	private long pageNumber;
-	private int pageSize;
+	private Long pageNumber = 1L;
+	private Integer pageSize = 20;
 
-	public long getPageNumber() {
+	public Long getPageNumber() {
 		return pageNumber;
 	}
 
-	public void setPageNumber(long pageNumber) {
+	public void setPageNumber(Long pageNumber) {
 		this.pageNumber = pageNumber;
 	}
 
-	public int getPageSize() {
+	public Integer getPageSize() {
 		return pageSize;
 	}
 
-	public void setPageSize(int pageSize) {
+	public void setPageSize(Integer pageSize) {
 		this.pageSize = pageSize;
 	}
 

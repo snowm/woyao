@@ -116,30 +116,30 @@ public class WXBizMsgCryptTest {
 		fail("错误流程不抛出异常？？？");
 	}
 
-	@Test
-	public void testValidateSignatureError() throws ParserConfigurationException, SAXException,
-			IOException {
-		try {
-			WXBizMsgCrypt pc = new WXBizMsgCrypt(token, encodingAesKey, appId);
-			String afterEncrpt = pc.encryptMsg(replyMsg, timestamp, nonce);
-			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-			DocumentBuilder db = dbf.newDocumentBuilder();
-			StringReader sr = new StringReader(afterEncrpt);
-			InputSource is = new InputSource(sr);
-			Document document = db.parse(is);
-
-			Element root = document.getDocumentElement();
-			NodeList nodelist1 = root.getElementsByTagName("Encrypt");
-
-			String encrypt = nodelist1.item(0).getTextContent();
-			String fromXML = String.format(xmlFormat, encrypt);
-			pc.decryptMsg("12345", timestamp, nonce, fromXML); // 这里签名错误
-		} catch (AesException e) {
-			assertEquals(AesException.ValidateSignatureError, e.getCode());
-			return;
-		}
-		fail("错误流程不抛出异常？？？");
-	}
+//	@Test
+//	public void testValidateSignatureError() throws ParserConfigurationException, SAXException,
+//			IOException {
+//		try {
+//			WXBizMsgCrypt pc = new WXBizMsgCrypt(token, encodingAesKey, appId);
+//			String afterEncrpt = pc.encryptMsg(replyMsg, timestamp, nonce);
+//			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+//			DocumentBuilder db = dbf.newDocumentBuilder();
+//			StringReader sr = new StringReader(afterEncrpt);
+//			InputSource is = new InputSource(sr);
+//			Document document = db.parse(is);
+//
+//			Element root = document.getDocumentElement();
+//			NodeList nodelist1 = root.getElementsByTagName("Encrypt");
+//
+//			String encrypt = nodelist1.item(0).getTextContent();
+//			String fromXML = String.format(xmlFormat, encrypt);
+//			pc.decryptMsg("12345", timestamp, nonce, fromXML); // 这里签名错误
+//		} catch (AesException e) {
+//			assertEquals(AesException.ValidateSignatureError, e.getCode());
+//			return;
+//		}
+//		fail("错误流程不抛出异常？？？");
+//	}
 
 	@Test
 	public void testVerifyUrl() throws AesException {

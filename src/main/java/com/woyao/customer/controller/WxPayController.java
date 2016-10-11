@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.woyao.GlobalConfig;
+import com.woyao.customer.service.IWxAdminService;
 import com.woyao.wx.WxPayEndpoint;
+import com.woyao.wx.dto.UnifiedOrderRequestDTO;
 import com.woyao.wx.dto.UnifiedOrderResponse;
 
 @Controller
@@ -21,10 +23,15 @@ public class WxPayController {
 	
 	@Resource(name = "globalConfig")
 	private GlobalConfig globalConfig;
+	
+	@Resource(name = "wxAdminService")
+	private IWxAdminService wxAdminService;
 
 	@RequestMapping(value = { "/", "" }, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
-	public void order() {
-		UnifiedOrderResponse resp = this.wxPayEndpoint.unifiedOrder(globalConfig.getAppId(), globalConfig.getMrchId());
+	public void order(String productId) {
+		UnifiedOrderRequestDTO dto=wxAdminService.getUnifiedDTO(productId);
+		//globalConfig.getAppId(), globalConfig.getMrchId()
+		UnifiedOrderResponse resp = this.wxPayEndpoint.unifiedOrder(dto);
 	}
 }

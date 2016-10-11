@@ -187,7 +187,8 @@ public class Oauth2SecurityFilter implements Filter, InitializingBean {
 	public ChatterDTO createMockDTO() {
 		long id = idGenerator.incrementAndGet();
 		ChatterDTO dto = new ChatterDTO();
-		dto.setId(id);
+//		dto.setId(id);
+		dto.setOpenId("openId"+id);
 		dto.setNickname("nickname" + id);
 		dto.setCity("city" + id);
 		dto.setCountry("country" + id);
@@ -221,12 +222,12 @@ public class Oauth2SecurityFilter implements Filter, InitializingBean {
 				BeanUtils.copyProperties(userInfoResponse, dto);
 				dto.setGender(this.parseGender(userInfoResponse.getSex()));
 
-				dto = this.profileWxService.saveChatterInfo(dto);
 			} catch (Exception ex) {
 				log.warn("Get user info from weixin failure!", ex);
 				return null;
 			}
 		}
+		dto = this.profileWxService.saveChatterInfo(dto);
 		dto.setLoginDate(new Date());
 		return dto;
 	}

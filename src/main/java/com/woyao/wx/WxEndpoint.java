@@ -232,11 +232,6 @@ public class WxEndpoint {
 				.header("User-Agent", MediaType.APPLICATION_JSON);
 	}
 
-	private Builder createXmlRequestBuilder(WebTarget target) {
-		return target.request(MediaType.APPLICATION_XML).accept(MediaType.APPLICATION_JSON_TYPE, MediaType.TEXT_PLAIN_TYPE)
-				.header("User-Agent", MediaType.APPLICATION_XML);
-	}
-
 	private boolean validateResponse(Response resp) throws RuntimeException {
 		if (resp.getStatus() >= Response.Status.BAD_REQUEST.getStatusCode()) {
 			try {
