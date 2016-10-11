@@ -13,9 +13,9 @@ define(['jquery','datapicker','datapicker.cn'],function($){
     			deleted:false,
     			pageNumber:1,
     	    	pageSize:10,
-    	    	shopId:"",
-    	    	creationDate:"",
-    	    	lastModifiedDate:""
+    	    	shopId:"",    	    	
+    	    	startcreationDate:"",
+    	    	endcreationDate:""
     		},
     		change:function(){
     			console.log(chatController.freeDate.name);
@@ -40,20 +40,21 @@ define(['jquery','datapicker','datapicker.cn'],function($){
     		},  
     		
     		btnChat:function(){     			
-    			chatController.chat=true;    			
+    			chatController.chat=true; 
+    			console.log(1);
     			var data = { 
     					free:chatController.freeDate.free,
     					deleted:chatController.freeDate.deleted,
     	    			pageNumber:chatController.freeDate.pageNumber,
     	    	    	pageSize:chatController.freeDate.pageSize,
     	    	    	shopId:chatController.freeDate.shopId,
-    	    	    	creationDate:chatController.freeDate.creationDate,
-    	    	    	lastModifiedDate:chatController.freeDate.lastModifiedDate
+    	    	    	startcreationDate:chatController.freeDate.startcreationDate,
+    	    	    	endcreationDate:chatController.freeDate.endcreationDate    	    	    	
     	    	    	}    			
     			   
     			$.ajax({
   	      		  type: "post",
-  	      		  url: '/admin/chatMsg/search',
+  	      		  url: '/admin/chatMsg/search/',
   	      		  data:data,
   	      		  success: function(data){
   	      			  console.log(data);

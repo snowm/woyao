@@ -27,13 +27,13 @@
 	      <div class="col-sm-3"> 
 	      	 	<div class="form-group">
 	      		 	<label class="control-label">开始时间</label>
-	      		 		<input type="text"name="firstname" class="form-control" id="date_picker1" ms-duplex="freeDate.creationDate">	      		 	
+	      		 		<input type="text"name="firstname" class="form-control" id="date_picker1" ms-duplex="freeDate.startcreationDate">	      		 	
 	      		</div>
 	      </div>
 	       <div class="col-sm-3"> 
 	      		<div class="form-group">
 	      		  	<label class="control-label">结束时间</label>
-	      		 		<input type="text"name="firstname" class="form-control" id="date_picker2" ms-duplex="freeDate.lastModifiedDate" >	      		 	
+	      		 		<input type="text"name="firstname" class="form-control" id="date_picker2" ms-duplex="freeDate.endcreationDate" >	      		 	
 	      		</div>
 	      </div>      
             <div class="col-sm-12 text-right">
@@ -46,8 +46,9 @@
         <table class="table table-striped table-hover text-center"  ms-if="chatList.length!=0">
             <thead>
             <tr>              
-                <th class="text-center">昵称</th>
+                <th class="text-center">聊天室名称</th>
                 <th class="text-center">内容</th>
+                <th class="text-center">是否付费</th>
                 <th class="text-center">时间</th>
                 <th class="text-center text-right" width="200">操作</th>
             </tr>
@@ -55,7 +56,7 @@
             <tbody>
             <tr ms-repeat-p="chatList">                
                 <td ms-text="p.chatRoomName"></td>
-                <td ms-text="p.content"></td>
+                <td ms-text="p.content"></td>                
                 <td ms-text="p.creationDate"></td>
                 <td>
                     <!--<button class="btn btn-xs btn-info"><i class="fa fa-pencil"></i> 修改</button>-->
