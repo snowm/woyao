@@ -27,7 +27,7 @@ define(['uploadfile'],function(){
     	    	managerName:'',
     	    	managerProfileId:'',
     	    	description:'',
-    	    	picId:'',
+    	    	picId:'', 
     	    	managerPwd:''
     	    },
     	    Alter:function(){

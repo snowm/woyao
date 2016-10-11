@@ -15,4 +15,4 @@
 		titleFormat: "yyyy年mm月",
 		weekStart: 1
 	};
-}(jQuery)); 
+}(jQuery));  

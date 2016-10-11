@@ -120,7 +120,7 @@ define(['uploadfile'],function(){
                 typeId:"",
                 shopId:"",
                 shopName:"",
-                unitPrice:""
+                unitPrice:"" 
             }            
         },        
         deletedGoods:function(id){

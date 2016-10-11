@@ -26,7 +26,7 @@ require.config({
             "expotrs":'$'
         },
         "jquery.cookies":["jquery"],
-        "jquery-ui":["jquery"],
+        "jquery-ui":["jquery"], 
         "jquery-migrate":["jquery"],
         "custom":["jquery"],
         "toggles":["jquery"],
