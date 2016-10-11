@@ -7,6 +7,7 @@ define(['jquery','datapicker','datapicker.cn'],function($){
     		$id:"chatController",    		
     		chatList:[],
     		shopList:[],
+    		nothing:false,    		
     		freeDate:{
     			free:"",
     			name:"",
@@ -25,9 +26,9 @@ define(['jquery','datapicker','datapicker.cn'],function($){
     	      		  url: '/admin/shop/search/',
     	      		  data:data,
     	      		  success: function(data){
-    	      			  console.log(data);
+    	      			  console.log(data);    	      			 
     	      			  chatController.shopList = data.results;
-    	      			  console.log(chatController.shopList);
+    	      			  console.log(chatController.shopList);    	      			   	      			  
     	      		  }
     			});
     			
@@ -37,11 +38,13 @@ define(['jquery','datapicker','datapicker.cn'],function($){
     			chatController.freeDate.shopId = id;
     			chatController.freeDate.name=name;
     			chatController.shopList=[];
-    		},  
+    		},
+    		btns:function(){
+    			chatController.shopList=[];
+    		},
     		
     		btnChat:function(){     			
-    			chatController.chat=true; 
-    			console.log(1);
+    			chatController.chat=true;     			
     			var data = { 
     					free:chatController.freeDate.free,
     					deleted:chatController.freeDate.deleted,
@@ -57,15 +60,24 @@ define(['jquery','datapicker','datapicker.cn'],function($){
   	      		  url: '/admin/chatMsg/search/',
   	      		  data:data,
   	      		  success: function(data){
-  	      			  console.log(data);
-  	      			  chatController.chatList = data.results;
-//  	      			  if(chatController.chatList==""){
-//  	      				  var tables=document.getElementsByClassName("table-responsive");
-//  	      				  var p = document.createElement("div");
-//  	      				  p.style.margin="auto";
-//  	      				  p.innerText="暂时没有数据";
-//  	      				 tables.appendChild(p);  	      				
-//  	      			  }
+  	      			  console.log(data); 	
+  	      			chatController.chatList = data.results;  	      			
+//  	      			for(var i = 0;i <= chatController.chatList.length;i++){
+//	  	      			if(chatController.chatList[i].free == "true" ){
+//	  	      				chatController.block=true;
+//	  	      			}else if(chatController.chatList[i].free == "false"){
+//	  	      				chatController.none=true;
+//	  	      			}
+//  	      			}
+  	      			
+  	      			
+  	      			if(chatController.chatList.length != 0){
+  	      				chatController.nothing=false;
+  	      				console.log(1);
+  	      			}else if(chatController.chatList.length == 0){  	      				
+  	      				chatController.nothing=true;
+  	      				console.log(2);
+  	      			}
   	      		  },
   	      		  dataType: 'json'
   	      		});
@@ -84,10 +96,13 @@ define(['jquery','datapicker','datapicker.cn'],function($){
     	    	 }
     	    },
     	});
+//    	$(".mainpanel").click({
+//    		chatController.shopList=[];
+//    	});
     	console.log("load chat-manage");    
     	avalon.scan();    	
     	
-    
+    	
     	setTimeout(function(){
     		$('#date_picker1').datetimepicker({format: 'yyyy-mm-dd hh:ii',language: 'zh-CN'});
     		$('#date_picker2').datetimepicker({format: 'yyyy-mm-dd hh:ii',language: 'zh-CN'});

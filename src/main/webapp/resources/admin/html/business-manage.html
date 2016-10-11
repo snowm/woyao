@@ -76,19 +76,15 @@
             </div><!-- row -->            
           </div>          
      </div>
-     
+    </div>
         
-        
-<!-- 商品管理 -->
-
-
-
-        </div><!-- panel-body -->
         <div class="panel-footer text-right">
             <button class="btn btn-success" ms-click="submitItem">提交</button>
             <button class="btn btn-default" ms-click="hideNewShop">取消</button>
         </div>
     </div>
+
+    
 	<div class="panel panel-default" ms-if="!formShow">
 	  <div class="panel-body">
 	    <div class="row">
@@ -155,4 +151,14 @@
 	    <button class="btn btn-success" ms-click="newShop">录 入</button>
 	  </div>
 	</div>
+	<!-- 没有数据 --> 
+    <div class="table-responsive"  ms-if="nothing">
+        <table class="table table-striped table-hover text-center">
+            <thead>
+            <tr>              
+                <th class="text-center">亲！！！暂时没有数据哦</th>                
+            </tr>
+            </thead>            
+        </table>  
+    </div> 
 </div>
