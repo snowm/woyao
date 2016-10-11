@@ -2,6 +2,7 @@ package com.woyao.security;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Date;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -47,7 +48,7 @@ public class Oauth2SecurityFilter implements Filter, InitializingBean {
 	@Resource(name = "globalConfig")
 	private GlobalConfig globalConfig;
 
-	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+	private RedirectStrategy redirectStrategy;
 
 	@Resource(name = "wxEndpoint")
 	private WxEndpoint wxEndpoint;
@@ -57,6 +58,9 @@ public class Oauth2SecurityFilter implements Filter, InitializingBean {
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
+		DefaultRedirectStrategy rs = new DefaultRedirectStrategy();
+		rs.setContextRelative(false);
+		this.redirectStrategy = rs;
 	}
 
 	@Override
@@ -78,6 +82,7 @@ public class Oauth2SecurityFilter implements Filter, InitializingBean {
 				// 去掉微信授权的的code
 				if (request.getParameterMap().containsKey(PARA_OAUTH_CODE)) {
 					String url = this.removeCodeParam(request);
+					log.debug("The code parameter of Oauth remove:" + url);
 					this.redirectUser(request, response, url);
 					return;
 				}
@@ -90,7 +95,10 @@ public class Oauth2SecurityFilter implements Filter, InitializingBean {
 		// 验证权限失败，重定向到微信授权网页
 		String scope = "snsapi_userinfo";
 		String state = System.currentTimeMillis() + "";
+		log.debug("currentUri:"+currentUri);
+		currentUri = URLEncoder.encode(currentUri, "UTF-8");
 		String redirectUrl = this.calculateRedirectUrl(this.globalConfig.getAppId(), currentUri, scope, state);
+		log.debug("Authorize failure, redirect to : " + redirectUrl);
 		this.redirectUser(request, response, redirectUrl);
 	}
 
@@ -125,7 +133,8 @@ public class Oauth2SecurityFilter implements Filter, InitializingBean {
 	}
 
 	protected void redirectUser(HttpServletRequest request, HttpServletResponse response, String url) throws IOException {
-		this.redirectStrategy.sendRedirect(request, response, url);
+		response.sendRedirect(url);
+//		this.redirectStrategy.sendRedirect(request, response, url);
 	}
 
 	/**
@@ -187,8 +196,8 @@ public class Oauth2SecurityFilter implements Filter, InitializingBean {
 	public ChatterDTO createMockDTO() {
 		long id = idGenerator.incrementAndGet();
 		ChatterDTO dto = new ChatterDTO();
-//		dto.setId(id);
-		dto.setOpenId("openId"+id);
+		// dto.setId(id);
+		dto.setOpenId("openId" + id);
 		dto.setNickname("nickname" + id);
 		dto.setCity("city" + id);
 		dto.setCountry("country" + id);
@@ -207,12 +216,18 @@ public class Oauth2SecurityFilter implements Filter, InitializingBean {
 			dto = this.createMockDTO();
 		} else {
 			try {
+				log.debug("start to get accessToken of user...");
 				GetAccessTokenResponse tokenResponse = this.wxEndpoint.getAccessToken(globalConfig.getAppId(), globalConfig.getAppSecret(),
 						code, "authorization_code");
+				log.debug("AccessToken of user got:" + tokenResponse.toString());
+
+				log.debug("start to get userInfo...");
 				GetUserInfoResponse userInfoResponse = this.wxEndpoint.getUserInfo(tokenResponse.getAccessToken(),
 						tokenResponse.getOpenid(), "zh_CN");
+				log.debug("UserInfo got!");
 				String openId = userInfoResponse.getOpenid();
 				if (StringUtils.isBlank(openId)) {
+					log.warn("open id blank!");
 					throw new RuntimeException("open id blank!");
 				}
 				dto = this.profileWxService.getByOpenId(openId);

@@ -4,6 +4,7 @@ import javax.annotation.Resource;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import com.woyao.GlobalConfig;
@@ -26,11 +27,17 @@ public class GetGlobalAccessTokenJob {
 	@Resource(name = "globalConfig")
 	private GlobalConfig globalConfig;
 
+	private boolean enabled = false;
+
 	/**
 	 * 延迟20s，固定等待2m
 	 */
-//	@Scheduled(fixedDelay = 120000, initialDelay = 20000)
+	@Scheduled(fixedDelay = 120000, initialDelay = 20000)
 	public void executeInternal() {
+		if (!this.enabled) {
+			this.log.debug("GetGlobalAccessTokenJob is disabled...");
+			return;
+		}
 		if (this.log.isDebugEnabled()) {
 			this.log.debug("Starting to get global access token...");
 		}
@@ -54,6 +61,10 @@ public class GetGlobalAccessTokenJob {
 				this.log.debug("Global access token got! Spent time:" + spent + " ms");
 			}
 		}
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
 	}
 
 }

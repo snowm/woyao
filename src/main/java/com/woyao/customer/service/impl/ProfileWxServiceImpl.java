@@ -64,7 +64,8 @@ public class ProfileWxServiceImpl implements IProfileWxService {
 				existed = new ProfileWX();
 			}
 			BeanUtils.copyProperties(dto, existed, "id");
-			id = this.dao.save(existed);
+			this.dao.saveOrUpdate(existed);
+			id = existed.getId();
 		}
 		
 		return this.getById(id);
