@@ -16,4 +16,9 @@ public interface OutboundCommand {
 	 * 删除消息
 	 */
 	String DEL_MSG = "dm";
+	
+	/**
+	 * 错误提示，比如：向自己发消息，向已经离线的人发私聊消息
+	 */
+	String ERROR_MSG ="err";
 }

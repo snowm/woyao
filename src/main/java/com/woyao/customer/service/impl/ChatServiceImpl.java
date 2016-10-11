@@ -33,6 +33,7 @@ import com.woyao.customer.dto.ChatRoomDTO;
 import com.woyao.customer.dto.ChatterDTO;
 import com.woyao.customer.dto.MsgProductDTO;
 import com.woyao.customer.dto.chat.BlockDTO;
+import com.woyao.customer.dto.chat.ErrorOutbound;
 import com.woyao.customer.dto.chat.InMsg;
 import com.woyao.customer.dto.chat.Inbound;
 import com.woyao.customer.dto.chat.MsgQueryRequest;
@@ -87,6 +88,16 @@ public class ChatServiceImpl implements IChatService {
 		if (inMsg == null) {
 			return;
 		}
+		ChatterDTO sender = SessionUtils.getChatter(wsSession);
+		if (sender.getId().equals(inMsg.getTo())) {
+			ErrorOutbound error = new ErrorOutbound("不能给自己发消息！");
+			try {
+				error.send(wsSession);
+			} catch (IOException e) {
+				log.error("Send error message failure!", e);
+			}
+			return;
+		}
 		// Received the whole message
 		StringBuilder sb = new StringBuilder();
 		for (BlockDTO block : inMsg.getBlocks()) {
@@ -113,7 +124,6 @@ public class ChatServiceImpl implements IChatService {
 				}
 			}
 			Long chatRoomId = SessionUtils.getChatRoomId(wsSession);
-			ChatterDTO sender = SessionUtils.getChatter(wsSession);
 			long id = this.saveMsg(inMsg, sender.getId(), chatRoomId);
 
 			OutMsgDTO outMsg = new OutMsgDTO();
@@ -123,7 +133,7 @@ public class ChatServiceImpl implements IChatService {
 			outMsg.setPic(inMsg.getPic());
 			outMsg.setCommand(OutboundCommand.SEND_MSG);
 			outMsg.setDuration(0);
-			outMsg.setPrivacy(inMsg.getTo() == null);
+			outMsg.setPrivacy(inMsg.getTo() != null);
 			this.sendOutMsg(outMsg, inMsg.getTo(), chatRoomId, wsSession);
 		} catch (IOException e) {
 			log.error("Process message failure!", e);
@@ -151,6 +161,14 @@ public class ChatServiceImpl implements IChatService {
 			targetSessions = this.getAllRoomChatterSessions(chatRoomId);
 		} else {
 			targetSessions = this.getTargetChatterSessions(to);
+			if (targetSessions == null || targetSessions.isEmpty()) {
+				ErrorOutbound error = new ErrorOutbound("对方已经下线！");
+				try {
+					error.send(wsSession);
+				} catch (IOException e) {
+					log.error("Send error message failure!", e);
+				}
+			}
 		}
 		if (targetSessions == null) {
 			targetSessions = new HashSet<>();
@@ -230,10 +248,8 @@ public class ChatServiceImpl implements IChatService {
 		}
 		Long selfChatterId = request.getSelfChatterId();
 		if (request.getWithChatterId() != null) {
-			Criterion to = Restrictions.and(Restrictions.eq("from", selfChatterId),
-					Restrictions.eq("to", request.getWithChatterId()));
-			Criterion from = Restrictions.and(Restrictions.eq("to", selfChatterId),
-					Restrictions.eq("from", request.getWithChatterId()));
+			Criterion to = Restrictions.and(Restrictions.eq("from", selfChatterId), Restrictions.eq("to", request.getWithChatterId()));
+			Criterion from = Restrictions.and(Restrictions.eq("to", selfChatterId), Restrictions.eq("from", request.getWithChatterId()));
 			criterions.add(Restrictions.or(to, from));
 		} else {
 			ChatRoomDTO room = this.mobileService.getChatRoom(request.getShopId());

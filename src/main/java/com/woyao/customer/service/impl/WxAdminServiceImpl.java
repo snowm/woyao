@@ -54,6 +54,7 @@ public class WxAdminServiceImpl implements IWxAdminService{
 		dto.setOpenid("openId");
 		return dto;
 	}
+	
 	/**
 	 * 获取随机数
 	 * */
