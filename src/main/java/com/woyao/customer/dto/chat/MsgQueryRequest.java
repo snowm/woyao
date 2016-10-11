@@ -1,12 +1,15 @@
 package com.woyao.customer.dto.chat;
 
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 public class MsgQueryRequest {
 
 	private Long minId;
 	private Long maxId;
-	private int pageSize;
+	private Integer pageSize = 20;
 
-	private Long shopId;
+	private Long chatRoomId;
 	private Long selfChatterId;
 	private Long withChatterId;
 
@@ -26,20 +29,24 @@ public class MsgQueryRequest {
 		this.maxId = maxId;
 	}
 
-	public int getPageSize() {
+	public Integer getPageSize() {
 		return pageSize;
 	}
 
-	public void setPageSize(int pageSize) {
-		this.pageSize = pageSize;
+	public void setPageSize(Integer pageSize) {
+		if (pageSize == null || pageSize < 0) {
+			this.pageSize = 20;
+		} else {
+			this.pageSize = pageSize;
+		}
 	}
 
-	public Long getShopId() {
-		return shopId;
+	public Long getChatRoomId() {
+		return chatRoomId;
 	}
 
-	public void setShopId(Long shopId) {
-		this.shopId = shopId;
+	public void setChatRoomId(Long chatRoomId) {
+		this.chatRoomId = chatRoomId;
 	}
 
 	public Long getSelfChatterId() {
@@ -60,11 +67,6 @@ public class MsgQueryRequest {
 
 	@Override
 	public String toString() {
-		return "MsgQueryRequest [minId=" + minId + ", maxId=" + maxId
-				+ ", pageSize=" + pageSize + ", shopId=" + shopId
-				+ ", selfChatterId=" + selfChatterId + ", withChatterId="
-				+ withChatterId + "]";
+		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
 	}
-
-	
 }

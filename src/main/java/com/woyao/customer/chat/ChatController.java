@@ -48,7 +48,7 @@ public class ChatController {
 		} else {
 			String realPath = request.getSession().getServletContext().getRealPath("/upload");
 			try {
-				String url = ChatUtils.savePic(upFile.getInputStream());
+				String url = UploadUtils.savePic(upFile.getInputStream());
 				result.setInfoMsg("Upload successfully!");
 				PicDTO dto = new PicDTO();
 				dto.setPath(realPath);

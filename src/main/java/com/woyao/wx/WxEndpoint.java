@@ -9,7 +9,7 @@ import javax.ws.rs.core.Response;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.woyao.JsonUtils;
+import com.woyao.utils.JsonUtils;
 import com.woyao.wx.dto.ErrorResponse;
 import com.woyao.wx.dto.GetAccessTokenResponse;
 import com.woyao.wx.dto.GetGlobalAccessTokenResponse;

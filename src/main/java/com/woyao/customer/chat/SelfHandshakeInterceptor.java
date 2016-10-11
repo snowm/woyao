@@ -2,7 +2,6 @@ package com.woyao.customer.chat;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.locks.ReentrantLock;
 
 import javax.servlet.http.HttpSession;
@@ -15,7 +14,6 @@ import org.springframework.http.server.ServletServerHttpRequest;
 import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor;
 
-import com.snowm.security.profile.domain.Gender;
 import com.woyao.customer.dto.ChatterDTO;
 import com.woyao.customer.dto.chat.InMsg;
 
@@ -56,20 +54,6 @@ public class SelfHandshakeInterceptor extends HttpSessionHandshakeInterceptor {
 		attributes.put(SessionContainer.SESSION_ATTR_MSG_CACHE, new HashMap<Long, InMsg>());
 		log.debug("Before Handshake:" + rs);
 		return rs;
-	}
-
-	private AtomicLong idGenerator = new AtomicLong();
-
-	private ChatterDTO generateDTO() {
-		long id = idGenerator.incrementAndGet();
-		ChatterDTO dto = new ChatterDTO();
-		dto.setId(id);
-		dto.setNickname("nickname" + id);
-		dto.setCity("city" + id);
-		dto.setCountry("country" + id);
-		dto.setHeadImg("/pic/head/" + ((id % 4) + 1) + ".jpg");
-		dto.setGender(Gender.FEMALE);
-		return dto;
 	}
 
 	private HttpSession getSession(ServerHttpRequest request) {

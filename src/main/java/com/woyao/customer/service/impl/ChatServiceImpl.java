@@ -2,7 +2,6 @@ package com.woyao.customer.service.impl;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -11,6 +10,7 @@ import java.util.concurrent.locks.Lock;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -24,12 +24,10 @@ import org.springframework.web.socket.WebSocketSession;
 
 import com.snowm.security.profile.domain.Gender;
 import com.snowm.utils.query.PaginationBean;
-import com.woyao.JsonUtils;
-import com.woyao.customer.chat.ChatUtils;
+import com.woyao.customer.chat.UploadUtils;
 import com.woyao.customer.chat.MessageCacheOperator;
 import com.woyao.customer.chat.SessionContainer;
 import com.woyao.customer.chat.SessionUtils;
-import com.woyao.customer.dto.ChatRoomDTO;
 import com.woyao.customer.dto.ChatterDTO;
 import com.woyao.customer.dto.MsgProductDTO;
 import com.woyao.customer.dto.chat.BlockDTO;
@@ -46,6 +44,7 @@ import com.woyao.customer.service.IProductService;
 import com.woyao.dao.CommonDao;
 import com.woyao.domain.chat.ChatMsg;
 import com.woyao.domain.profile.ProfileWX;
+import com.woyao.utils.JsonUtils;
 import com.woyao.utils.PaginationUtils;
 
 @Component("chatService")
@@ -109,7 +108,7 @@ public class ChatServiceImpl implements IChatService {
 
 			String base64PicString = tmpMsg.getPic();
 			if (!StringUtils.isBlank(base64PicString)) {
-				String path = "/pic/" + ChatUtils.savePic(base64PicString);
+				String path = "/pic/" + UploadUtils.savePic(base64PicString);
 				if (log.isDebugEnabled()) {
 					log.debug("saved pic:" + path);
 				}
@@ -119,7 +118,7 @@ public class ChatServiceImpl implements IChatService {
 			Long msgProductId = inMsg.getProductId();
 			if (msgProductId != null) {
 				MsgProductDTO msgProductDTO = this.productService.getMsgProduct(msgProductId);
-				if (msgProductDTO == null) {
+				if (msgProductDTO != null) {
 
 				}
 			}
@@ -131,7 +130,7 @@ public class ChatServiceImpl implements IChatService {
 			outMsg.setSender(sender);
 			outMsg.setText(inMsg.getText());
 			outMsg.setPic(inMsg.getPic());
-			outMsg.setCommand(OutboundCommand.SEND_MSG);
+			outMsg.setCommand(OutboundCommand.ACCEPT_MSG);
 			outMsg.setDuration(0);
 			outMsg.setPrivacy(inMsg.getTo() != null);
 			this.sendOutMsg(outMsg, inMsg.getTo(), chatRoomId, wsSession);
@@ -155,25 +154,32 @@ public class ChatServiceImpl implements IChatService {
 		return m.getId();
 	}
 
+	@Override
 	public void sendOutMsg(Outbound outbound, Long to, Long chatRoomId, WebSocketSession wsSession) {
 		Set<WebSocketSession> targetSessions = null;
+		// 群聊消息
+		ErrorOutbound error = null;
 		if (to == null && chatRoomId != null) {
 			targetSessions = this.getAllRoomChatterSessions(chatRoomId);
+			if (CollectionUtils.isEmpty(targetSessions)) {
+				error = new ErrorOutbound("聊天室是空的！");
+				log.debug("聊天室是空的！");
+			}
 		} else {
 			targetSessions = this.getTargetChatterSessions(to);
-			if (targetSessions == null || targetSessions.isEmpty()) {
-				ErrorOutbound error = new ErrorOutbound("对方已经下线！");
-				try {
-					error.send(wsSession);
-				} catch (IOException e) {
-					log.error("Send error message failure!", e);
-				}
+			if (CollectionUtils.isEmpty(targetSessions)) {
+				error = new ErrorOutbound("对方已经下线！");
 			}
 		}
-		if (targetSessions == null) {
-			targetSessions = new HashSet<>();
+		try {
+			if (error != null) {
+				error.send(wsSession);
+				return;
+			}
+		} catch (IOException e) {
+			log.error("Send error message failure!", e);
+			return;
 		}
-		targetSessions.remove(wsSession);
 		for (WebSocketSession session : targetSessions) {
 			try {
 				outbound.send(session);
@@ -198,7 +204,8 @@ public class ChatServiceImpl implements IChatService {
 		return dto;
 	}
 
-	private ChatterDTO getChatterFromDB(long chatterId) {
+	@Override
+	public ChatterDTO getChatterFromDB(long chatterId) {
 		ProfileWX profile = this.dao.get(ProfileWX.class, chatterId);
 		ChatterDTO dto = new ChatterDTO();
 		BeanUtils.copyProperties(profile, dto);
@@ -206,14 +213,21 @@ public class ChatServiceImpl implements IChatService {
 	}
 
 	@Override
-	public PaginationBean<ChatterDTO> listOnlineChatters(long chatRoomId, Gender gender, long pageNumber, int pageSize) {
+	public PaginationBean<ChatterDTO> listOnlineChatters(Long selfChatterId, long chatRoomId, Gender gender, long pageNumber,
+			int pageSize) {
 		Set<WebSocketSession> wsSessions = this.sessionContainer.getWsSessionOfRoom(chatRoomId);
 		List<ChatterDTO> dtos = new ArrayList<>();
 		if (wsSessions != null && !wsSessions.isEmpty()) {
 			for (WebSocketSession wsSession : wsSessions) {
 				ChatterDTO chatter = SessionUtils.getChatter(wsSession);
 				if (gender == null || chatter.getGender() == gender) {
-					dtos.add(chatter);
+					if (chatter.getId().equals(selfChatterId)) {
+						ChatterDTO tmpChatter = new ChatterDTO();
+						BeanUtils.copyProperties(chatter, tmpChatter);
+						dtos.add(tmpChatter);
+					} else {
+						dtos.add(chatter);
+					}
 				}
 			}
 		}
@@ -231,29 +245,35 @@ public class ChatServiceImpl implements IChatService {
 	}
 
 	@Override
-	public List<OutMsgDTO> listMsg(MsgQueryRequest request) {
-		System.out.println(request.toString());
+	public List<OutMsgDTO> listHistoryMsg(MsgQueryRequest request) {
+		// 如果max和min都为空，那么默认就设置最大的为-1，那么后面的取值就是order的降序
+		if (request.getMaxId() == null && request.getMinId() == null) {
+			request.setMaxId(-1L);
+		}
 		List<Criterion> criterions = new ArrayList<>();
 		List<Order> orders = new ArrayList<>();
-		if (request.getMaxId() != null) {
-			if (request.getMaxId() > 0) {
-				criterions.add(Restrictions.lt("id", request.getMaxId()));
+		Long maxId = request.getMaxId();
+		if (maxId != null) {
+			if (maxId > 0) {
+				criterions.add(Restrictions.lt("id", maxId));
 			}
 			orders.add(Order.desc("id"));
-		} else if (request.getMinId() != null) {
-			if (request.getMinId() > 0) {
-				criterions.add(Restrictions.gt("id", request.getMinId()));
+		} else {
+			Long minId = request.getMinId();
+			if (minId > 0) {
+				criterions.add(Restrictions.gt("id", minId));
 			}
 			orders.add(Order.asc("id"));
 		}
 		Long selfChatterId = request.getSelfChatterId();
-		if (request.getWithChatterId() != null) {
-			Criterion to = Restrictions.and(Restrictions.eq("from", selfChatterId), Restrictions.eq("to", request.getWithChatterId()));
-			Criterion from = Restrictions.and(Restrictions.eq("to", selfChatterId), Restrictions.eq("from", request.getWithChatterId()));
+		Long withChatterId = request.getWithChatterId();
+		// 如果withChatterId不为空，表明要查询和该用户的私聊消息历史记录
+		if (withChatterId != null) {
+			Criterion to = Restrictions.and(Restrictions.eq("from", selfChatterId), Restrictions.eq("to", withChatterId));
+			Criterion from = Restrictions.and(Restrictions.eq("to", selfChatterId), Restrictions.eq("from", withChatterId));
 			criterions.add(Restrictions.or(to, from));
 		} else {
-			ChatRoomDTO room = this.mobileService.getChatRoom(request.getShopId());
-			criterions.add(Restrictions.eq("chatRoomId", room.getId()));
+			criterions.add(Restrictions.eq("chatRoomId", request.getChatRoomId()));
 		}
 		List<ChatMsg> result = this.dao.query(ChatMsg.class, criterions, orders, 1L, request.getPageSize());
 		List<OutMsgDTO> dtos = new ArrayList<>();
@@ -263,12 +283,22 @@ public class ChatServiceImpl implements IChatService {
 			dto.setPic(e.getPicURL());
 			dto.setText(e.getText());
 			ChatterDTO sender = this.getChatter(e.getFrom());
+			// 如果没找到sender，忽略此条消息
+			if (sender == null) {
+				if (log.isDebugEnabled()) {
+					log.debug(String.format("用户%s丢失！", e.getFrom()));
+				}
+				continue;
+			}
 			dto.setSender(sender);
+			// 如果本聊天者不是消息的发送者，那么表明这是自己收到的别人发的消息，反之就是自己发出的消息
 			if (!selfChatterId.equals(e.getFrom())) {
-				dto.setCommand(OutboundCommand.SEND_MSG);
+				dto.setCommand(OutboundCommand.ACCEPT_MSG);
 			} else {
+				// 自己发出的消息返回通知
 				dto.setCommand(OutboundCommand.SEND_MSG_ACK);
 			}
+			// 如果本聊天者就是消息的发送目标，那么表明这是个别人发给自己的私聊消息
 			if (selfChatterId.equals(e.getTo())) {
 				dto.setPrivacy(true);
 			}

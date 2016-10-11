@@ -3,8 +3,8 @@ package com.woyao.customer;
 import org.junit.Test;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.woyao.JsonUtils;
 import com.woyao.customer.dto.chat.OutMsgDTO;
+import com.woyao.utils.JsonUtils;
 
 public class TestJson {
 

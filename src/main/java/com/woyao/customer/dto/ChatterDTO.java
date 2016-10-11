@@ -13,6 +13,8 @@ public class ChatterDTO implements Serializable {
 
 	private Long id;
 
+	private boolean self;
+
 	private Long chatRoomId;
 
 	private String openId;
@@ -50,6 +52,14 @@ public class ChatterDTO implements Serializable {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public boolean isSelf() {
+		return self;
+	}
+
+	public void setSelf(boolean self) {
+		this.self = self;
 	}
 
 	public Long getChatRoomId() {

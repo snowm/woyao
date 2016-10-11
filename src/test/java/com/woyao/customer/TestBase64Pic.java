@@ -5,7 +5,7 @@ import java.io.IOException;
 import org.junit.Test;
 import org.springframework.util.Base64Utils;
 
-import com.woyao.customer.chat.ChatUtils;
+import com.woyao.customer.chat.UploadUtils;
 
 public class TestBase64Pic {
 
@@ -127,6 +127,6 @@ public class TestBase64Pic {
 		System.out.println(prefix.length());
 
 		// byte[] bytes = Base64Utils.decodeFromString(base64String);
-		ChatUtils.savePic(prefix + base64String);
+		UploadUtils.savePic(prefix + base64String);
 	}
 }

@@ -1,5 +1,7 @@
 package com.woyao.domain.wx;
 
+import java.util.Date;
+
 import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -28,6 +30,9 @@ public class UserAccessToken extends DefaultModelImpl {
 	@GeneratedValue(strategy = GenerationType.TABLE, generator = "userAccessTokenGenerator")
 	private Long id;
 
+	@Column(name = "PROFILE_WX_ID", nullable = false, unique = true)
+	private long profileWXId;
+
 	@Column(name = "TOKEN", nullable = false, length = 1000)
 	private String accessToken;
 
@@ -37,11 +42,14 @@ public class UserAccessToken extends DefaultModelImpl {
 	@Column(name = "REFRESH_TOKEN", nullable = false)
 	private String refreshToken;
 
-	@Column(name = "OPEN_ID", nullable = false)
+	@Column(name = "OPEN_ID", nullable = false, unique = true)
 	private String openid;
 
 	@Column(name = "SCOPE", nullable = false)
 	private String scope;
+
+	@Column(name = "EFFECTIVE")
+	private boolean effective = true;
 
 	@Override
 	public Long getId() {
@@ -51,6 +59,14 @@ public class UserAccessToken extends DefaultModelImpl {
 	@Override
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public long getProfileWXId() {
+		return profileWXId;
+	}
+
+	public void setProfileWXId(long profileWXId) {
+		this.profileWXId = profileWXId;
 	}
 
 	public String getAccessToken() {
@@ -93,4 +109,23 @@ public class UserAccessToken extends DefaultModelImpl {
 		this.scope = scope;
 	}
 
+	public boolean isEffective() {
+		return effective;
+	}
+
+	public void setEffective(boolean effective) {
+		this.effective = effective;
+	}
+
+	public boolean isExpired() {
+		long remainExpiringTime = this.getRemainExpiringTime();
+		return remainExpiringTime <= 120;
+	}
+
+	public long getRemainExpiringTime() {
+		long expiresIn = this.getExpiresIn();
+		Date lastModifedDate = this.getModification().getLastModifiedDate();
+		long durationTime = (System.currentTimeMillis() - lastModifedDate.getTime()) / 1000L;
+		return expiresIn - durationTime;
+	}
 }

@@ -14,6 +14,6 @@ public class WxJerseyApplication extends ResourceConfig{
 		Logger logger = new Log4jLogger("JerseyServerLogging", null);
 		LoggingFeature loggingFeature = new LoggingFeature(logger);
 		this.register(loggingFeature);
-		this.register(WxService.class);
+		this.register(WxJerseyService.class);
 	}
 }

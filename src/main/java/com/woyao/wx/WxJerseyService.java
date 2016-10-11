@@ -26,7 +26,7 @@ import com.woyao.wx.dto.TestXMLObj;
 
 @Component
 @Path("/")
-public class WxService {
+public class WxJerseyService {
 
 	private Log log = LogFactory.getLog(this.getClass());
 

@@ -74,16 +74,14 @@ public class GlobalAccessToken extends DefaultModelImpl {
 	}
 
 	public boolean isExpired() {
-		long expiresIn = this.getExpiresIn();
-		Date lastModifedDate = this.getModification().getLastModifiedDate();
-		long durationTime = (lastModifedDate.getTime() - System.currentTimeMillis()) / 1000L;
-		return durationTime >= expiresIn;
+		long remainExpiringTime = this.getRemainExpiringTime();
+		return remainExpiringTime <= 120;
 	}
 
 	public long getRemainExpiringTime() {
 		long expiresIn = this.getExpiresIn();
 		Date lastModifedDate = this.getModification().getLastModifiedDate();
-		long durationTime = (lastModifedDate.getTime() - System.currentTimeMillis()) / 1000L;
+		long durationTime = (System.currentTimeMillis() - lastModifedDate.getTime()) / 1000L;
 		return expiresIn - durationTime;
 	}
 }

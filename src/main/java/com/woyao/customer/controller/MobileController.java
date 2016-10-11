@@ -12,7 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.snowm.utils.query.PaginationBean;
@@ -64,11 +63,6 @@ public class MobileController {
 		return "mobile/chatRoom";
 	}
 
-	@RequestMapping(value = { "/privacyChat" })
-	public String privacyChat(@RequestParam("toId") Long toId) {
-		return "mobile/privacyChat";
-	}
-
 	@RequestMapping(value = { "/shopList" }, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
 	public PaginationBean<ShopDTO> findShop(ShopPaginationQueryRequest request, HttpServletRequest httpRequest) {
@@ -82,20 +76,24 @@ public class MobileController {
 	@RequestMapping(value = { "/chat/chatterList" }, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
 	public PaginationBean<ChatterDTO> listChatter(ChatterQueryRequest request, HttpServletRequest httpRequest) {
-		Long chatRoomId = SessionUtils.getChatRoomId(httpRequest.getSession());
-		PaginationBean<ChatterDTO> rs = this.chatService.listOnlineChatters(chatRoomId, request.getGender(), request.getPageNumber(),
-				request.getPageSize());
-		rs.getPageNumber();
+		HttpSession session = httpRequest.getSession();
+		Long chatRoomId = SessionUtils.getChatRoomId(session);
+		Long chatterId = SessionUtils.getChatterId(session);
+
+		PaginationBean<ChatterDTO> rs = this.chatService.listOnlineChatters(chatterId, chatRoomId, request.getGender(),
+				request.getPageNumber(), request.getPageSize());
 		return rs;
 	}
 
 	@RequestMapping(value = { "/chat/richerList" }, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
 	public PaginationBean<RicherDTO> listRicher(ChatterQueryRequest request, HttpServletRequest httpRequest) {
-		Long chatRoomId = SessionUtils.getChatRoomId(httpRequest.getSession());
+		HttpSession session = httpRequest.getSession();
+		Long chatRoomId = SessionUtils.getChatRoomId(session);
+		Long chatterId = SessionUtils.getChatterId(session);
 
-		PaginationBean<ChatterDTO> rs = this.chatService.listOnlineChatters(chatRoomId, request.getGender(), request.getPageNumber(),
-				request.getPageSize());
+		PaginationBean<ChatterDTO> rs = this.chatService.listOnlineChatters(chatterId, chatRoomId, request.getGender(),
+				request.getPageNumber(), request.getPageSize());
 		rs.getPageNumber();
 		PaginationBean<RicherDTO> pb = new PaginationBean<>();
 		pb.setPageNumber(rs.getPageNumber());
@@ -132,13 +130,11 @@ public class MobileController {
 
 	@RequestMapping(value = { "/chat/listMsg" }, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
-	public List<OutMsgDTO> listMsg(MsgQueryRequest request, HttpServletRequest httpRequest) {
-		String format = "pageSize:%s,withChatterId:%s,maxId:%s";
-		System.out.println(String.format(format, request.getPageSize(), request.getWithChatterId(), request.getMaxId()));
-		Long shopId = SessionUtils.getShopId(httpRequest.getSession());
+	public List<OutMsgDTO> listHistoryMsg(MsgQueryRequest request, HttpServletRequest httpRequest) {
+		Long chatRoomId = SessionUtils.getChatRoomId(httpRequest.getSession());
 		Long chatterId = SessionUtils.getChatterId(httpRequest.getSession());
-		request.setShopId(shopId);
+		request.setChatRoomId(chatRoomId);
 		request.setSelfChatterId(chatterId);
-		return this.chatService.listMsg(request);
+		return this.chatService.listHistoryMsg(request);
 	}
 }

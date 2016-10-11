@@ -5,7 +5,7 @@ import java.io.IOException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.woyao.JsonUtils;
+import com.woyao.utils.JsonUtils;
 
 public abstract class Inbound {
 

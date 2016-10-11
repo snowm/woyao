@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class GetUserInfoResponse {
 
 	@JsonProperty("openid")
-	private String openid;
+	private String openId;
 
 	@JsonProperty("nickname")
 	private String nickname;
@@ -36,12 +36,12 @@ public class GetUserInfoResponse {
 	@JsonProperty("unionid")
 	private String unionid;
 
-	public String getOpenid() {
-		return openid;
+	public String getOpenId() {
+		return openId;
 	}
 
-	public void setOpenid(String openid) {
-		this.openid = openid;
+	public void setOpenId(String openId) {
+		this.openId = openId;
 	}
 
 	public String getNickname() {

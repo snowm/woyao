@@ -6,7 +6,7 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.woyao.JsonUtils;
+import com.woyao.utils.JsonUtils;
 
 public abstract class Outbound {
 

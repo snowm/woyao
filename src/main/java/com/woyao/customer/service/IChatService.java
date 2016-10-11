@@ -56,7 +56,14 @@ public interface IChatService {
 	 * 
 	 * @return
 	 */
-	PaginationBean<ChatterDTO> listOnlineChatters(long chatRoomId, Gender gender, long pageNumber, int pageSize);
+	PaginationBean<ChatterDTO> listOnlineChatters(Long selfChatterId, long chatRoomId, Gender gender, long pageNumber, int pageSize);
 	
-	List<OutMsgDTO> listMsg(MsgQueryRequest request);
+	/**
+	 * 获取历史消息
+	 * @param request
+	 * @return
+	 */
+	List<OutMsgDTO> listHistoryMsg(MsgQueryRequest request);
+
+	ChatterDTO getChatterFromDB(long chatterId);
 }

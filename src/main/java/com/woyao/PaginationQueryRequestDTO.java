@@ -19,7 +19,11 @@ public class PaginationQueryRequestDTO implements Serializable {
 	}
 
 	public void setPageNumber(Long pageNumber) {
-		this.pageNumber = pageNumber;
+		if (pageNumber == null || pageNumber < 0) {
+			this.pageNumber = 1L;
+		} else {
+			this.pageNumber = pageNumber;
+		}
 	}
 
 	public Integer getPageSize() {
@@ -27,7 +31,11 @@ public class PaginationQueryRequestDTO implements Serializable {
 	}
 
 	public void setPageSize(Integer pageSize) {
-		this.pageSize = pageSize;
+		if (pageSize == null || pageSize < 0) {
+			this.pageSize = 20;
+		} else {
+			this.pageSize = pageSize;
+		}
 	}
 
 	@Override

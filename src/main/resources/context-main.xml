@@ -21,6 +21,7 @@
         <property name="locations">
             <list>
                 <value>classpath:dev-datasource.properties</value>
+                <value>classpath:dev-filesystem.properties</value>
                 <value>classpath:hibernate.properties</value>
             </list>
         </property>

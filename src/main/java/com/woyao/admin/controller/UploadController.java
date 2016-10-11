@@ -22,7 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.snowm.security.web.json.JsonResultBaseObject;
 import com.woyao.admin.dto.product.PicDTO;
 import com.woyao.admin.service.IPicAdminService;
-import com.woyao.customer.chat.ChatUtils;
+import com.woyao.customer.chat.UploadUtils;
 
 @Controller
 @RequestMapping("/admin/upload")
@@ -75,7 +75,7 @@ public class UploadController {
 	}
 
 	private String generatePicFileName(String rootPath, String postfix) {
-		String dateDir = ChatUtils.DF.format(new Date());
+		String dateDir = UploadUtils.DF.format(new Date());
 		File d = new File(rootPath, dateDir);
 		if (!d.exists()) {
 			d.mkdirs();

@@ -16,14 +16,14 @@ import java.util.UUID;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public abstract class ChatUtils {
+public abstract class UploadUtils {
 
 	public static final String DT_PATTERN = "yyyyMMdd";
 	public static final DateFormat DF = new SimpleDateFormat(DT_PATTERN);
 
-	private static final Log log = LogFactory.getLog(ChatUtils.class);
+	private static final Log log = LogFactory.getLog(UploadUtils.class);
 
-	private static final String PIC_ROOT_PATH = "src/main/webapp" + File.separator + "upload";
+	private static final String PIC_ROOT_PATH = "src/main/webapp/upload";
 	private static File root;
 
 	static {
