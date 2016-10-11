@@ -9,7 +9,7 @@ require.config({
         'mmHistory': './js/plugin/mmHistory',
         'mmRouter': './js/plugin/mmRouter',
         'text': ['./js/plugin/require/text'],
-        'domReady': './js/plugin/domReady',
+        'domReady': './js/plugin/domReady', 
         'jquery': ['./js/plugin/jquery-1.11.1.min'],
         'jquery.cookies': ['./js/plugin/jquery.cookies'],
         'jquery-ui': ['./js/plugin/jquery-ui-1.10.3.min'],
@@ -33,7 +33,7 @@ require.config({
         "bootstrap":["jquery"],
         "uploadfile":["jquery"],
         "datapicker":["jquery"],
-        "datapicker.cn":["jquery"]
+        "datapicker.cn":["jquery"] 
     },
     priority: ['text']
 });

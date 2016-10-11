@@ -37,7 +37,7 @@ define(['jquery','datapicker','datapicker.cn'],function($){
     			chatController.freeDate.shopId = id;
     			chatController.freeDate.name=name;
     			chatController.shopList=[];
-    		},
+    		}, 
     		
     		btnChat:function(){     			
     			chatController.chat=true;    			

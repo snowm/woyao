@@ -16,7 +16,7 @@ define(['uploadfile'],function(){
     	    	deleted:false,
     	    	pageNumber:1,
     	    	pageSize:7,
-    	    },
+    	    }, 
     	    formData:{
     	    	name:'',
     	    	address:'',

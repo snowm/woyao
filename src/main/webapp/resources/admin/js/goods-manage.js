@@ -265,7 +265,7 @@ define(['uploadfile'],function(){
  	    	}else if(page == "nextPage"){
  	    		if(goodsController.goodsDate.pageNumber == goodsController.totlePage){
  	    			alert("已是最后一页");
- 	    			return;
+ 	    			return; 
  	    		}
  	    		goodsController.goodsDate.pageNumber++;
  	    	} 	    	
