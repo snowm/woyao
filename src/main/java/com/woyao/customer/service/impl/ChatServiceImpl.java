@@ -318,7 +318,9 @@ public class ChatServiceImpl implements IChatService {
 		for (ChatMsg chatMsg : chatMsgs) {
 			ChatPicDTO dto=new ChatPicDTO();
 			if(chatMsgs!=null &&chatMsg.getTo()!=null){
-				dto.setPicUrl(chatMsg.getPicURL());
+				if(chatMsg.getPicURL()!=null && !chatMsg.getPicURL().isEmpty()){
+					dto.setPicUrl(chatMsg.getPicURL());
+				}				
 			}
 			dtos.add(dto);
 		}
