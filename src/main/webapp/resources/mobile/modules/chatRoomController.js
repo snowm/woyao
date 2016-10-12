@@ -93,7 +93,7 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"domReady!",
         },
         showPopSend:function(){ // 显示发送提交面板
             mainController.goodsType = {};
-            mainController.msgType = '';
+            mainController.msgType = '0';
             mainController.tabShowFlag = false;
 
             mainController.popshow = true;
@@ -127,7 +127,7 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"domReady!",
                 mainController.goodsType = {};
                 mainController.tabShowFlag = false;
             }else{
-                mainController.msgType = '';
+                mainController.msgType = '0';
                 mainController.tabShowFlag = true;
             }
             mainController.payCount = 0;
@@ -138,6 +138,7 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"domReady!",
         showPhotoWall:function(user){
             if(mainController.isShowPhoto){
                 $(".pop-photoWall").css('display','none');
+            	mainController.photoLists = [];
                 mainController.isShowPhoto = false;
                 setTimeout(function(){
                     mainController.popshow = false;
@@ -147,9 +148,8 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"domReady!",
                 mainController.popshow = true;
                 $(".pop-photoWall").css('display','block');
                 setTimeout(function(){
-                    mainController.isShowPhoto = true;
-                    showPhoto();
-                },10)
+                    showPhoto(user.$model.headImg,user.$model.id);
+                },100)
             }
         },
         userList:function(){
@@ -173,6 +173,7 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"domReady!",
         msgType: '0',//霸屏消息类型
         msgText:'', //文字内容
         imgUrl:'', //发送图片 base64
+        pageDownBtn: false,
         sendMsg:function(){
             var productsId = '';
             if(!mainController.tabShowFlag){
@@ -308,7 +309,19 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"domReady!",
                     mainController.payCount = item.unitPrice;
                 }
             })
-        }
+        },
+        pageDown:function(){
+        	$(".msg-block-contain").animate({scrollTop:$(".msg-block-container").height() - $(".msg-block-contain").height() + 100},100,'swing');
+    		mainController.pageDownBtn = false;
+        },
+        queryHistoryInfo:{
+        	 withChatterId:'', 
+             minId:'',
+             maxId:-1,
+             pageSize:8,
+        },
+        queryHistoryIng:false,
+        photoLists:[], // 照片墙
     });
 
 
@@ -334,11 +347,15 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"domReady!",
         return !0
     }
 
-    mainController.$watch("msgList", function(v) {
-        $(".msg-block-contain").animate({scrollTop:$(".msg-block-container").height() -  $(".msg-block-contain").height() + 100},500,'swing');
-    })
-
-
+    
+//    mainController.$watch("msgList", function(v) {
+//    	if($(".msg-block-container").height() - $(".msg-block-contain").height() - $(".msg-block-contain").scrollTop() < 600){
+//    		$(".msg-block-contain").animate({scrollTop:$(".msg-block-container").height() -  $(".msg-block-contain").height() + 100},100,'swing');
+//    		mainController.pageDownBtn = false;
+//    	}else{
+//    		mainController.pageDownBtn = true;
+//    	}
+//    })
 
     /*  图片压缩 上传 */
     //    用于压缩图片的canvas
@@ -414,46 +431,7 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"domReady!",
     function init(){
         mainController.msgList = avalon.vmodels.rootController._publicMsg;
 
-
         main_socket = socket;
-//    	main_socket.onmessage = function(message) {
-//            var msg = JSON.parse(message.data);
-//            console.log("get masage:");
-//            console.log(msg);
-//            msg.text = replace_em(msg.text);
-//            
-//            if(!msg.privacy){
-//            	avalon.vmodels.rootController.privacyMsg.push(msg);
-//            	mainController.pMsgCount = avalon.vmodels.rootController.privacyMsg.length;
-//            	return;
-//            }
-//            
-//            
-//            mainController.msgList.push(msg);
-//
-//            $(".msg-block-contain").animate({scrollTop:$(".msg-block-container").height() -  $(".msg-block-contain").height() + 100},500,'swing');
-
-//            var seconds = msg.msgType*1000;
-//            if(seconds != 0){
-//                mainController.sreenShow = true;
-//                mainController.sreenImg = text.imgUrl;
-//                mainController.sreenMsg = text.msg;
-//                mainController.sreenTime = text.msgType;
-//                mainController.sreenShowSeconds = seconds/1000;
-//                var fl = '';
-//                fl = setInterval(function(){
-//                    mainController.sreenShowSeconds--;
-//                    if(mainController.sreenShowSeconds == 0){
-//                        clearTimeout(fl);
-//                        mainController.sreenImg = '';
-//                        mainController.sreenMsg = '';
-//                        mainController.sreenTime = '';
-//                        mainController.sreenShow = false;
-//                        return
-//                    }
-//                },1000)
-//            }
-//        }
 
         setTimeout(function(){
             $('.emoji-btn').qqFace({
@@ -462,8 +440,27 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"domReady!",
                 path:'/resources/js/qqface/face/',	//表情存放的路径
                 container:'faceCtn'
             });
+            
+            $(".msg-block-contain").scroll(function() {
+                var $this =$(this),
+                    viewH =$(this).height(),//可见高度
+                    contentH =$(this).get(0).scrollHeight,//内容高度
+                    scrollTop =$(this).scrollTop();//滚动高度
+                if(scrollTop - (contentH - viewH) >= 0){
+                    $(this).scrollTop(contentH - viewH - 1);
+                }
+                if(scrollTop <= 0){
+                    $(this).scrollTop(1);
+                    if(!mainController.queryHistoryIng){
+                    	mainController.queryHistoryIng = true;
+                    	mainController.queryHistoryInfo.maxId = mainController.msgList[0].id;
+                        queryHistoryMsg();
+                    }
+                }
+            });
         },300);
     }
+    
     init();
 
     function queryChatter(){
@@ -482,6 +479,7 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"domReady!",
             dataType: 'json'
         });
     }
+    
     queryChatter();
 
     // 查询消息商品
@@ -501,8 +499,8 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"domReady!",
             }
         });
     }
+    
     queryMsgGoodsData();
-
 
     // 查询商品
     function queryGoodsData(){
@@ -523,27 +521,21 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"domReady!",
     }
     queryGoodsData();
 
-
     function queryHistoryMsg(){
         $.ajax({
             url: "/m/chat/listMsg",
             dataType: "JSON",
-            data:{
-                withChatterId:'', // 私聊对象id
-                minId:'',
-                maxId:-1,
-                pageSize:10,
-            },
+            data: mainController.queryHistoryInfo,
             async: true,
             type: "post",
             success: function(data) {
                 console.log("msg: _____");
                 console.log(data);
-                var msg = data.reverse();
+                var msg = data;
                 for(var i = 0;i < msg.length ; i++){
                     msg[i].text = replace_em(msg[i].text);
                     if(msg[i].privacy){
-                        avalon.vmodels.rootController._privacyMsg.push(msg[i]);
+                        avalon.vmodels.rootController._privacyMsg.unshift(msg[i]);
                         mainController.pMsgCount = 0;
                         for(var j = 0; j < avalon.vmodels.rootController._privacyMsg.$model.length; j++){
                         	if(avalon.vmodels.rootController._privacyMsg.$model[j].command != 'smACK'){
@@ -551,23 +543,34 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"domReady!",
                             }
                         }
                     }else{
-                        avalon.vmodels.rootController._publicMsg.push(msg[i]);
-                        mainController.msgList = avalon.vmodels.rootController._publicMsg;
+                    	avalon.vmodels.rootController._publicMsg.unshift(msg[i]);
+                        mainController.msgList.unshift(msg[i]);
+                        
+                        if($(".msg-block-container").height() - $(".msg-block-contain").height() - $(".msg-block-contain").scrollTop() < 600){
+                    		$(".msg-block-contain").animate({scrollTop:$(".msg-block-container").height() -  $(".msg-block-contain").height() + 200},100,'swing');
+                    		mainController.pageDownBtn = false;
+                    	}else{
+                    		mainController.pageDownBtn = true;
+                    	}
+                        
                     }
                 }
 
-
-
-
-
+                console.log(mainController.msgList);
+                
+                setTimeout(function(){
+                    mainController.queryHistoryIng = false;
+                },800)
             },
             complete: function() {
+            	
             },
             error: function() {
 
             }
         });
     }
+    
     queryHistoryMsg();
 
     // 今日最土豪
@@ -606,15 +609,43 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"domReady!",
 
     queryTopRicher();
 
-
+    
+    
     // init Swiper
-    function showPhoto(){
-        var swiper = new Swiper('.swiper-container',{
-            preventClicks : false,
-            preventLinksPropagation : false,
-            touchRatio : 1,
-            lazyLoading : true,
+    function showPhoto(pic,id){
+    	mainController.photoLists = [];
+    	$.ajax({
+            url: "/m/chat/chatPicList/" + id + "/1/50",
+            dataType: "JSON",
+            async: true,
+            type: "get",
+            success: function(data) {
+            	data.unshift({picUrl:pic})
+            	mainController.photoLists = data;
+
+                mainController.isShowPhoto = true;
+            	setTimeout(function(){
+            		var swiper = new Swiper('.swiper-container',{
+                        preventClicks : false,
+                        preventLinksPropagation : false,
+                        touchRatio : 1,
+                        lazyLoading : true,
+                        observer:true,
+                        pagination: '.swiper-pagination',
+                        paginationType: 'fraction'
+                    });
+            	},500)
+            	
+            	
+            },
+            complete: function() {
+            },
+            error: function() {
+
+            }
         });
+    	
+        
     }
 
 
@@ -643,22 +674,11 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"domReady!",
     var textContain = $(".msg-block-contain");
     var textcontainer = $(".msg-block-container");
 
-    $(".msg-block-contain").bind('scroll',function(){
-        var $this =$(this),
-            viewH =$(this).height(),//可见高度
-            contentH =$(this).get(0).scrollHeight,//内容高度
-            scrollTop =$(this).scrollTop();//滚动高度
-        if(scrollTop - (contentH - viewH) == 0){
-            $(this).scrollTop(contentH - viewH - 1);
-        }
-        if(scrollTop == 0){
-            $(this).scrollTop(1);
-        }
-    })
-
-
+   
+    
     initData();
 
+    
     // 获取初始化数据 滑动到底部
     function initData(){
         var textContain = $(".msg-block-contain");

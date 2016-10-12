@@ -24,7 +24,7 @@ define(['jquery','avalon',"domReady!"], function ($,avalon,domReady) {
         var msg = JSON.parse(message.data);
         console.log("get masage:");
         console.log(msg);
-//        msg.text = replace_em(msg.text);
+        msg.text = replace_em(msg.text);
         
         if(msg.privacy){
         	if(window.location.hash == '#!/privacyChat'){
@@ -39,21 +39,27 @@ define(['jquery','avalon',"domReady!"], function ($,avalon,domReady) {
                 	avalon.vmodels.mainController.pMsgCount++;
             	}
             });
-
         }else{
         	avalon.vmodels.rootController._publicMsg.push(msg);
-        	avalon.vmodels.mainController.msgList = avalon.vmodels.rootController._publicMsg;
+        	avalon.vmodels.mainController.msgList.push(msg);
+        	
+        	if(window.location.hash == '#!/'){
+        		if($(".msg-block-container").height() - $(".msg-block-contain").height() - $(".msg-block-contain").scrollTop() < 600){
+            		$(".msg-block-contain").animate({scrollTop:$(".msg-block-container").height() -  $(".msg-block-contain").height() + 200},100,'swing');
+            		avalon.vmodels.mainController.pageDownBtn = false;
+            	}else{
+            		avalon.vmodels.mainController.pageDownBtn = true;
+            	}
+        	}
+        	
         }
 
     }
     
 
-    
     // 监听Socket的关闭
     socket.onclose = function(event) { 
-    	avalon.vmodels.mainController.tipsShow = true;
-    	avalon.vmodels.mainController.tipsMsg = '网络断开,请刷新页面或重新进入聊天室';
-        console.log("链接断开"); 
+    	avalon.vmodels.rootController.lock = true;
     }; 
     
     

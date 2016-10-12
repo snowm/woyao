@@ -1,13 +1,19 @@
 <div id="richers" ms-controller="richerController">
-<div class="head"><img src="/resources/static/img/richers.gif" alt=""></div>
-<div class="rank">
-    <p class="p" ms-on-tap="richerTab('DAY')" ms-class="bottom:richerType=='DAY'">今日土豪</p>
-    <p class="p" ms-on-tap="richerTab('WEEK')" ms-class="bottom:richerType=='WEEK'">本周土豪</p>
-    <p class="p" ms-on-tap="richerTab('MONTH')" ms-class="bottom:richerType=='MONTH'">本月土豪</p>
-    <!--今日土豪-->
-    <div>
+	<div class="head"><img src="/resources/static/img/richers.gif" alt=""></div>
+	<div class="rank">
+	    <p class="p" ms-on-tap="richerTab('DAY')" ms-class="bottom:richerType=='DAY'">今日土豪</p>
+	    <p class="p" ms-on-tap="richerTab('WEEK')" ms-class="bottom:richerType=='WEEK'">本周土豪</p>
+	    <p class="p" ms-on-tap="richerTab('MONTH')" ms-class="bottom:richerType=='MONTH'">本月土豪</p>
+	    <!--今日土豪-->
+	</div>
+	<div>
         <div class="ranks">
             <div class="rank-list">
+            	<div ms-if="richerList.length == 0" style="text-align:center;padding-top:50%;font-size:12px;color:#999">
+		    		<img src='/resources/static/img/404.png' style="width:50%;margin:0 auto;">
+		    		<p style="line-height:30px;margin-top:20px">壕榜空缺 赶紧上榜~</p>
+		    		<p style="line-height:30px"></p>
+		    	</div>
                 <div class="fist" ms-repeat-p="richerList">
                     <img class="fist-img" --src="/resources/static/img/hd1.png" width="50px" height="50px" ms-attr-src="p.chatterDTO.headImg" alt="">
                     <img class="number-one" ms-if="$index == 1" src="/resources/static/img/1.png" alt="">
@@ -27,6 +33,4 @@
             </div>
         </div>
     </div>
-</div>
-
 </div>

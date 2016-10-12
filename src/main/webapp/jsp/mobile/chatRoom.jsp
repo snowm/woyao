@@ -16,6 +16,12 @@
     <script src="/resources/js/require/require.js" data-main="/resources/main"></script>
 </head>
 <body ms-controller="rootController">
+	<div ms-if="lock" style="width:100%;height:100%;position:absolute;left:0;top:0;background:white;text-align:center;padding-top:50%;font-size:12px;color:#999;z-index:9999999999999">
+   		<img src='/resources/static/img/404.png' style="width:50%;margin:0 auto;">
+   		<p style="line-height:30px;margin-top:20px">链接超时了~</p>
+   		<p style="line-height:30px">请确保网络</p>
+   		<p style="line-height:30px">重新进入聊天室</p>
+   	</div>
     <div ms-include-src="content"></div>
 </body>
 </html>

@@ -7,51 +7,6 @@ define(['jquery','avalon', 'text!./privacyChat.html','socket','swiper',"domReady
     avalon.templateCache._privacyChat = _privacyChat;
 
     var privacySocket = socket;
-//    privacySocket.onmessage = function(message) {
-//        var msg = JSON.parse(message.data);
-//        console.log("get masage:");
-//        console.log(msg);
-//
-////        console.log(msg.text);
-//        msg.text = replace_em(msg.text);
-//
-//        
-//        // 判断是否为私聊消息 同时判断 发送者是否为当前聊天对象
-//        if(!msg.privacy){
-//            if(msg.sender.id == pChatController.toWho.id || msg.command == 'smACK'){
-//            	 pChatController.msgList.push(msg);
-//                 $(".msg-block-contain").animate({scrollTop:$(".msg-block-container").height() -  $(".msg-block-contain").height() + 100},500,'swing');
-//            }else{
-//            	avalon.vmodels.rootController.privacyMsg.push(msg);
-//            	avalon.vmodels.mainController.pMsgCount = avalon.vmodels.rootController.privacyMsg.length;
-//            }
-//        }
-        
-        
-
-
-//        var seconds = msg.msgType*1000;
-//        if(seconds != 0){
-//            mainController.sreenShow = true;
-//            mainController.sreenImg = text.imgUrl;
-//            mainController.sreenMsg = text.msg;
-//            mainController.sreenTime = text.msgType;
-//            mainController.sreenShowSeconds = seconds/1000;
-//            var fl = '';
-//            fl = setInterval(function(){
-//                mainController.sreenShowSeconds--;
-//                if(mainController.sreenShowSeconds == 0){
-//                    clearTimeout(fl);
-//                    mainController.sreenImg = '';
-//                    mainController.sreenMsg = '';
-//                    mainController.sreenTime = '';
-//                    mainController.sreenShow = false;
-//                    return
-//                }
-//            },1000)
-//        }
-//    }
-
     
         var pChatController = avalon.define({
             $id : "pChatController",
@@ -234,7 +189,14 @@ define(['jquery','avalon', 'text!./privacyChat.html','socket','swiper',"domReady
             	pChatController.imgUrl = '';
             	pChatController.imgViewSrc = '/resources/static/img/photo.png';
                 $("#pPhotoInput").val('');
-            }
+            },
+            queryHistoryInfo:{
+           	    withChatterId:'',
+                minId:'',
+                maxId:-1,
+                pageSize:20,
+           },
+           queryHistoryIng:false,
         });
 
         avalon.scan();
@@ -244,12 +206,51 @@ define(['jquery','avalon', 'text!./privacyChat.html','socket','swiper',"domReady
         	initData();
         });
         
+        function queryHistoryMsg(){
+            $.ajax({
+                url: "/m/chat/listMsg",
+                dataType: "JSON",
+                data: pChatController.queryHistoryInfo,
+                async: true,
+                type: "post",
+                success: function(data) {
+                    console.log("msg: _____");
+                    console.log(data);
+                    var msg = data;
+                    for(var i = 0;i < msg.length ; i++){
+                        msg[i].text = replace_em(msg[i].text);
+                        if(msg[i].privacy){
+                            avalon.vmodels.rootController._privacyMsg.unshift(msg[i]);
+                        }else{
+                            avalon.vmodels.rootController._publicMsg.unshift(msg[i]);
+                            avalon.vmodels.mainController.msgList = avalon.vmodels.rootController._publicMsg.$model;
+                        }
+                    }
+
+                    console.log(pChatController.msgList);
+                    
+                    getMsg();
+                    
+                    setTimeout(function(){
+                    	pChatController.queryHistoryIng = false;
+                    },2000)
+                },
+                complete: function() {
+                	
+                },
+                error: function() {
+
+                }
+            });
+        }
         
         
         function init(){
         	privacySocket = socket;
         	// 保存toId
         	pChatController.toWho = avalon.vmodels.rootController.toWho;
+        	console.log(pChatController.toWho.$model);
+        	pChatController.queryHistoryInfo.withChatterId = pChatController.toWho.$model.id;
 //        	document.title
             /* qqface */
             setTimeout(function(){
@@ -259,14 +260,32 @@ define(['jquery','avalon', 'text!./privacyChat.html','socket','swiper',"domReady
                     path:'/resources/js/qqface/face/',	//表情存放的路径
                     container:'faceCtn'
                 });
+                
+//                $(".msg-block-contain").scroll(function() {
+//                    var $this =$(this),
+//                        viewH =$(this).height(),//可见高度
+//                        contentH =$(this).get(0).scrollHeight,//内容高度
+//                        scrollTop =$(this).scrollTop();//滚动高度
+//                    if(scrollTop - (contentH - viewH) >= 0){
+//                        $(this).scrollTop(contentH - viewH - 1);
+//                    }
+//                    if(scrollTop <= 0){
+//                        $(this).scrollTop(10);
+//                        if(!mainController.queryHistoryIng){
+//                        	mainController.queryHistoryIng = true;
+//                        	mainController.queryHistoryInfo.maxId = mainController.msgList[0].id;
+//                            queryHistoryMsg();
+//                        }
+//                    }
+//                });
             },300);
             /* qqface */
-            getMsg();
+
+            queryHistoryMsg();
         }
         
         init();
 
-      
        
         // 从消息池获取消息
         function getMsg(){

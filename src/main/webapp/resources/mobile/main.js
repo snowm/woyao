@@ -27,6 +27,7 @@ require.config({//第一块，配置
 require(['mmRouter',"domReady!",'socket'],function(mmRouter,domReady){
     var rootController = avalon.define({
         $id: "rootController",
+        lock:false,
         content: "",
         _userInfo:{id:9}, //当前用户信息
         _privacyMsg:[],//私聊消息
@@ -39,17 +40,17 @@ require(['mmRouter',"domReady!",'socket'],function(mmRouter,domReady){
     avalon.scan();
     
 //   监控数据长度 超过 x 删掉第一个
-    rootController._publicMsg.$watch('length', function(a, b) {
-    	if(a >80){
-    		rootController._publicMsg.splice(0,1)
-    	}
-    })
-    
-    rootController._privacyMsg.$watch('length', function(a, b) {
-    	if(a > 80){
-    		rootController._privacyMsg.splice(0,1)
-    	}
-    })
+//    rootController._publicMsg.$watch('length', function(a, b) {
+//    	if(a >80){
+//    		rootController._publicMsg.splice(0,1)
+//    	}
+//    })
+//    
+//    rootController._privacyMsg.$watch('length', function(a, b) {
+//    	if(a > 80){
+//    		rootController._privacyMsg.splice(0,1)
+//    	}
+//    })
     
     
     var _brageData = {};
