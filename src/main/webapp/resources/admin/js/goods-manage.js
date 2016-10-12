@@ -20,7 +20,7 @@ define(['uploadfile'],function(){
             name:"",
             deleted:false,
             pageNumber:1,
-            pageSize:7          
+            pageSize:7         
         },        
         goodsChg:{ 
             name:"",
@@ -36,8 +36,7 @@ define(['uploadfile'],function(){
             pageSize:12
         },
         //查询商品
-        btnGoods:function(page){
-            goodsController.goods=true;
+        btnGoods:function(page){          
             goodsController.goodsAdd = false;
             goodsController.goodsShow = false;         
             if(page == "upPage"){
@@ -70,23 +69,22 @@ define(['uploadfile'],function(){
                  success: function(data){
                      console.log(data);
                      goodsController.goodsList = data.results;
-                     goodsController.totlePage = data.totalPageCount;
-                     goodsController.goodsChg.name="";
-                     goodsController.goodsChg.shopId="";
-
+                     goodsController.totlePage = data.totalPageCount; 
    	      			if(goodsController.goodsList.length != 0){
-   	      			goodsController.nothing=false;
+   	      				goodsController.nothing=false;
+   	      				goodsController.goods=true;
    	      				console.log(1);
    	      			}else if(goodsController.goodsList.length == 0){  	      				
-   	      			goodsController.nothing=true;
+   	      				goodsController.nothing=true;
+   	      				goodsController.goods=false;
    	      				console.log(2);
    	      			}
                  },
                  dataType: 'json'
              });
         },
-        change:function(){
-			console.log(goodsController.goodsChg.name);
+        change:function(){		
+			goodsController.goodsChg.shopId="";
 			var data=goodsController.goodsChg;    			
 			$.ajax({
 	      		  type: "post",
@@ -107,7 +105,7 @@ define(['uploadfile'],function(){
 			goodsController.shopList=[];
 		},
 		clickOut:function(){			
-			goodsController.shopList=[];
+			goodsController.shopList=[];			
 		},
         Alter:function(id){
             goodsController.goodsShow = true;
@@ -122,38 +120,61 @@ define(['uploadfile'],function(){
 
         },
         //修改并保存
-        Sava:function(){
-            goodsController.goodsShow=false;
-            goodsController.demand=true;            
-            var date={
-                name:goodsController.goodsChg.name,
-                code:goodsController.goodsChg.code,
-                description:goodsController.goodsChg.description,
-                mainPicId:goodsController.goodsChg.mainPicId,
-                typeId:parseInt(goodsController.goodsChg.typeId),
-                shopId:goodsController.goodsChg.shopId,
-                unitPrice:goodsController.goodsChg.unitPrice,
-                id:goodsController.goodsChg.id
-            }
-            console.log(date);
-            $.ajax({
-                type: "post",
-                url: '/admin/product/',
-                data:date,
-                success: function(data){
-                    console.log(data);
-                    alert('提交成功');
-                    goodsController.goodsShow = false;
-                    goodsController.goods = true;
-                    goodsController.goodsChg.mainPicId = '';                    
-                    goodsController.goodsChg.shopId="";
-                    goodsController.goodsChg.name="";
-                    goodsController.imgViewSrc = '/admin/resources/images/photos/upload1.png';
-                    $("#goodsUploadfile").val('');
-                    Submit();
-                },
-                dataType: 'json',
-            });
+        Sava:function(){            
+            var prdocut = $(".prdocut").val();
+            var description = $(".description").val();
+            var unitPrice = $(".unitPrice").val();
+            var shopList = $(".shopList").val();
+            var shopType = $(".shopType").val();
+           
+            if(goodsController.imgViewSrc=="/admin/resources/images/photos/upload1.png"){
+				alert("请选择图片");
+				return;
+			}else if(prdocut == ""){
+				alert("请输入正确产品名称");
+				return;
+			}else if(unitPrice == ""){
+				alert("请输入正确价格");
+				return;
+			}else if(shopList ==""){
+				alert("请选择正确的商店名称");
+				return;
+			}else if(shopType ==""){
+				alert("请选择正确的类型");
+				return;
+			}else{				
+				 var date={
+		                    name:goodsController.goodsChg.name,
+		                    code:goodsController.goodsChg.code,
+		                    description:goodsController.goodsChg.description,
+		                    mainPicId:goodsController.goodsChg.mainPicId,
+		                    typeId:parseInt(goodsController.goodsChg.typeId),
+		                    shopId:goodsController.goodsChg.shopId,
+		                    unitPrice:goodsController.goodsChg.unitPrice,
+		                    id:goodsController.goodsChg.id
+		                }
+		            $.ajax({
+		                type: "post",
+		                url: '/admin/product/',
+		                data:date,
+		                success: function(data){
+		                    console.log(data);
+		                    alert('提交成功');
+		                    goodsController.goodsShow = false;
+		                    goodsController.goods = true;
+		                    goodsController.goodsChg.mainPicId = '';                    
+		                    goodsController.goodsChg.shopId="";
+		                    goodsController.goodsChg.name="";
+		                    goodsController.imgViewSrc = '/admin/resources/images/photos/upload1.png';
+		                    $("#goodsUploadfile").val('');
+		                    goodsController.goodsShow=false;
+		    	            goodsController.demand=true;
+		                    Submit();
+		                },
+		                dataType: 'json',
+		            });
+				}           
+           
         },
         //新增
         add:function(){        	
@@ -212,9 +233,14 @@ define(['uploadfile'],function(){
         hideNewShop:function(){
         	goodsController.goodsShow = false;
         	goodsController.demand = true;
+        	goodsController.goods = true;
         	goodsController.goodsChg.mainPicId = '';
+        	goodsController.goodsChg.name="";
+        	goodsController.goodsChg.shopId="";
             goodsController.imgViewSrc = '/admin/resources/images/photos/upload1.png';
             $("#goodsUploadfile").val('');
+            Submit();
+            
 	    },
         chooseShopItem:function(data){
             goodsController.goodsChg.shopId = data.id;

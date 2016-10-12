@@ -1,13 +1,14 @@
-<div class="panel panel-default" ms-controller="chatController" ms-click="btns">    
+<div class="panel panel-default" ms-controller="chatController" ms-click="btns">  
+	<div> 
     <div class="panel-body" >
         <div class="row">
         <div class="col-sm-3">
 	        <div class="form-group">
 	          <label class="control-label">是否付费</label>
 	             <select class="form-control" ms-duplex="freeDate.free">
-	             		<option value=''>-- 请选择 --</option>	                  
-	                  <option value='true'>是</option> 
-	                  <option value='false'>否</option>
+	             	<option value=''>-- 请选择 --</option>	                  
+	                <option value='true'>是</option> 
+	                <option value='false'>否</option>
 	             </select>
 	        </div> 
 	      </div>
@@ -85,8 +86,8 @@
         <div class="row">
         	<div class="col-sm-1"></div>
         	<ul class="pagination pagination-split">
-                <li  ms-click="btnChat('upPage')"><a href="#">Prev</a></li>             
-                <li><a href="#" ms-click="btnChat('nextPage')">Next</a></li>
+                <li  ms-click="seach('upPage')"><a href="#">Prev</a></li>             
+                <li><a href="#" ms-click="seach('nextPage')">Next</a></li>
             </ul>
         </div>     
     </div>
@@ -94,4 +95,5 @@
     <!--<div class="panel-footer text-right">-->
         <!--<button class="btn btn-xs btn-success">录 入</button>-->
     <!--</div>-->
+    </div> 
 </div>

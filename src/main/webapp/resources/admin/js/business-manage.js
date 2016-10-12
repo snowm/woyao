@@ -10,7 +10,7 @@ define(['uploadfile'],function(){
     	    businessalter:false,
     	    nothing:false,
     	    imgViewSrc:'/admin/resources/images/photos/upload1.png',
-    	    shopList:[], 
+    	    shopList:[],    	    
     	    totlePage:-1,
     	    queryCdt:{
     	    	name:'',
@@ -79,6 +79,8 @@ define(['uploadfile'],function(){
     	    },	    
     	 
     	    updateShop:function(id){
+    	    	$(".managerName").attr("readonly","readonly");
+    	    	$(".managerPwd").attr("readonly","readonly");
     	    	shopController.formShow = true;
     	    	shopController.shopList.forEach(function(item){
     	    		if(item.id == id){
@@ -88,57 +90,90 @@ define(['uploadfile'],function(){
     	    	})
     	    },
     	    submitItem:function(){
-    	    	alert(shopController.formData.name)
-    	    	var data = {
-    	    			name:shopController.formData.name,
-    	    	    	address:shopController.formData.address,
-//    	    	    	chatRoomName:shopController.formData.chatRoomName,
-    	    	    	description:shopController.formData.description,
-    	    	    	latitude:shopController.formData.latitude,
-    	    	    	longitude:shopController.formData.longitude,
-    	    	    	managerName:shopController.formData.managerName,
-    	    	    	managerProfileId:shopController.formData.managerProfileId,
-    	    	    	description:shopController.formData.description,
-    	    	    	id:shopController.formData.id,
-    	    	    	picId:shopController.formData.picId,
-    	    	    	managerPwd:shopController.formData.managerPwd,
-    	    	}
-    	    	//性别 -------------------------------------------------------------------------------------------------
-//    	    	data.managerType = 1;
-    	    	if(shopController.formData.id){
-        	    	console.log(data);
-        	    	$.ajax({
-      	      		  type: "post",
-      	      		  url: '/admin/shop/',
-      	      		  data: data,
-      	      		  success: function(data){
-     	      			 alert('提交成功')
-     	      	    	  shopController.formShow = false;
-	   	      	    	  shopController.formData.picId = '';
-		      	    	  shopController.imgViewSrc = '/admin/resources/images/photos/upload1.png';
-		                  $("#uploadfile").val('');
-      	      			  console.log(data);
-      	      			  queryData();
-      	      		  },
-      	      		  dataType: 'json',
-      	      		});
-    	    	}else{
-    	    		$.ajax({
-        	      		  type: "post",
-        	      		  url: '/admin/shop/',
-        	      		  data: data,
-        	      		  success: function(data){
-        	      			  alert('提交成功')
-        	      	    	  shopController.formShow = false;
-        	      	    	  shopController.formData.picId = '';
-        	      	    	  shopController.imgViewSrc = '/admin/resources/images/photos/upload1.png';
-        	                  $("#uploadfile").val('');
-        	      			  console.log(data);
-        	      			  queryData();
-        	      		  },
-        	      		  dataType: 'json'
-        	      		});
-    	    	}
+    	    	//经度正则
+    	    	var longitude =/^[\-\+]?(0?\d{1,2}\.\d{1,5}|1[0-7]?\d{1}\.\d{1,5}|180\.0{1,5})$/;
+    	    	var latitude =/^[\-\+]?([0-8]?\d{1}\.\d{1,5}|90\.0{1,5})$/;
+    				var tel = $(".longitude").val();
+    				var tit = $(".latitude").val();
+    				var shopName = $(".shopName").val();
+    				var adss =  $(".adss").val();
+    				var managerName = $(".managerName").val();
+    				var managerPwd = $(".managerPwd").val();
+    				if(shopController.imgViewSrc=="/admin/resources/images/photos/upload1.png"){
+    					alert("请选择图片");
+    					return;
+    				}else if (tel == "" || !longitude.test(tel)) {
+    					alert("请输入正确经度");
+    					return;
+    				} else if(tit == "" || !latitude.test(tit)){
+    					alert("请输入正确维度");
+    					return;
+    				}else if(shopName ==""){
+    					alert("请输入正确商店名称");
+    					return;
+    				}else if(adss ==""){
+    					alert("请输入正确地址");
+    					return;
+    				}else if(managerName ==""){
+    					alert("请输入正确账号");
+    					return;
+    				}else if(managerPwd ==""){
+    					alert("请输入正确密码");
+    					return;
+    				}else{
+    				 	
+    	    	    	var data = {
+    	    	    			name:shopController.formData.name,
+    	    	    	    	address:shopController.formData.address,
+//    	    	    	    	chatRoomName:shopController.formData.chatRoomName,
+    	    	    	    	description:shopController.formData.description,
+    	    	    	    	latitude:shopController.formData.latitude,
+    	    	    	    	longitude:shopController.formData.longitude,
+    	    	    	    	managerName:shopController.formData.managerName,
+    	    	    	    	managerProfileId:shopController.formData.managerProfileId,
+    	    	    	    	description:shopController.formData.description,
+    	    	    	    	id:shopController.formData.id,
+    	    	    	    	picId:shopController.formData.picId,
+    	    	    	    	managerPwd:shopController.formData.managerPwd,
+    	    	    	}
+    	    	    	//性别 -------------------------------------------------------------------------------------------------
+//    	    	    	data.managerType = 1;
+    	    	    	if(shopController.formData.id){
+    	        	    	console.log(data);  	        	    	
+    	        	    	$.ajax({
+    	      	      		  type: "post",
+    	      	      		  url: '/admin/shop/',
+    	      	      		  data: data,
+    	      	      		  success: function(data){
+    	     	      			 alert('提交成功')
+    	     	      	    	  shopController.formShow = false;
+    		   	      	    	  shopController.formData.picId = '';
+    			      	    	  shopController.imgViewSrc = '/admin/resources/images/photos/upload1.png';    			      	    	  
+    			                  $("#uploadfile").val('');
+    	      	      			  console.log(data);
+    	      	      			  queryData();
+    	      	      		  },
+    	      	      		  dataType: 'json',
+    	      	      		});
+    	    	    	}else{
+    	    	    		$.ajax({
+    	        	      		  type: "post",
+    	        	      		  url: '/admin/shop/',
+    	        	      		  data: data,
+    	        	      		  success: function(data){
+    	        	      			  alert('提交成功')
+    	        	      	    	  shopController.formShow = false;
+    	        	      	    	  shopController.formData.picId = '';
+    	        	      	    	  shopController.imgViewSrc = '/admin/resources/images/photos/upload1.png';
+    	        	                  $("#uploadfile").val('');
+    	        	      			  console.log(data);
+    	        	      			  queryData();
+    	        	      		  },
+    	        	      		  dataType: 'json'
+    	        	      		});
+    	    	    	}
+    				}   			
+    	   
     	    	
     	    },
     	    uploadImg:function(){
@@ -171,6 +206,7 @@ define(['uploadfile'],function(){
 	      		  success: function(data){
 	      			  shopController.totlePage = data.totalPageCount;
 	      			  shopController.shopList = data.results;
+	      			  console.log(shopController.shopList = data.results);
 	      			if(shopController.shopList.length != 0){
 	      				shopController.nothing=false;
   	      				console.log(1);
