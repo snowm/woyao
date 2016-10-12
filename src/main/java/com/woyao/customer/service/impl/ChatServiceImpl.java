@@ -314,7 +314,7 @@ public class ChatServiceImpl implements IChatService {
 		List<ChatPicDTO> dtos=new ArrayList<>();
 		Map<String, Object> paramMap = new HashMap<>();
 		paramMap.put("fromId", id);
-		List<ChatMsg> chatMsgs=this.dao.query("from ChatMsg where from = :fromId limit 0,50 order by modification.creationDate desc", paramMap);
+		List<ChatMsg> chatMsgs=this.dao.query("from ChatMsg where 'from' = :fromId limit 0,50 order by modification.creationDate desc", paramMap);
 		for (ChatMsg chatMsg : chatMsgs) {
 			ChatPicDTO dto=new ChatPicDTO();
 			if(chatMsgs!=null &&chatMsg.getTo()!=null){
