@@ -19,6 +19,11 @@ public class ChatPicDTO implements Serializable {
 	public void setPicUrl(String picUrl) {
 		this.picUrl = picUrl;
 	}
+
+	@Override
+	public String toString() {
+		return "ChatPicDTO [picUrl=" + picUrl + "]";
+	}
 	
 	
 }

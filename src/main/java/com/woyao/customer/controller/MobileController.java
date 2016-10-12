@@ -139,9 +139,9 @@ public class MobileController {
 		request.setSelfChatterId(chatterId);
 		return this.chatService.listHistoryMsg(request);
 	}
-	@RequestMapping(value = { "/chat/chatPicList" }, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@RequestMapping(value = { "/chat/chatPicList/{id}" }, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
-	public List<ChatPicDTO> getChatPicList(long id) {
+	public List<ChatPicDTO> getChatPicList(@PathVariable("id") Long id) {
 		
 		return this.chatService.getPicUrl(id);
 	}

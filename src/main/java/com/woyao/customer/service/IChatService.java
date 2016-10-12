@@ -68,5 +68,5 @@ public interface IChatService {
 
 	ChatterDTO getChatterFromDB(long chatterId);
 	
-	List<ChatPicDTO> getPicUrl(long id);
+	List<ChatPicDTO> getPicUrl(Long id);
 }
