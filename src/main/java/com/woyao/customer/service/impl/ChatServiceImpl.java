@@ -310,11 +310,11 @@ public class ChatServiceImpl implements IChatService {
 		return dtos;
 	}	
 	@Override
-	public List<ChatPicDTO> getPicUrl(Long id) {
+	public List<ChatPicDTO> getPicUrl(Long id,Long pageNumber,Integer pageSize) {
 		List<ChatPicDTO> dtos=new ArrayList<>();
 		Map<String, Object> paramMap = new HashMap<>();
 		paramMap.put("fromId", id);	
-		List<ChatMsg> chatMsgs=this.dao.query("from ChatMsg as c where c.from = :fromId order by modification.creationDate desc", paramMap, 0, 10);
+		List<ChatMsg> chatMsgs=this.dao.query("from ChatMsg as c where c.from = :fromId order by modification.creationDate desc", paramMap, pageNumber, pageSize);
 		for (ChatMsg chatMsg : chatMsgs) {
 			ChatPicDTO dto=new ChatPicDTO();
 			if(chatMsg.getTo()==null){
