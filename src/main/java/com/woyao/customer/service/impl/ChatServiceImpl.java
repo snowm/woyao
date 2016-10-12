@@ -2,6 +2,7 @@ package com.woyao.customer.service.impl;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -31,6 +32,7 @@ import com.woyao.customer.chat.SessionUtils;
 import com.woyao.customer.dto.ChatterDTO;
 import com.woyao.customer.dto.MsgProductDTO;
 import com.woyao.customer.dto.chat.BlockDTO;
+import com.woyao.customer.dto.chat.ChatPicDTO;
 import com.woyao.customer.dto.chat.ErrorOutbound;
 import com.woyao.customer.dto.chat.InMsg;
 import com.woyao.customer.dto.chat.Inbound;
@@ -305,6 +307,21 @@ public class ChatServiceImpl implements IChatService {
 			dtos.add(dto);
 		}
 
+		return dtos;
+	}	
+	@Override
+	public List<ChatPicDTO> getPicUrl(long id) {
+		List<ChatPicDTO> dtos=new ArrayList<>();
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("fromId", id);
+		List<ChatMsg> chatMsgs=this.dao.query("from ChatMsg where from = :fromId limit 0,50 order by modification.creationDate desc", paramMap);
+		for (ChatMsg chatMsg : chatMsgs) {
+			ChatPicDTO dto=new ChatPicDTO();
+			if(chatMsgs!=null &&chatMsg.getTo()!=null){
+				dto.setPicUrl(chatMsg.getPicURL());
+			}
+			dtos.add(dto);
+		}
 		return dtos;
 	}
 }

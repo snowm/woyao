@@ -25,6 +25,7 @@ import com.woyao.customer.dto.ProductDTO;
 import com.woyao.customer.dto.RicherDTO;
 import com.woyao.customer.dto.ShopDTO;
 import com.woyao.customer.dto.ShopPaginationQueryRequest;
+import com.woyao.customer.dto.chat.ChatPicDTO;
 import com.woyao.customer.dto.chat.MsgQueryRequest;
 import com.woyao.customer.dto.chat.OutMsgDTO;
 import com.woyao.customer.service.IChatService;
@@ -43,6 +44,7 @@ public class MobileController {
 
 	@Resource(name = "productService")
 	private IProductService productService;
+	
 
 	@RequestMapping(value = { "/", "" })
 	public String index() {
@@ -136,5 +138,11 @@ public class MobileController {
 		request.setChatRoomId(chatRoomId);
 		request.setSelfChatterId(chatterId);
 		return this.chatService.listHistoryMsg(request);
+	}
+	@RequestMapping(value = { "/chat/chatPicList" }, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@ResponseBody
+	public List<ChatPicDTO> getChatPicList(long id) {
+		
+		return this.chatService.getPicUrl(id);
 	}
 }

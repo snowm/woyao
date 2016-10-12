@@ -10,6 +10,7 @@ import org.springframework.web.socket.WebSocketSession;
 import com.snowm.security.profile.domain.Gender;
 import com.snowm.utils.query.PaginationBean;
 import com.woyao.customer.dto.ChatterDTO;
+import com.woyao.customer.dto.chat.ChatPicDTO;
 import com.woyao.customer.dto.chat.Inbound;
 import com.woyao.customer.dto.chat.MsgQueryRequest;
 import com.woyao.customer.dto.chat.OutMsgDTO;
@@ -66,4 +67,6 @@ public interface IChatService {
 	List<OutMsgDTO> listHistoryMsg(MsgQueryRequest request);
 
 	ChatterDTO getChatterFromDB(long chatterId);
+	
+	List<ChatPicDTO> getPicUrl(long id);
 }
