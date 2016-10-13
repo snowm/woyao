@@ -1,6 +1,6 @@
 package com.woyao.customer.dto.chat;
 
-public class BlockDTO extends Inbound {
+public class BlockDTO {
 
 	private String block;
 

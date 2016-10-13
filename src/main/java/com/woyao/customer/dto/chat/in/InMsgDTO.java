@@ -1,4 +1,6 @@
-package com.woyao.customer.dto.chat;
+package com.woyao.customer.dto.chat.in;
+
+import com.woyao.customer.dto.chat.BlockDTO;
 
 public class InMsgDTO extends Inbound {
 

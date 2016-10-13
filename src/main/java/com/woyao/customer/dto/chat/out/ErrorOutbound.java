@@ -1,4 +1,4 @@
-package com.woyao.customer.dto.chat;
+package com.woyao.customer.dto.chat.out;
 
 public class ErrorOutbound extends Outbound {
 

@@ -28,17 +28,18 @@ import com.snowm.utils.query.PaginationBean;
 import com.woyao.customer.chat.MessageCacheOperator;
 import com.woyao.customer.chat.SessionContainer;
 import com.woyao.customer.chat.SessionUtils;
+import com.woyao.customer.dto.ChatPicDTO;
 import com.woyao.customer.dto.ChatterDTO;
 import com.woyao.customer.dto.MsgProductDTO;
 import com.woyao.customer.dto.chat.BlockDTO;
-import com.woyao.customer.dto.chat.ChatPicDTO;
-import com.woyao.customer.dto.chat.ErrorOutbound;
-import com.woyao.customer.dto.chat.InMsg;
-import com.woyao.customer.dto.chat.Inbound;
 import com.woyao.customer.dto.chat.MsgQueryRequest;
-import com.woyao.customer.dto.chat.OutMsgDTO;
-import com.woyao.customer.dto.chat.Outbound;
-import com.woyao.customer.dto.chat.OutboundCommand;
+import com.woyao.customer.dto.chat.in.InMsg;
+import com.woyao.customer.dto.chat.in.Inbound;
+import com.woyao.customer.dto.chat.out.ErrorOutbound;
+import com.woyao.customer.dto.chat.out.OutMsgDTO;
+import com.woyao.customer.dto.chat.out.Outbound;
+import com.woyao.customer.dto.chat.out.OutboundCommand;
+import com.woyao.customer.dto.chat.out.SelfChatterInfoDTO;
 import com.woyao.customer.service.IChatService;
 import com.woyao.customer.service.IMobileService;
 import com.woyao.customer.service.IProductService;
@@ -76,6 +77,10 @@ public class ChatServiceImpl implements IChatService {
 	@Override
 	public String newChatter(WebSocketSession wsSession, HttpSession httpSession) {
 		this.sessionContainer.wsEnabled(wsSession, httpSession);
+		SelfChatterInfoDTO selfDTO = new SelfChatterInfoDTO();
+		ChatterDTO self = SessionUtils.getChatter(wsSession);
+		selfDTO.setSelf(self);
+		this.sendMsg(selfDTO, wsSession);
 		return null;
 	}
 

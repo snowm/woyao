@@ -1,11 +1,11 @@
-package com.woyao.customer.dto.chat;
+package com.woyao.customer.dto.chat.in;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class InMsg extends Inbound {
+import com.woyao.customer.dto.chat.BlockDTO;
 
-	private Long msgId;
+public class InMsg extends Inbound {
 
 	private Long to;
 
@@ -18,14 +18,6 @@ public class InMsg extends Inbound {
 	private String text;
 
 	private String pic;
-
-	public Long getMsgId() {
-		return msgId;
-	}
-
-	public void setMsgId(Long msgId) {
-		this.msgId = msgId;
-	}
 
 	public Long getTo() {
 		return to;

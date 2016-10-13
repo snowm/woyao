@@ -1,4 +1,4 @@
-package com.woyao.customer.dto.chat;
+package com.woyao.customer.dto.chat.out;
 
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -12,6 +12,11 @@ public class PrepayMsgDTO extends Outbound {
 	private String nonceStr;
 	private String signType = "MD5";
 
+	public PrepayMsgDTO() {
+		super();
+		this.command = OutboundCommand.PREPAY_MSG;
+	}
+	
 	public String getAppId() {
 		return appId;
 	}

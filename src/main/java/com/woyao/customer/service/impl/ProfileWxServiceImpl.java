@@ -11,8 +11,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.woyao.customer.dto.ChatPicDTO;
 import com.woyao.customer.dto.ChatterDTO;
-import com.woyao.customer.dto.chat.ChatPicDTO;
 import com.woyao.customer.service.IProfileWxService;
 import com.woyao.dao.CommonDao;
 import com.woyao.domain.chat.ChatMsg;

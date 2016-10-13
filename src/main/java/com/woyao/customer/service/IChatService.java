@@ -9,12 +9,12 @@ import org.springframework.web.socket.WebSocketSession;
 
 import com.snowm.security.profile.domain.Gender;
 import com.snowm.utils.query.PaginationBean;
+import com.woyao.customer.dto.ChatPicDTO;
 import com.woyao.customer.dto.ChatterDTO;
-import com.woyao.customer.dto.chat.ChatPicDTO;
-import com.woyao.customer.dto.chat.Inbound;
 import com.woyao.customer.dto.chat.MsgQueryRequest;
-import com.woyao.customer.dto.chat.OutMsgDTO;
-import com.woyao.customer.dto.chat.Outbound;
+import com.woyao.customer.dto.chat.in.Inbound;
+import com.woyao.customer.dto.chat.out.OutMsgDTO;
+import com.woyao.customer.dto.chat.out.Outbound;
 
 public interface IChatService {
 

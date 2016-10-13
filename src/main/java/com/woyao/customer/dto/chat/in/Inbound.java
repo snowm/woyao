@@ -1,15 +1,23 @@
-package com.woyao.customer.dto.chat;
+package com.woyao.customer.dto.chat.in;
 
 import java.io.IOException;
+import java.util.Date;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.woyao.admin.dto.DTOConfig;
 import com.woyao.utils.JsonUtils;
 
 public abstract class Inbound {
 
 	private static Log log = LogFactory.getLog(Inbound.class);
+
+	private Long msgId;
+
+	@JsonFormat(pattern = DTOConfig.DATE_TIME_FULL_FMT)
+	private Date creationDate = new Date();
 
 	public static Inbound parse(String payload) {
 		int index = payload.indexOf('\n');
@@ -34,19 +42,22 @@ public abstract class Inbound {
 			log.warn("Parse in message error:" + payload, e);
 			return null;
 		}
-
-//		try {
-//			InMsgDTO msg = om.readValue(payload, InMsgDTO.class);
-//			String base64PicString = msg.getPic();
-//			if (!StringUtils.isBlank(base64PicString)) {
-//				String path = File.separator + "pic" + File.separator + ChatUtils.savePic(base64PicString);
-//				log.info("saved pic:" + path);
-//				msg.setPic(path);
-//			}
-//			return msg;
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			return null;
-//		}
 	}
+
+	public Long getMsgId() {
+		return msgId;
+	}
+
+	public void setMsgId(Long msgId) {
+		this.msgId = msgId;
+	}
+
+	public Date getCreationDate() {
+		return creationDate;
+	}
+
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
+	}
+
 }

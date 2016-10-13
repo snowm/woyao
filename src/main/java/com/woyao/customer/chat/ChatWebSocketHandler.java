@@ -13,8 +13,8 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.AbstractWebSocketHandler;
 
-import com.woyao.customer.dto.chat.ErrorOutbound;
-import com.woyao.customer.dto.chat.Inbound;
+import com.woyao.customer.dto.chat.in.Inbound;
+import com.woyao.customer.dto.chat.out.ErrorOutbound;
 import com.woyao.customer.service.IChatService;
 import com.woyao.security.SharedHttpSessionContext;
 
@@ -32,13 +32,14 @@ public class ChatWebSocketHandler extends AbstractWebSocketHandler {
 		log.debug("connectionClosed:" + session.getId());
 	}
 
-//	@Override
-//	protected void handleBinaryMessage(WebSocketSession session, BinaryMessage message) throws Exception {
-//		ByteBuffer buffer = message.getPayload();
-//		String path = ChatUtils.savePic(buffer);
-//		String picUrl = "/pic/" + path;
-//		log.info(picUrl);
-//	}
+	// @Override
+	// protected void handleBinaryMessage(WebSocketSession session,
+	// BinaryMessage message) throws Exception {
+	// ByteBuffer buffer = message.getPayload();
+	// String path = ChatUtils.savePic(buffer);
+	// String picUrl = "/pic/" + path;
+	// log.info(picUrl);
+	// }
 
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws IOException {

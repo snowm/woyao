@@ -8,10 +8,10 @@ import java.util.concurrent.locks.Lock;
 import org.springframework.stereotype.Component;
 
 import com.woyao.customer.dto.chat.BlockDTO;
-import com.woyao.customer.dto.chat.InMsg;
-import com.woyao.customer.dto.chat.InMsgBlockDTO;
-import com.woyao.customer.dto.chat.InMsgDTO;
-import com.woyao.customer.dto.chat.Inbound;
+import com.woyao.customer.dto.chat.in.InMsg;
+import com.woyao.customer.dto.chat.in.InMsgBlockDTO;
+import com.woyao.customer.dto.chat.in.InMsgDTO;
+import com.woyao.customer.dto.chat.in.Inbound;
 
 @Component("messageCacheOperator")
 public class MessageCacheOperator {

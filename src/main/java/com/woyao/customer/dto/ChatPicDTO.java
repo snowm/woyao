@@ -1,4 +1,4 @@
-package com.woyao.customer.dto.chat;
+package com.woyao.customer.dto;
 
 import java.io.Serializable;
 

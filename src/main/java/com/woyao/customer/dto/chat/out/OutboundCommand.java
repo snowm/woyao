@@ -1,4 +1,4 @@
-package com.woyao.customer.dto.chat;
+package com.woyao.customer.dto.chat.out;
 
 public interface OutboundCommand {
 
@@ -26,4 +26,14 @@ public interface OutboundCommand {
 	 * 预支付消息，内涵预支付信息，返回给客户端组装支付请求
 	 */
 	String PREPAY_MSG ="prePay";
+
+	/**
+	 * 用户自己的信息
+	 */
+	String SELF_INFO_MSG ="selfInfo";
+	
+	/**
+	 * 聊天室的信息
+	 */
+	String ROOM_INFO_MSG ="roomInfo";
 }

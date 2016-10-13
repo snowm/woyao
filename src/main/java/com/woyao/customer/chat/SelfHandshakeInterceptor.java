@@ -15,7 +15,7 @@ import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor;
 
 import com.woyao.customer.dto.ChatterDTO;
-import com.woyao.customer.dto.chat.InMsg;
+import com.woyao.customer.dto.chat.in.InMsg;
 
 public class SelfHandshakeInterceptor extends HttpSessionHandshakeInterceptor {
 

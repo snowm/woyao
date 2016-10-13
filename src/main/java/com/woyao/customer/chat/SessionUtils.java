@@ -8,7 +8,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.web.socket.WebSocketSession;
 
 import com.woyao.customer.dto.ChatterDTO;
-import com.woyao.customer.dto.chat.InMsg;
+import com.woyao.customer.dto.chat.in.InMsg;
 
 public abstract class SessionUtils {
 
