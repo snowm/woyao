@@ -18,7 +18,7 @@ import com.woyao.GlobalConfig;
 import com.woyao.wx.WxConfig;
 
 @Configuration("mainConfig")
-@PropertySource(name = "mainProperty1", value = { "classpath:/config.properties", "classpath:/wx.properties" })
+@PropertySource(name = "mainProperty", value = { "classpath:/config.properties", "classpath:/wx.properties" })
 @Import({ com.snowm.hibernate.ext.config.AppConfig.class, com.snowm.security.config.AppConfig.class, HttpConfig.class, WxConfig.class })
 @ComponentScan({ "com.snowm", "com.woyao" })
 // @Profile("dev")

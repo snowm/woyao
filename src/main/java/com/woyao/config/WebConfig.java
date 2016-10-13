@@ -112,6 +112,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		int cachePeriod = 3600 * 24 * 365;
 		registry.addResourceHandler("/MP_verify_ExuzNoCNVM22thc+.txt").addResourceLocations("/resources/MP_verify_ExuzNoCNVM22thc+.txt");
+		registry.addResourceHandler("/favicon.ico").addResourceLocations("/resources/favicon.ico");
 
 		registry.addResourceHandler("/resources/**").addResourceLocations("/resources/mobile/").setCachePeriod(cachePeriod);
 

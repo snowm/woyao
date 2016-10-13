@@ -2,6 +2,8 @@ package com.woyao.security;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.net.URLEncoder;
 import java.util.Date;
 import java.util.concurrent.atomic.AtomicLong;
@@ -23,6 +25,9 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.http.HttpStatus;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.server.ServerHttpRequest;
+import org.springframework.http.server.ServletServerHttpRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.web.util.UriComponents;
@@ -164,12 +169,25 @@ public class Oauth2SecurityFilter implements Filter, InitializingBean {
 		ServletUriComponentsBuilder builder = ServletUriComponentsBuilder.fromRequest(request);
 		// Now work around SPR-10172...
 		String queryString = request.getQueryString();
+		String originProtocol = request.getHeader("Origin-Protocol");
+		String originHost = request.getHeader("Origin-Host");
+		String originPortStr = request.getHeader("Origin-Port");
+		int originPort = -1;
+		if(!StringUtils.isBlank(originPortStr)){
+			originPort = Integer.parseInt(originPortStr);
+		}
 		boolean legalSpaces = queryString != null && queryString.contains("+");
 		if (legalSpaces) {
 			builder.replaceQuery(queryString.replace("+", "%20"));
 		}
 		UriComponents uri = null;
 		try {
+			if (!StringUtils.isBlank(originProtocol)) {
+				builder.scheme(originProtocol).host(originHost);
+				if (originPort > 0) {
+					builder.port(originPort);
+				}
+			}
 			uri = builder.replaceQueryParam(PARA_OAUTH_CODE).build(true);
 		} catch (IllegalArgumentException ex) {
 			// ignore failures to parse the url (including query string). does't

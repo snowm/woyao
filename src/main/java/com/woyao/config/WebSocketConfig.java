@@ -25,7 +25,7 @@ public class WebSocketConfig implements WebSocketConfigurer {
 	
 	@Autowired
 	private Environment env;
-
+	
 	@Bean
 	public SelfHandshakeInterceptor handshakeInterceptor() {
 		SelfHandshakeInterceptor handshake = new SelfHandshakeInterceptor();
@@ -50,7 +50,10 @@ public class WebSocketConfig implements WebSocketConfigurer {
 
 	@Override
 	public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-		registry.addHandler(this.chatWebSocketHandler(), "/mobile/chat/socket").addInterceptors(this.handshakeInterceptor());
+		String property = this.env.getProperty("ws.allowed.origins");
+		
+		registry.addHandler(this.chatWebSocketHandler(), "/mobile/chat/socket").addInterceptors(this.handshakeInterceptor())
+				.setAllowedOrigins(property.split(","));
 	}
 
 }

@@ -169,7 +169,6 @@ public class ChatServiceImpl implements IChatService {
 				this.sendErrorMsg("聊天室是空的！", wsSession);
 				return;
 			}
-			targetSessions.remove(wsSession);
 		} else {
 			// 私聊消息
 			targetSessions = this.getTargetChatterSessions(to);
@@ -179,7 +178,9 @@ public class ChatServiceImpl implements IChatService {
 			}
 		}
 		for (WebSocketSession targetSession : targetSessions) {
-			this.sendMsg(outbound, targetSession);
+			if (!targetSession.equals(wsSession)) {
+				this.sendMsg(outbound, targetSession);
+			}
 		}
 		outbound.setCommand(OutboundCommand.SEND_MSG_ACK);
 		this.sendMsg(outbound, wsSession);
@@ -289,7 +290,7 @@ public class ChatServiceImpl implements IChatService {
 				dto.setCommand(OutboundCommand.SEND_MSG_ACK);
 			}
 			// 如果本聊天者就是消息的发送目标，那么表明这是个别人发给自己的私聊消息
-			if (selfChatterId.equals(e.getTo())) {
+			if (e.getTo() != null) {
 				dto.setPrivacy(true);
 			}
 			dtos.add(dto);
