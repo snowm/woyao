@@ -29,7 +29,14 @@ define(['jquery','avalon',"domReady!"], function ($,avalon,domReady) {
         var msg = JSON.parse(message.data);
         console.log("get masage:");
         console.log(msg);
+        
+        if(msg.command == 'err'){
+        	alert(msg.reason);
+        	return
+        }
+
         msg.text = replace_em(msg.text);
+        
         
         if(msg.privacy){
         	if(window.location.hash == '#!/privacyChat'){

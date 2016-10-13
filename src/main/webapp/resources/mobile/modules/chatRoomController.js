@@ -221,14 +221,15 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"domReady!",
             }
 
             var blocks = sliceContent(content);
-            console.log(productsId)
+            var msgId = ++avalon.vmodels.rootController._msgIndex;
+            console.log(msgId)
             for(var i = 0;i<blocks.length;i++){
                 var msg = undefined;
                 var type = 'msgBlock';
                 if (i==0) {
                     type = 'msg';
                     msg = {
-                        msgId:1,
+                        msgId:msgId,
                         to:'',
                         blockSize:blocks.length,
                         productId:productsId,
@@ -543,13 +544,14 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"domReady!",
                 for(var i = 0;i < msg.length ; i++){
                     msg[i].text = replace_em(msg[i].text);
                     if(msg[i].privacy){
-                        avalon.vmodels.rootController._privacyMsg.unshift(msg[i]);
-                        mainController.pMsgCount = 0;
-                        for(var j = 0; j < avalon.vmodels.rootController._privacyMsg.$model.length; j++){
-                        	if(avalon.vmodels.rootController._privacyMsg.$model[j].command != 'smACK'){
-                                mainController.pMsgCount++;
-                            }
-                        }
+                    	alert("这里不应该收到私聊消息");
+//                        avalon.vmodels.rootController._privacyMsg.unshift(msg[i]);
+//                        mainController.pMsgCount = 0;
+//                        for(var j = 0; j < avalon.vmodels.rootController._privacyMsg.$model.length; j++){
+//                        	if(avalon.vmodels.rootController._privacyMsg.$model[j].command != 'smACK'){
+//                                mainController.pMsgCount++;
+//                            }
+//                        }
                     }else{
                     	avalon.vmodels.rootController._publicMsg.unshift(msg[i]);
                         mainController.msgList.unshift(msg[i]);
@@ -562,8 +564,7 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"domReady!",
                     	}
                         
                     }
-                }
-                
+                };
                 setTimeout(function(){
                     mainController.queryHistoryIng = false;
                 },800)

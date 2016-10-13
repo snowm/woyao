@@ -109,14 +109,16 @@ define(['jquery','avalon', 'text!./privacyChat.html','socket','swiper',"domReady
                         return blocks;
                     }
 
-                    var blocks = sliceContent(content);
+                    var blocks = sliceContent(content)
+                    var msgId = ++avalon.vmodels.rootController._msgIndex;
+                    console.log(msgId);
                     for(var i = 0;i<blocks.length;i++){
                         var msg = undefined;
                         var type = 'msgBlock';
                         if (i==0) {
                             type = 'msg';
                             msg = {
-                                msgId:1,
+                                msgId:msgId,
                                 to:pChatController.toWho.id,
                                 blockSize:blocks.length,
                                 productId:'',
@@ -202,11 +204,16 @@ define(['jquery','avalon', 'text!./privacyChat.html','socket','swiper',"domReady
         avalon.scan();
         
         
-        pChatController.pMsgList.$watch('length', function( a, b) {
-        	initData();
-        });
+//        pChatController.pMsgList.$watch('length', function( a, b) {
+//        	initData();
+//        });
+//        
+        
         
         function queryHistoryMsg(){
+        	console.log("↓↓↓↓↓↓↓↓查询历史消息参数：↓↓↓↓↓↓↓↓");
+        	console.log(pChatController.queryHistoryInfo.$model);
+            
             $.ajax({
                 url: "/m/chat/listMsg",
                 dataType: "JSON",
@@ -214,26 +221,19 @@ define(['jquery','avalon', 'text!./privacyChat.html','socket','swiper',"domReady
                 async: true,
                 type: "post",
                 success: function(data) {
-                    console.log("msg: _____");
+                    console.log("收到私聊消息列表:");
                     console.log(data);
                     var msg = data;
                     for(var i = 0;i < msg.length ; i++){
                         msg[i].text = replace_em(msg[i].text);
-                        if(msg[i].privacy){
-                            avalon.vmodels.rootController._privacyMsg.unshift(msg[i]);
+                        if(msg[i].privacy){           
+                        	pChatController.pMsgList.push(msg[i]);
+                       	    $(".msg-block-contain").animate({scrollTop:$(".msg-block-container").height() -  $(".msg-block-contain").height() + 100},300,'swing');
                         }else{
-                            avalon.vmodels.rootController._publicMsg.unshift(msg[i]);
-                            avalon.vmodels.mainController.msgList = avalon.vmodels.rootController._publicMsg.$model;
+                        	alert('这里不应该查询到公共消息');  
+                        	return;
                         }
-                    }
-
-                    console.log(pChatController.msgList);
-                    
-                    getMsg();
-                    
-                    setTimeout(function(){
-                    	pChatController.queryHistoryIng = false;
-                    },2000)
+                    }                    
                 },
                 complete: function() {
                 	
@@ -246,12 +246,13 @@ define(['jquery','avalon', 'text!./privacyChat.html','socket','swiper',"domReady
         
         
         function init(){
+        	pChatController.pMsgList = [];//清空私聊消息列表
+        	
         	privacySocket = socket;
-        	// 保存toId
-        	pChatController.toWho = avalon.vmodels.rootController.toWho;
+        	
+        	pChatController.toWho = avalon.vmodels.rootController.toWho;// 保存toId
         	console.log(pChatController.toWho.$model);
         	pChatController.queryHistoryInfo.withChatterId = pChatController.toWho.$model.id;
-//        	document.title
             /* qqface */
             setTimeout(function(){
                 $('.emoji-btn').qqFace({
@@ -260,46 +261,15 @@ define(['jquery','avalon', 'text!./privacyChat.html','socket','swiper',"domReady
                     path:'/resources/js/qqface/face/',	//表情存放的路径
                     container:'faceCtn'
                 });
-                
-//                $(".msg-block-contain").scroll(function() {
-//                    var $this =$(this),
-//                        viewH =$(this).height(),//可见高度
-//                        contentH =$(this).get(0).scrollHeight,//内容高度
-//                        scrollTop =$(this).scrollTop();//滚动高度
-//                    if(scrollTop - (contentH - viewH) >= 0){
-//                        $(this).scrollTop(contentH - viewH - 1);
-//                    }
-//                    if(scrollTop <= 0){
-//                        $(this).scrollTop(10);
-//                        if(!mainController.queryHistoryIng){
-//                        	mainController.queryHistoryIng = true;
-//                        	mainController.queryHistoryInfo.maxId = mainController.msgList[0].id;
-//                            queryHistoryMsg();
-//                        }
-//                    }
-//                });
+               
             },300);
-            /* qqface */
-
             queryHistoryMsg();
         }
         
         init();
 
        
-        // 从消息池获取消息
-        function getMsg(){
-        	// 从消息池里面抽出消息
-            pChatController.pMsgList = [];
-            avalon.vmodels.rootController._privacyMsg.forEach(function(item){
-            	if(item.sender.id == pChatController.toWho.id || item.sender.id ==  avalon.vmodels.rootController._userInfo.id){
-            		pChatController.pMsgList.push(item);
-            	}
-            });
-            initData();
-        }
-        
-        
+
 
         // compile QQ faceCode
         function replace_em(str){
@@ -333,11 +303,6 @@ define(['jquery','avalon', 'text!./privacyChat.html','socket','swiper',"domReady
             }
         });
 
-
-        // 获取初始化数据 滑动到底部
-        function initData(){
-        	 $(".msg-block-contain").animate({scrollTop:$(".msg-block-container").height() -  $(".msg-block-contain").height() + 100},500,'swing');
-        }
 
         // init Swiper
         function showPhoto(){

@@ -23,7 +23,7 @@
    		<p style="line-height:30px">重新进入聊天室</p>
    	</div>
    	<div class="loading" ms-if='_loading' style="position:absolute;width:100%;height:100%;background:black;left:0;top:0;color:red;z-index:9999999999">
-   		loading
+   		
    	</div>
     <div ms-include-src="content"></div>
 </body>

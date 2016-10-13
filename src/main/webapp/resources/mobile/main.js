@@ -27,6 +27,7 @@ require.config({//第一块，配置
 require(['mmRouter',"domReady!",'socket'],function(mmRouter,domReady){
     var rootController = avalon.define({
         $id: "rootController",
+        _msgIndex:0,
         lock:false,
         _loading:false, // loading
         content: "",
