@@ -58,8 +58,9 @@ require(['/shopAdmin/resources/js/common.js','mmRouter',"domReady!"],function(mm
 
     avalon.router.get("/gift", callback);
     avalon.router.get("/income", callback);
-    avalon.router.get("/chat", callback);
+    avalon.router.get("/chat", callback);   
     avalon.router.get("/home", callback);
+    avalon.router.get("/signin", callback);
 
     avalon.history.start({
         basepath: "/avalon"

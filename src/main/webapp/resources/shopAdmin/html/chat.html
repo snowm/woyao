@@ -11,12 +11,25 @@
         <div class="col-sm-3">
 	        <div class="form-group">
 	          <label class="control-label">是否付费</label>
-	             <select class="form-control" ms-duplex="freeDate.free">	                  
-	                  <option value='true'>是</option> 
-	                  <option value='false'>否</option>
+	             <select class="form-control" ms-duplex="freeDate.free">
+	             	<option value=''>-- 请选择   --</option> 	                  
+	                <option value='true'>是</option> 
+	                <option value='false'>否</option>
 	             </select>
 	        </div>
-	      </div>   
+	      </div>
+	      <div class="col-sm-3"> 
+	      	 	<div class="form-group">
+	      		 	<label class="control-label">开始时间</label>
+	      		 		<input type="text"name="firstname" class="form-control" id="date_picker1" ms-duplex="freeDate.startcreationDate">	      		 	
+	      		</div>
+	      </div>
+	       <div class="col-sm-3"> 
+	      		<div class="form-group">
+	      		  	<label class="control-label">结束时间</label>
+	      		 		<input type="text"name="firstname" class="form-control" id="date_picker2" ms-duplex="freeDate.endcreationDate" >	      		 	
+	      		</div>
+	      </div>      
             <div class="col-sm-12 text-right">
                 <button class="btn btn-xs btn-info" ms-click="btnChat">查 询</button>
             </div>
