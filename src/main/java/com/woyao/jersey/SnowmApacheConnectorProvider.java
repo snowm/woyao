@@ -11,11 +11,11 @@ import org.glassfish.jersey.client.Initializable;
 import org.glassfish.jersey.client.spi.Connector;
 import org.glassfish.jersey.client.spi.ConnectorProvider;
 
-public class ActiveApacheConnectorProvider implements ConnectorProvider {
+public class SnowmApacheConnectorProvider implements ConnectorProvider {
 
     @Override
     public Connector getConnector(final Client client, final Configuration runtimeConfig) {
-        return new ActiveApacheConnector(client, runtimeConfig);
+        return new SnowmApacheConnector(client, runtimeConfig);
     }
 
     public static HttpClient getHttpClient(final Configurable<?> component) {
@@ -26,7 +26,7 @@ public class ActiveApacheConnectorProvider implements ConnectorProvider {
         return getConnector(component).getCookieStore();
     }
 
-    private static ActiveApacheConnector getConnector(final Configurable<?> component) {
+    private static SnowmApacheConnector getConnector(final Configurable<?> component) {
         if (!(component instanceof Initializable)) {
             throw new IllegalArgumentException(
                     LocalizationMessages.INVALID_CONFIGURABLE_COMPONENT_TYPE(component.getClass().getName()));
@@ -39,8 +39,8 @@ public class ActiveApacheConnectorProvider implements ConnectorProvider {
             connector = initializable.getConfiguration().getConnector();
         }
 
-        if (connector instanceof ActiveApacheConnector) {
-            return (ActiveApacheConnector) connector;
+        if (connector instanceof SnowmApacheConnector) {
+            return (SnowmApacheConnector) connector;
         } else {
             throw new IllegalArgumentException(LocalizationMessages.EXPECTED_CONNECTOR_PROVIDER_NOT_USED());
         }

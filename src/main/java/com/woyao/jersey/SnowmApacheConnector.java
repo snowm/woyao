@@ -86,9 +86,9 @@ import org.slf4j.LoggerFactory;
 import jersey.repackaged.com.google.common.util.concurrent.MoreExecutors;
 
 @SuppressWarnings("deprecation")
-public class ActiveApacheConnector implements Connector {
+public class SnowmApacheConnector implements Connector {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ActiveApacheConnector.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SnowmApacheConnector.class);
 
     private static final VersionInfo vi;
     private static final String release;
@@ -111,7 +111,7 @@ public class ActiveApacheConnector implements Connector {
      * @param client JAX-RS client instance for which the connector is being created.
      * @param config client configuration.
      */
-    public ActiveApacheConnector(final Client client, final Configuration config) {
+    public SnowmApacheConnector(final Client client, final Configuration config) {
         final Object connectionManager = config.getProperties().get(ApacheClientProperties.CONNECTION_MANAGER);
         if (connectionManager != null) {
             if (!(connectionManager instanceof HttpClientConnectionManager)) {

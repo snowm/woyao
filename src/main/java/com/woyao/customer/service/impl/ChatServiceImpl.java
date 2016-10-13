@@ -25,7 +25,6 @@ import org.springframework.web.socket.WebSocketSession;
 
 import com.snowm.security.profile.domain.Gender;
 import com.snowm.utils.query.PaginationBean;
-import com.woyao.customer.chat.UploadUtils;
 import com.woyao.customer.chat.MessageCacheOperator;
 import com.woyao.customer.chat.SessionContainer;
 import com.woyao.customer.chat.SessionUtils;
@@ -46,6 +45,7 @@ import com.woyao.customer.service.IProductService;
 import com.woyao.dao.CommonDao;
 import com.woyao.domain.chat.ChatMsg;
 import com.woyao.domain.profile.ProfileWX;
+import com.woyao.service.UploadService;
 import com.woyao.utils.JsonUtils;
 import com.woyao.utils.PaginationUtils;
 
@@ -69,6 +69,9 @@ public class ChatServiceImpl implements IChatService {
 	@Resource(name = "commonDao")
 	private CommonDao dao;
 
+	@Resource(name = "uploadService")
+	private UploadService uploadService;
+
 	@Transactional(readOnly = true)
 	@Override
 	public String newChatter(WebSocketSession wsSession, HttpSession httpSession) {
@@ -91,12 +94,7 @@ public class ChatServiceImpl implements IChatService {
 		}
 		ChatterDTO sender = SessionUtils.getChatter(wsSession);
 		if (sender.getId().equals(inMsg.getTo())) {
-			ErrorOutbound error = new ErrorOutbound("不能给自己发消息！");
-			try {
-				error.send(wsSession);
-			} catch (IOException e) {
-				log.error("Send error message failure!", e);
-			}
+			this.sendErrorMsg("不能给自己发消息！", wsSession);
 			return;
 		}
 		// Received the whole message
@@ -110,35 +108,39 @@ public class ChatServiceImpl implements IChatService {
 
 			String base64PicString = tmpMsg.getPic();
 			if (!StringUtils.isBlank(base64PicString)) {
-				String path = "/pic/" + UploadUtils.savePic(base64PicString);
-				if (log.isDebugEnabled()) {
-					log.debug("saved pic:" + path);
-				}
-				inMsg.setPic(path);
+				UploadService.FileInfo fileInfo = uploadService.savePic(base64PicString);
+				inMsg.setPic(fileInfo.getUrl());
 			}
 
 			Long msgProductId = inMsg.getProductId();
 			if (msgProductId != null) {
 				MsgProductDTO msgProductDTO = this.productService.getMsgProduct(msgProductId);
-				if (msgProductDTO != null) {
+				if (msgProductDTO == null) {
 
 				}
 			}
 			Long chatRoomId = SessionUtils.getChatRoomId(wsSession);
 			long id = this.saveMsg(inMsg, sender.getId(), chatRoomId);
 
-			OutMsgDTO outMsg = new OutMsgDTO();
-			outMsg.setId(id);
-			outMsg.setSender(sender);
-			outMsg.setText(inMsg.getText());
-			outMsg.setPic(inMsg.getPic());
-			outMsg.setCommand(OutboundCommand.ACCEPT_MSG);
-			outMsg.setDuration(0);
-			outMsg.setPrivacy(inMsg.getTo() != null);
+			// TODO 如果是付费消息，那么中断操作，返回付费消息
+
+			OutMsgDTO outMsg = generateOutMsg(inMsg, sender, id);
 			this.sendOutMsg(outMsg, inMsg.getTo(), chatRoomId, wsSession);
 		} catch (IOException e) {
 			log.error("Process message failure!", e);
 		}
+	}
+
+	private OutMsgDTO generateOutMsg(InMsg inMsg, ChatterDTO sender, long id) {
+		OutMsgDTO outMsg = new OutMsgDTO();
+		outMsg.setId(id);
+		outMsg.setSender(sender);
+		outMsg.setText(inMsg.getText());
+		outMsg.setPic(inMsg.getPic());
+		outMsg.setCommand(OutboundCommand.ACCEPT_MSG);
+		outMsg.setDuration(0);
+		outMsg.setPrivacy(inMsg.getTo() != null);
+		return outMsg;
 	}
 
 	private long saveMsg(InMsg msg, Long senderId, Long chatRoomId) {
@@ -159,42 +161,28 @@ public class ChatServiceImpl implements IChatService {
 	@Override
 	public void sendOutMsg(Outbound outbound, Long to, Long chatRoomId, WebSocketSession wsSession) {
 		Set<WebSocketSession> targetSessions = null;
-		// 群聊消息
-		ErrorOutbound error = null;
 		if (to == null && chatRoomId != null) {
+			// 群聊消息
 			targetSessions = this.getAllRoomChatterSessions(chatRoomId);
 			if (CollectionUtils.isEmpty(targetSessions)) {
-				error = new ErrorOutbound("聊天室是空的！");
-				log.debug("聊天室是空的！");
-			}
-		} else {
-			targetSessions = this.getTargetChatterSessions(to);
-			if (CollectionUtils.isEmpty(targetSessions)) {
-				error = new ErrorOutbound("对方已经下线！");
-			}
-		}
-		try {
-			if (error != null) {
-				error.send(wsSession);
+				// 很少出现，但是不排除本session也失效了，导致聊天室空，理论上自己的session和店铺的大屏端session会在
+				this.sendErrorMsg("聊天室是空的！", wsSession);
 				return;
 			}
-		} catch (IOException e) {
-			log.error("Send error message failure!", e);
-			return;
-		}
-		for (WebSocketSession session : targetSessions) {
-			try {
-				outbound.send(session);
-			} catch (IOException e) {
-				log.warn("Msg send fail to session:" + session.getId(), e);
+			targetSessions.remove(wsSession);
+		} else {
+			// 私聊消息
+			targetSessions = this.getTargetChatterSessions(to);
+			if (CollectionUtils.isEmpty(targetSessions)) {
+				this.sendErrorMsg("对方已经下线！", wsSession);
+				return;
 			}
 		}
-		try {
-			outbound.setCommand(OutboundCommand.SEND_MSG_ACK);
-			outbound.send(wsSession);
-		} catch (IOException e) {
-			log.warn("Msg send fail to sender session:" + wsSession.getId(), e);
+		for (WebSocketSession targetSession : targetSessions) {
+			this.sendMsg(outbound, targetSession);
 		}
+		outbound.setCommand(OutboundCommand.SEND_MSG_ACK);
+		this.sendMsg(outbound, wsSession);
 	}
 
 	@Override
@@ -308,22 +296,41 @@ public class ChatServiceImpl implements IChatService {
 		}
 
 		return dtos;
-	}	
+	}
+
 	@Override
-	public List<ChatPicDTO> getPicUrl(Long id,Long pageNumber,Integer pageSize) {
-		List<ChatPicDTO> dtos=new ArrayList<>();
+	public List<ChatPicDTO> getPicUrl(Long id, Long pageNumber, Integer pageSize) {
+		List<ChatPicDTO> dtos = new ArrayList<>();
 		Map<String, Object> paramMap = new HashMap<>();
-		paramMap.put("fromId", id);	
-		List<ChatMsg> chatMsgs=this.dao.query("from ChatMsg as c where c.from = :fromId and picURL is NOT null order by modification.creationDate desc", paramMap, pageNumber, pageSize);
+		paramMap.put("fromId", id);
+		List<ChatMsg> chatMsgs = this.dao.query(
+				"from ChatMsg as c where c.from = :fromId and picURL is NOT null order by modification.creationDate desc", paramMap,
+				pageNumber, pageSize);
 		for (ChatMsg chatMsg : chatMsgs) {
-			ChatPicDTO dto=new ChatPicDTO();
-			if(chatMsg.getTo()==null){
-				if(chatMsg.getPicURL()!=null && !chatMsg.getPicURL().isEmpty()){
+			ChatPicDTO dto = new ChatPicDTO();
+			if (chatMsg.getTo() == null) {
+				if (chatMsg.getPicURL() != null && !chatMsg.getPicURL().isEmpty()) {
 					dto.setPicUrl(chatMsg.getPicURL());
-				}				
+				}
 			}
 			dtos.add(dto);
 		}
 		return dtos;
+	}
+
+	private boolean sendMsg(Outbound outbound, WebSocketSession wsSession) {
+		try {
+			outbound.send(wsSession);
+			return true;
+		} catch (Exception e) {
+			String msg = String.format("Msg send to session: %s failure!\n%s", wsSession.getId(), outbound.getContent());
+			log.error(msg, e);
+		}
+		return false;
+	}
+
+	private void sendErrorMsg(String reason, WebSocketSession wsSession) {
+		ErrorOutbound error = new ErrorOutbound(reason);
+		this.sendMsg(error, wsSession);
 	}
 }

@@ -1,0 +1,2 @@
+-- Server Certificate
+keytool -genkey -alias woyao.web -keyalg RSA -keysize 1024 -keystore woyao.ks -validity 20000 -dname "CN=KK, OU=woyao, O=estate, L=ChengDu, ST=SiChuan, C=CN"

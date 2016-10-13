@@ -2,7 +2,12 @@
 define(['jquery','avalon',"domReady!"], function ($,avalon,domReady) {
 	var socket = undefined;
 	 // 创建一个Socket实例
-    socket = new WebSocket("ws://"+window.location.host + '/mobile/chat/socket');
+    var isHttps = ('https:' == window.location.protocol);
+    var protocol = 'ws://';
+    if (isHttps) {
+        protocol = 'wss://';
+    }
+    socket = new WebSocket(protocol + window.location.host + '/mobile/chat/socket');
     	
     // 打开Socket 
     socket.onopen = function(event) { 

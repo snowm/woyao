@@ -1,12 +1,10 @@
 package com.woyao.jersey;
 
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Logger;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 
-import org.apache.cxf.common.logging.Log4jLogger;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.conn.HttpClientConnectionManager;
 import org.glassfish.jersey.apache.connector.ApacheClientProperties;
@@ -42,13 +40,13 @@ public class JerseyApacheClientFactory implements FactoryBean<Client>, Initializ
                 .property(ActiveClientProperties.MAX_IDLE_TIME, this.maxIdleTime)
                 .property(ActiveClientProperties.MAX_IDLE_TIME_UNIT, this.maxIdleTimeUnit)
                 .property(ClientProperties.REQUEST_ENTITY_PROCESSING, this.requestEntityProcessing);
-        ActiveApacheConnectorProvider connectorProvider = new ActiveApacheConnectorProvider();
+        SnowmApacheConnectorProvider connectorProvider = new SnowmApacheConnectorProvider();
         clientConfig.connectorProvider(connectorProvider);
 
-        Logger logger = new Log4jLogger("JerseyClientLogging", null);
-		LoggingFeature loggineFeature = new LoggingFeature(logger);
+//        Logger logger = new Log4jLogger("JerseyClientLogging", null);
+//		LoggingFeature loggineFeature = new LoggingFeature(logger);
         ClientBuilder cb = ClientBuilder.newBuilder().withConfig(clientConfig).register(JacksonFeature.class)
-        		.register(loggineFeature);
+        		.register(LoggingFeature.class);
         this.client = cb.build();
     }
 

@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.woyao.utils.JsonUtils;
 
@@ -12,8 +13,10 @@ public abstract class Outbound {
 
 	protected String command;
 
+	@JsonIgnore
 	private transient String content;
 
+	@JsonIgnore
 	private transient boolean contentGenerated = false;
 
 	protected Outbound() {
@@ -23,7 +26,7 @@ public abstract class Outbound {
 		session.sendMessage(new TextMessage(this.getContent()));
 	}
 
-	private String getContent() {
+	public String getContent() {
 		if (this.contentGenerated) {
 			return this.content;
 		}

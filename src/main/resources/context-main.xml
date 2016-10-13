@@ -26,4 +26,8 @@
             </list>
         </property>
     </bean>
+    
+    <bean id="uploadService" class="com.woyao.service.UploadService">
+    	<property name="uploadRootPath" value="${upload.root}"/>
+    </bean>
 </beans>

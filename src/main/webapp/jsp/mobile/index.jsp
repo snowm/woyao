@@ -14,8 +14,8 @@
     <script type="text/javascript" src="/resources/js/fastclick.js"></script>
     <link rel="stylesheet" href="/resources/static/css/bar-list.css"/>
     <link rel="SHORTCUT ICON" href=""/>
-    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=mZm3GQOvw7AFyZIKrkeomWMbhMbpP2Cc"></script>
-    <script type="text/javascript" src="http://developer.baidu.com/map/jsdemo/demo/convertor.js"></script>
+    <script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak=mZm3GQOvw7AFyZIKrkeomWMbhMbpP2Cc&s=1"></script>
+    <script type="text/javascript" src="https://developer.baidu.com/map/jsdemo/demo/convertor.js"></script>
 </head>
 <body ms-controller="barListController">
     <div class="top-tab">

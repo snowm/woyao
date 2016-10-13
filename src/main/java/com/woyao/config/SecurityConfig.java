@@ -50,7 +50,7 @@ import com.snowm.security.web.matcher.CsrfRequestMatcher;
 @EnableWebSecurity
 @Order(1)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-	
+
 	private static final String LOGIN_PAGE = "/loginPage.html";
 
 	@Autowired
@@ -59,11 +59,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Resource
 	@Qualifier(value = "defaultProfileService")
 	private ProfileService profileService;
-	
+
 	@Resource
 	@Qualifier(value = "defaultPermissionService")
 	private PermissionService permissionService;
-	
+
 	@Bean(name = "cat2AuthService")
 	public AuthService defaultAuthService() {
 		AuthServiceImpl authService = new AuthServiceImpl();
@@ -72,9 +72,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		authService.setPasswordEncoder(this.passwordEncoder());
 		return authService;
 	}
-	
+
 	@Bean(name = "cat2AuthenticationProvider")
-	public AuthenticationProvider authenticationProvider(){
+	public AuthenticationProvider authenticationProvider() {
 		DefaultAuthenticationProvider authenticationProvider = new DefaultAuthenticationProvider();
 		authenticationProvider.setUserDetailsService(this.defaultAuthService());
 		authenticationProvider.setPasswordEncoder(this.passwordEncoder());
@@ -88,7 +88,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		PasswordEncoder encoder = new StandardPasswordEncoder(secret);
 		return encoder;
 	}
-	
+
 	@Bean(name = "sslAuthenticationSuccessHandler")
 	public AuthenticationSuccessHandler successHandler() {
 		SSLAuthenticationSuccessHandler handler = new SSLAuthenticationSuccessHandler();
@@ -110,7 +110,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		SnowmAuthenticationEntryPoint bean = new SnowmAuthenticationEntryPoint(LOGIN_PAGE);
 		return bean;
 	}
-	
+
 	@Bean(name = "accessDeniedHandler")
 	public AccessDeniedHandler accessDeniedHandler() {
 		return null;
@@ -127,7 +127,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		SnowmConcurrentSessionFilter bean = new SnowmConcurrentSessionFilter(sessionRegistry(), LOGIN_PAGE);
 		return bean;
 	}
-	
+
 	@Bean(name = "usernamePasswordAuthenticationFilter")
 	public Filter usernamePasswordAuthenticationFilter() {
 		UsernamePasswordAuthenticationFilter bean = new UsernamePasswordAuthenticationFilter();
@@ -136,14 +136,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		bean.setAuthenticationFailureHandler(failureHandler());
 		bean.setAuthenticationSuccessHandler(successHandler());
 		bean.setPostOnly(true);
-		bean.setFilterProcessesUrl("/login");
+		bean.setFilterProcessesUrl("/admin/login");
 		return bean;
 	}
 
 	@Bean(name = "sessionStrategy")
 	public SessionAuthenticationStrategy sessionStrategy() {
 		List<SessionAuthenticationStrategy> strategies = new ArrayList<>();
-		ConcurrentSessionControlAuthenticationStrategy concurrentSessionStrategy = new ConcurrentSessionControlAuthenticationStrategy(sessionRegistry());
+		ConcurrentSessionControlAuthenticationStrategy concurrentSessionStrategy = new ConcurrentSessionControlAuthenticationStrategy(
+				sessionRegistry());
 		concurrentSessionStrategy.setMaximumSessions(1);
 		concurrentSessionStrategy.setExceptionIfMaximumExceeded(false);
 		strategies.add(concurrentSessionStrategy);
@@ -151,9 +152,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		SessionFixationProtectionStrategy fixationStrategy = new SessionFixationProtectionStrategy();
 		fixationStrategy.setMigrateSessionAttributes(true);
 		strategies.add(fixationStrategy);
-		
+
 		strategies.add(new RegisterSessionAuthenticationStrategy(sessionRegistry()));
-		
+
 		CompositeSessionAuthenticationStrategy composite = new CompositeSessionAuthenticationStrategy(strategies);
 		return composite;
 	}
@@ -174,27 +175,28 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	public void configure(WebSecurity web) throws Exception {
-		web.ignoring().antMatchers("/admin/resources/**", "/resources/**", "/favicon.ico", "/ali/**", "/test/**", "/**");
+		web.ignoring().antMatchers("/admin/resources/**", "/resources/**", "/favicon.ico", "/ali/**", "/test/**",
+				"/MP_verify_ExuzNoCNVM22thc+.txt**", "/m/**");
 	}
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-//		http.csrf().requireCsrfProtectionMatcher(csrfRequestMatcher());
+		// http.csrf().requireCsrfProtectionMatcher(csrfRequestMatcher());
 		http.addFilterBefore(concurrentSessionFilter(), ConcurrentSessionFilter.class);
 		http.addFilter(usernamePasswordAuthenticationFilter());
 		http.exceptionHandling().authenticationEntryPoint(authenticationEntryPoint());
 		http.csrf().disable();
-		http.logout().logoutUrl("/logout").logoutSuccessUrl("/");
-		http.authorizeRequests()
-			.antMatchers("/login.jsp**", "/login**").anonymous()
-			.antMatchers("/logout**").authenticated()
-//			.antMatchers("/**", "/index.jsp**", "/admin/**").hasAnyRole("SUPER", "ADMIN", "OP", "CS")
-			.antMatchers("/**", "/index.jsp**", "/admin/**").authenticated()
-//			.antMatchers("/", "/admin/**").hasAnyAuthority("ROLE_SUPER", "ROLE_ADMIN", "ROLE_OP", "ROLE_CS")
-			.antMatchers("/api/op2.html**").access("hasRole('OP') and hasRole('ADMIN')")
-//			.antMatchers("/admin/**").hasAnyRole("SUPER", "ADMIN", "OP", "CS")
-			.anyRequest().denyAll();
+		http.logout().logoutUrl("/admin/logout").logoutSuccessUrl("/admin");
+		http.authorizeRequests().antMatchers("/login.jsp**", "/login**").anonymous().antMatchers("/logout**").authenticated()
+				// .antMatchers("/**", "/index.jsp**",
+				// "/admin/**").hasAnyRole("SUPER", "ADMIN", "OP", "CS")
+				.antMatchers("/admin/**").authenticated()
+				// .antMatchers("/", "/admin/**").hasAnyAuthority("ROLE_SUPER",
+				// "ROLE_ADMIN", "ROLE_OP", "ROLE_CS")
+				.antMatchers("/api/op2.html**").access("hasRole('OP') and hasRole('ADMIN')")
+				// .antMatchers("/admin/**").hasAnyRole("SUPER", "ADMIN", "OP",
+				// "CS")
+				.anyRequest().denyAll();
 	}
-
 
 }

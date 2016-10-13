@@ -13,7 +13,6 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -24,7 +23,6 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.http.HttpStatus;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.web.util.UriComponents;
@@ -43,6 +41,7 @@ import com.woyao.wx.dto.GetUserInfoResponse;
 @Component("oauth2SecurityFilter")
 public class Oauth2SecurityFilter implements Filter, InitializingBean {
 
+	private static final int COOKIE_AGE = 31536000;
 	private static final String PARA_OAUTH_CODE = "code";
 	private static final String SESSION_ATTR_OAUTH_CODE = "code";
 
@@ -141,7 +140,7 @@ public class Oauth2SecurityFilter implements Filter, InitializingBean {
 
 		// 获取到信息后，将chatter放进session，将chatterId放入cookie
 		session.setAttribute(SessionContainer.SESSION_ATTR_CHATTER, dto);
-		CookieUtils.setCookie(response, CookieUtils.COOKIE_CHATTER_ID, dto.getId() + "");
+		CookieUtils.setCookie(response, CookieUtils.COOKIE_CHATTER_ID, dto.getId() + "", COOKIE_AGE);
 		return true;
 	}
 

@@ -38,15 +38,22 @@ public class WxJerseyService {
 	@Produces(MediaType.TEXT_PLAIN)
 	public String verify(@QueryParam("signature") String signature, @QueryParam("timestamp") String timestamp,
 			@QueryParam("nonce") String nonce, @QueryParam("echostr") String echostr, @Context HttpServletRequest request) {
+		if (log.isDebugEnabled()) {
+			log.debug(String.format("Verify token request--signature:%s, timestamp:%s, nonce:%s, echostr:%s", signature, timestamp, nonce,
+					echostr));
+		}
 		try {
 			String encoded = this.encode(timestamp, nonce, this.globalConfig.getVerifyToken());
-			this.log.debug(encoded);
+			if (log.isDebugEnabled()) {
+				this.log.debug("Verify token encoded:" + encoded);
+			}
 			if (encoded.equals(signature)) {
 				return echostr;
 			}
 		} catch (Exception ex) {
-			this.log.warn("Verify token failure!", ex);
+			this.log.error("Verify token failure!", ex);
 		}
+		this.log.error("Verify token failure!");
 		return null;
 	}
 

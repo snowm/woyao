@@ -1,16 +1,14 @@
 package com.woyao.jersey;
 
-import java.util.logging.Logger;
-
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 
-import org.apache.cxf.common.logging.Log4jLogger;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.client.ClientProperties;
+import org.glassfish.jersey.client.spi.ConnectorProvider;
 import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.logging.LoggingFeature;
-import org.glassfish.jersey.netty.connector.NettyConnectorProvider;
+import org.glassfish.jersey.netty.connector.SnowmNettyConnectorProvider;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
@@ -28,12 +26,12 @@ public class JerseyNettyClientFactory implements FactoryBean<Client>, Initializi
 		ClientConfig clientConfig = new ClientConfig().property(ClientProperties.ASYNC_THREADPOOL_SIZE, this.asyncThreadPoolSize)
 				.property(ClientProperties.READ_TIMEOUT, this.socketTimeout)
 				.property(ClientProperties.CONNECT_TIMEOUT, this.connectTimeout);
-		NettyConnectorProvider connectorProvider = new NettyConnectorProvider();
+		ConnectorProvider connectorProvider = new SnowmNettyConnectorProvider();
 		clientConfig.connectorProvider(connectorProvider);
 
-		Logger logger = new Log4jLogger("JerseyClientLogging", null);
-		LoggingFeature loggingFeature = new LoggingFeature(logger);
-		ClientBuilder cb = ClientBuilder.newBuilder().withConfig(clientConfig).register(JacksonFeature.class).register(loggingFeature);
+//		Logger logger = new Log4jLogger("JerseyClientLogging", null);
+//		LoggingFeature loggingFeature = new LoggingFeature(logger);
+		ClientBuilder cb = ClientBuilder.newBuilder().withConfig(clientConfig).register(JacksonFeature.class).register(LoggingFeature.class);
 		this.client = cb.build();
 	}
 

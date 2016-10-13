@@ -26,7 +26,7 @@
 </head>
 <body>
 	<c:set var="login_url">
-		<c:url value="/login" />
+		<c:url value="/admin/login" />
 	</c:set>
 	<div class="container" id="main_container" style="width:300px;">
 		<div class="row">
