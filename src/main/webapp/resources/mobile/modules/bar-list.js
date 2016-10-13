@@ -38,6 +38,8 @@ window.onload = function(){
             success: function(data) {
             	console.log();
             	barListController.barList = data.results;
+
+                addShop(data.results);
             },
             complete: function() {
             },
@@ -163,19 +165,43 @@ window.onload = function(){
         this._div.style.left = position.x - this._length / 2 + "px";
         this._div.style.top = position.y - this._length / 2 + "px";
     };
+    
+    
+    
 // 添加自定义覆盖物
-    var mySquare = new SquareOverlay(new BMap.Point(104.064995, 30.664766), 80,'兰桂坊酒吧');
-    var mySquare2 = new SquareOverlay(new BMap.Point(104.075994, 30.684756), 80,'九眼桥');
-
-
-    map.addOverlay(mySquare);
-    mySquare.addEventListener('touchstart',function(){
-        window.location.href = '/html/index.html'
-    });
-
-    map.addOverlay(mySquare2);
-    mySquare2.addEventListener('touchstart',function(){
-        window.location.href = '/html/index.html'
-    });
+    
+    function addShop(data){
+    	
+    	for (var i = 0; i < data.length; i++) {  
+            (function (x) {
+            	var flag = x;
+            	var x = new SquareOverlay(new BMap.Point( data[flag].longitude , data[flag].latitude ), 80, data[flag].name);
+            	map.addOverlay(x);
+            	x.addEventListener('touchstart',function(){
+                  window.location.href = '/m/chatRoom/' + data[flag].id + '#!/'
+              });
+            })(i);  
+         }
+    	setTimeout(function(){
+    		map.centerAndZoom(new BMap.Point(104.072227,30.66378), 12)
+    	},200)
+        
+    }
+    
+    
+//    var mySquare = new SquareOverlay(new BMap.Point(104.064995, 30.664766), 80,'兰桂坊酒吧');
+//    var mySquare2 = new SquareOverlay(new BMap.Point(104.075994, 30.684756), 80,'九眼桥');
+//
+//
+//    map.addOverlay(mySquare);
+//    mySquare.addEventListener('touchstart',function(){
+//        window.location.href = '/html/index.html'
+//    });
+//
+//    map.addOverlay(mySquare2);
+//    mySquare2.addEventListener('touchstart',function(){
+//        window.location.href = '/html/index.html'
+//    });
+    
     avalon.scan()
 }

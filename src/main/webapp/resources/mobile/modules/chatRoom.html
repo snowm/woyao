@@ -178,7 +178,7 @@
         <div class="msg-block-container">
         	<div class="msg-block clearfix" style="text-align:center">
         		<span ms-if="!queryHistoryIng" style="font-size:10px;color:#428BF7">下拉加载更多 <br><br><img src="/resources/static/img/adddown.png" width=20 alt=""></span>
-        		<span ms-if="queryHistoryIng"><img src="/resources/static/img/loadsimg.gif" width=20 alt=""></span>
+        		<span ms-if="queryHistoryIng" style="font-size:10px;color:#428BF7">加载中 <br><br><img src="/resources/static/img/loadsimg.gif" width=20 alt=""></span>
         	</div>
             <div class="msg-block clearfix" ms-repeat-item="msgList" ms-class="msg-block-self:item.command == 'smACK'">
                 <div class="msg-header">
@@ -201,12 +201,12 @@
                         <img class="msg-icon-right" src="/resources/static/img/lips.png" ms-if="item.sender.gender == 'FEMALE'" alt="">
                     </div>
                 </div>
-                <p class="msg-time"><span ms-if="1"></span>{{ 11.11 | date("dd:HH")}}</p>
+                <p class="msg-time"><span ms-if="0"></span>{{ 11.11 | date("dd:HH")}}</p>
             </div>
         </div>
     </div>
     <div class="module-block"  ms-class-show-emoji="emojiShow" ms-class-show-plugin="pluginShow">
-    	<img ms-on-tap='pageDown' src="/resources/static/img/down.png" ms-if="pageDownBtn" style="width:40px;position:absolute;right:75px;top:-50px;">
+    	<img ms-on-tap='pageDown' src="/resources/static/img/down.png" ms-if="pageDownBtn" style="width:30px;position:absolute;right:80px;top:-40px;">
         <div class="entry-contain">
             <table width="100%">
                 <tr>

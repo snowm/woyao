@@ -28,6 +28,7 @@ require(['mmRouter',"domReady!",'socket'],function(mmRouter,domReady){
     var rootController = avalon.define({
         $id: "rootController",
         lock:false,
+        _loading:false, // loading
         content: "",
         _userInfo:{id:9}, //当前用户信息
         _privacyMsg:[],//私聊消息

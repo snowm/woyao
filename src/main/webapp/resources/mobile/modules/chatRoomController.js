@@ -311,7 +311,7 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"domReady!",
             })
         },
         pageDown:function(){
-        	$(".msg-block-contain").animate({scrollTop:$(".msg-block-container").height() - $(".msg-block-contain").height() + 100},100,'swing');
+        	$(".msg-block-contain").animate({scrollTop:$(".msg-block-container").height() - $(".msg-block-contain").height() + 100},600,'swing');
     		mainController.pageDownBtn = false;
         },
         queryHistoryInfo:{
@@ -433,6 +433,8 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"domReady!",
 
         main_socket = socket;
 
+    	$(".msg-block-contain").animate({scrollTop:$(".msg-block-container").height() - $(".msg-block-contain").height() + 100},300,'swing');
+    	
         setTimeout(function(){
             $('.emoji-btn').qqFace({
                 id : 'facebox', //表情容器的ID
@@ -448,6 +450,7 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"domReady!",
                     scrollTop =$(this).scrollTop();//滚动高度
                 if(scrollTop - (contentH - viewH) >= 0){
                     $(this).scrollTop(contentH - viewH - 1);
+                    mainController.pageDownBtn = false;
                 }
                 if(scrollTop <= 0){
                     $(this).scrollTop(1);
@@ -476,7 +479,10 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"domReady!",
             success: function(data){
                 mainController.chatterList = data.results;
             },
-            dataType: 'json'
+            dataType: 'json',
+            error: function() {
+                alert("获取信息失败");
+            }
         });
     }
     
@@ -522,6 +528,8 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"domReady!",
     queryGoodsData();
 
     function queryHistoryMsg(){
+
+        
         $.ajax({
             url: "/m/chat/listMsg",
             dataType: "JSON",
@@ -547,7 +555,7 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"domReady!",
                         mainController.msgList.unshift(msg[i]);
                         
                         if($(".msg-block-container").height() - $(".msg-block-contain").height() - $(".msg-block-contain").scrollTop() < 600){
-                    		$(".msg-block-contain").animate({scrollTop:$(".msg-block-container").height() -  $(".msg-block-contain").height() + 200},100,'swing');
+                    		$(".msg-block-contain").animate({scrollTop:$(".msg-block-container").height() -  $(".msg-block-contain").height() + 200},0,'swing');
                     		mainController.pageDownBtn = false;
                     	}else{
                     		mainController.pageDownBtn = true;
@@ -555,12 +563,11 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"domReady!",
                         
                     }
                 }
-
-                console.log(mainController.msgList);
                 
                 setTimeout(function(){
                     mainController.queryHistoryIng = false;
                 },800)
+                
             },
             complete: function() {
             	
