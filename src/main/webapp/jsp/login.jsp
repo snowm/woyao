@@ -61,7 +61,7 @@
 	            
 	            <div class="col-md-5">
 	                
-	                <form action="${login_url }" method="POST">
+	                <form action="${login_url}" method="POST">
 	                    <h4 class="nomargin text-center">登 录</h4>
 	                
 	                    <input type="text" class="form-control uname" id="username" name="username" placeholder="用户名" autocomplete="off"/>

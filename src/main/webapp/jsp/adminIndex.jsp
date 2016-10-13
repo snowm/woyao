@@ -13,6 +13,9 @@
 </head>
 <script data-main="/admin/resources/js/main.js" src="/admin/resources/js/plugin/require.js"></script>
 <body ms-controller="root">
+	<c:set var="logout_url">
+		<c:url value="/admin/logout" />
+	</c:set>
 <!-- Preloader -->
 <div id="preloader">
     <div id="status"><i class="fa fa-spinner fa-spin"></i></div>
@@ -39,7 +42,11 @@
                     <li><a href="profile.html"><i class="glyphicon glyphicon-user"></i> 个人中心</a></li>
                     <li><a href="#"><i class="glyphicon glyphicon-cog"></i> 设 置</a></li>
                     <li><a href="#"><i class="glyphicon glyphicon-question-sign"></i> 帮 助</a></li>
-                    <li><a href="signin.html"><i class="glyphicon glyphicon-log-out"></i> 注 销</a></li>
+                    <li>
+	                    <form action="${logout_url}" method="POST">
+		                    <a><i class="glyphicon glyphicon-log-out"></i>  <input type='submit' value="注销"></a>
+		                </form>
+	                </li>
                 </ul>
             </div>
             
