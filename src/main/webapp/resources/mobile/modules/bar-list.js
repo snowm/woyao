@@ -7,19 +7,24 @@ window.onload = function(){
         FastClick.attach(document.body);
     }, false);
     
-    // 微信js-sdk
-    wx.config({
-        debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-        appId: 'wxf55a7c00ffaca994', // 必填，企业号的唯一标识，此处填写企业号corpid
-        timestamp: '', // 必填，生成签名的时间戳
-        nonceStr: '', // 必填，生成签名的随机串
-        signature: '',// 必填，签名，见附录1
-        jsApiList: ['getLocation'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
-    });
     
+    var wxadt = {
+    		appId: 'wxf55a7c00ffaca994', 
+    		timestamp: '',
+    		nonceStr: '', 
+    		signature: '',
+        }
+            
+        // 配置微信js-sdk许可
+        wx.config({
+            debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+            appId: wxadt.appId, // 必填，企业号的唯一标识，此处填写企业号corpid
+            timestamp: wxadt.timestamp, // 必填，生成签名的时间戳
+            nonceStr: wxadt.nonceStr, // 必填，生成签名的随机串
+            signature: wxadt.signature,// 必填，签名，见附录1
+            jsApiList: ['getLocation'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+        });
 
-    
-    
 
     var barListController = avalon.define({
         $id: "barListController",
@@ -62,6 +67,7 @@ window.onload = function(){
     	            complete: function() {
     	            },
     	            error: function() {
+    	            	alert("GPS坐标转换百度坐标失败");
     	            }
     	        });
     	    }

@@ -126,7 +126,7 @@ define(['jquery','avalon', 'text!./privacyChat.html','socket','swiper',"domReady
                             };
                         }else{
                             msg = {
-                                msgId:1,
+                                msgId:msgId,
                                 block:blocks[i],
                             }
                         }
@@ -204,12 +204,7 @@ define(['jquery','avalon', 'text!./privacyChat.html','socket','swiper',"domReady
         avalon.scan();
         
         
-//        pChatController.pMsgList.$watch('length', function( a, b) {
-//        	initData();
-//        });
-//        
-        
-        
+
         function queryHistoryMsg(){
         	console.log("↓↓↓↓↓↓↓↓查询历史消息参数：↓↓↓↓↓↓↓↓");
         	console.log(pChatController.queryHistoryInfo.$model);

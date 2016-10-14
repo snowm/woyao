@@ -1,5 +1,5 @@
 
-define(['jquery','avalon',"domReady!"], function ($,avalon,domReady) {
+define(['jquery','avalon','wxsdk',"domReady!"], function ($,avalon,wx,domReady) {
     var socket = undefined;
     // 创建一个Socket实例
     var isHttps = ('https:' == window.location.protocol);
@@ -38,9 +38,33 @@ define(['jquery','avalon',"domReady!"], function ($,avalon,domReady) {
             avalon.vmodels.rootController._userInfo = msg;
             return;
         }
-
+        if(msg.command == '付费类型'){
+        	alert("收到付费类型消息 可发起支付请求");
+        	wx.chooseWXPay({
+        	    timestamp: 0, 
+        	    nonceStr: '', 
+        	    package: '',
+        	    signType: '',
+        	    paySign: '', 
+        	    success: function (res) {
+        	        // 支付成功后的回调函数
+                	avalon.vmodels.rootController._loading = false;
+                	avalon.vmodels.mainController.hidePopSend();
+                    if(avalon.vmodels.mainController.emojiShow){
+                    	avalon.vmodels.mainController.pluginShow = false;
+                    	avalon.vmodels.mainController.emojiShow = false;
+                    }
+                    avalon.vmodels.mainController.payCount = 0;
+                    avalon.vmodels.mainController.msgText = '';
+                    avalon.vmodels.mainController.pluginShow = false;
+                    avalon.vmodels.mainController.imgUrl = '';
+                    avalon.vmodels.mainController.imgViewSrc = '/resources/static/img/photo.png';
+                    $("#photoInput").val('');
+        	    }
+        	});
+        }
+        
         msg.text = replace_em(msg.text);
-
 
         if(msg.privacy){
             if(window.location.hash == '#!/privacyChat'){

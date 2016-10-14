@@ -2,16 +2,14 @@
  * Created by Luozhongdao on 2016/9/20 0020.
  */
 
-define(['jquery','jquery-migrate','jquery-ui','bootstrap','modernizr','jquery.cookies','toggles'],function($){
+define(['jquery','flatUI','application','jquery.cookies'],function($){
 
 
     jQuery(document).ready(function() {
         "use strict";
 
         // Page Preloader
-        jQuery('#preloader').delay(350).fadeOut(function () {
-            jQuery('body').delay(350).css({'overflow': 'visible'});
-        });
+        
     });
 
 

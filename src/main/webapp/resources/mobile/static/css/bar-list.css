@@ -80,8 +80,8 @@ html,body{
     background: rgba(24, 24, 24, 0.9);
 }
 .tab-active{
-    color: #ffffff;
-    text-shadow: 0 0 1px #000000;
+    color: rgba(0, 178, 255, 0.96);
+    text-shadow: 0 0 1px #ffffff;
 }
 .list-ctn{
     position: relative;

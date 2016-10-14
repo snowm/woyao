@@ -10,24 +10,28 @@ require.config({
         'mmRouter': './js/plugin/mmRouter',
         'text': ['./js/plugin/require/text'],
         'domReady': './js/plugin/domReady',
-        'jquery': ['./js/plugin/jquery-1.11.1.min'],
+        'jquery': ['./js/plugin/vendor/jquery.min'],
+        'flatUI': ['./js/plugin/flat-ui.min'],
         'jquery.cookies': ['./js/plugin/jquery.cookies'],
-        'jquery-ui': ['./js/plugin/jquery-ui-1.10.3.min'],
-        'jquery-migrate': ['./js/plugin/jquery-migrate-1.2.1.min'],
-        'bootstrap': ['./js/plugin/bootstrap.min'],
-        'custom': ['./js/plugin/custom'],
-        'toggles': ['./js/plugin/toggles.min'],
-        'modernizr': ['./js/plugin/modernizr.min'],
+//        'jquery-ui': ['./js/plugin/jquery-ui-1.10.3.min'],
+//        'jquery-migrate': ['./js/plugin/jquery-migrate-1.2.1.min'],
+//        'bootstrap': ['./js/plugin/bootstrap.min'],
+        'application':['./js/plugin/application']
+//        'custom': ['./js/plugin/custom'],
+//        'toggles': ['./js/plugin/toggles.min'],
+//        'modernizr': ['./js/plugin/modernizr.min'],
     },shim: {
         "jquery":{
             "expotrs":'$'
         },
         "jquery.cookies":["jquery"],
-        "jquery-ui":["jquery"],
-        "jquery-migrate":["jquery"],
-        "custom":["jquery"],
-        "toggles":["jquery"],
-        "bootstrap":["jquery"],
+//        "jquery-ui":["jquery"],
+//        "jquery-migrate":["jquery"],
+//        "custom":["jquery"],
+//        "toggles":["jquery"],
+//        "bootstrap":["jquery"],
+        "flatUI":["jquery"],
+        "application":["jquery"],
     },
     priority: ['text']
 });
@@ -60,7 +64,8 @@ require(['/shopAdmin/resources/js/common.js','mmRouter',"domReady!"],function(mm
     avalon.router.get("/income", callback);
     avalon.router.get("/chat", callback);   
     avalon.router.get("/home", callback);
-    avalon.router.get("/signin", callback);
+    avalon.router.get("/signin", callback);;
+    avalon.router.get("/demo", callback);
 
     avalon.history.start({
         basepath: "/avalon"

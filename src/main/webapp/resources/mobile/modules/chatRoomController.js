@@ -180,7 +180,6 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"wxsdk","dom
 
             var blocks = sliceContent(content);
             var msgId = ++avalon.vmodels.rootController._msgIndex;
-            console.log(msgId)
             for(var i = 0;i<blocks.length;i++){
                 var msg = undefined;
                 var type = 'msgBlock';
@@ -196,7 +195,7 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"wxsdk","dom
                     console.log(msg);
                 }else{
                     msg = {
-                        msgId:1,
+                        msgId:msgId,
                         block:blocks[i],
                     }
                 }
@@ -205,17 +204,14 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"wxsdk","dom
                 mainController.imgUrl = '';
             }
 
-            mainController.hidePopSend();
-            if(mainController.emojiShow){
-                mainController.pluginShow = false;
-                mainController.emojiShow = false;
+            
+            // 判断是否为付费类型 如果是：拦截，并发起订单请求；等待回调参数，以发起支付请求
+            if(productsId != 0){
+            	alert("发送支付消息");
+            	avalon.vmodels.rootController._loading = true;
+            }else{
+            	initView();
             }
-            mainController.payCount = 0;
-            mainController.msgText = '';
-            mainController.pluginShow = false;
-            mainController.imgUrl = '';
-            mainController.imgViewSrc = '/resources/static/img/photo.png';
-            $("#photoInput").val('');
         }
         ,
         imgViewSrc:'/resources/static/img/photo.png',
@@ -292,6 +288,21 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"wxsdk","dom
     });
 
 
+    function initView(){
+    	mainController.hidePopSend();
+        if(mainController.emojiShow){
+            mainController.pluginShow = false;
+            mainController.emojiShow = false;
+        }
+        mainController.payCount = 0;
+        mainController.msgText = '';
+        mainController.pluginShow = false;
+        mainController.imgUrl = '';
+        mainController.imgViewSrc = '/resources/static/img/photo.png';
+        $("#photoInput").val('');
+    }
+    
+    
     mainController.$watch("msgType", function(t) {
         if(mainController.msgType == ''){
             mainController.payCount == 0;
@@ -374,7 +385,7 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"wxsdk","dom
         //进行最小压缩
         var ndata = canvas.toDataURL('image/jpeg', 0.1);
 
-        alert("图片大于200KB 进行压缩 压缩前：" + initSize + '压缩后：' + ndata.length);
+        //alert("图片大于200KB 进行压缩 压缩前：" + initSize + '压缩后：' + ndata.length);
 
         tCanvas.width = tCanvas.height = canvas.width = canvas.height = 0;
 
