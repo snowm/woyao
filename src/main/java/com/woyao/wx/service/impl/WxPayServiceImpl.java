@@ -1,4 +1,4 @@
-package com.woyao.customer.service.impl;
+package com.woyao.wx.service.impl;
 
 import java.util.Date;
 import java.util.Random;
@@ -9,7 +9,6 @@ import javax.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import com.woyao.GlobalConfig;
-import com.woyao.customer.service.IWxAdminService;
 import com.woyao.dao.CommonDao;
 import com.woyao.domain.product.Product;
 import com.woyao.domain.profile.ProfileWX;
@@ -20,11 +19,12 @@ import com.woyao.domain.purchase.OrderStatus;
 import com.woyao.wx.dto.ProductDetail;
 import com.woyao.wx.dto.UnifiedOrderRequestDTO;
 import com.woyao.wx.dto.UnifiedOrderResponse;
+import com.woyao.wx.service.IWxPayService;
 
 
 @Service("wxAdminService")
 @Transactional
-public class WxAdminServiceImpl implements IWxAdminService{
+public class WxPayServiceImpl implements IWxPayService{
 
 	@Resource(name = "commonDao")
 	private CommonDao dao;

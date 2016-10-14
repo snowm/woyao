@@ -57,8 +57,8 @@ public class Order extends DefaultModelImpl {
 	@Type(type = ExtEnumType.CLASS_NAME, parameters = { @Parameter(name = ExtEnumType.PARA_ENUMCLASS, value = OrderStatus.CLASS_NAME) })
 	private OrderStatus status;
 
-	@Column(name = "TOTAL_FEE")
-	private Integer totalFee;
+	@Column(name = "TOTAL_FEE", nullable = false)
+	private long totalFee;
 
 	@Override
 	public Long getId() {
@@ -118,13 +118,12 @@ public class Order extends DefaultModelImpl {
 		this.status = status;
 	}
 
-	public Integer getTotalFee() {
+	public long getTotalFee() {
 		return totalFee;
 	}
 
-	public void setTotalFee(Integer totalFee) {
+	public void setTotalFee(long totalFee) {
 		this.totalFee = totalFee;
 	}
-	
 
 }

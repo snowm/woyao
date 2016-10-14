@@ -4,6 +4,8 @@ import com.woyao.wx.dto.GetUserInfoResponse;
 
 public interface IWxService {
 
-	GetUserInfoResponse getUserInfo(Long profileWXId, String appId, String appSecret, String code);
-	
+	GetUserInfoResponse getUserInfoViaExistedOpenId(String openId, String appId, String appSecret);
+
+	GetUserInfoResponse getUserInfo(String appId, String appSecret, String code);
+
 }

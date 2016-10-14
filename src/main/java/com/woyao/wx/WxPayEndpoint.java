@@ -14,12 +14,12 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.BeanUtils;
 
 import com.woyao.admin.service.IOrderAdminService;
-import com.woyao.customer.service.IWxAdminService;
 import com.woyao.domain.purchase.Order;
 import com.woyao.utils.JaxbUtils;
 import com.woyao.wx.dto.UnifiedOrderRequest;
 import com.woyao.wx.dto.UnifiedOrderRequestDTO;
 import com.woyao.wx.dto.UnifiedOrderResponse;
+import com.woyao.wx.service.IWxPayService;
 
 public class WxPayEndpoint {
 
@@ -35,7 +35,7 @@ public class WxPayEndpoint {
 	private Client client;
 	
 	@Resource(name="wxAdminService")
-	private IWxAdminService wxAdminService;
+	private IWxPayService wxAdminService;
 
 	public UnifiedOrderResponse unifiedOrder(UnifiedOrderRequestDTO dto) {
 		WebTarget target = client.target(this.wxUnifiedOrderUrl);

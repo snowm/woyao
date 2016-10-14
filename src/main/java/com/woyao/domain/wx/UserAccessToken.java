@@ -30,8 +30,8 @@ public class UserAccessToken extends DefaultModelImpl {
 	@GeneratedValue(strategy = GenerationType.TABLE, generator = "userAccessTokenGenerator")
 	private Long id;
 
-	@Column(name = "PROFILE_WX_ID", nullable = false, unique = true)
-	private long profileWXId;
+	@Column(name = "PROFILE_WX_ID", nullable = true, unique = true)
+	private Long profileWXId;
 
 	@Column(name = "TOKEN", nullable = false, length = 1000)
 	private String accessToken;
@@ -61,11 +61,11 @@ public class UserAccessToken extends DefaultModelImpl {
 		this.id = id;
 	}
 
-	public long getProfileWXId() {
+	public Long getProfileWXId() {
 		return profileWXId;
 	}
 
-	public void setProfileWXId(long profileWXId) {
+	public void setProfileWXId(Long profileWXId) {
 		this.profileWXId = profileWXId;
 	}
 

@@ -1,4 +1,4 @@
-package org.glassfish.jersey.netty.connector;
+package com.woyao.jersey;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.core.Configuration;

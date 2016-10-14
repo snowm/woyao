@@ -51,7 +51,7 @@ public class MessageCacheOperator {
 		}
 	}
 
-	public InMsg processMessage(Lock lock, Map<Long, InMsg> cache, InMsgBlockDTO block) {
+	private InMsg processMessage(Lock lock, Map<Long, InMsg> cache, InMsgBlockDTO block) {
 		try {
 			Long msgId = block.getMsgId();
 			lock.lock();
@@ -72,6 +72,11 @@ public class MessageCacheOperator {
 		}
 	}
 
+	/**
+	 * 检查消息完整性
+	 * @param msg
+	 * @return
+	 */
 	private boolean checkMsgIntegrity(InMsg msg) {
 		int size = msg.getBlockSize();
 		int actualSize = msg.getBlocks().size();

@@ -110,6 +110,7 @@ public class WxEndpoint {
 	 * @return
 	 */
 	public GetAccessTokenResponse getAccessToken(String appId, String appSecret, String code, String grantType) {
+		log.debug("Start to get accessToken of user...");
 		WebTarget target = client.target(this.getAccessTokenUrl).queryParam(QUERY_PARA_APPID, appId).queryParam("secret", appSecret)
 				.queryParam("code", code).queryParam(QUERY_PARA_GRANT_TYPE, grantType);
 
@@ -122,6 +123,9 @@ public class WxEndpoint {
 		try {
 			String result = resp.readEntity(String.class);
 			GetAccessTokenResponse token = JsonUtils.toObject(result, GetAccessTokenResponse.class);
+			if (log.isDebugEnabled()) {
+				log.debug("AccessToken of user got:" + token);
+			}
 			return token;
 		} catch (Exception e) {
 			String msg = "Can not parse response!";
@@ -143,6 +147,7 @@ public class WxEndpoint {
 	 * @return
 	 */
 	public GetAccessTokenResponse refreshAccessToken(String appId, String refreshToken, String grantType) {
+		log.debug("Start to refresh accessToken of user...");
 		WebTarget target = client.target(this.refreshAccessTokenUrl).queryParam(QUERY_PARA_APPID, appId)
 				.queryParam(QUERY_PARA_GRANT_TYPE, grantType).queryParam("refresh_token", refreshToken);
 
@@ -155,6 +160,9 @@ public class WxEndpoint {
 		try {
 			String result = resp.readEntity(String.class);
 			GetAccessTokenResponse token = JsonUtils.toObject(result, GetAccessTokenResponse.class);
+			if (log.isDebugEnabled()) {
+				log.debug("AccessToken of user refreshed:" + token);
+			}
 			return token;
 		} catch (Exception e) {
 			String msg = "Can not parse response!";
@@ -174,6 +182,7 @@ public class WxEndpoint {
 	 * @return
 	 */
 	public GetUserInfoResponse getUserInfo(String accessToken, String openId, String lang) {
+		log.debug("Start to get user info...");
 		WebTarget target = client.target(this.getUserInfoUrl).queryParam(QUERY_PARA_ACCESS_TOKEN, accessToken)
 				.queryParam(QUERY_PARA_OPEN_ID, openId).queryParam("lang", lang);
 
@@ -185,8 +194,11 @@ public class WxEndpoint {
 
 		try {
 			String result = resp.readEntity(String.class);
-			GetUserInfoResponse token = JsonUtils.toObject(result, GetUserInfoResponse.class);
-			return token;
+			GetUserInfoResponse user = JsonUtils.toObject(result, GetUserInfoResponse.class);
+			if (log.isDebugEnabled()) {
+				log.debug("User info got:" + user);
+			}
+			return user;
 		} catch (Exception e) {
 			String msg = "Can not parse response!";
 			log.error(msg, e);

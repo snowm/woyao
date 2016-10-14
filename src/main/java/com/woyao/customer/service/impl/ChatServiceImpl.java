@@ -2,11 +2,11 @@ package com.woyao.customer.service.impl;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.locks.Lock;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
@@ -34,7 +34,6 @@ import com.woyao.customer.dto.MsgProductDTO;
 import com.woyao.customer.dto.chat.BlockDTO;
 import com.woyao.customer.dto.chat.MsgQueryRequest;
 import com.woyao.customer.dto.chat.in.InMsg;
-import com.woyao.customer.dto.chat.in.Inbound;
 import com.woyao.customer.dto.chat.out.ErrorOutbound;
 import com.woyao.customer.dto.chat.out.OutMsgDTO;
 import com.woyao.customer.dto.chat.out.Outbound;
@@ -90,18 +89,8 @@ public class ChatServiceImpl implements IChatService {
 	}
 
 	@Override
-	public void acceptMsg(WebSocketSession wsSession, Inbound inbound) {
-		Lock lock = SessionUtils.getMsgCacheLock(wsSession);
-		Map<Long, InMsg> cache = SessionUtils.getMsgCache(wsSession);
-		InMsg inMsg = this.messageCacheOperator.receiveMsg(lock, cache, inbound);
-		if (inMsg == null) {
-			return;
-		}
+	public void acceptMsg(WebSocketSession wsSession, InMsg inMsg) {
 		ChatterDTO sender = SessionUtils.getChatter(wsSession);
-		if (sender.getId().equals(inMsg.getTo())) {
-			this.sendErrorMsg("不能给自己发消息！", wsSession);
-			return;
-		}
 		// Received the whole message
 		StringBuilder sb = new StringBuilder();
 		for (BlockDTO block : inMsg.getBlocks()) {
@@ -117,20 +106,26 @@ public class ChatServiceImpl implements IChatService {
 				inMsg.setPic(fileInfo.getUrl());
 			}
 
+			Long chatRoomId = SessionUtils.getChatRoomId(wsSession);
+			long id = this.saveMsg(inMsg, sender.getId(), chatRoomId);
+			
 			Long msgProductId = inMsg.getProductId();
 			if (msgProductId != null) {
 				MsgProductDTO msgProductDTO = this.productService.getMsgProduct(msgProductId);
-				if (msgProductDTO == null) {
-
+				if (msgProductDTO != null) {
+					// TODO 如果是付费消息，那么中断操作，返回付费消息
+					
+					return;
 				}
 			}
-			Long chatRoomId = SessionUtils.getChatRoomId(wsSession);
-			long id = this.saveMsg(inMsg, sender.getId(), chatRoomId);
+			
 
-			// TODO 如果是付费消息，那么中断操作，返回付费消息
-
-			OutMsgDTO outMsg = generateOutMsg(inMsg, sender, id);
-			this.sendOutMsg(outMsg, inMsg.getTo(), chatRoomId, wsSession);
+			OutMsgDTO outbound = generateOutMsg(inMsg, sender, id);
+			if (inMsg.getTo() != null) {
+				this.sendPrivacyMsg(outbound, inMsg.getTo(), wsSession);
+			} else {
+				this.sendRoomMsg(outbound, chatRoomId, wsSession);
+			}
 		} catch (IOException e) {
 			log.error("Process message failure!", e);
 		}
@@ -139,12 +134,14 @@ public class ChatServiceImpl implements IChatService {
 	private OutMsgDTO generateOutMsg(InMsg inMsg, ChatterDTO sender, long id) {
 		OutMsgDTO outMsg = new OutMsgDTO();
 		outMsg.setId(id);
+		outMsg.setClientMsgId(inMsg.getMsgId());
 		outMsg.setSender(sender);
 		outMsg.setText(inMsg.getText());
 		outMsg.setPic(inMsg.getPic());
 		outMsg.setCommand(OutboundCommand.ACCEPT_MSG);
 		outMsg.setDuration(0);
 		outMsg.setPrivacy(inMsg.getTo() != null);
+		outMsg.setCreationDate(new Date());
 		return outMsg;
 	}
 
@@ -164,31 +161,39 @@ public class ChatServiceImpl implements IChatService {
 	}
 
 	@Override
-	public void sendOutMsg(Outbound outbound, Long to, Long chatRoomId, WebSocketSession wsSession) {
-		Set<WebSocketSession> targetSessions = null;
-		if (to == null && chatRoomId != null) {
-			// 群聊消息
-			targetSessions = this.getAllRoomChatterSessions(chatRoomId);
-			if (CollectionUtils.isEmpty(targetSessions)) {
-				// 很少出现，但是不排除本session也失效了，导致聊天室空，理论上自己的session和店铺的大屏端session会在
-				this.sendErrorMsg("聊天室是空的！", wsSession);
-				return;
-			}
-		} else {
-			// 私聊消息
-			targetSessions = this.getTargetChatterSessions(to);
-			if (CollectionUtils.isEmpty(targetSessions)) {
-				this.sendErrorMsg("对方已经下线！", wsSession);
-				return;
-			}
+	public void sendRoomMsg(Outbound outbound, Long chatRoomId, WebSocketSession wsSession) {
+		Set<WebSocketSession> targetSessions = this.getAllRoomChatterSessions(chatRoomId);
+		if (CollectionUtils.isEmpty(targetSessions)) {
+			// 很少出现，但是不排除本session也失效了，导致聊天室空，理论上自己的session和店铺的大屏端session会在
+			this.sendErrorMsg("聊天室是空的！", wsSession);
+			return;
 		}
+
+		this.sendOutMsg(outbound, targetSessions, wsSession);
+	}
+
+	@Override
+	public void sendPrivacyMsg(Outbound outbound, Long to, WebSocketSession wsSession) {
+		Set<WebSocketSession> targetSessions = this.getTargetChatterSessions(to);
+		if (CollectionUtils.isEmpty(targetSessions)) {
+			this.sendErrorMsg("对方已经下线！", wsSession);
+			return;
+		}
+		this.sendOutMsg(outbound, targetSessions, wsSession);
+	}
+
+	private void sendAckMsg(Outbound outbound, WebSocketSession wsSession) {
+		outbound.setCommand(OutboundCommand.SEND_MSG_ACK);
+		this.sendMsg(outbound, wsSession);
+	}
+
+	private void sendOutMsg(Outbound outbound, Set<WebSocketSession> targetSessions, WebSocketSession selfSession) {
 		for (WebSocketSession targetSession : targetSessions) {
-			if (!targetSession.equals(wsSession)) {
+			if (!targetSession.equals(selfSession)) {
 				this.sendMsg(outbound, targetSession);
 			}
 		}
-		outbound.setCommand(OutboundCommand.SEND_MSG_ACK);
-		this.sendMsg(outbound, wsSession);
+		this.sendAckMsg(outbound, selfSession);
 	}
 
 	@Override
@@ -326,6 +331,9 @@ public class ChatServiceImpl implements IChatService {
 
 	private boolean sendMsg(Outbound outbound, WebSocketSession wsSession) {
 		try {
+			if (log.isDebugEnabled()) {
+				log.debug("send out: " + outbound.getContent());
+			}
 			outbound.send(wsSession);
 			return true;
 		} catch (Exception e) {
@@ -335,8 +343,10 @@ public class ChatServiceImpl implements IChatService {
 		return false;
 	}
 
-	private void sendErrorMsg(String reason, WebSocketSession wsSession) {
+	@Override
+	public void sendErrorMsg(String reason, WebSocketSession wsSession) {
 		ErrorOutbound error = new ErrorOutbound(reason);
 		this.sendMsg(error, wsSession);
 	}
+
 }

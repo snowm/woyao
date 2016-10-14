@@ -17,7 +17,7 @@ public class GetAccessTokenResponse {
 	private String refreshToken;
 
 	@JsonProperty("openid")
-	private String openid;
+	private String openId;
 
 	@JsonProperty("scope")
 	private String scope;
@@ -46,12 +46,12 @@ public class GetAccessTokenResponse {
 		this.refreshToken = refreshToken;
 	}
 
-	public String getOpenid() {
-		return openid;
+	public String getOpenId() {
+		return openId;
 	}
 
-	public void setOpenid(String openid) {
-		this.openid = openid;
+	public void setOpenId(String openId) {
+		this.openId = openId;
 	}
 
 	public String getScope() {

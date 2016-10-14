@@ -23,7 +23,6 @@ import org.glassfish.jersey.client.ClientProperties;
 import org.glassfish.jersey.client.spi.ConnectorProvider;
 import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.logging.LoggingFeature;
-import org.glassfish.jersey.netty.connector.SnowmNettyConnectorProvider;
 
 import com.woyao.utils.JaxbUtils;
 import com.woyao.wx.dto.TestXMLObj;

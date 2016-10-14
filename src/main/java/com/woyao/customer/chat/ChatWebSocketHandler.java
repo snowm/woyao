@@ -13,14 +13,17 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.AbstractWebSocketHandler;
 
+import com.woyao.customer.chat.handler.MsgHandler;
 import com.woyao.customer.dto.chat.in.Inbound;
-import com.woyao.customer.dto.chat.out.ErrorOutbound;
 import com.woyao.customer.service.IChatService;
 import com.woyao.security.SharedHttpSessionContext;
 
 public class ChatWebSocketHandler extends AbstractWebSocketHandler {
 
 	private Log log = LogFactory.getLog(this.getClass());
+
+	@Resource(name = "unifiedMsgHandler")
+	private MsgHandler<Inbound> msgHandler;
 
 	@Resource(name = "chatService")
 	private IChatService chatService;
@@ -32,27 +35,17 @@ public class ChatWebSocketHandler extends AbstractWebSocketHandler {
 		log.debug("connectionClosed:" + session.getId());
 	}
 
-	// @Override
-	// protected void handleBinaryMessage(WebSocketSession session,
-	// BinaryMessage message) throws Exception {
-	// ByteBuffer buffer = message.getPayload();
-	// String path = ChatUtils.savePic(buffer);
-	// String picUrl = "/pic/" + path;
-	// log.info(picUrl);
-	// }
-
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws IOException {
 		String payload = message.getPayload();
+		if (log.isDebugEnabled()) {
+			log.debug("Recieved msg: " + payload);
+		}
 		if (StringUtils.isBlank(payload)) {
 			return;
 		}
-		Inbound request = Inbound.parse(payload);
-		try {
-			this.chatService.acceptMsg(session, request);
-		} catch (RuntimeException | Error ex) {
-			new ErrorOutbound(ex.getMessage()).send(session);
-		}
+		Inbound inbound = Inbound.parse(payload);
+		msgHandler.handle(session, inbound);
 	}
 
 	@Override

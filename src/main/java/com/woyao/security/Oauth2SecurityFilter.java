@@ -2,8 +2,6 @@ package com.woyao.security;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.net.URLEncoder;
 import java.util.Date;
 import java.util.concurrent.atomic.AtomicLong;
@@ -25,9 +23,6 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.http.HttpStatus;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.server.ServerHttpRequest;
-import org.springframework.http.server.ServletServerHttpRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.web.util.UriComponents;
@@ -40,8 +35,8 @@ import com.woyao.customer.service.IChatService;
 import com.woyao.customer.service.IProfileWxService;
 import com.woyao.utils.CookieUtils;
 import com.woyao.wx.WxEndpoint;
-import com.woyao.wx.dto.GetAccessTokenResponse;
 import com.woyao.wx.dto.GetUserInfoResponse;
+import com.woyao.wx.service.IWxService;
 
 @Component("oauth2SecurityFilter")
 public class Oauth2SecurityFilter implements Filter, InitializingBean {
@@ -49,6 +44,7 @@ public class Oauth2SecurityFilter implements Filter, InitializingBean {
 	private static final int COOKIE_AGE = 31536000;
 	private static final String PARA_OAUTH_CODE = "code";
 	private static final String SESSION_ATTR_OAUTH_CODE = "code";
+	private static final String SESSION_ATTR_OPEN_ID = "openId";
 
 	private Log log = LogFactory.getLog(this.getClass());
 
@@ -66,6 +62,9 @@ public class Oauth2SecurityFilter implements Filter, InitializingBean {
 
 	@Resource(name = "chatService")
 	private IChatService chatService;
+
+	@Resource(name = "wxService")
+	private IWxService wxService;
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
@@ -121,31 +120,37 @@ public class Oauth2SecurityFilter implements Filter, InitializingBean {
 			return true;
 		}
 		// 再尝试根据cookie里面的chatterId从数据库获取chatter信息
-		String cookieChatterId = CookieUtils.getCookie(request, CookieUtils.COOKIE_CHATTER_ID);
-		if (!StringUtils.isBlank(cookieChatterId)) {
-			Long chatterId = Long.parseLong(cookieChatterId);
-			dto = this.chatService.getChatterFromDB(chatterId);
+		String cookieProfileId = CookieUtils.getCookie(request, CookieUtils.COOKIE_CHATTER_ID);
+		Long profileId = null;
+		if (!StringUtils.isBlank(cookieProfileId)) {
+			profileId = Long.parseLong(cookieProfileId);
+			dto = this.chatService.getChatterFromDB(profileId);
 			if (dto != null) {
 				session.setAttribute(SessionContainer.SESSION_ATTR_CHATTER, dto);
 				return true;
 			}
 		}
 
-		// 最后尝试根据oauth code，从微信服务器获取chatter信息
+
+		// 最后尝试根据chatter_id和oauth code，从微信服务器获取chatter信息
+		String cookieOpenId = CookieUtils.getCookie(request, CookieUtils.COOKIE_OPEN_ID);
 		String code = request.getParameter(PARA_OAUTH_CODE);
-		if (StringUtils.isBlank(code)) {
+		if (StringUtils.isBlank(cookieOpenId) && StringUtils.isBlank(code)) {
+			log.debug("openId 和 code 都没有！");
 			return false;
 		}
 		session.setAttribute(SESSION_ATTR_OAUTH_CODE, code);
+		session.setAttribute(SESSION_ATTR_OPEN_ID, cookieOpenId);
 
-		dto = this.getChatterInfoFromWx(code);
+		dto = this.getChatterInfoFromWx(cookieOpenId, code);
 		if (dto == null) {
 			return false;
 		}
 
-		// 获取到信息后，将chatter放进session，将chatterId放入cookie
+		// 获取到信息后，将chatter放进session，将chatterId和openId放入cookie
 		session.setAttribute(SessionContainer.SESSION_ATTR_CHATTER, dto);
 		CookieUtils.setCookie(response, CookieUtils.COOKIE_CHATTER_ID, dto.getId() + "", COOKIE_AGE);
+		CookieUtils.setCookie(response, CookieUtils.COOKIE_OPEN_ID, dto.getOpenId(), COOKIE_AGE);
 		return true;
 	}
 
@@ -169,11 +174,12 @@ public class Oauth2SecurityFilter implements Filter, InitializingBean {
 		ServletUriComponentsBuilder builder = ServletUriComponentsBuilder.fromRequest(request);
 		// Now work around SPR-10172...
 		String queryString = request.getQueryString();
+		// nginx反向代理设置的header
 		String originProtocol = request.getHeader("Origin-Protocol");
 		String originHost = request.getHeader("Origin-Host");
 		String originPortStr = request.getHeader("Origin-Port");
 		int originPort = -1;
-		if(!StringUtils.isBlank(originPortStr)){
+		if (!StringUtils.isBlank(originPortStr)) {
 			originPort = Integer.parseInt(originPortStr);
 		}
 		boolean legalSpaces = queryString != null && queryString.contains("+");
@@ -224,37 +230,29 @@ public class Oauth2SecurityFilter implements Filter, InitializingBean {
 		return uri.toUriString();
 	}
 
-	private ChatterDTO getChatterInfoFromWx(String code) {
-		ChatterDTO dto = null;
+	private ChatterDTO getChatterInfoFromWx(String openId, String code) {
+		GetUserInfoResponse userInfoResponse = null;
 		if ("woyao".equals(code)) {
-			dto = this.createMockDTO();
+			userInfoResponse = this.createMockResponse();
 		} else {
-			try {
-				log.debug("start to get accessToken of user...");
-				GetAccessTokenResponse tokenResponse = this.wxEndpoint.getAccessToken(globalConfig.getAppId(), globalConfig.getAppSecret(),
-						code, "authorization_code");
-				log.debug("AccessToken of user got:" + tokenResponse);
-
-				log.debug("start to get userInfo...");
-				GetUserInfoResponse userInfoResponse = this.wxEndpoint.getUserInfo(tokenResponse.getAccessToken(),
-						tokenResponse.getOpenid(), "zh_CN");
-				log.debug("UserInfo got:" + userInfoResponse);
-				String openId = userInfoResponse.getOpenId();
-				if (StringUtils.isBlank(openId)) {
-					log.warn("open id blank!");
-					return null;
-				}
-				dto = this.profileWxService.getByOpenId(openId);
-				if (dto == null) {
-					dto = new ChatterDTO();
-				}
-				BeanUtils.copyProperties(userInfoResponse, dto);
-				dto.setGender(this.parseGender(userInfoResponse.getSex()));
-			} catch (Exception ex) {
-				log.warn("Get user info from weixin failure!", ex);
+			if (!StringUtils.isBlank(openId)) {
+				userInfoResponse = this.wxService.getUserInfoViaExistedOpenId(openId, globalConfig.getAppId(), globalConfig.getAppSecret());
+			}
+			if (userInfoResponse == null && !StringUtils.isBlank(code)) {
+				userInfoResponse = this.wxService.getUserInfo(globalConfig.getAppId(), globalConfig.getAppSecret(), code);
+			}
+			if (userInfoResponse == null) {
 				return null;
 			}
 		}
+		// 将用户信息入库
+		ChatterDTO dto = this.profileWxService.getByOpenId(openId);
+		if (dto == null) {
+			dto = new ChatterDTO();
+		}
+		BeanUtils.copyProperties(userInfoResponse, dto);
+		dto.setGender(this.parseGender(userInfoResponse.getSex()));
+
 		dto = this.profileWxService.saveChatterInfo(dto);
 		dto.setLoginDate(new Date());
 		return dto;
@@ -277,21 +275,20 @@ public class Oauth2SecurityFilter implements Filter, InitializingBean {
 	// mock code
 	private AtomicLong idGenerator = new AtomicLong();
 
-	public ChatterDTO createMockDTO() {
+	public GetUserInfoResponse createMockResponse() {
 		long id = idGenerator.incrementAndGet();
-		ChatterDTO dto = new ChatterDTO();
-		// dto.setId(id);
-		dto.setOpenId("openId" + id);
-		dto.setNickname("nickname" + id);
-		dto.setCity("city" + id);
-		dto.setCountry("country" + id);
-		dto.setHeadImg("/pic/head/" + ((id % 4) + 1) + ".jpg");
-		Gender gender = Gender.FEMALE;
+		GetUserInfoResponse resp = new GetUserInfoResponse();
+		resp.setOpenId("openId" + id);
+		resp.setNickname("nickname" + id);
+		resp.setCity("city" + id);
+		resp.setCountry("country" + id);
+		resp.setHeadImg("/pic/head/" + ((id % 4) + 1) + ".jpg");
+		String gender = "2";
 		if ((id % 2) == 0) {
-			gender = Gender.FEMALE;
+			gender = "1";
 		}
-		dto.setGender(gender);
-		return dto;
+		resp.setSex(gender);
+		return resp;
 	}
 
 }

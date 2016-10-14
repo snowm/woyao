@@ -12,7 +12,7 @@ import com.snowm.utils.query.PaginationBean;
 import com.woyao.customer.dto.ChatPicDTO;
 import com.woyao.customer.dto.ChatterDTO;
 import com.woyao.customer.dto.chat.MsgQueryRequest;
-import com.woyao.customer.dto.chat.in.Inbound;
+import com.woyao.customer.dto.chat.in.InMsg;
 import com.woyao.customer.dto.chat.out.OutMsgDTO;
 import com.woyao.customer.dto.chat.out.Outbound;
 
@@ -36,9 +36,11 @@ public interface IChatService {
 	 */
 	void leave(WebSocketSession wsSession);
 
-	void acceptMsg(WebSocketSession wsSession, Inbound inbound);
+	void acceptMsg(WebSocketSession wsSession, InMsg inMsg);
 
-	void sendOutMsg(Outbound outbound, Long to, Long chatRoomId, WebSocketSession wsSession);
+	void sendRoomMsg(Outbound outbound, Long chatRoomId, WebSocketSession wsSession);
+
+	void sendPrivacyMsg(Outbound outbound, Long to, WebSocketSession wsSession);
 
 	Set<WebSocketSession> getTargetChatterSessions(long chatterId);
 
@@ -69,4 +71,6 @@ public interface IChatService {
 	ChatterDTO getChatterFromDB(long chatterId);
 	
 	List<ChatPicDTO> getPicUrl(Long id,Long pageNumber,Integer pageSize);
+	
+	void sendErrorMsg(String reason, WebSocketSession wsSession);
 }

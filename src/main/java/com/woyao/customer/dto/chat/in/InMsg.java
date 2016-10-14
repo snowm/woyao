@@ -3,6 +3,9 @@ package com.woyao.customer.dto.chat.in;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 import com.woyao.customer.dto.chat.BlockDTO;
 
 public class InMsg extends Inbound {
@@ -67,4 +70,8 @@ public class InMsg extends Inbound {
 		this.blockSize = blockSize;
 	}
 
+	@Override
+	public String toString() {
+		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+	}
 }

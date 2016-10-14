@@ -1,4 +1,4 @@
-package org.glassfish.jersey.netty.connector;
+package com.woyao.jersey;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -21,6 +21,7 @@ import org.glassfish.jersey.client.ClientRequest;
 import org.glassfish.jersey.client.ClientResponse;
 import org.glassfish.jersey.client.spi.AsyncConnectorCallback;
 import org.glassfish.jersey.message.internal.OutboundMessageContext;
+import org.glassfish.jersey.netty.connector.LocalizationMessages;
 import org.glassfish.jersey.netty.connector.internal.JerseyChunkedInput;
 
 import io.netty.bootstrap.Bootstrap;

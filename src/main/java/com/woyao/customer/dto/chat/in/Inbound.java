@@ -35,6 +35,8 @@ public abstract class Inbound {
 				return JsonUtils.toObject(data, InMsgDTO.class);
 			case "msgBlock":
 				return JsonUtils.toObject(data, InMsgBlockDTO.class);
+			case "ordReq":
+				return JsonUtils.toObject(data, OrderRequestDTO.class);
 			default:
 				return null;
 			}

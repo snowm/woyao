@@ -4,30 +4,30 @@ import java.util.List;
 
 import com.woyao.admin.dto.BasePKDTO;
 
-public class OrderDTO extends BasePKDTO{
+public class OrderDTO extends BasePKDTO {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
-	private int version;//版本
-	
-	private long consumerId;//付款Id
-	
-	private String consumerName;//付款名称
-	
-	private long toProfileId;//收货Id
-	
-	private String toProfileName;//收货名称
-	
-	private long prepayInfoId;//预付Id
-	
-	private Integer statusId;//成功或否
-	
-	private Integer totalFee;//总费用
-		
-	private List<ProductDTO> products;//产品	
+
+	private int version;// 版本
+
+	private long consumerId;// 付款Id
+
+	private String consumerName;// 付款名称
+
+	private long toProfileId;// 收货Id
+
+	private String toProfileName;// 收货名称
+
+	private long prepayInfoId;// 预付Id
+
+	private Integer statusId;// 成功或否
+
+	private long totalFee;// 总费用
+
+	private List<ProductDTO> products;// 产品
 
 	public int getVersion() {
 		return version;
@@ -85,11 +85,11 @@ public class OrderDTO extends BasePKDTO{
 		this.statusId = statusId;
 	}
 
-	public Integer getTotalFee() {
+	public long getTotalFee() {
 		return totalFee;
 	}
 
-	public void setTotalFee(Integer totalFee) {
+	public void setTotalFee(long totalFee) {
 		this.totalFee = totalFee;
 	}
 
@@ -108,8 +108,4 @@ public class OrderDTO extends BasePKDTO{
 				+ ", totalFee=" + totalFee + ", products=" + products + "]";
 	}
 
-	
-	
-
-	
 }

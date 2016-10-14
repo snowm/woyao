@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServletResponse;
 public class CookieUtils {
 
 	public static final String COOKIE_CHATTER_ID = "_ctWY_id";
+	
+	public static final String COOKIE_OPEN_ID = "_opWY_id";
 
 	public static String getCookie(HttpServletRequest request, String name) {
 		Cookie[] cookies = request.getCookies();
@@ -14,14 +16,14 @@ public class CookieUtils {
 			return null;
 		}
 		for (Cookie c : cookies) {
-			if (c.getName().equals(COOKIE_CHATTER_ID)) {
+			if (c.getName().equals(name)) {
 				return c.getValue();
 			}
 		}
 		return null;
 	}
-	
-	public static void setCookie(HttpServletResponse response, String name, String value, int maxAge){
+
+	public static void setCookie(HttpServletResponse response, String name, String value, int maxAge) {
 		Cookie cookie = new Cookie(name, value);
 		cookie.setMaxAge(maxAge);
 		response.addCookie(cookie);

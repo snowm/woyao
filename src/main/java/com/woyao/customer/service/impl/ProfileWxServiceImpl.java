@@ -1,8 +1,6 @@
 package com.woyao.customer.service.impl;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -11,11 +9,9 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.woyao.customer.dto.ChatPicDTO;
 import com.woyao.customer.dto.ChatterDTO;
 import com.woyao.customer.service.IProfileWxService;
 import com.woyao.dao.CommonDao;
-import com.woyao.domain.chat.ChatMsg;
 import com.woyao.domain.profile.ProfileWX;
 
 @Component("profileWxService")

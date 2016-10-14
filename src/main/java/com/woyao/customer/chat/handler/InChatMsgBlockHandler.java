@@ -1,0 +1,37 @@
+package com.woyao.customer.chat.handler;
+
+import java.util.Map;
+import java.util.concurrent.locks.Lock;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Component;
+import org.springframework.web.socket.WebSocketSession;
+
+import com.woyao.customer.chat.MessageCacheOperator;
+import com.woyao.customer.chat.SessionUtils;
+import com.woyao.customer.dto.chat.in.InMsg;
+import com.woyao.customer.dto.chat.in.InMsgBlockDTO;
+import com.woyao.customer.service.IChatService;
+
+@Component("inChatMsgBlockHandler")
+public class InChatMsgBlockHandler implements MsgHandler<InMsgBlockDTO> {
+
+	@Resource(name = "messageCacheOperator")
+	private MessageCacheOperator messageCacheOperator;
+
+	@Resource(name = "chatService")
+	private IChatService chatService;
+
+	@Override
+	public void handle(WebSocketSession wsSession, InMsgBlockDTO inbound) {
+		Lock lock = SessionUtils.getMsgCacheLock(wsSession);
+		Map<Long, InMsg> cache = SessionUtils.getMsgCache(wsSession);
+		InMsg inMsg = this.messageCacheOperator.receiveMsg(lock, cache, inbound);
+		if (inMsg == null) {
+			return;
+		}
+		this.chatService.acceptMsg(wsSession, inMsg);
+	}
+
+}
