@@ -37,7 +37,7 @@ public class WxPayEndpoint {
 	@Resource(name="wxAdminService")
 	private IWxAdminService wxAdminService;
 
-	public UnifiedOrderResponse unifiedOrder(UnifiedOrderRequestDTO dto) {
+	public UnifiedOrderResponse unifiedOrder(UnifiedOrderRequestDTO dto,String productId,Long quantity) {
 		WebTarget target = client.target(this.wxUnifiedOrderUrl);
 		UnifiedOrderRequest req = new UnifiedOrderRequest();
 		BeanUtils.copyProperties(dto, req);
@@ -59,7 +59,7 @@ public class WxPayEndpoint {
 			UnifiedOrderResponse orderResponse = JaxbUtils.unmarshall(UnifiedOrderResponse.class, responseBody);
 			if(orderResponse!=null&&"SUCCESS".equals(orderResponse.getReturnCode())){
 				wxAdminService.savePrePayId(orderResponse, req.getOpenid());
-				wxAdminService.svaeOrder(dto, orderResponse);			
+				wxAdminService.svaeOrder(dto, orderResponse,productId,quantity);			
 			}
 			return orderResponse;
 		} catch (Exception e) {

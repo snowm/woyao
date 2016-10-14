@@ -8,12 +8,14 @@ import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.annotation.JsonValue;
 import com.woyao.GlobalConfig;
 import com.woyao.customer.service.IWxAdminService;
 import com.woyao.dao.CommonDao;
 import com.woyao.domain.product.Product;
 import com.woyao.domain.profile.ProfileWX;
 import com.woyao.domain.purchase.Order;
+import com.woyao.domain.purchase.OrderItem;
 import com.woyao.domain.purchase.OrderPrepayInfo;
 import com.woyao.domain.purchase.OrderResultInfo;
 import com.woyao.domain.purchase.OrderStatus;
@@ -32,7 +34,7 @@ public class WxAdminServiceImpl implements IWxAdminService{
 	@Resource(name = "globalConfig")
 	private GlobalConfig globalConfig;
 	
-	public UnifiedOrderRequestDTO getUnifiedDTO(String productId){
+	public UnifiedOrderRequestDTO getUnifiedDTO(String productId,Long quantity){
 		UnifiedOrderRequestDTO dto=new UnifiedOrderRequestDTO();
 		dto.setAppid(globalConfig.getAppId());
 		dto.setMchId(globalConfig.getMrchId());
@@ -41,13 +43,13 @@ public class WxAdminServiceImpl implements IWxAdminService{
 		/**
 		 * 签名位置
 		 * */
-		ProductDetail productDetail=getProductDTO(productId);
+		ProductDetail productDetail=getProductDTO(productId,quantity);
 		dto.setBody("JSAPI支付测试");
 		dto.setDetail(productDetail.toString());
 		dto.setAttach("支付测试");
 		dto.setOutTradeNo((new Date()).toString());
 		dto.setFeeType("CNY");
-		dto.setTotalFee(1);
+		dto.setTotalFee(productDetail.getQuantity()*productDetail.getPrice());
 		dto.setSpbillCreateIp("127.0.0.1");
 		dto.setNotifyUrl("http://localhost:8080//m/wxPay/");
 		dto.setTradeType("JSAPI");
@@ -69,7 +71,7 @@ public class WxAdminServiceImpl implements IWxAdminService{
         return sb.toString();
     }
 	
-	private ProductDetail getProductDTO(String productId){
+	private ProductDetail getProductDTO(String productId,Long quantity){
 		Long product=Long.parseLong(productId);
 		System.out.println(product);
 		ProductDetail dto=new ProductDetail();
@@ -79,7 +81,7 @@ public class WxAdminServiceImpl implements IWxAdminService{
 			dto.setGoods_name(m.getName());
 			dto.setGoods_id(m.getId().toString());
 			dto.setPrice((int)m.getUnitPrice());
-			dto.setQuantity(1);
+			dto.setQuantity(quantity.intValue());
 		}
 		return dto;
 	}
@@ -87,10 +89,11 @@ public class WxAdminServiceImpl implements IWxAdminService{
 	/**
 	 * 保存订单及其所有的关联数据
 	 */
-	public void svaeOrder(UnifiedOrderRequestDTO dto,UnifiedOrderResponse orderResponse){
+	public void svaeOrder(UnifiedOrderRequestDTO dto,UnifiedOrderResponse orderResponse,String productId,Long quantity){
 		if(!dto.getOpenid().isEmpty()){
 			String openId=dto.getOpenid();		
 			Order o=new Order();
+			OrderItem item=new OrderItem();
 			ProfileWX p=this.dao.queryUnique("from ProfileWX where openId="+openId);			
 			OrderPrepayInfo or=new OrderPrepayInfo();
 			or.setPrepayId(orderResponse.getPrepayId());
@@ -104,7 +107,14 @@ public class WxAdminServiceImpl implements IWxAdminService{
 			}
 			o.setTotalFee(dto.getTotalFee());			
 			OrderResultInfo orr=this.dao.queryUnique("from OrderResultInfo where openId="+openId);
-			o.setResultInfo(orr);
+			o.setResultInfo(orr);	
+			item.setOrder(o);
+			item.setTotalFee(dto.getTotalFee());
+			Product product=this.dao.get(Product.class, productId);
+			item.setUnitPrice(product.getUnitPrice());
+			item.setQuantity(quantity.intValue());
+			this.dao.save(o);
+			this.dao.save(item);
 		}
 	}
 	
