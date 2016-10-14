@@ -127,10 +127,11 @@ define(['uploadfile'],function(){
             var shopList = $(".shopList").val();
             var shopType = $(".shopType").val();
            
-            if(goodsController.imgViewSrc=="/admin/resources/images/photos/upload1.png"){
-				alert("请选择图片");
-				return;
-			}else if(prdocut == ""){
+//            if(goodsController.imgViewSrc=="/admin/resources/images/photos/upload1.png"){
+//				alert("请选择图片");
+//				return;
+//			}else 
+            if(prdocut == ""){
 				alert("请输入正确产品名称");
 				return;
 			}else if(unitPrice == ""){
