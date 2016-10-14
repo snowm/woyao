@@ -22,9 +22,9 @@ public class QueryOrderRequestDTO extends PaginationQueryRequestDTO{
 	
 	private Integer statusId;//成功或否
 	
-	private Integer mintotalFee;//最小费用
+	private Long mintotalFee;//最小费用
 	
-	private Integer maxtotalFee;//最大费用
+	private Long maxtotalFee;//最大费用
 	
 	@DateTimeFormat(pattern="yyyy-MM-dd")  
 	private Date startcreationDate;//开始创建时间
@@ -50,19 +50,19 @@ public class QueryOrderRequestDTO extends PaginationQueryRequestDTO{
 		this.statusId = statusId;
 	}
 
-	public Integer getMintotalFee() {
+	public Long getMintotalFee() {
 		return mintotalFee;
 	}
 
-	public void setMintotalFee(Integer mintotalFee) {
+	public void setMintotalFee(Long mintotalFee) {
 		this.mintotalFee = mintotalFee;
 	}
 
-	public Integer getMaxtotalFee() {
+	public Long getMaxtotalFee() {
 		return maxtotalFee;
 	}
 
-	public void setMaxtotalFee(Integer maxtotalFee) {
+	public void setMaxtotalFee(Long maxtotalFee) {
 		this.maxtotalFee = maxtotalFee;
 	}
 
