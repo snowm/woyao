@@ -73,8 +73,8 @@ public class OrderNotifyRequest implements Serializable {
 
 	@XmlCDATA
 	@XmlElement(name = "total_fee")
-	private int totalFee;
-	
+	private Integer totalFee;
+
 	@XmlCDATA
 	@XmlElement(name = "settlement_total_fee")
 	private Integer settlementTotalFee;
@@ -85,7 +85,7 @@ public class OrderNotifyRequest implements Serializable {
 
 	@XmlCDATA
 	@XmlElement(name = "cash_fee")
-	private int cashFee;
+	private Integer cashFee;
 
 	@XmlCDATA
 	@XmlElement(name = "cash_fee_type")
@@ -278,11 +278,11 @@ public class OrderNotifyRequest implements Serializable {
 		this.bankType = bankType;
 	}
 
-	public int getTotalFee() {
+	public Integer getTotalFee() {
 		return totalFee;
 	}
 
-	public void setTotalFee(int totalFee) {
+	public void setTotalFee(Integer totalFee) {
 		this.totalFee = totalFee;
 	}
 
@@ -302,11 +302,11 @@ public class OrderNotifyRequest implements Serializable {
 		this.feeType = feeType;
 	}
 
-	public int getCashFee() {
+	public Integer getCashFee() {
 		return cashFee;
 	}
 
-	public void setCashFee(int cashFee) {
+	public void setCashFee(Integer cashFee) {
 		this.cashFee = cashFee;
 	}
 

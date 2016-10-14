@@ -15,18 +15,29 @@ import org.eclipse.persistence.oxm.annotations.XmlCDATA;
 public class OrderNotifyResponse implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
-	@XmlCDATA	
+
+	@XmlCDATA
 	@XmlElement(name = "return_code", required = true)
 	private String returnCode;
-	
-	@XmlCDATA	
+
+	@XmlCDATA
 	@XmlElement(name = "return_msg")
 	private String returnMsg;
-	
-	@XmlCDATA	
-	@XmlElement(name = "result_code",required = true)
-	private String result_code;//业务结果
-	
+
+	public String getReturnCode() {
+		return returnCode;
+	}
+
+	public void setReturnCode(String returnCode) {
+		this.returnCode = returnCode;
+	}
+
+	public String getReturnMsg() {
+		return returnMsg;
+	}
+
+	public void setReturnMsg(String returnMsg) {
+		this.returnMsg = returnMsg;
+	}
 
 }

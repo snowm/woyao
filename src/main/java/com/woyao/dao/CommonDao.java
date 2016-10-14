@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
 import org.springframework.stereotype.Repository;
@@ -22,6 +23,9 @@ public class CommonDao {
 
 	@Resource(name = "commonHibernateDao")
 	private ICommonDao commonDao;
+
+	@Resource(name = "sessionFactory")
+	private SessionFactory sessionFactory;
 
 	public void flush() {
 		commonDao.flush();
@@ -46,7 +50,7 @@ public class CommonDao {
 	public <M> long count(Class<M> entityClass, List<AliasInfo> alias, List<Criterion> criterions) {
 		return commonDao.count(entityClass, alias, criterions);
 	}
-	
+
 	public long count(String hql) {
 		return commonDao.count(hql);
 	}
@@ -111,30 +115,32 @@ public class CommonDao {
 		return commonDao.query(entityClass, criterions, pageNumber, pageSize);
 	}
 
-    public <M> List<M> query(Class<M> entityClass, List<Criterion> criterions, List<Order> orders){
+	public <M> List<M> query(Class<M> entityClass, List<Criterion> criterions, List<Order> orders) {
 		return commonDao.query(entityClass, criterions, orders);
-    }
+	}
 
-    public <M> List<M> query(Class<M> entityClass, List<Criterion> criterions, List<Order> orders, long pageNumber, int pageSize){
+	public <M> List<M> query(Class<M> entityClass, List<Criterion> criterions, List<Order> orders, long pageNumber, int pageSize) {
 		return commonDao.query(entityClass, criterions, orders, pageNumber, pageSize);
-    }
+	}
 
-    public <M> List<M> queryWithAlias(Class<M> entityClass, List<Criterion> criterions, List<AliasInfo> alias) {
+	public <M> List<M> queryWithAlias(Class<M> entityClass, List<Criterion> criterions, List<AliasInfo> alias) {
 		return commonDao.queryWithAlias(entityClass, criterions, alias);
 	}
-    
-    public <M> List<M> queryWithAlias(Class<M> entityClass, List<Criterion> criterions, List<AliasInfo> alias, long pageNumber, int pageSize) {
+
+	public <M> List<M> queryWithAlias(Class<M> entityClass, List<Criterion> criterions, List<AliasInfo> alias, long pageNumber,
+			int pageSize) {
 		return commonDao.queryWithAlias(entityClass, criterions, alias, pageNumber, pageSize);
 	}
-    
-    public <M> List<M> queryWithAlias(Class<M> entityClass, List<Criterion> criterions, List<AliasInfo> alias, List<Order> orders) {
+
+	public <M> List<M> queryWithAlias(Class<M> entityClass, List<Criterion> criterions, List<AliasInfo> alias, List<Order> orders) {
 		return commonDao.queryWithAlias(entityClass, criterions, alias, orders);
 	}
 
-    public <M> List<M> queryWithAlias(Class<M> entityClass, List<Criterion> criterions, List<AliasInfo> alias, List<Order> orders, long pageNumber, int pageSize){
+	public <M> List<M> queryWithAlias(Class<M> entityClass, List<Criterion> criterions, List<AliasInfo> alias, List<Order> orders,
+			long pageNumber, int pageSize) {
 		return commonDao.queryWithAlias(entityClass, criterions, alias, orders, pageNumber, pageSize);
 	}
-    
+
 	public <M> List<M> query(String hql) {
 		return commonDao.query(hql);
 	}
@@ -146,7 +152,7 @@ public class CommonDao {
 		}
 		return rs.get(0);
 	}
-	
+
 	public <M> List<M> query(String hql, long pageNumber, int pageSize) {
 		return commonDao.query(hql, pageNumber, pageSize);
 	}
@@ -154,7 +160,7 @@ public class CommonDao {
 	public <M> List<M> query(String hql, Map<String, Object> paramMap) {
 		return commonDao.query(hql, paramMap);
 	}
-	
+
 	public <M> M queryUnique(String hql, Map<String, Object> paramMap) {
 		List<M> rs = commonDao.query(hql, paramMap, 1, 1);
 		if (rs == null || rs.isEmpty()) {
@@ -179,7 +185,7 @@ public class CommonDao {
 		model.getModification().refreshLastModifiedDate();
 		commonDao.merge(model);
 	}
-	
+
 	public <M extends DefaultModelImpl> Long save(M model) {
 		model.getModification().refreshLastModifiedDate();
 		return commonDao.save(model);
@@ -195,8 +201,7 @@ public class CommonDao {
 		commonDao.update(model);
 	}
 
-	public <M extends DefaultModelImpl> void logicDelete(Class<M> entityClass,
-			Collection<Long> ids) {
+	public <M extends DefaultModelImpl> void logicDelete(Class<M> entityClass, Collection<Long> ids) {
 		if (ids == null || ids.isEmpty()) {
 			return;
 		}
@@ -225,6 +230,10 @@ public class CommonDao {
 
 	public void setCommonDao(ICommonDao commonDao) {
 		this.commonDao = commonDao;
+	}
+
+	public SessionFactory getSessionFactory() {
+		return sessionFactory;
 	}
 	
 }

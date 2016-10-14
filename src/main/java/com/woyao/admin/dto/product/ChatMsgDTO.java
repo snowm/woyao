@@ -8,9 +8,6 @@ import com.woyao.admin.dto.DTOConfig;
 
 public class ChatMsgDTO  extends BasePKDTO {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	
 	private Long chatRoomId;
@@ -29,7 +26,7 @@ public class ChatMsgDTO  extends BasePKDTO {
 	
 	private String productName;
 	
-	private Long productUnitPrice;
+	private Integer productUnitPrice;
 	
 	@JsonFormat(pattern = DTOConfig.DATE_TIME_FULL_FMT)
 	private Date startcreationDate;//开始创建时间
@@ -117,14 +114,12 @@ public class ChatMsgDTO  extends BasePKDTO {
 		this.endcreationDate = endcreationDate;
 	}
 
-	public Long getProductUnitPrice() {
+	public Integer getProductUnitPrice() {
 		return productUnitPrice;
 	}
 
-	public void setProductUnitPrice(Long productUnitPrice) {
+	public void setProductUnitPrice(Integer productUnitPrice) {
 		this.productUnitPrice = productUnitPrice;
 	}
-	
-	
 
 }

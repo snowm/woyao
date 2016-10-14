@@ -9,28 +9,47 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.woyao.admin.dto.DTOConfig;
+import com.woyao.domain.purchase.OrderStatus;
 
 public class OrderDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private ChatterDTO payer;
+	private Long id;
+
+	private Long version;
 
 	private ChatterDTO consumer;
 
+	private ChatterDTO toProfile;
+
 	private List<OrderItemDTO> items;
 
-	private long totalFee;
+	private int totalFee;
+
+	private OrderStatus status;
+
+	private String spbillCreateIp;
 
 	@JsonFormat(pattern = DTOConfig.DATE_TIME_FULL_FMT)
 	private Date creationDate = new Date();
 
-	public ChatterDTO getPayer() {
-		return payer;
+	private Long msgId;
+
+	public Long getId() {
+		return id;
 	}
 
-	public void setPayer(ChatterDTO payer) {
-		this.payer = payer;
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Long getVersion() {
+		return version;
+	}
+
+	public void setVersion(Long version) {
+		this.version = version;
 	}
 
 	public ChatterDTO getConsumer() {
@@ -41,6 +60,14 @@ public class OrderDTO implements Serializable {
 		this.consumer = consumer;
 	}
 
+	public ChatterDTO getToProfile() {
+		return toProfile;
+	}
+
+	public void setToProfile(ChatterDTO toProfile) {
+		this.toProfile = toProfile;
+	}
+
 	public List<OrderItemDTO> getItems() {
 		return items;
 	}
@@ -49,11 +76,11 @@ public class OrderDTO implements Serializable {
 		this.items = items;
 	}
 
-	public long getTotalFee() {
+	public int getTotalFee() {
 		return totalFee;
 	}
 
-	public void setTotalFee(long totalFee) {
+	public void setTotalFee(int totalFee) {
 		this.totalFee = totalFee;
 	}
 
@@ -63,6 +90,30 @@ public class OrderDTO implements Serializable {
 
 	public void setCreationDate(Date creationDate) {
 		this.creationDate = creationDate;
+	}
+
+	public OrderStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(OrderStatus status) {
+		this.status = status;
+	}
+
+	public String getSpbillCreateIp() {
+		return spbillCreateIp;
+	}
+
+	public void setSpbillCreateIp(String spbillCreateIp) {
+		this.spbillCreateIp = spbillCreateIp;
+	}
+
+	public Long getMsgId() {
+		return msgId;
+	}
+
+	public void setMsgId(Long msgId) {
+		this.msgId = msgId;
 	}
 
 	@Override

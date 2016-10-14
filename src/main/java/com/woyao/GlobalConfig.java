@@ -15,7 +15,16 @@ public class GlobalConfig {
 	// https://{wxUrl}?appid=%s&redirect_uri=%s&response_type=code&scope=%s&state=%s#wechat_redirect
 	private String authorizeFormat;
 
-	private String mrchId;
+	private String mchId;
+
+	private String payApiKey;
+
+	// server env
+	private String host;
+
+	private String payNotifyUrl;
+
+	private int submitOrderConsumerNum = 10;
 
 	// 3rd party
 	private String thirdAppId;
@@ -80,13 +89,47 @@ public class GlobalConfig {
 		this.authorizeFormat = this.authorizeUrl + "?" + this.authorizeParamFormat;
 	}
 
-	public String getMrchId() {
-		return mrchId;
+	public String getMchId() {
+		return mchId;
 	}
 
-	public void setMrchId(String mrchId) {
-		this.mrchId = mrchId;
+	public void setMchId(String mchId) {
+		this.mchId = mchId;
 	}
+
+	public String getPayApiKey() {
+		return payApiKey;
+	}
+
+	public void setPayApiKey(String payApiKey) {
+		this.payApiKey = payApiKey;
+	}
+
+	public String getHost() {
+		return host;
+	}
+
+	public void setHost(String host) {
+		this.host = host;
+	}
+
+	public String getPayNotifyUrl() {
+		return payNotifyUrl;
+	}
+
+	public void setPayNotifyUrl(String payNotifyUrl) {
+		this.payNotifyUrl = payNotifyUrl;
+	}
+
+	public int getSubmitOrderConsumerNum() {
+		return submitOrderConsumerNum;
+	}
+
+	public void setSubmitOrderConsumerNum(int submitOrderConsumerNum) {
+		this.submitOrderConsumerNum = submitOrderConsumerNum;
+	}
+	
+	// 3rd
 
 	public String getThirdAppId() {
 		return thirdAppId;

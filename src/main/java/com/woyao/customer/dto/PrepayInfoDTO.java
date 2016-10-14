@@ -8,10 +8,10 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 public class PrepayInfoDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private String appId;
 	private String timeStamp;
-	private String prepayId;
+	private String packageStr;
 	private String paySign;
 	private String nonceStr;
 	private String signType = "MD5";
@@ -32,12 +32,12 @@ public class PrepayInfoDTO implements Serializable {
 		this.timeStamp = timeStamp;
 	}
 
-	public String getPrepayId() {
-		return prepayId;
+	public String getPackageStr() {
+		return packageStr;
 	}
 
-	public void setPrepayId(String prepayId) {
-		this.prepayId = prepayId;
+	public void setPackageStr(String packageStr) {
+		this.packageStr = packageStr;
 	}
 
 	public String getPaySign() {

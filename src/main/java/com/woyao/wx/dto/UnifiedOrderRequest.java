@@ -7,6 +7,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import org.eclipse.persistence.oxm.annotations.XmlCDATA;
 
 @XmlRootElement(name = "xml")
@@ -96,7 +98,7 @@ public class UnifiedOrderRequest implements Serializable {
 
 	@XmlCDATA
 	@XmlElement(name = "openid")
-	private String openid;// 用户标识
+	private String openId;// 用户标识
 
 	public String getAppid() {
 		return appid;
@@ -250,12 +252,16 @@ public class UnifiedOrderRequest implements Serializable {
 		this.limitPay = limitPay;
 	}
 
-	public String getOpenid() {
-		return openid;
+	public String getOpenId() {
+		return openId;
 	}
 
-	public void setOpenid(String openid) {
-		this.openid = openid;
+	public void setOpenId(String openId) {
+		this.openId = openId;
 	}
 
+	@Override
+	public String toString() {
+		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+	}
 }

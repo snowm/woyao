@@ -8,7 +8,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 public class OrderItemDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-
+	
 	private long productId;
 
 	private int quantity = 1;
@@ -17,9 +17,9 @@ public class OrderItemDTO implements Serializable {
 
 	private String productPic;
 
-	private Long unitPrice;
+	private Integer unitPrice;
 
-	private Long totalFee;
+	private Integer totalFee;
 
 	public long getProductId() {
 		return productId;
@@ -45,27 +45,27 @@ public class OrderItemDTO implements Serializable {
 		this.productPic = productPic;
 	}
 
-	public long getUnitPrice() {
+	public Integer getUnitPrice() {
 		return unitPrice;
 	}
 
-	public void setUnitPrice(long unitPrice) {
+	public void setUnitPrice(Integer unitPrice) {
 		this.unitPrice = unitPrice;
 	}
 
-	public int getQuantity() {
+	public Integer getQuantity() {
 		return quantity;
 	}
 
-	public void setQuantity(int quantity) {
+	public void setQuantity(Integer quantity) {
 		this.quantity = quantity;
 	}
 
-	public long getTotalFee() {
+	public Integer getTotalFee() {
 		return totalFee;
 	}
 
-	public void setTotalFee(long totalFee) {
+	public void setTotalFee(Integer totalFee) {
 		this.totalFee = totalFee;
 	}
 
