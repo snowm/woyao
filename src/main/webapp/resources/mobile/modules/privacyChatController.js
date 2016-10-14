@@ -228,12 +228,14 @@ define(['jquery','avalon', 'text!./privacyChat.html','socket','swiper',"domReady
                         msg[i].text = replace_em(msg[i].text);
                         if(msg[i].privacy){           
                         	pChatController.pMsgList.push(msg[i]);
-                       	    $(".msg-block-contain").animate({scrollTop:$(".msg-block-container").height() -  $(".msg-block-contain").height() + 100},300,'swing');
                         }else{
-                        	alert('这里不应该查询到公共消息');  
+//                        	alert('这里不应该查询到公共消息');  
                         	return;
                         }
-                    }                    
+                    } 
+
+               	    $(".msg-block-contain").animate({scrollTop:$(".msg-block-container").height() -  $(".msg-block-contain").height() + 100},300,'swing');
+                
                 },
                 complete: function() {
                 	

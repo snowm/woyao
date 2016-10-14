@@ -34,6 +34,10 @@ define(['jquery','avalon',"domReady!"], function ($,avalon,domReady) {
         	alert(msg.reason);
         	return
         }
+        if(msg.command == 'selfInfo'){
+        	avalon.vmodels.rootController._userInfo = msg;
+        	return;
+        }
 
         msg.text = replace_em(msg.text);
         
@@ -42,10 +46,11 @@ define(['jquery','avalon',"domReady!"], function ($,avalon,domReady) {
         	if(window.location.hash == '#!/privacyChat'){
         		if(msg.sender.id == avalon.vmodels.pChatController.toWho.id || msg.command == 'smACK'){
             		avalon.vmodels.pChatController.pMsgList.push(msg);
+               	    $(".msg-block-contain").animate({scrollTop:$(".msg-block-container").height() -  $(".msg-block-contain").height() + 100},300,'swing');
                 }
         	};
         	avalon.vmodels.rootController._privacyMsg.push(msg);
-        	avalon.vmodels.mainController.pMsgCount = 0;
+          	avalon.vmodels.mainController.pMsgCount = 0;
         	avalon.vmodels.rootController._privacyMsg.forEach(function(item){
             	if(item.command != 'smACK'){
                 	avalon.vmodels.mainController.pMsgCount++;
@@ -57,7 +62,7 @@ define(['jquery','avalon',"domReady!"], function ($,avalon,domReady) {
         	
         	if(window.location.hash == '#!/'){
         		if($(".msg-block-container").height() - $(".msg-block-contain").height() - $(".msg-block-contain").scrollTop() < 600){
-            		$(".msg-block-contain").animate({scrollTop:$(".msg-block-container").height() -  $(".msg-block-contain").height() + 200},100,'swing');
+            		$(".msg-block-contain").animate({scrollTop:$(".msg-block-container").height() -  $(".msg-block-contain").height() + 200},200,'swing');
             		avalon.vmodels.mainController.pageDownBtn = false;
             	}else{
             		avalon.vmodels.mainController.pageDownBtn = true;

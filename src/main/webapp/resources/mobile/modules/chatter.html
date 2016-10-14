@@ -9,13 +9,13 @@
     <!--消息界面-->
     <div style="position:absolute;width:100%;height:100%;top:0px;right:0px;overflow-y:scroll">
 	    <div ms-if="tabFlag == 'msg'" style="margin-top:40px">
-	    	<div ms-if="senderList.length == 0" style="text-align:center;padding-top:50%;font-size:12px;color:#999">
+	    	<div ms-if="senderList.length <= 1" style="text-align:center;padding-top:50%;font-size:12px;color:#999">
 	    		<img src='/resources/static/img/404.png' style="width:50%;margin:0 auto;">
 	    		<p style="line-height:30px;margin-top:20px">今天没有人给你搭讪哦~</p>
 	    		<p style="line-height:30px">快快去发言吧~</p>
 	    	</div>
 	        <div class="rank-list" ms-repeat-u="senderList">
-	            <div class="fist" ms-on-tap="chat(u.$model)"  ms-if="u.id != userId">
+	            <div class="fist" ms-on-tap="chat(u.$model)" ms-if="u.id != userInfo.self.id">
 	                <img src="/resources/static/img/head.jpg" style='width:60px;height:60px' ms-attr-src="u.imgUrl" alt="">
 	                <div class="rank-name">
 	                    <div>
@@ -34,25 +34,29 @@
 	    </div>
 	    <!--全部界面-->
 	    <div ms-if="tabFlag == 'all' || tabFlag == 'male' || tabFlag == 'female'" style="margin-top:40px">
-	    	<div ms-if="userList.length == 0" style="text-align:center;padding-top:50%;font-size:12px;color:#999">
+	    	<div ms-if="userList.length <= 1" style="text-align:center;padding-top:50%;font-size:12px;color:#999">
 	    		<img src='/resources/static/img/404.png' style="width:50%;margin:0 auto;">
 	    		<p style="line-height:30px;margin-top:20px">现在好像并没有人在~</p>
 	    		<p style="line-height:30px">快去发言 燥起来！</p>
 	    	</div>
-	        <div class="alls" ms-repeat-p="userList">
-	            <div class="all-left">
-	                <img src="/resources/static/img/head.jpg" style='width:60px;height:60px' ms-attr-src="p.headImg" alt="">
-	                <div class="all-left-text" style="padding-top:0px">
-	                    <span class="text" ms-text="p.nickname">name</span>
-	                    <img src="/resources/static/img/weman1.png" ms-if="p.gender == 'FAMALE'" alt="">
-	                    <img src="/resources/static/img/man.png" ms-if="p.gender == 'MALE'" alt="">
-	                    <p>未传值</p>
-	                </div>
-	            </div>
-	            <div class="all-right" style='text-align:center;'>
-	                <p ms-text="p.loginDate" style="font-size:10px"></p>
-	                <p ms-on-tap="chat(p.$model)" style="margin-top:19px">发消息</p>
-	            </div>
+	    	<div ms-repeat-p="userList">
+		        <div ms-if="p.id != userInfo.self.id">
+		            <div class="alls">
+			            <div class="all-left">
+			                <img src="/resources/static/img/head.jpg" style='width:60px;height:60px' ms-attr-src="p.headImg" alt="">
+			                <div class="all-left-text" style="padding-top:0px">
+			                    <span class="text" ms-text="p.nickname">name</span>
+			                    <img src="/resources/static/img/weman1.png" ms-if="p.gender == 'FAMALE'" alt="">
+			                    <img src="/resources/static/img/man.png" ms-if="p.gender == 'MALE'" alt="">
+			                    <p>未传值</p>
+			                </div>
+			            </div>
+			            <div class="all-right" style='text-align:center;'>
+			                <p ms-text="p.loginDate" style="font-size:10px"></p>
+			                <p ms-on-tap="chat(p.$model)" style="margin-top:19px">发消息</p>
+			            </div>
+		            </div>
+		        </div>
 	        </div>
 	    </div>
     </div>

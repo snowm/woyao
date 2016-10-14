@@ -2,13 +2,8 @@
  * Created by lzd on 2016.
  */
 
-define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"domReady!",'qqface'], function ($,avalon,_chatRoom,socket,swiper,domReady) {
+define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"wxsdk","domReady!",'qqface'], function ($,avalon,_chatRoom,socket,swiper,wx,domReady) {
     avalon.templateCache._chatRoom = _chatRoom;
-
-
-    var _userIofo = { //用户信息待定
-        id:1
-    };
 
 
     var main_socket = socket;
@@ -55,9 +50,7 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"domReady!",
 
     var mainController = avalon.define({
         $id : "mainController",
-        userInfo:{
-            id:1
-        },
+        userInfo: {},
         pluginShow : false, // 显示功能区标记
         emojiShow : false, // 显示emoji标记
         popshow : false, // 显示弹出层标记
@@ -235,13 +228,14 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"domReady!",
                         productId:productsId,
                         block:blocks[0],
                     };
+                    console.log(msg);
                 }else{
                     msg = {
                         msgId:1,
                         block:blocks[i],
                     }
                 }
-                var msgContent = type+"\n" + JSON.stringify(msg);
+                var msgContent = type + "\n" + JSON.stringify(msg);
                 main_socket.send(msgContent);
             }
 
@@ -323,6 +317,12 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"domReady!",
         },
         queryHistoryIng:false,
         photoLists:[], // 照片墙
+        showPics:function(msg,url){
+        	wx.previewImage({
+        	    current: msg, // 当前显示图片的http链接
+        	    urls: [url], // 需要预览的图片http链接列表
+        	});
+        }
     });
 
 
@@ -338,8 +338,8 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"domReady!",
     })
 
 
-
     avalon.scan();
+
 
     function isEmptyObject(e) {
         var t;
@@ -348,15 +348,7 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"domReady!",
         return !0
     }
 
-    
-//    mainController.$watch("msgList", function(v) {
-//    	if($(".msg-block-container").height() - $(".msg-block-contain").height() - $(".msg-block-contain").scrollTop() < 600){
-//    		$(".msg-block-contain").animate({scrollTop:$(".msg-block-container").height() -  $(".msg-block-contain").height() + 100},100,'swing');
-//    		mainController.pageDownBtn = false;
-//    	}else{
-//    		mainController.pageDownBtn = true;
-//    	}
-//    })
+   
 
     /*  图片压缩 上传 */
     //    用于压缩图片的canvas
@@ -430,6 +422,9 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"domReady!",
 
 
     function init(){
+    	
+    	mainController.userInfo = avalon.vmodels.rootController._userInfo.$model;
+    	console.log(mainController.userInfo)
         mainController.msgList = avalon.vmodels.rootController._publicMsg;
 
         main_socket = socket;

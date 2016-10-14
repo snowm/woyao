@@ -40,10 +40,11 @@
             </div>
         </div>
     </div>
-    <div class="map-ctn" id="map" ms-if="listShow == 'map'"></div>
+    <div class="map-ctn" style="" id="map" ms-show="listShow == 'map'"></div>
 </body>
 <script type="text/javascript" src="/resources/js/avalon/avalon.mobile.js"></script>
 <script type="text/javascript" src="/resources/js/jquery-1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="/resources/js/wxsdk.js"></script>
 <!-- <script type="text/javascript" src="/resources/static/js/main.js"></script> -->
 <script type="text/javascript" src="/resources/modules/bar-list.js"></script>
 </html>

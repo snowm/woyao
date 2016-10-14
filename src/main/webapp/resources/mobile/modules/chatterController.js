@@ -13,6 +13,7 @@ define(['jquery','avalon', 'text!./chatter.html',"domReady!"], function ($,avalo
             userList:[],
             senderList:[],
             userId:'',
+            userInfo:{},
             tabChange:function(tab){
                if(tab == 'all'){
             	   chatterController.tabFlag = 'all';
@@ -41,7 +42,8 @@ define(['jquery','avalon', 'text!./chatter.html',"domReady!"], function ($,avalo
     function init(){
         console.log('聊天列表初始化');
         
-        chatterController.userId = avalon.vmodels.rootController._userInfo;
+        chatterController.userInfo = avalon.vmodels.rootController._userInfo;
+        
         
         var msgs = avalon.vmodels.rootController._privacyMsg.$model;
         var senderList = [];

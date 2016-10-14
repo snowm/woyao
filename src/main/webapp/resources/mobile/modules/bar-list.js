@@ -6,10 +6,24 @@ window.onload = function(){
     window.addEventListener('load', function () {
         FastClick.attach(document.body);
     }, false);
+    
+    // 微信js-sdk
+    wx.config({
+        debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+        appId: 'wxf55a7c00ffaca994', // 必填，企业号的唯一标识，此处填写企业号corpid
+        timestamp: '', // 必填，生成签名的时间戳
+        nonceStr: '', // 必填，生成签名的随机串
+        signature: '',// 必填，签名，见附录1
+        jsApiList: ['getLocation'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+    });
+    
+
+    
+    
 
     var barListController = avalon.define({
         $id: "barListController",
-        listShow:'list',
+        listShow:'map',
         barList:[],
         tabChange:function(tab){
             if(tab == 'list'){
@@ -23,23 +37,58 @@ window.onload = function(){
         },
     });
 
-    function queryData(){
+    
+    wx.ready(function(){
+    	wx.getLocation({
+    	    type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
+    	    success: function (res) {
+    	        var latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
+    	        var longitude = res.longitude ; // 经度，浮点数，范围为180 ~ -180。
+    	        var speed = res.speed; // 速度，以米/每秒计
+    	        var accuracy = res.accuracy; // 位置精度
+    	        alert(res)
+    	        var urls = "http://api.map.baidu.com/geoconv/v1/?coords=" +　longitude + "," + latitude + "&from=1&to=5&ak=mZm3GQOvw7AFyZIKrkeomWMbhMbpP2Cc";
+    	        $.ajax({
+    	            url: urls,   
+    	            dataType: "JSONP",  
+    	            async: true, 
+    	            type: "get",
+    	            success: function(data) {
+    	            	alert("获取到了百度坐标");
+    	            	alert(data.result);
+    	                queryData(data.result.x,data.result.y);
+    	                barListController.location = data.result;
+    	            },
+    	            complete: function() {
+    	            },
+    	            error: function() {
+    	            }
+    	        });
+    	    }
+    	});
+    });
+    
+    
+    function queryData(lat,lnt){
     	 $.ajax({
             url: "/m/shopList",   
             dataType: "JSON",  
             async: true, 
             data: {
-            	 latitude:30.663780,
-            	 longitude:104.072227, 
+//            	 latitude: lat || 30.663780,
+//            	 longitude:lnt || 104.072227, 
+            	 latitude: lat,
+             	 longitude:lnt, 
             	 pageNumber:1,
             	 pageSize:50
             },
             type: "POST",
             success: function(data) {
             	console.log();
-            	barListController.barList = data.results;
-
-                addShop(data.results);
+            	if(data.results != null){
+            		barListController.barList = data.results;
+                    addShop(data.results);
+            	}
             },
             complete: function() {
             },
@@ -50,12 +99,11 @@ window.onload = function(){
     }
     
     queryData();
-    
 
 
     var mlocation = {};
     var map = new BMap.Map("map");
-    map.centerAndZoom(new BMap.Point(104.072227,30.663456), 13);
+    map.centerAndZoom(new BMap.Point(104.072227,30.663456), 18);
 
     //map.setMapStyle({style:'googlelite'});
     map.addControl(new BMap.NavigationControl({offset: new BMap.Size(10, 50)}));
@@ -85,7 +133,7 @@ window.onload = function(){
         div.style.backgroundColor = "rgba(255, 255, 255, 0.85)";
         // 绑定事件，点击回到定位位置
         div.onclick = function(e){
-            map.centerAndZoom(new BMap.Point(mlocation.content.point.x, mlocation.content.point.y), 18);
+            map.centerAndZoom(new BMap.Point(barListController.location.x,barListController.location.y), 18);
         };
         // 添加DOM元素到地图中
         map.getContainer().appendChild(div);
@@ -98,10 +146,11 @@ window.onload = function(){
 
     /*自定义覆盖物*/
 // 定义自定义覆盖物的构造函数
-    function SquareOverlay(center, length,text){
+    function SquareOverlay(center, length,text,img){
         this._center = center;
         this._length = length;
         this._text = text;
+        this._img = img;
     }
 // 继承API的BMap.Overlay
     SquareOverlay.prototype = new BMap.Overlay();
@@ -112,26 +161,36 @@ window.onload = function(){
         // 创建div元素，作为自定义覆盖物的容器
         var div = document.createElement("div");
         var p = document.createElement("p");
-        var p2 = document.createElement("p");
+        var p2 = document.createElement("p");;
+        var pic = document.createElement("img");
         p.innerHTML = "距离:50km";
         p.style.color = 'rgba(255, 255, 255, 0.8)';
         p.style.fontSize = '8px';
-
+        
+        pic.src = this._img;
+        pic.style.width = 30 + "px";
+        pic.style.height = 30 + "px";
+        pic.style.display = "block";
+        pic.style.margin = "0 auto";
+        pic.style.borderRadius = '5px';
 
         p2.innerHTML = "点击进入聊天室";
-        p2.style.color = 'rgba(255, 255, 255, 0.8)';
+        p2.style.color = '#00DAFF';
         p2.style.fontSize = '6px';
 
         div.innerHTML = this._text;
 
+        div.appendChild(pic);
         div.appendChild(p);
         div.appendChild(p2);
         div.style.position = "absolute";
         // 可以根据参数设置元素外观
         div.style.width = this._length + "px";
         div.style.minHeight = '20px';
-        div.style.borderRadius = '5px';
-        div.style.background = "rgba(128, 128, 128, 0.8)";
+        div.style.borderRadius = '4px';
+        div.style.background = "rgba(0, 0, 0, 0.7)";
+
+        div.style.border = "1px solid #000000";
         div.style.color = "white";
         div.style.textAlign = "center";
         div.style.fontSize = "12px";
@@ -166,42 +225,27 @@ window.onload = function(){
         this._div.style.top = position.y - this._length / 2 + "px";
     };
     
+    map.addEventListener("dragend", function(){    
+    	 var center = map.getCenter();    
+    	 queryData(center.lat,center.lng);
+    });
     
     
 // 添加自定义覆盖物
-    
     function addShop(data){
-    	
-    	for (var i = 0; i < data.length; i++) {  
+    	for (var i = 0; i < data.length; i++) { 
             (function (x) {
             	var flag = x;
-            	var x = new SquareOverlay(new BMap.Point( data[flag].longitude , data[flag].latitude ), 80, data[flag].name);
+            	var x = new SquareOverlay(new BMap.Point( data[flag].longitude , data[flag].latitude ), 80, data[flag].name, data[flag].picURL);
             	map.addOverlay(x);
             	x.addEventListener('touchstart',function(){
                   window.location.href = '/m/chatRoom/' + data[flag].id + '#!/'
               });
             })(i);  
-         }
-    	setTimeout(function(){
-    		map.centerAndZoom(new BMap.Point(104.072227,30.66378), 12)
-    	},200)
-        
+         };
+//    	setTimeout(function(){
+//      		map.centerAndZoom(new BMap.Point(104.072227,30.66378), 12)
+//    	},500)
     }
-    
-    
-//    var mySquare = new SquareOverlay(new BMap.Point(104.064995, 30.664766), 80,'兰桂坊酒吧');
-//    var mySquare2 = new SquareOverlay(new BMap.Point(104.075994, 30.684756), 80,'九眼桥');
-//
-//
-//    map.addOverlay(mySquare);
-//    mySquare.addEventListener('touchstart',function(){
-//        window.location.href = '/html/index.html'
-//    });
-//
-//    map.addOverlay(mySquare2);
-//    mySquare2.addEventListener('touchstart',function(){
-//        window.location.href = '/html/index.html'
-//    });
-    
     avalon.scan()
 }
