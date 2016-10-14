@@ -1,6 +1,5 @@
 package com.woyao.wx;
 
-import javax.annotation.Resource;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.Invocation.Builder;
@@ -15,7 +14,6 @@ import org.apache.commons.logging.LogFactory;
 import com.woyao.utils.JaxbUtils;
 import com.woyao.wx.dto.UnifiedOrderRequest;
 import com.woyao.wx.dto.UnifiedOrderResponse;
-import com.woyao.wx.service.IWxPayService;
 
 public class WxPayEndpoint {
 
@@ -24,9 +22,6 @@ public class WxPayEndpoint {
 	private String wxUnifiedOrderUrl;
 
 	private Client client;
-
-	@Resource(name = "wxAdminService")
-	private IWxPayService wxAdminService;
 
 	public UnifiedOrderResponse unifiedOrder(UnifiedOrderRequest request) {
 		log.debug("Start to unified order...");

@@ -40,7 +40,7 @@ public class DefaultOrderProcessor {
 	@Resource(name = "orderService")
 	private IOrderService orderService;
 
-	@Resource(name = "orderService")
+	@Resource(name = "chatService")
 	private IChatService chatService;
 
 	@Resource(name = "commonDao")
