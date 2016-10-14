@@ -1,46 +1,70 @@
 package com.woyao;
 
-public class GlobalConfig {
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
+@Component("globalConfig")
+public class GlobalConfig implements InitializingBean{
+
+	@Value("${wx.verifyToken}")
 	private String verifyToken;
 
+	@Value("${wx.appId}")
 	private String appId;
 
+	@Value("${wx.appSecret}")
 	private String appSecret;
 
+	@Value("${wx.api.authorize.url}")
 	private String authorizeUrl;
 
+	@Value("${wx.api.authorize.paramFormat}")
 	private String authorizeParamFormat;
 
 	// https://{wxUrl}?appid=%s&redirect_uri=%s&response_type=code&scope=%s&state=%s#wechat_redirect
 	private String authorizeFormat;
 
+	@Value("${wx.pay.mchId}")
 	private String mchId;
 
+	@Value("${wx.pay.api.key}")
 	private String payApiKey;
 
+	@Value("${wx.api.pay.notify.url}")
+	private String payNotifyUrl;
+	
 	// server env
+	@Value("${server.host}")
 	private String host;
 
-	private String payNotifyUrl;
-
-	private int submitOrderConsumerNum = 10;
-
 	// 3rd party
+	@Value("${wx.3rd.appId}")
 	private String thirdAppId;
 
+	@Value("${wx.3rd.msg.token}")
 	private String thirdMsgToken;
 
+	@Value("${wx.3rd.msg.encodingAesKey}")
 	private String thirdEncodingAesKey;
 
+	@Value("${earth.radius}")
 	private double earthRadius;
 
+	@Value("${earth.latitude.radius}")
 	private double latitudeRadius;
 
+	@Value("${earth.longitude.radius}")
 	private double longitudeRadius;
 
+	@Value("${shop.available.distance}")
 	private double shopAvailableDistance;
 
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		this.generateAuthorizeFormat();
+	}
+	
 	public String getVerifyToken() {
 		return verifyToken;
 	}
@@ -120,14 +144,6 @@ public class GlobalConfig {
 	public void setPayNotifyUrl(String payNotifyUrl) {
 		this.payNotifyUrl = payNotifyUrl;
 	}
-
-	public int getSubmitOrderConsumerNum() {
-		return submitOrderConsumerNum;
-	}
-
-	public void setSubmitOrderConsumerNum(int submitOrderConsumerNum) {
-		this.submitOrderConsumerNum = submitOrderConsumerNum;
-	}
 	
 	// 3rd
 
@@ -186,5 +202,6 @@ public class GlobalConfig {
 	public void setShopAvailableDistance(double shopAvailableDistance) {
 		this.shopAvailableDistance = shopAvailableDistance;
 	}
+
 
 }

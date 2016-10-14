@@ -6,12 +6,11 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.Filter;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
-import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -47,46 +46,42 @@ import com.snowm.security.web.authentication.dao.DefaultAuthenticationProvider;
 import com.snowm.security.web.matcher.CsrfRequestMatcher;
 
 @Configuration
-@EnableWebSecurity
 @Order(1)
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+public class SecurityConfig {
 
 	private static final String LOGIN_PAGE = "/loginPage.html";
 
-	@Autowired
-	private Environment env;
-
-	@Resource
-	@Qualifier(value = "defaultProfileService")
+	@Resource(name = "defaultProfileService")
 	private ProfileService profileService;
 
-	@Resource
-	@Qualifier(value = "defaultPermissionService")
+	@Resource(name = "defaultPermissionService")
 	private PermissionService permissionService;
 
-	@Bean(name = "cat2AuthService")
-	public AuthService defaultAuthService() {
+	@Bean(name = "woyaoPasswordEncoder")
+	public PasswordEncoder myPasswordEncoder(@Value("${passwordEncoder.secret}") String secret) {
+		PasswordEncoder encoder = new StandardPasswordEncoder(secret);
+		return encoder;
+	}
+
+	@Bean(name = "woyaoAuthService")
+	public AuthService defaultAuthService(
+			@Qualifier("woyaoPasswordEncoder") PasswordEncoder passwordEncoder) {
 		AuthServiceImpl authService = new AuthServiceImpl();
 		authService.setPermissionService(this.permissionService);
 		authService.setProfileService(this.profileService);
-		authService.setPasswordEncoder(this.passwordEncoder());
+		authService.setPasswordEncoder(passwordEncoder);
 		return authService;
 	}
 
-	@Bean(name = "cat2AuthenticationProvider")
-	public AuthenticationProvider authenticationProvider() {
+	@Bean(name = "woyaoAuthenticationProvider")
+	public AuthenticationProvider authenticationProvider(
+			@Qualifier("woyaoAuthService") AuthService authService,
+			@Qualifier("woyaoPasswordEncoder") PasswordEncoder passwordEncoder) {
 		DefaultAuthenticationProvider authenticationProvider = new DefaultAuthenticationProvider();
-		authenticationProvider.setUserDetailsService(this.defaultAuthService());
-		authenticationProvider.setPasswordEncoder(this.passwordEncoder());
+		authenticationProvider.setUserDetailsService(authService);
+		authenticationProvider.setPasswordEncoder(passwordEncoder);
 		authenticationProvider.setLoginableAuthorites(null);
 		return authenticationProvider;
-	}
-
-	@Bean(name = "woyaoPasswordEncoder")
-	public PasswordEncoder passwordEncoder() {
-		String secret = this.env.getProperty("passwordEncoder.secret", "woyao1");
-		PasswordEncoder encoder = new StandardPasswordEncoder(secret);
-		return encoder;
 	}
 
 	@Bean(name = "sslAuthenticationSuccessHandler")
@@ -129,9 +124,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 
 	@Bean(name = "usernamePasswordAuthenticationFilter")
-	public Filter usernamePasswordAuthenticationFilter() {
+	public Filter usernamePasswordAuthenticationFilter(
+			@Qualifier("woyaoAuthenticationProvider") AuthenticationProvider authenticationProvider,
+			@Qualifier("authenticationManager") ProviderManager authenticationManager) {
 		UsernamePasswordAuthenticationFilter bean = new UsernamePasswordAuthenticationFilter();
-		bean.setAuthenticationManager(authenticationManager());
+		bean.setAuthenticationManager(authenticationManager);
 		bean.setSessionAuthenticationStrategy(sessionStrategy());
 		bean.setAuthenticationFailureHandler(failureHandler());
 		bean.setAuthenticationSuccessHandler(successHandler());
@@ -160,9 +157,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 
 	@Bean(name = "authenticationManager")
-	public ProviderManager authenticationManager() {
+	public ProviderManager authenticationManager1(
+			@Qualifier("woyaoAuthenticationProvider") AuthenticationProvider authenticationProvider) {
 		List<AuthenticationProvider> providers = new ArrayList<>();
-		providers.add(this.authenticationProvider());
+		providers.add(authenticationProvider);
 		ProviderManager bean = new ProviderManager(providers);
 		return bean;
 	}
@@ -173,30 +171,38 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		return matcher;
 	}
 
-	@Override
-	public void configure(WebSecurity web) throws Exception {
-		web.ignoring().antMatchers("/admin/resources/**", "/resources/**", "/favicon.ico", "/ali/**", "/test/**",
-				"/MP_verify_ExuzNoCNVM22thc+.txt**", "/m/**");
-	}
+	@Configuration
+	@EnableWebSecurity
+	@Order(2)
+	class SecurityAdapter extends WebSecurityConfigurerAdapter {
 
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-		// http.csrf().requireCsrfProtectionMatcher(csrfRequestMatcher());
-		http.addFilterBefore(concurrentSessionFilter(), ConcurrentSessionFilter.class);
-		http.addFilter(usernamePasswordAuthenticationFilter());
-		http.exceptionHandling().authenticationEntryPoint(authenticationEntryPoint());
-		http.csrf().disable();
-		http.logout().logoutUrl("/admin/logout").logoutSuccessUrl("/admin");
-		http.authorizeRequests().antMatchers("/login.jsp**", "/login**").anonymous().antMatchers("/logout**").authenticated()
-				// .antMatchers("/**", "/index.jsp**",
-				// "/admin/**").hasAnyRole("SUPER", "ADMIN", "OP", "CS")
+		@Resource(name = "usernamePasswordAuthenticationFilter")
+		private Filter usernamePasswordAuthenticationFilter;
+
+		@Override
+		public void configure(WebSecurity web) throws Exception {
+			web.ignoring().antMatchers("/admin/resources/**", "/resources/**", "/favicon.ico", "/ali/**", "/test/**",
+					"/MP_verify_ExuzNoCNVM22thc+.txt**", "/m/**");
+		}
+
+		@Override
+		protected void configure(HttpSecurity http) throws Exception {
+			// http.csrf().requireCsrfProtectionMatcher(csrfRequestMatcher());
+			http.addFilterBefore(concurrentSessionFilter(), ConcurrentSessionFilter.class);
+			http.addFilter(this.usernamePasswordAuthenticationFilter);
+			http.exceptionHandling().authenticationEntryPoint(authenticationEntryPoint());
+			http.csrf().disable();
+			http.logout().logoutUrl("/admin/logout").logoutSuccessUrl("/admin");
+			http.authorizeRequests()
+				.antMatchers("/login.jsp**", "/login**").anonymous()
+				.antMatchers("/logout**").authenticated()
+				// .antMatchers("/**", "/index.jsp**", "/admin/**").hasAnyRole("SUPER", "ADMIN", "OP", "CS")
 				.antMatchers("/admin/**").authenticated()
-				// .antMatchers("/", "/admin/**").hasAnyAuthority("ROLE_SUPER",
-				// "ROLE_ADMIN", "ROLE_OP", "ROLE_CS")
+				// .antMatchers("/", "/admin/**").hasAnyAuthority("ROLE_SUPER","ROLE_ADMIN", "ROLE_OP", "ROLE_CS")
 				.antMatchers("/api/op2.html**").access("hasRole('OP') and hasRole('ADMIN')")
-				// .antMatchers("/admin/**").hasAnyRole("SUPER", "ADMIN", "OP",
-				// "CS")
+				// .antMatchers("/admin/**").hasAnyRole("SUPER", "ADMIN", "OP", "CS")
 				.anyRequest().denyAll();
+		}
 	}
 
 }

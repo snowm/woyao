@@ -18,6 +18,10 @@
     <!-- <script type="text/javascript" src="https://developer.baidu.com/map/jsdemo/demo/convertor.js"></script> -->
 </head>
 <body ms-controller="barListController">
+	<input id="appId" type="hidden" value="${appId}"/>
+	<input id="timestamp" type="hidden" value="${timestamp}"/>
+	<input id="nonceStr" type="hidden" value="${nonceStr}"/>
+	<input id="signature" type="hidden" value="${signature}"/>
     <div class="top-tab">
         <table>
             <tr>

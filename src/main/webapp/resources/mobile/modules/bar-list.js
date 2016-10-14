@@ -9,10 +9,10 @@ window.onload = function(){
     
     
     var wxadt = {
-    		appId: 'wxf55a7c00ffaca994', 
-    		timestamp: '',
-    		nonceStr: '', 
-    		signature: '',
+    		appId: document.getElementById('appId').value, 
+    		timestamp: document.getElementById('timestamp').value,
+    		nonceStr: document.getElementById('nonceStr').value, 
+    		signature: document.getElementById('signature').value,
         }
             
         // 配置微信js-sdk许可
@@ -44,9 +44,11 @@ window.onload = function(){
 
     
     wx.ready(function(){
+      console.log("wx jsapi ready");
     	wx.getLocation({
     	    type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
     	    success: function (res) {
+    	        console.log("wx getLocation success:"+res);
     	        var latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
     	        var longitude = res.longitude ; // 经度，浮点数，范围为180 ~ -180。
     	        var speed = res.speed; // 速度，以米/每秒计
@@ -70,8 +72,20 @@ window.onload = function(){
     	            	alert("GPS坐标转换百度坐标失败");
     	            }
     	        });
-    	    }
+    	    },
+    	    error : function(){
+    	      console.log(arguments);
+    	    },
+            fail : function(){
+              console.log(arguments);
+            },
+            failure : function(){
+              console.log(arguments);
+            }
     	});
+    });
+    wx.error(function(d){
+      console.log("wx jsapi error:"+d);
     });
     
     

@@ -89,7 +89,7 @@ public class WxPayServiceImpl implements IWxPayService {
 		} catch (Exception ex) {
 			return null;
 		}
-		String sign = WxUtils.generateSign(parameters, globalConfig.getPayApiKey());
+		String sign = WxUtils.generatePaySign(parameters, globalConfig.getPayApiKey());
 		rs.setSign(sign);
 		return rs;
 	}

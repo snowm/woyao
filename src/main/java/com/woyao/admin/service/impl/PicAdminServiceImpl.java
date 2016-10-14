@@ -19,13 +19,9 @@ import com.snowm.security.profile.service.ProfileService;
 import com.snowm.utils.query.PaginationBean;
 import com.woyao.admin.dto.product.PicDTO;
 import com.woyao.admin.dto.product.QueryPicRequestDTO;
-import com.woyao.admin.dto.product.QueryShopsRequestDTO;
-import com.woyao.admin.dto.product.ShopDTO;
 import com.woyao.admin.service.IPicAdminService;
-import com.woyao.admin.service.IShopAdminService;
 import com.woyao.dao.CommonDao;
 import com.woyao.domain.Pic;
-import com.woyao.domain.Shop;
 
 @Service("picAdminService")
 public class PicAdminServiceImpl extends AbstractAdminService<Pic, PicDTO> implements IPicAdminService {

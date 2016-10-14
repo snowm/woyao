@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<beans profile="dev" xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
     xmlns:context="http://www.springframework.org/schema/context"
     xmlns:task="http://www.springframework.org/schema/task"
@@ -9,19 +9,17 @@
        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
        http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
-        <!--  -->
-    <context:annotation-config />
-    <import resource="context-properties.xml" />
-    <import resource="dev/context-properties.xml" />
-    <import resource="prod/context-properties.xml" />
+       
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:dev/datasource.properties</value>
+				<value>classpath:dev/server.properties</value>
+				<value>classpath:hibernate.properties</value>
+				<value>classpath:config.properties</value>
+				<value>classpath:wx.properties</value>
+			</list>
+		</property>
+	</bean>
     
-    <import resource="context-datasource.xml" />
-    <import resource="context-hibernate.xml" />
-    <bean class="com.woyao.config.AppConfig"/>
-    <task:annotation-driven /> 
-    <!-- <import resource="context-schedulers.xml" /> -->
-    
-    <bean id="uploadService" class="com.woyao.service.UploadService">
-    	<property name="uploadRootPath" value="${upload.root}"/>
-    </bean>
 </beans>

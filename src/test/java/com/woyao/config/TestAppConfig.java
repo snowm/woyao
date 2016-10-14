@@ -16,8 +16,8 @@ import com.woyao.GlobalConfig;
 import com.snowm.hibernate.ext.multi.SwitchableSessionFactoryWrapper;
 import com.snowm.hibernate.ext.multi.SwitchableTransactionManagerWrapper;
 
-@Configuration("testConfig")
-@PropertySource(name = "testProperty", value = "classpath:/test-config.properties")
+//@Configuration("testConfig")
+//@PropertySource(name = "testProperty", value = "classpath:/test-config.properties")
 @Import({ com.snowm.hibernate.ext.config.AppConfig.class, com.snowm.security.config.AppConfig.class, SecurityConfig.class })
 @ComponentScan({ "com.snowm", "com.woyao.admin.service", "com.woyao.dao", "com.woyao.flow", "com.woyao.service",
 		"com.woyao.utils" })

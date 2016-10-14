@@ -126,7 +126,7 @@ public class DefaultOrderProcessor {
 		} catch (Exception ex) {
 			return null;
 		}
-		String paySign = WxUtils.generateSign(parameters, globalConfig.getPayApiKey());
+		String paySign = WxUtils.generatePaySign(parameters, globalConfig.getPayApiKey());
 		rs.setPaySign(paySign);
 		return rs;
 	}

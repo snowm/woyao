@@ -1,31 +1,25 @@
 package com.woyao.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
-import org.springframework.core.env.Environment;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
 import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
 import org.springframework.web.socket.server.standard.ServletServerContainerFactoryBean;
 
-//import com.woyao.admin.controller.StatisticsWebSocketHandler;
-import com.snowm.utils.property.EnvUtils;
 import com.woyao.customer.chat.ChatWebSocketHandler;
 import com.woyao.customer.chat.SelfHandshakeInterceptor;
 
-//@EnableWebSocketMessageBroker
-//@Import({ WebSocketSecurityConfig.class })
-//public class WebSocketConfig extends AbstractSecurityWebSocketMessageBrokerConfigurer {
 @Configuration
 @EnableWebSocket
 @Order(3)
 public class WebSocketConfig implements WebSocketConfigurer {
-	
-	@Autowired
-	private Environment env;
-	
+
+	@Value("websocket.allowedOrigins")
+	private String allowedOrigins;
+
 	@Bean
 	public SelfHandshakeInterceptor handshakeInterceptor() {
 		SelfHandshakeInterceptor handshake = new SelfHandshakeInterceptor();
@@ -40,20 +34,21 @@ public class WebSocketConfig implements WebSocketConfigurer {
 	}
 
 	@Bean
-	public ServletServerContainerFactoryBean createWebSocketContainer() {
+	public ServletServerContainerFactoryBean createWebSocketContainer(
+			@Value("${websocket.max.text.buffer.size}") int maxTextMessageBufferSize,
+			@Value("${websocket.max.bin.buffer.size}") int maxBinaryMessageBufferSize,
+			@Value("${websocket.max.session.idle.timeoutInMillis}") long maxSessionIdleTimeout) {
 		ServletServerContainerFactoryBean container = new ServletServerContainerFactoryBean();
-		container.setMaxTextMessageBufferSize(EnvUtils.getInt(env, "websocket.max.text.buffer.size", 8192));
-		container.setMaxBinaryMessageBufferSize(EnvUtils.getInt(env, "websocket.max.bin.buffer.size", 8192));
-		container.setMaxSessionIdleTimeout(EnvUtils.getLong(env, "websocket.max.text.buffer.timeoutInMillis", 60000 * 120));
+		container.setMaxTextMessageBufferSize(maxTextMessageBufferSize);
+		container.setMaxBinaryMessageBufferSize(maxBinaryMessageBufferSize);
+		container.setMaxSessionIdleTimeout(maxSessionIdleTimeout);
 		return container;
 	}
 
 	@Override
 	public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-		String property = this.env.getProperty("ws.allowed.origins");
-		
 		registry.addHandler(this.chatWebSocketHandler(), "/mobile/chat/socket").addInterceptors(this.handshakeInterceptor())
-				.setAllowedOrigins(property.split(","));
+				.setAllowedOrigins(allowedOrigins.split(","));
 	}
 
 }

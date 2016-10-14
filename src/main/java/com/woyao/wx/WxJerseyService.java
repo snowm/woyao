@@ -1,6 +1,5 @@
 package com.woyao.wx;
 
-import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
@@ -152,7 +151,7 @@ public class WxJerseyService {
 		}
 		SignValidateFieldCallback fc = new SignValidateFieldCallback(req);
 		ReflectionUtils.doWithFields(req.getClass(), fc, ff);
-		String sign = WxUtils.generateSign(fc.nvs, globalConfig.getPayApiKey());
+		String sign = WxUtils.generatePaySign(fc.nvs, globalConfig.getPayApiKey());
 		if (!sign.equals(req.getSign())) {
 			log.error("sign incorrect -- expected:" + sign + "  actual:" + req.getSign());
 			return false;
@@ -184,11 +183,7 @@ public class WxJerseyService {
 			String valueStr = value.toString();
 			XmlElement xmlEleAnnotation = field.getAnnotation(XmlElement.class);
 			String name = xmlEleAnnotation.name();
-			try {
-				this.nvs.add(WxUtils.generateNVPair(name, valueStr));
-			} catch (UnsupportedEncodingException e) {
-				e.printStackTrace();
-			}
+			this.nvs.add(WxUtils.generateNVPair(name, valueStr));
 		}
 
 	}

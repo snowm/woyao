@@ -34,6 +34,7 @@ import com.woyao.customer.dto.ChatterDTO;
 import com.woyao.customer.service.IChatService;
 import com.woyao.customer.service.IProfileWxService;
 import com.woyao.utils.CookieUtils;
+import com.woyao.utils.UrlUtils;
 import com.woyao.wx.WxEndpoint;
 import com.woyao.wx.dto.GetUserInfoResponse;
 import com.woyao.wx.service.IWxService;
@@ -42,7 +43,7 @@ import com.woyao.wx.service.IWxService;
 public class Oauth2SecurityFilter implements Filter, InitializingBean {
 
 	private static final int COOKIE_AGE = 31536000;
-	private static final String PARA_OAUTH_CODE = "code";
+	public static final String PARA_OAUTH_CODE = "code";
 	private static final String SESSION_ATTR_OAUTH_CODE = "code";
 	private static final String SESSION_ATTR_OPEN_ID = "openId";
 
@@ -80,12 +81,12 @@ public class Oauth2SecurityFilter implements Filter, InitializingBean {
 		HttpServletRequest request = (HttpServletRequest) servletRequest;
 		HttpServletResponse response = (HttpServletResponse) servletResponse;
 
-		String currentUri = calculateCurrentUri(request);
+		String currentUri = UrlUtils.calculateCurrentUri(request);
 
 		if (authorize(request, response)) {
 			try {
-				// 去掉微信授权的的code
 				if (request.getParameterMap().containsKey(PARA_OAUTH_CODE)) {
+					// 去掉微信授权的的code
 					String url = this.removeCodeParam(request);
 					log.debug("The code parameter of Oauth remove:" + url);
 					this.redirectUser(request, response, url);
@@ -131,7 +132,6 @@ public class Oauth2SecurityFilter implements Filter, InitializingBean {
 			}
 		}
 
-
 		// 最后尝试根据chatter_id和oauth code，从微信服务器获取chatter信息
 		String cookieOpenId = CookieUtils.getCookie(request, CookieUtils.COOKIE_OPEN_ID);
 		String code = request.getParameter(PARA_OAUTH_CODE);
@@ -161,50 +161,6 @@ public class Oauth2SecurityFilter implements Filter, InitializingBean {
 	protected void redirectUser(HttpServletRequest request, HttpServletResponse response, String url) throws IOException {
 		response.sendRedirect(url);
 		// this.redirectStrategy.sendRedirect(request, response, url);
-	}
-
-	/**
-	 * Calculate the current URI given the request.
-	 * 
-	 * @param request
-	 *            The request.
-	 * @return The current uri.
-	 */
-	protected String calculateCurrentUri(HttpServletRequest request) throws UnsupportedEncodingException {
-		ServletUriComponentsBuilder builder = ServletUriComponentsBuilder.fromRequest(request);
-		// Now work around SPR-10172...
-		String queryString = request.getQueryString();
-		// nginx反向代理设置的header
-		String originProtocol = request.getHeader("Origin-Protocol");
-		String originHost = request.getHeader("Origin-Host");
-		String originPortStr = request.getHeader("Origin-Port");
-		int originPort = -1;
-		if (!StringUtils.isBlank(originPortStr)) {
-			originPort = Integer.parseInt(originPortStr);
-		}
-		boolean legalSpaces = queryString != null && queryString.contains("+");
-		if (legalSpaces) {
-			builder.replaceQuery(queryString.replace("+", "%20"));
-		}
-		UriComponents uri = null;
-		try {
-			if (!StringUtils.isBlank(originProtocol)) {
-				builder.scheme(originProtocol).host(originHost);
-				if (originPort > 0) {
-					builder.port(originPort);
-				}
-			}
-			uri = builder.replaceQueryParam(PARA_OAUTH_CODE).build(true);
-		} catch (IllegalArgumentException ex) {
-			// ignore failures to parse the url (including query string). does't
-			// make sense for redirection purposes anyway.
-			return null;
-		}
-		String query = uri.getQuery();
-		if (legalSpaces) {
-			query = query.replace("%20", "+");
-		}
-		return ServletUriComponentsBuilder.fromUri(uri.toUri()).replaceQuery(query).build().toString();
 	}
 
 	protected String removeCodeParam(HttpServletRequest request) throws UnsupportedEncodingException {

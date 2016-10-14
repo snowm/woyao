@@ -4,11 +4,10 @@ import java.nio.charset.Charset;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
-import org.springframework.core.env.Environment;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.http.CacheControl;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -25,16 +24,13 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import org.springframework.web.servlet.view.JstlView;
 
-import com.woyao.interceptor.LogInterceptor;
 import com.snowm.security.web.exception.SnowmHandlerExceptionResolver;
+import com.woyao.interceptor.LogInterceptor;
 
 @Configuration
 @EnableWebMvc
 @Order(2)
 public class WebConfig extends WebMvcConfigurerAdapter {
-
-	@Autowired
-	private Environment env;
 
 	@Bean(name = "cacheControlLib")
 	public CacheControl resourceLibCacheControl() {
@@ -61,11 +57,13 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 	}
 
 	@Bean(name = "multipartResolver")
-	public CommonsMultipartResolver multipartResolver() {
+	public CommonsMultipartResolver multipartResolver(
+			@Value("${multipartParser.maxUploadSize}") long maxUploadSize,
+			@Value("${multipartParser.maxUploadSizePerFile}") long maxUploadSizePerFile) {
 		CommonsMultipartResolver resolver = new CommonsMultipartResolver();
 		resolver.setDefaultEncoding("UTF-8");
-		resolver.setMaxUploadSize(env.getProperty("multipartParser.maxUploadSize", Long.class, 12097152L));
-		resolver.setMaxUploadSizePerFile(env.getProperty("multipartParser.maxUploadSizePerFile", Long.class, 1204800L));
+		resolver.setMaxUploadSize(maxUploadSize);
+		resolver.setMaxUploadSizePerFile(maxUploadSizePerFile);
 		return resolver;
 	}
 

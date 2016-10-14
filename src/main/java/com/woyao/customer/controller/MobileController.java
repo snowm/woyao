@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.http.NameValuePair;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.snowm.utils.query.PaginationBean;
+import com.woyao.GlobalConfig;
 import com.woyao.customer.chat.SessionContainer;
 import com.woyao.customer.chat.SessionUtils;
 import com.woyao.customer.dto.ChatPicDTO;
@@ -31,6 +33,10 @@ import com.woyao.customer.dto.chat.out.OutMsgDTO;
 import com.woyao.customer.service.IChatService;
 import com.woyao.customer.service.IMobileService;
 import com.woyao.customer.service.IProductService;
+import com.woyao.domain.wx.JsapiTicket;
+import com.woyao.service.JsapiTicketService;
+import com.woyao.utils.UrlUtils;
+import com.woyao.wx.WxUtils;
 
 @Controller
 @RequestMapping(value = "/m")
@@ -44,14 +50,22 @@ public class MobileController {
 
 	@Resource(name = "productService")
 	private IProductService productService;
-	
+
+	@Resource(name = "jsapiTicketService")
+	private JsapiTicketService jsapiTicketService;
+
+	@Resource(name = "globalConfig")
+	private GlobalConfig globalConfig;
+
 	@RequestMapping(value = { "/", "" })
-	public String index() {
+	public String index(HttpServletRequest httpRequest) {
+		generateJsapiToken(httpRequest);
 		return "mobile/index";
 	}
 
 	@RequestMapping(value = { "/chatRoom/{shopId}" })
 	public String chatRoom(@PathVariable("shopId") long shopId, HttpServletRequest httpRequest) {
+		generateJsapiToken(httpRequest);
 		HttpSession session = httpRequest.getSession();
 		session.setAttribute(SessionContainer.SESSION_ATTR_SHOP_ID, shopId);
 
@@ -138,11 +152,34 @@ public class MobileController {
 		request.setSelfChatterId(chatterId);
 		return this.chatService.listHistoryMsg(request);
 	}
-	
-	@RequestMapping(value = { "/chat/chatPicList/{id}/{pageNumber}/{pageSize}" }, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+
+	@RequestMapping(value = {
+			"/chat/chatPicList/{id}/{pageNumber}/{pageSize}" }, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
-	public List<ChatPicDTO> getChatPicList(@PathVariable("id") Long id,@PathVariable("pageNumber") Long pageNumber,@PathVariable("pageSize") Integer pageSize) {
-		
-		return this.chatService.getPicUrl(id,pageNumber,pageSize);
+	public List<ChatPicDTO> getChatPicList(@PathVariable("id") Long id, @PathVariable("pageNumber") Long pageNumber,
+			@PathVariable("pageSize") Integer pageSize) {
+
+		return this.chatService.getPicUrl(id, pageNumber, pageSize);
+	}
+
+	private void generateJsapiToken(HttpServletRequest httpRequest) {
+		JsapiTicket ticket = this.jsapiTicketService.getToken();
+		List<NameValuePair> nvs = new ArrayList<>();
+		String timestamp = WxUtils.generateTimestamp();
+		String nonceStr = WxUtils.generateNonce(32);
+		try {
+			nvs.add(WxUtils.generateNVPair("timestamp", timestamp));
+			nvs.add(WxUtils.generateNVPair("noncestr", nonceStr));
+			nvs.add(WxUtils.generateNVPair("jsapi_ticket", ticket.getTicket()));
+			String url = UrlUtils.calculateCurrentUri(httpRequest);
+			nvs.add(WxUtils.generateNVPair("url", url));
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+
+		httpRequest.setAttribute("appId", globalConfig.getAppId());
+		httpRequest.setAttribute("timestamp", timestamp);
+		httpRequest.setAttribute("nonceStr", nonceStr);
+		httpRequest.setAttribute("signature", WxUtils.generateJsapiSign(nvs));
 	}
 }

@@ -11,19 +11,17 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.annotation.PreDestroy;
-import javax.annotation.Resource;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
-import com.woyao.GlobalConfig;
+import org.springframework.beans.factory.annotation.Value;
 
 public abstract class AbstractListenerTask implements Runnable {
 
 	private Log log = LogFactory.getLog(this.getClass());
 
-	@Resource(name = "globalConfig")
-	private GlobalConfig globalConfig;
+	@Value("${queue.submitOrder.consumer.threads}")
+	private int submitOrderConsumerThreads;
 
 	private ExecutorService es;
 
@@ -37,7 +35,7 @@ public abstract class AbstractListenerTask implements Runnable {
 
 	@Override
 	public void run() {
-		int size = globalConfig.getSubmitOrderConsumerNum();
+		int size = submitOrderConsumerThreads;
 		this.es = Executors.newFixedThreadPool(size);
 		int i = 0;
 		while (!stop) {

@@ -1,5 +1,6 @@
 package com.woyao.wx;
 
+import javax.annotation.Resource;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Invocation.Builder;
 import javax.ws.rs.client.WebTarget;
@@ -8,13 +9,17 @@ import javax.ws.rs.core.Response;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import com.woyao.utils.JsonUtils;
 import com.woyao.wx.dto.ErrorResponse;
 import com.woyao.wx.dto.GetAccessTokenResponse;
 import com.woyao.wx.dto.GetGlobalAccessTokenResponse;
+import com.woyao.wx.dto.GetJsapiTicketResponse;
 import com.woyao.wx.dto.GetUserInfoResponse;
 
+@Component("wxEndpoint")
 public class WxEndpoint {
 
 	private static final String QUERY_PARA_OPEN_ID = "openid";
@@ -24,14 +29,22 @@ public class WxEndpoint {
 
 	private Log log = LogFactory.getLog(this.getClass());
 
+	@Value("${wx.api.getGlobalAccessToken.url}")
 	private String getGlobalAccessTokenUrl;
-
+	
+	@Value("${wx.api.getAccessToken.url}")
 	private String getAccessTokenUrl;
-
+	
+	@Value("${wx.api.refreshAccessToken.url}")
 	private String refreshAccessTokenUrl;
-
+	
+	@Value("${wx.api.getUserInfo.url}")
 	private String getUserInfoUrl;
+	
+	@Value("${wx.api.jsapi.getTicket.url}")
+	private String getJsapiTicketUrl;
 
+	@Resource(name="wxJerseyClient")
 	private Client client;
 
 	/**
@@ -239,6 +252,31 @@ public class WxEndpoint {
 		return false;
 	}
 
+	public GetJsapiTicketResponse getJsapiTicket(String accessToken) {
+		log.debug("Start to get jsapi token...");
+		WebTarget target = client.target(this.getJsapiTicketUrl).queryParam(QUERY_PARA_ACCESS_TOKEN, accessToken).queryParam("type",
+				"jsapi");
+
+		Response resp = createJsonRequestBuilder(target).get();
+
+		if (!validateResponse(resp)) {
+			return null;
+		}
+
+		try {
+			String result = resp.readEntity(String.class);
+			GetJsapiTicketResponse token = JsonUtils.toObject(result, GetJsapiTicketResponse.class);
+			if (log.isDebugEnabled()) {
+				log.debug("Jsapi token got:" + token);
+			}
+			return token;
+		} catch (Exception e) {
+			String msg = "Can not parse response!";
+			log.error(msg, e);
+		}
+		return null;
+	}
+
 	private Builder createJsonRequestBuilder(WebTarget target) {
 		return target.request(MediaType.APPLICATION_JSON_TYPE).accept(MediaType.APPLICATION_JSON_TYPE, MediaType.TEXT_PLAIN_TYPE)
 				.header("User-Agent", MediaType.APPLICATION_JSON);
@@ -272,6 +310,10 @@ public class WxEndpoint {
 
 	public void setGetUserInfoUrl(String getUserInfoUrl) {
 		this.getUserInfoUrl = getUserInfoUrl;
+	}
+
+	public void setGetJsapiTicketUrl(String getJsapiTicketUrl) {
+		this.getJsapiTicketUrl = getJsapiTicketUrl;
 	}
 
 	public void setClient(Client client) {
