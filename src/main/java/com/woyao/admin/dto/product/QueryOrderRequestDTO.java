@@ -26,10 +26,10 @@ public class QueryOrderRequestDTO extends PaginationQueryRequestDTO{
 	
 	private Integer maxtotalFee;//最大费用
 	
-	@DateTimeFormat(pattern = DTOConfig.DATE_TIME_FULL_FMT) 
+	@DateTimeFormat(pattern="yyyy-MM-dd")  
 	private Date startcreationDate;//开始创建时间
 
-	@JsonFormat(pattern = DTOConfig.DATE_TIME_FULL_FMT)
+	@DateTimeFormat(pattern="yyyy-MM-dd") 
 	private Date endcreationDate; //最后创建时间
 	
 	private Boolean deleted = null;
