@@ -28,13 +28,13 @@
 	      </div>
 	      <div class="col-sm-3"> 
 	      	 	<div class="form-group">
-	      		 	<label class="control-label">开始创建时间</label>
+	      		 	<label class="control-label">创建开始时间</label>
 	      		 		<input type="text"name="firstname" class="form-control" id="date_picker1" ms-duplex="freeDate.startcreationDate">	      		 	
 	      		</div>
 	      </div>
 	       <div class="col-sm-3"> 
 	      		<div class="form-group">
-	      		  	<label class="control-label">结束创建时间</label>
+	      		  	<label class="control-label">创建结束时间</label>
 	      		 		<input type="text"name="firstname" class="form-control" id="date_picker2" ms-duplex="freeDate.endcreationDate" >	      		 	
 	      		</div>
 	      </div>      
@@ -62,8 +62,7 @@
                 <th class="text-center">内容</th>
                 <th class="text-center">是否付费</th>  
                 <th class="text-center">商品价格</th>             
-                <th class="text-center">创建时间</th>
-                <th class="text-center">最后修改时间</th>                
+                <th class="text-center">创建时间</th>                               
                 <th class="text-center text-right" width="200">操作</th>
             </tr>
             </thead>
@@ -73,8 +72,7 @@
                 <td ms-text="p.content"></td>                
                 <td><span ms-if="p.free">是</span><span ms-if="!p.free">否</span></td>
                 <td ms-text="p.productUnitPrice"></td>
-                <td ms-text="p.creationDate"></td>
-                <td ms-text="p.lastModifiedDate"></td>
+                <td ms-text="p.creationDate"></td>                
                 <td>
                     <!--<button class="btn btn-xs btn-info"><i class="fa fa-pencil"></i> 修改</button>-->
                     <button class="btn btn-xs btn-danger" ms-click="deleteChat(p.id)"><i class="fa fa-trash-o"></i> 删除</button>

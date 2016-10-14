@@ -45,6 +45,7 @@ define(['uploadfile'],function(){
     	    },
     	    newShop:function(){
     	    	shopController.formShow = true;
+    	    	shopController.nothing=false;
     	    	shopController.formData = {
     	    			name:'',
     	    	    	address:'',
@@ -91,7 +92,7 @@ define(['uploadfile'],function(){
     	    		}
     	    	})
     	    },
-    	    submitItem:function(){
+    	    submitItem:function(){    	    	
     	    	//经度正则
     	    	var longitude =/^[\-\+]?(0?\d{1,2}\.\d{1,5}|1[0-7]?\d{1}\.\d{1,5}|180\.0{1,5})$/;
     	    	var latitude =/^[\-\+]?([0-8]?\d{1}\.\d{1,5}|90\.0{1,5})$/;
@@ -104,23 +105,11 @@ define(['uploadfile'],function(){
     				if(shopController.imgViewSrc=="/admin/resources/images/photos/upload1.png"){
     					alert("请选择图片");
     					return;
-    				}else if (tel == "" || !longitude.test(tel)) {
-    					alert("请输入正确经度");
-    					return;
-    				} else if(tit == "" || !latitude.test(tit)){
-    					alert("请输入正确维度");
-    					return;
     				}else if(shopName ==""){
     					alert("请输入正确商店名称");
     					return;
     				}else if(adss ==""){
     					alert("请输入正确地址");
-    					return;
-    				}else if(managerName ==""){
-    					alert("请输入正确账号");
-    					return;
-    				}else if(managerPwd ==""){
-    					alert("请输入正确密码");
     					return;
     				}else{
     				 	

@@ -181,7 +181,8 @@ define(['uploadfile'],function(){
         add:function(){        	
             goodsController.goodsShow=true;
             goodsController.goods=false;
-            goodsController.demand=false;            
+            goodsController.demand=false;
+            goodsController.nothing=false;
             goodsController.imgViewSrc = '/admin/resources/images/photos/upload1.png';
             $("#goodsUploadfile").val('');          
             goodsController.goodsChg = {
@@ -202,6 +203,7 @@ define(['uploadfile'],function(){
                     url: '/admin/product/delete/' + id,
                     success: function(data){
                         console.log(data);
+                        goodsController.goods=false;
                         Submit();
                     },
                     dataType: 'json'
@@ -234,13 +236,13 @@ define(['uploadfile'],function(){
         hideNewShop:function(){
         	goodsController.goodsShow = false;
         	goodsController.demand = true;
-        	goodsController.goods = true;
+        	goodsController.goods = false;
+        	goodsController.nothing = false;
         	goodsController.goodsChg.mainPicId = '';
         	goodsController.goodsChg.name="";
         	goodsController.goodsChg.shopId="";
             goodsController.imgViewSrc = '/admin/resources/images/photos/upload1.png';
-            $("#goodsUploadfile").val('');
-            Submit();
+            $("#goodsUploadfile").val('');           
             
 	    },
         chooseShopItem:function(data){

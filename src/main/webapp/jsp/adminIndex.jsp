@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -43,9 +44,7 @@
                     <li><a href="#"><i class="glyphicon glyphicon-cog"></i> 设 置</a></li>
                     <li><a href="#"><i class="glyphicon glyphicon-question-sign"></i> 帮 助</a></li>
                     <li>
-	                    <form action="${logout_url}" method="POST">
-		                    <a><i class="glyphicon glyphicon-log-out"></i>  <input type='submit' value="注销"></a>
-		                </form>
+	                    
 	                </li>
                 </ul>
             </div>
@@ -100,7 +99,11 @@
                                 <li><a href="profile.html"><i class="glyphicon glyphicon-user"></i> 个人中心</a></li>
                                 <li><a href="#"><i class="glyphicon glyphicon-cog"></i> 设 置</a></li>
                                 <li><a href="#"><i class="glyphicon glyphicon-question-sign"></i> 帮 助</a></li>
-                                <li><a href="signin.html"><i class="glyphicon glyphicon-log-out"></i> 注 销</a></li>
+                                <li>
+		                            <form action="${logout_url}" method="POST">
+				                   		<a><i class="glyphicon glyphicon-log-out"></i><input style="width:153px;text-align: left;background:rgba(0,0,0,0);border:0;outline:0;" type='submit' value="注销"></a>				                   		
+				                	</form>
+                               </li>
                             </ul>
                         </div>
                     </li>
