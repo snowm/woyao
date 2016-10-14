@@ -200,12 +200,12 @@ define(['uploadfile'],function(){
                     type: "put",
                     url: '/admin/product/delete/' + id,
                     success: function(data){
-                        console.log(data)
+                        console.log(data);
+                        Submit();
                     },
                     dataType: 'json'
                 });
-            }
-           Submit();
+            }           
             
         },
         //选择商店

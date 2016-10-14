@@ -9,6 +9,7 @@ define(['uploadfile'],function(){
     	    business:true,
     	    businessalter:false,
     	    nothing:false,
+    	    disabled:true,
     	    imgViewSrc:'/admin/resources/images/photos/upload1.png',
     	    shopList:[],    	    
     	    totlePage:-1,
@@ -70,7 +71,8 @@ define(['uploadfile'],function(){
     	  	      		  type: "put",
     	  	      		  url: '/admin/shop/delete/' + id,
     	  	      		  success: function(data){
-    	  	      			  console.log(data)
+    	  	      			  console.log(data);
+    	  	      			  queryData();
     	  	      		  },
     	  	      		  dataType: 'json'
     	  	      		});

@@ -99,6 +99,7 @@ define(['jquery','datapicker','datapicker.cn'],function($){
     	  	      		  url: '/admin/chatMsg/delete/' + id,
     	  	      		  success: function(data){
     	  	      			  console.log(data);
+    	  	      			  Seach();
     	  	      		  },
     	  	      		  dataType: 'json'
     	  	      	});
