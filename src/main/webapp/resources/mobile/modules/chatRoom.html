@@ -5,13 +5,16 @@
     <div class="pop-sreen-img-flt"></div>
     <div class="pop-sreen-bg">
         <div class="pop-sreen-block">
+            <img class="pop-sreen-head" src="/resources/static/img/head.jpg" ms-attr-src='sreenHead' alt="">
+            <p class="pop-sreen-name"> <span ms-text='sreenName'></span>
+	           <img class="header-sexy" ms-if="sreenGender == 'FEMALE'"  src="/resources/static/img/weman.png" alt="">
+	           <img class="header-sexy" ms-if="sreenGender == 'MALE'" src="/resources/static/img/man.png" alt="">
+            </p>
+        </div>
+        <!-- <div class="pop-sreen-block">
             <img class="pop-sreen-head" src="/resources/static/img/head.jpg" alt="">
             <p class="pop-sreen-name">隔壁老王 <span><img class="header-sexy" src="/resources/static/img/weman.png" alt=""></span></p>
-        </div>
-        <div class="pop-sreen-block">
-            <img class="pop-sreen-head" src="/resources/static/img/head.jpg" alt="">
-            <p class="pop-sreen-name">隔壁老王 <span><img class="header-sexy" src="/resources/static/img/weman.png" alt=""></span></p>
-        </div>
+        </div> -->
         <div class="pop-sreen-msg">
             <span class="text-org">我要霸屏<span ms-text="sreenTime"></span>秒：</span><span ms-text="sreenMsg"></span>
         </div>
@@ -196,7 +199,7 @@
                             <img --src="/resources/static/img/delate/photo1.jpg" ms-attr-src="item.pic" alt="">
                         </div>
                         <!--<p class="msg-forhe" ms-on-tap="forHer()">给<span ms-if="item.sexy == 'man'">他</span><span ms-if="item.sexy == 'weman'">她</span>送礼物</p>-->
-                        <p class="msg-forhe" ms-on-tap="forHer()" ms-if="item.pic">送礼物</p>
+                        <p class="msg-forhe" ms-on-tap="forHer()" ms-if="item.pic && item.sender.id != userInfo.self.id">送礼物</p>
                         <img class="msg-icon-right" src="/resources/static/img/cgrt.png" ms-if="item.sender.gender == 'MALE'" alt="">
                         <img class="msg-icon-right" src="/resources/static/img/lips.png" ms-if="item.sender.gender == 'FEMALE'" alt="">
                     </div>

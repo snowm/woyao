@@ -7,45 +7,6 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"wxsdk","dom
 
 
     var main_socket = socket;
-//    main_socket.onmessage = function(message) {
-//        var msg = JSON.parse(message.data);
-//        console.log("get masage:");
-//        console.log(msg);
-//        msg.text = replace_em(msg.text);
-//        
-//        if(!msg.privacy){
-//        	alert(avalon.vmodels.rootController.privacyMsg.length)
-//        	avalon.vmodels.rootController.privacyMsg.push(msg);
-//        	mainController.pMsgCount = avalon.vmodels.rootController.privacyMsg.length;
-//        	return;
-//        }
-//        
-//        mainController.msgList.push(msg);
-//
-//        $(".msg-block-contain").animate({scrollTop:$(".msg-block-container").height() -  $(".msg-block-contain").height() + 100},500,'swing');
-
-//        var seconds = msg.msgType*1000;
-//        if(seconds != 0){
-//            mainController.sreenShow = true;
-//            mainController.sreenImg = text.imgUrl;
-//            mainController.sreenMsg = text.msg;
-//            mainController.sreenTime = text.msgType;
-//            mainController.sreenShowSeconds = seconds/1000;
-//            var fl = '';
-//            fl = setInterval(function(){
-//                mainController.sreenShowSeconds--;
-//                if(mainController.sreenShowSeconds == 0){
-//                    clearTimeout(fl);
-//                    mainController.sreenImg = '';
-//                    mainController.sreenMsg = '';
-//                    mainController.sreenTime = '';
-//                    mainController.sreenShow = false;
-//                    return
-//                }
-//            },1000)
-//        }
-//    }
-
 
 
     var mainController = avalon.define({
@@ -60,10 +21,14 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"wxsdk","dom
         senttext:'', // 输入框文字
         sreenShow:false, // 霸屏显示
         forHerShow:false, // 为他霸屏
+        sreenGender:'',// 性别
+        sreenName:'',// 昵称
+        sreenHead:'',// 头像
         sreenShowSeconds:0, // 倒计时
         sreenImg:'/resources/static/img/delate/photo1.jpg', // 霸屏图片
         sreenMsg:'', // 霸屏文字
         sreenTime:'', // 霸屏时间
+        sreenItem:[], //霸屏队列
         showUser:{},
         payMsgTypes:[], // 付费消息类型
         payGoodsTypes:[],// 付费商品类型
@@ -237,6 +202,7 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"wxsdk","dom
                 }
                 var msgContent = type + "\n" + JSON.stringify(msg);
                 main_socket.send(msgContent);
+                mainController.imgUrl = '';
             }
 
             mainController.hidePopSend();
