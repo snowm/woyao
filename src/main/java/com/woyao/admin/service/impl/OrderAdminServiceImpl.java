@@ -74,19 +74,18 @@ public class OrderAdminServiceImpl extends AbstractAdminService<Order, OrderDTO>
 		List<OrderItem> orderItems=dao.query(hql);
 		OrderDTO dto=new OrderDTO();
 		BeanUtils.copyProperties(m,dto);
-		List<ProductDTO> pdtos=new ArrayList<>();
+		List<ProductDTO> pdtos=new ArrayList<>();;
 		for (OrderItem orderItem : orderItems) {
 			System.out.println(orderItem.getId());
 			hql="from Product where id="+orderItem.getProduct().getId();
-			List<Product> products=dao.query(hql);		
-			for (Product product : products) {
-				ProductDTO pdto=new ProductDTO();
-				BeanUtils.copyProperties(product,pdto);
-				pdto.setTypeId(product.getType().getPersistedValue());
-				pdto.setShopId(product.getShop().getId());
-				pdto.setShopName(product.getShop().getName());
-				pdtos.add(pdto);
-			}
+			Product product=this.dao.queryUnique(hql);
+			ProductDTO pdto=new ProductDTO();
+			BeanUtils.copyProperties(product,pdto);
+			pdto.setTypeId(product.getType().getPersistedValue());
+			pdto.setShopId(product.getShop().getId());
+			pdto.setShopName(product.getShop().getName());
+			pdtos.add(pdto);
+			
 		} 
 		dto.setProducts(pdtos);	
 		dto.setConsumerId(m.getConsumer().getId());
