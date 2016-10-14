@@ -1,4 +1,4 @@
-define([],function(){
+define(["datapicker","datapicker.cn"],function(){
 
     $(function(){
     	var orderController = avalon.define({
@@ -11,15 +11,17 @@ define([],function(){
     		product:false,
     		order:false,
     		totlePage:0,
-    		orderData:{     			
+    		orderData:{ 
+    			deleted:"",
     			pageNumber:1,
     			pageSize:2,
     			mintotalFee:"",
     			maxtotalFee:"",
-    			statusId:""
+    			statusId:"",
+    			startcreationDate:"",
+    			endcreationDate:""
     		},
-    		queryData:function(page){  
-    			orderController.order=true;
+    		queryData:function(page){     			
     			var date = orderController.orderData;
 
     	    	if(page == "upPage"){
@@ -45,6 +47,12 @@ define([],function(){
                      console.log(data);
                      orderController.orderList = data.results;
                      orderController.totlePage = data.totalPageCount;
+                     if(orderController.orderList == ""){
+                    	 orderController.nothing=true;
+                    	 orderController.order=false;
+                     }else if(orderController.orderList != ""){
+                    	 orderController.order=true;
+                     }
     	      			
                  },
                  dataType: 'json'
@@ -71,9 +79,13 @@ define([],function(){
     });
     console.log("order");
     avalon.scan();
+    setTimeout(function(){
+		$('#date_picker1').datetimepicker({format: 'yyyy-mm-dd hh:ii',language: 'zh-CN'});
+		$('#date_picker2').datetimepicker({format: 'yyyy-mm-dd hh:ii',language: 'zh-CN'});
+	},300);
     function Submit(page){ 
     	 
-}
+    }
     
 	
 });
