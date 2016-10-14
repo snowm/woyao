@@ -88,8 +88,7 @@ define(['jquery','avalon','wxsdk',"domReady!"], function ($,avalon,wx,domReady) 
                 if($(".msg-block-container").height() - $(".msg-block-contain").height() - $(".msg-block-contain").scrollTop() < 600){
                     $(".msg-block-contain").animate({scrollTop:$(".msg-block-container").height() -  $(".msg-block-contain").height() + 200},200,'swing');
                     avalon.vmodels.mainController.pageDownBtn = false;
-                    if(msg.duration == 0){
-                        msg.duration = 10;
+                    if(msg.duration != 0){
                         if(avalon.vmodels.mainController.sreenShow){
                         	avalon.vmodels.mainController.sreenItem.push(msg);
                             return
@@ -97,7 +96,6 @@ define(['jquery','avalon','wxsdk',"domReady!"], function ($,avalon,wx,domReady) 
                         	sreenPop(msg);
                         }
                     }
-                    
                 }else{
                     avalon.vmodels.mainController.pageDownBtn = true;
                 }
