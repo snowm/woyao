@@ -50,7 +50,7 @@ public class Product extends DefaultModelImpl {
 	private String description;
 
 	@Column(name = "UNIT_PRICE", nullable = false)
-	private long unitPrice;
+	private int unitPrice;
 
 	@ManyToOne(optional = true, fetch = FetchType.LAZY)
 	@JoinColumn(referencedColumnName = "id", name = "PIC_ID", nullable = true)
@@ -106,11 +106,11 @@ public class Product extends DefaultModelImpl {
 		this.type = type;
 	}
 
-	public long getUnitPrice() {
+	public int getUnitPrice() {
 		return unitPrice;
 	}
 
-	public void setUnitPrice(long unitPrice) {
+	public void setUnitPrice(int unitPrice) {
 		this.unitPrice = unitPrice;
 	}
 

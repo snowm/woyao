@@ -8,7 +8,7 @@ import com.snowm.hibernate.ext.usertype.PersistEnum;
 
 public enum OrderStatus implements PersistEnum<OrderStatus> {
 
-	DELIVERED(1, "DELIVERED"), SUCCESS(2, "SUCCESS"), FAIL(3, "FAIL");
+	SAVED(0, "SAVED"), DELIVERED(1, "DELIVERED"), SUCCESS(2, "SUCCESS"), FAIL(3, "FAIL");
 
 	public final static String CLASS_NAME = "com.woyao.domain.purchase.OrderStatus";
 

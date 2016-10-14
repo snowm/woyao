@@ -19,30 +19,29 @@ import com.woyao.admin.service.IChatMsgAdminService;
 import com.woyao.domain.chat.ChatMsg;
 import com.woyao.domain.chat.ChatRoom;
 import com.woyao.domain.product.Product;
-@Service("chatMsgAdminService")
-public class ChatMsgAdminServiceImpl extends AbstractAdminService<ChatMsg, ChatMsgDTO> implements IChatMsgAdminService{
 
-	
+
+@Service("chatMsgAdminService")
+public class ChatMsgAdminServiceImpl extends AbstractAdminService<ChatMsg, ChatMsgDTO> implements IChatMsgAdminService {
+
 	public ChatMsgDTO update(ChatMsgDTO dto) {
 		ChatMsg m = this.transferToDomain(dto);
 		this.dao.saveOrUpdate(m);
 		return this.transferToFullDTO(m);
 	}
+
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true, isolation = Isolation.READ_UNCOMMITTED)
 	public PaginationBean<ChatMsgDTO> query(QueryChatMsgRequestDTO request) {
 		List<Criterion> criterions = new ArrayList<Criterion>();
-		/*if (!StringUtils.isEmpty(request.getName())) {
-			criterions.add(Restrictions.like("name", "%" + request.getName() + "%"));
-		}*/
-		if (request.getFree()!=null) {
-			criterions.add(Restrictions.eq("free",request.getFree()));
+		if (request.getFree() != null) {
+			criterions.add(Restrictions.eq("free", request.getFree()));
 		}
 		if (request.getShopId() != null) {
-			String hql="from ChatRoom where shop.id in(select id from Shop where id="+request.getShopId()+")";
-			ChatRoom chatRoom=this.dao.queryUnique(hql);
-			if(chatRoom!=null){
+			String hql = "from ChatRoom where shop.id in(select id from Shop where id=" + request.getShopId() + ")";
+			ChatRoom chatRoom = this.dao.queryUnique(hql);
+			if (chatRoom != null) {
 				request.setChatRoomId(chatRoom.getId());
-				criterions.add(Restrictions.eq("chatRoomId",request.getChatRoomId()));
+				criterions.add(Restrictions.eq("chatRoomId", request.getChatRoomId()));
 			}
 		}
 		if (request.getDeleted() != null) {
@@ -75,21 +74,23 @@ public class ChatMsgAdminServiceImpl extends AbstractAdminService<ChatMsg, ChatM
 		rs.setResults(results);
 		return rs;
 	}
+
 	@Override
 	public ChatMsg transferToDomain(ChatMsgDTO dto) {
-		ChatMsg m=new ChatMsg();
+		ChatMsg m = new ChatMsg();
 		BeanUtils.copyProperties(dto, m);
 		m.getLogicalDelete().setEnabled(dto.isEnabled());
 		m.getLogicalDelete().setDeleted(dto.isDeleted());
 		return m;
 	}
+
 	@Override
 	public ChatMsgDTO transferToSimpleDTO(ChatMsg m) {
-		ChatMsgDTO dto=new ChatMsgDTO();
+		ChatMsgDTO dto = new ChatMsgDTO();
 		BeanUtils.copyProperties(m, dto);
 		dto.setChatRoomName(this.dao.get(ChatRoom.class, m.getChatRoomId()).getName());
-		Product p=this.dao.get(Product.class, m.getProductId());
-		if(p!=null){
+		Product p = this.dao.get(Product.class, m.getProductId());
+		if (p != null) {
 			dto.setProductName(p.getName());
 			dto.setProductUnitPrice(p.getUnitPrice());
 		}
@@ -99,9 +100,10 @@ public class ChatMsgAdminServiceImpl extends AbstractAdminService<ChatMsg, ChatM
 		dto.setLastModifiedDate(m.getModification().getLastModifiedDate());
 		return dto;
 	}
+
 	@Override
 	public ChatMsgDTO transferToFullDTO(ChatMsg m) {
 		// TODO Auto-generated method stub
 		return transferToSimpleDTO(m);
-	}	
+	}
 }

@@ -7,15 +7,13 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import org.eclipse.persistence.oxm.annotations.XmlCDATA;
 @XmlRootElement(name = "xml")
 @XmlAccessorType(value = XmlAccessType.FIELD)
 public class UnifiedOrderResponse implements Serializable{
 
-	/**
-	 * 统一下单返回参数
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	
 	@XmlCDATA
@@ -175,4 +173,8 @@ public class UnifiedOrderResponse implements Serializable{
 		this.codeUrl = codeUrl;
 	}
 
+	@Override
+	public String toString() {
+		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+	}
 }

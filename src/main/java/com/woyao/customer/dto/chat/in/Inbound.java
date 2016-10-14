@@ -16,6 +16,8 @@ public abstract class Inbound {
 
 	private Long msgId;
 
+	private String remoteAddress;
+
 	@JsonFormat(pattern = DTOConfig.DATE_TIME_FULL_FMT)
 	private Date creationDate = new Date();
 
@@ -52,6 +54,14 @@ public abstract class Inbound {
 
 	public void setMsgId(Long msgId) {
 		this.msgId = msgId;
+	}
+
+	public String getRemoteAddress() {
+		return remoteAddress;
+	}
+
+	public void setRemoteAddress(String remoteAddress) {
+		this.remoteAddress = remoteAddress;
 	}
 
 	public Date getCreationDate() {

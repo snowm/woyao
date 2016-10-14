@@ -58,7 +58,13 @@ public class Order extends DefaultModelImpl {
 	private OrderStatus status;
 
 	@Column(name = "TOTAL_FEE", nullable = false)
-	private long totalFee;
+	private int totalFee;
+
+	@Column(name = "SPBILL_CREATE_IP", nullable = false)
+	private String spbillCreateIp;
+
+	@Column(name = "MSG_ID")
+	private Long msgId;
 
 	@Override
 	public Long getId() {
@@ -118,12 +124,28 @@ public class Order extends DefaultModelImpl {
 		this.status = status;
 	}
 
-	public long getTotalFee() {
+	public int getTotalFee() {
 		return totalFee;
 	}
 
-	public void setTotalFee(long totalFee) {
+	public void setTotalFee(int totalFee) {
 		this.totalFee = totalFee;
+	}
+
+	public String getSpbillCreateIp() {
+		return spbillCreateIp;
+	}
+
+	public void setSpbillCreateIp(String spbillCreateIp) {
+		this.spbillCreateIp = spbillCreateIp;
+	}
+
+	public Long getMsgId() {
+		return msgId;
+	}
+
+	public void setMsgId(Long msgId) {
+		this.msgId = msgId;
 	}
 
 }

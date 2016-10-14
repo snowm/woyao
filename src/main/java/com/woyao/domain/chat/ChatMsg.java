@@ -40,6 +40,9 @@ public class ChatMsg extends DefaultModelImpl {
 	@Column(name = "PIC_URL", length = 100)
 	private String picURL;
 
+	@Column(name = "ORDER_ID", nullable = true)
+	private Long orderId;
+
 	/**
 	 * 是否免费
 	 */
@@ -51,6 +54,9 @@ public class ChatMsg extends DefaultModelImpl {
 	 */
 	@Column(name = "PRODUCT_ID")
 	private Long productId;
+
+	@Column(name = "CLIENT_MSG_ID")
+	private Long clientMsgId;
 
 	@Override
 	public Long getId() {
@@ -124,6 +130,22 @@ public class ChatMsg extends DefaultModelImpl {
 
 	public void setProductId(Long productId) {
 		this.productId = productId;
+	}
+
+	public Long getOrderId() {
+		return orderId;
+	}
+
+	public void setOrderId(Long orderId) {
+		this.orderId = orderId;
+	}
+
+	public Long getClientMsgId() {
+		return clientMsgId;
+	}
+
+	public void setClientMsgId(Long clientMsgId) {
+		this.clientMsgId = clientMsgId;
 	}
 
 }

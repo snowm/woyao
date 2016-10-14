@@ -1,30 +1,27 @@
 package com.woyao.wx.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.Random;
+import java.util.List;
 
 import javax.annotation.Resource;
-import javax.transaction.Transactional;
 
+import org.apache.http.NameValuePair;
 import org.springframework.stereotype.Service;
 
 import com.woyao.GlobalConfig;
+import com.woyao.customer.dto.OrderDTO;
 import com.woyao.dao.CommonDao;
-import com.woyao.domain.product.Product;
-import com.woyao.domain.profile.ProfileWX;
-import com.woyao.domain.purchase.Order;
-import com.woyao.domain.purchase.OrderItem;
-import com.woyao.domain.purchase.OrderPrepayInfo;
-import com.woyao.domain.purchase.OrderResultInfo;
-import com.woyao.domain.purchase.OrderStatus;
-import com.woyao.wx.dto.ProductDetail;
-import com.woyao.wx.dto.UnifiedOrderRequestDTO;
+import com.woyao.wx.WxPayEndpoint;
+import com.woyao.wx.WxUtils;
+import com.woyao.wx.dto.UnifiedOrderRequest;
 import com.woyao.wx.dto.UnifiedOrderResponse;
 import com.woyao.wx.service.IWxPayService;
 
-@Service("wxAdminService")
-@Transactional
+@Service("wxPayService")
 public class WxPayServiceImpl implements IWxPayService {
+
+	private static final String TRADE_TYPE_JSAPI = "JSAPI";
 
 	@Resource(name = "commonDao")
 	private CommonDao dao;
@@ -32,104 +29,69 @@ public class WxPayServiceImpl implements IWxPayService {
 	@Resource(name = "globalConfig")
 	private GlobalConfig globalConfig;
 
-	public UnifiedOrderRequestDTO getUnifiedDTO(String productId, Long quantity) {
-		UnifiedOrderRequestDTO dto = new UnifiedOrderRequestDTO();
-		dto.setAppid(globalConfig.getAppId());
-		dto.setMchId(globalConfig.getMrchId());
-		dto.setDeviceInfo("1234567890");
-		dto.setNonceStr(getRandomStringByLength(16));
-		/**
-		 * 签名位置
-		 */
-		ProductDetail productDetail = getProductDTO(productId, quantity);
-		dto.setBody("JSAPI支付测试");
-		dto.setDetail(productDetail.toString());
-		dto.setAttach("支付测试");
-		dto.setOutTradeNo((new Date()).toString());
-		dto.setFeeType("CNY");
-		dto.setTotalFee(productDetail.getQuantity() * productDetail.getPrice());
-		dto.setSpbillCreateIp("127.0.0.1");
-		dto.setNotifyUrl("http://localhost:8080//m/wxPay/");
-		dto.setTradeType("JSAPI");
-		dto.setOpenid("openId");
-		return dto;
+	@Resource(name = "wxPayEndpoint")
+	private WxPayEndpoint wxPayEndpoint;
+	
+	@Override
+	public UnifiedOrderResponse unifiedOrder(OrderDTO order) {
+		UnifiedOrderRequest request = this.builderRequest(order);
+		UnifiedOrderResponse response = this.wxPayEndpoint.unifiedOrder(request);
+		return response;
 	}
 
-	/**
-	 * 获取随机数
-	 */
-	private static String getRandomStringByLength(int length) {
-		String base = "abcdefghijklmnopqrstuvwxyz0123456789";
-		Random random = new Random();
-		StringBuffer sb = new StringBuffer();
-		for (int i = 0; i < length; i++) {
-			int number = random.nextInt(base.length());
-			sb.append(base.charAt(number));
+	private UnifiedOrderRequest builderRequest(OrderDTO order) {
+		UnifiedOrderRequest rs = new UnifiedOrderRequest();
+		String appId = globalConfig.getAppId();
+		String mchId = globalConfig.getMchId();
+		String nonceStr = WxUtils.generateNonce(32);
+		String body = "我要-酒水";
+		String outTradeNo = order.getId() + "";
+		int totalFee = order.getTotalFee();
+		Date startDate = new Date();
+		String spbillCreateIp = order.getSpbillCreateIp();
+		String timeStart = WxUtils.formatDate(startDate);
+		Date expireDate = new Date(startDate.getTime() + 10 * 60 * 1000);
+		String timeExpire = WxUtils.formatDate(expireDate);
+		String notifyUrl = globalConfig.getPayNotifyUrl();
+		String tradeType = TRADE_TYPE_JSAPI;
+		String openId = order.getConsumer().getOpenId();
+		
+		rs.setAppid(appId);
+		rs.setMchId(mchId);
+		rs.setNonceStr(nonceStr);
+		rs.setBody(body);
+		rs.setOutTradeNo(outTradeNo);
+		rs.setTotalFee(totalFee);
+		rs.setSpbillCreateIp(spbillCreateIp);
+		rs.setTimeStart(timeStart);
+		rs.setTimeExpire(timeExpire);
+		rs.setNotifyUrl(notifyUrl);
+		rs.setTradeType(tradeType);
+		rs.setOpenId(openId);
+
+		List<NameValuePair> parameters = new ArrayList<>();
+		try {
+			parameters.add(WxUtils.generateNVPair("appid", appId));
+			parameters.add(WxUtils.generateNVPair("mch_id", mchId));
+			parameters.add(WxUtils.generateNVPair("nonce_str", nonceStr));
+			parameters.add(WxUtils.generateNVPair("body", body));
+			parameters.add(WxUtils.generateNVPair("out_trade_no", outTradeNo));
+			parameters.add(WxUtils.generateNVPair("total_fee", totalFee+""));
+			parameters.add(WxUtils.generateNVPair("spbill_create_ip", spbillCreateIp));
+			parameters.add(WxUtils.generateNVPair("time_start", timeStart));
+			parameters.add(WxUtils.generateNVPair("time_expire", timeExpire));
+			parameters.add(WxUtils.generateNVPair("notify_url", notifyUrl));
+			parameters.add(WxUtils.generateNVPair("trade_type", tradeType));
+			parameters.add(WxUtils.generateNVPair("openid", openId));
+			parameters.add(WxUtils.generateNVPair("body", body));
+			// parameters.add(WxUtils.generateNVPair("signType",
+			// rs.getSignType()));
+		} catch (Exception ex) {
+			return null;
 		}
-		return sb.toString();
+		String sign = WxUtils.generateSign(parameters, globalConfig.getPayApiKey());
+		rs.setSign(sign);
+		return rs;
 	}
 
-	private ProductDetail getProductDTO(String productId, Long quantity) {
-		Long product = Long.parseLong(productId);
-		System.out.println(product);
-		ProductDetail dto = new ProductDetail();
-		Product m = this.dao.get(Product.class, product);
-		if (m != null) {
-			dto.setBody(m.getDescription());
-			dto.setGoods_name(m.getName());
-			dto.setGoods_id(m.getId().toString());
-			dto.setPrice((int) m.getUnitPrice());
-			dto.setQuantity(quantity.intValue());
-		}
-		return dto;
-	}
-
-	/**
-	 * 保存订单及其所有的关联数据
-	 */
-	public void svaeOrder(UnifiedOrderRequestDTO dto, UnifiedOrderResponse orderResponse, String productId, Long quantity) {
-		if (!dto.getOpenid().isEmpty()) {
-			String openId = dto.getOpenid();
-			Order o = new Order();
-			OrderItem item = new OrderItem();
-			ProfileWX p = this.dao.queryUnique("from ProfileWX where openId=" + openId);
-			OrderPrepayInfo or = new OrderPrepayInfo();
-			or.setPrepayId(orderResponse.getPrepayId());
-			o.setPrepayInfo(or);
-			o.setConsumer(p);
-			o.setToProfile(p);
-			if ("SUCCESS".equals(orderResponse.getResultCode())) {
-				o.setStatus(OrderStatus.SUCCESS);
-			} else {
-				o.setStatus(OrderStatus.FAIL);
-			}
-			o.setTotalFee(dto.getTotalFee());
-			OrderResultInfo orr = this.dao.queryUnique("from OrderResultInfo where openId=" + openId);
-			o.setResultInfo(orr);
-			item.setOrder(o);
-			item.setTotalFee(dto.getTotalFee());
-			Product product = this.dao.get(Product.class, productId);
-			item.setUnitPrice(product.getUnitPrice());
-			item.setQuantity(quantity.intValue());
-			this.dao.save(o);
-			this.dao.save(item);
-		}
-	}
-
-	/**
-	 * 保存预付款Id,保存结果状态码
-	 */
-	public void savePrePayId(UnifiedOrderResponse orderResponse, String OpenId) {
-		if (!orderResponse.getPrepayId().isEmpty()) {
-			OrderPrepayInfo or = new OrderPrepayInfo();
-			or.setPrepayId(orderResponse.getPrepayId());
-			this.dao.save(or);
-		}
-		if (!orderResponse.getResultCode().isEmpty()) {
-			OrderResultInfo or = new OrderResultInfo();
-			or.setReturnCode(orderResponse.getResultCode());
-			or.setOpenId(OpenId);
-			this.dao.save(or);
-		}
-	}
 }

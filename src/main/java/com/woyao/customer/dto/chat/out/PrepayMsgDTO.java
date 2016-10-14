@@ -11,6 +11,8 @@ public class PrepayMsgDTO extends Outbound {
 
 	private PrepayInfoDTO prepayInfo;
 
+	private String desc;
+
 	public Long getClientMsgId() {
 		return clientMsgId;
 	}
@@ -25,6 +27,14 @@ public class PrepayMsgDTO extends Outbound {
 
 	public void setPrepayInfo(PrepayInfoDTO prepayInfo) {
 		this.prepayInfo = prepayInfo;
+	}
+
+	public String getDesc() {
+		return desc;
+	}
+
+	public void setDesc(String desc) {
+		this.desc = desc;
 	}
 
 	@Override

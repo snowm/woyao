@@ -18,6 +18,7 @@ import com.woyao.admin.service.IOrderAdminService;
 import com.woyao.domain.product.Product;
 import com.woyao.domain.purchase.Order;
 import com.woyao.domain.purchase.OrderItem;
+import com.woyao.domain.purchase.OrderStatus;
 
 @Service("orderAdminService")
 public class OrderAdminServiceImpl extends AbstractAdminService<Order, OrderDTO> implements IOrderAdminService {
@@ -27,9 +28,8 @@ public class OrderAdminServiceImpl extends AbstractAdminService<Order, OrderDTO>
 	@Override
 	public PaginationBean<OrderDTO> query(QueryOrderRequestDTO queryRequest) {
 		List<Criterion> criterions = new ArrayList<Criterion>();
-		
 		if(queryRequest.getStatusId()!=null){
-			criterions.add(Restrictions.eq("statusId", queryRequest.getStatusId()));
+			criterions.add(Restrictions.eq("status", OrderStatus.getEnum(queryRequest.getStatusId())));
 		}
 		if(queryRequest.getMintotalFee()!=null){
 			criterions.add(Restrictions.ge("totalFee", queryRequest.getMintotalFee()));

@@ -41,11 +41,13 @@ public class ChatWebSocketHandler extends AbstractWebSocketHandler {
 		if (log.isDebugEnabled()) {
 			log.debug("Recieved msg: " + payload);
 		}
+		String remoteAddress = session.getRemoteAddress().getAddress().getHostAddress();
 		if (StringUtils.isBlank(payload)) {
 			return;
 		}
 		Inbound inbound = Inbound.parse(payload);
-		msgHandler.handle(session, inbound);
+		inbound.setRemoteAddress(remoteAddress);
+		this.msgHandler.handle(session, inbound);
 	}
 
 	@Override

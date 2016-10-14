@@ -25,7 +25,7 @@ public class OrderDTO extends BasePKDTO {
 
 	private Integer statusId;// 成功或否
 
-	private long totalFee;// 总费用
+	private int totalFee;// 总费用
 
 	private List<ProductDTO> products;// 产品
 
@@ -85,11 +85,11 @@ public class OrderDTO extends BasePKDTO {
 		this.statusId = statusId;
 	}
 
-	public long getTotalFee() {
+	public int getTotalFee() {
 		return totalFee;
 	}
 
-	public void setTotalFee(long totalFee) {
+	public void setTotalFee(int totalFee) {
 		this.totalFee = totalFee;
 	}
 
