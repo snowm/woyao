@@ -11,7 +11,7 @@
        http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
         <!--  -->
     <context:annotation-config />
-    <import resource="context-properties.xml" />
+    <import resource="default-context-properties.xml" />
     <import resource="dev/context-properties.xml" />
     <import resource="prod/context-properties.xml" />
     

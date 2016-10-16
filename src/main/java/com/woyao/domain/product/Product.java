@@ -33,9 +33,6 @@ public class Product extends DefaultModelImpl {
 	@GeneratedValue(strategy = GenerationType.TABLE, generator = "productGenerator")
 	private Long id;
 
-	@Column(name = "CODE", nullable = false, unique = true)
-	private String code;
-
 	@Column(name = "PRODUCT_TYPE", nullable = false)
 	private ProductType type;
 
@@ -64,14 +61,6 @@ public class Product extends DefaultModelImpl {
 	@Override
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public String getCode() {
-		return code;
-	}
-
-	public void setCode(String code) {
-		this.code = code;
 	}
 
 	public Shop getShop() {
@@ -124,7 +113,7 @@ public class Product extends DefaultModelImpl {
 
 	@Override
 	public String toString() {
-		return "Product [id=" + id + ", code=" + code + ", type=" + type + ", shop=" + shop + ", name=" + name + ", description="
+		return "Product [id=" + id + ", type=" + type + ", shop=" + shop + ", name=" + name + ", description="
 				+ description + ", unitPrice=" + unitPrice + ", pic=" + pic + "]";
 	}
 	

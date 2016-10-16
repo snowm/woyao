@@ -21,8 +21,8 @@ import com.woyao.domain.Pic;
 @Entity
 @Table(name = "PRODUCT_PICTURE")
 @TableGenerator(name = "productPictureGenerator", table = "ID_GENERATOR", pkColumnName = "GEN_NAME", valueColumnName = "GEN_VALUE", pkColumnValue = "productPicture", allocationSize = 1, initialValue = 0)
-@Cacheable
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "productPicture")
+//@Cacheable
+//@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "productPicture")
 public class ProductPic extends DefaultModelImpl {
 
 	private static final long serialVersionUID = 1L;

@@ -17,7 +17,7 @@ import com.woyao.customer.chat.SelfHandshakeInterceptor;
 @Order(3)
 public class WebSocketConfig implements WebSocketConfigurer {
 
-	@Value("websocket.allowedOrigins")
+	@Value("${websocket.allowedOrigins}")
 	private String allowedOrigins;
 
 	@Bean

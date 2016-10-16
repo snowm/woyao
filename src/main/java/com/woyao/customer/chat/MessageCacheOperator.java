@@ -5,6 +5,7 @@ import java.util.Comparator;
 import java.util.Map;
 import java.util.concurrent.locks.Lock;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
 import com.woyao.customer.dto.chat.BlockDTO;
@@ -33,10 +34,7 @@ public class MessageCacheOperator {
 			lock.lock();
 			InMsg rs = cache.getOrDefault(msgId, new InMsg());
 
-			rs.setMsgId(msgId);
-			rs.setProductId(msg.getProductId());
-			rs.setTo(msg.getTo());
-			rs.setBlockSize(msg.getBlockSize());
+			BeanUtils.copyProperties(msg, rs);
 			rs.getBlocks().add(msg.getBlock());
 
 			if (this.checkMsgIntegrity(rs)) {

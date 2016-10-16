@@ -10,7 +10,7 @@ import org.springframework.web.socket.WebSocketSession;
 import com.snowm.security.profile.domain.Gender;
 import com.snowm.utils.query.PaginationBean;
 import com.woyao.customer.dto.ChatPicDTO;
-import com.woyao.customer.dto.ChatterDTO;
+import com.woyao.customer.dto.ProfileDTO;
 import com.woyao.customer.dto.chat.MsgQueryRequest;
 import com.woyao.customer.dto.chat.in.InMsg;
 import com.woyao.customer.dto.chat.out.OutMsgDTO;
@@ -25,9 +25,8 @@ public interface IChatService {
 	 *            websocket session
 	 * @param httpSession
 	 *            http session
-	 * @return
 	 */
-	String newChatter(WebSocketSession wsSession, HttpSession httpSession);
+	void newChatter(WebSocketSession wsSession, HttpSession httpSession);
 
 	/**
 	 * 聊天者离开
@@ -52,14 +51,14 @@ public interface IChatService {
 	 * @param chatterId
 	 * @return
 	 */
-	ChatterDTO getChatter(long chatterId);
+	ProfileDTO getChatter(long chatterId);
 
 	/**
 	 * 查询在线聊天者
 	 * 
 	 * @return
 	 */
-	PaginationBean<ChatterDTO> listOnlineChatters(Long selfChatterId, long chatRoomId, Gender gender, long pageNumber, int pageSize);
+	PaginationBean<ProfileDTO> listOnlineChatters(Long selfChatterId, long chatRoomId, Gender gender, long pageNumber, int pageSize);
 	
 	/**
 	 * 获取历史消息
@@ -68,7 +67,7 @@ public interface IChatService {
 	 */
 	List<OutMsgDTO> listHistoryMsg(MsgQueryRequest request);
 
-	ChatterDTO getChatterFromDB(long chatterId);
+	ProfileDTO getChatterFromDB(long chatterId);
 	
 	List<ChatPicDTO> getPicUrl(Long id,Long pageNumber,Integer pageSize);
 	

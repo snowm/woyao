@@ -48,9 +48,11 @@ public class HttpConfig {
 	@Bean(name = "wxJerseyClient")
 	public JerseyNettyClientFactory wxJerseyNettyClientFactory(
 			@Value("${wx.conn.connectTimeout}") int connectTimeout, 
-			@Value("${wx.conn.socketTimeout}") int socketTimeout) {
+			@Value("${wx.conn.socketTimeout}") int socketTimeout, 
+			@Value("${wx.conn.asyncThreads}") int asyncThreadPoolSize) {
 		
 		JerseyNettyClientFactory cf = new JerseyNettyClientFactory();
+		cf.setAsyncThreadPoolSize(asyncThreadPoolSize);
 		cf.setConnectTimeout(connectTimeout);
 		cf.setSocketTimeout(socketTimeout);
 		return cf;

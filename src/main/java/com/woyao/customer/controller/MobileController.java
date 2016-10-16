@@ -7,6 +7,8 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.http.NameValuePair;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -21,7 +23,7 @@ import com.woyao.customer.chat.SessionContainer;
 import com.woyao.customer.chat.SessionUtils;
 import com.woyao.customer.dto.ChatPicDTO;
 import com.woyao.customer.dto.ChatRoomDTO;
-import com.woyao.customer.dto.ChatterDTO;
+import com.woyao.customer.dto.ProfileDTO;
 import com.woyao.customer.dto.ChatterQueryRequest;
 import com.woyao.customer.dto.MsgProductDTO;
 import com.woyao.customer.dto.ProductDTO;
@@ -41,6 +43,8 @@ import com.woyao.wx.WxUtils;
 @Controller
 @RequestMapping(value = "/m")
 public class MobileController {
+	
+	private Log log = LogFactory.getLog(this.getClass());
 
 	@Resource(name = "mobileService")
 	private IMobileService mobileService;
@@ -63,7 +67,7 @@ public class MobileController {
 		return "mobile/index";
 	}
 
-	@RequestMapping(value = { "/chatRoom/{shopId}" })
+	@RequestMapping(value = { "/chatRoom/{shopId}" }, method = RequestMethod.GET)
 	public String chatRoom(@PathVariable("shopId") long shopId, HttpServletRequest httpRequest) {
 		generateJsapiToken(httpRequest);
 		HttpSession session = httpRequest.getSession();
@@ -73,7 +77,7 @@ public class MobileController {
 		long roomId = room != null ? room.getId() : shopId;
 		session.setAttribute(SessionContainer.SESSION_ATTR_CHATROOM_ID, roomId);
 
-		ChatterDTO chatter = SessionUtils.getChatter(session);
+		ProfileDTO chatter = SessionUtils.getChatter(session);
 		chatter.setDistanceToRoom(this.mobileService.calculateDistanceToShop(chatter.getLatitude(), chatter.getLongitude(), shopId));
 		return "mobile/chatRoom";
 	}
@@ -82,7 +86,7 @@ public class MobileController {
 	@ResponseBody
 	public PaginationBean<ShopDTO> findShop(ShopPaginationQueryRequest request, HttpServletRequest httpRequest) {
 		HttpSession session = httpRequest.getSession();
-		ChatterDTO chatter = SessionUtils.getChatter(session);
+		ProfileDTO chatter = SessionUtils.getChatter(session);
 		chatter.setLatitude(request.getLatitude());
 		chatter.setLongitude(request.getLongitude());
 		return this.mobileService.findShop(request.getLatitude(), request.getLongitude(), request.getPageNumber(), request.getPageSize());
@@ -90,12 +94,12 @@ public class MobileController {
 
 	@RequestMapping(value = { "/chat/chatterList" }, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
-	public PaginationBean<ChatterDTO> listChatter(ChatterQueryRequest request, HttpServletRequest httpRequest) {
+	public PaginationBean<ProfileDTO> listChatter(ChatterQueryRequest request, HttpServletRequest httpRequest) {
 		HttpSession session = httpRequest.getSession();
 		Long chatRoomId = SessionUtils.getChatRoomId(session);
 		Long chatterId = SessionUtils.getChatterId(session);
 
-		PaginationBean<ChatterDTO> rs = this.chatService.listOnlineChatters(chatterId, chatRoomId, request.getGender(),
+		PaginationBean<ProfileDTO> rs = this.chatService.listOnlineChatters(chatterId, chatRoomId, request.getGender(),
 				request.getPageNumber(), request.getPageSize());
 		return rs;
 	}
@@ -107,7 +111,7 @@ public class MobileController {
 		Long chatRoomId = SessionUtils.getChatRoomId(session);
 		Long chatterId = SessionUtils.getChatterId(session);
 
-		PaginationBean<ChatterDTO> rs = this.chatService.listOnlineChatters(chatterId, chatRoomId, request.getGender(),
+		PaginationBean<ProfileDTO> rs = this.chatService.listOnlineChatters(chatterId, chatRoomId, request.getGender(),
 				request.getPageNumber(), request.getPageSize());
 		rs.getPageNumber();
 		PaginationBean<RicherDTO> pb = new PaginationBean<>();
@@ -116,7 +120,7 @@ public class MobileController {
 		pb.setTotalCount(rs.getTotalCount());
 		List<RicherDTO> list = new ArrayList<>();
 		if (rs.getResults() != null) {
-			for (ChatterDTO c : rs.getResults()) {
+			for (ProfileDTO c : rs.getResults()) {
 				RicherDTO r = new RicherDTO();
 				r.setChatterDTO(c);
 				r.setPayMsgCount(10);
@@ -124,6 +128,7 @@ public class MobileController {
 			}
 			pb.setResults(list);
 		}
+		log.debug("list richer:"+pb);
 		return pb;
 	}
 

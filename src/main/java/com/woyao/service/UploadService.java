@@ -12,8 +12,8 @@ import java.util.UUID;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 
 public class UploadService implements InitializingBean {
@@ -22,7 +22,7 @@ public class UploadService implements InitializingBean {
 
 	public static final DateFormat DF = new SimpleDateFormat(DT_PATTERN);
 
-	private Log log = LogFactory.getLog(this.getClass());
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	private String uploadRootPath = "src/main/webapp/upload";
 
@@ -30,7 +30,7 @@ public class UploadService implements InitializingBean {
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		log.info("Upload root path:" + this.uploadRootPath);
+		logger.info("Upload root path: {}", this.uploadRootPath);
 		root = new File(this.uploadRootPath);
 		if (!root.exists()) {
 			root.mkdir();
@@ -73,9 +73,7 @@ public class UploadService implements InitializingBean {
 		FileInfo fileInfo = generateFileInfo(picInfo.postfix, subRoot);
 		byte[] bytes = decodePicString(picInfo.content);
 		FileUtils.writeByteArrayToFile(fileInfo.file, bytes);
-		if (log.isDebugEnabled()) {
-			log.debug("saved file:" + fileInfo.file.getAbsolutePath());
-		}
+		logger.debug("saved file: {}", fileInfo.file.getAbsolutePath());
 		return fileInfo;
 	}
 
@@ -83,9 +81,7 @@ public class UploadService implements InitializingBean {
 		String postfix = originalFileName.substring(originalFileName.lastIndexOf(".") + 1);
 		FileInfo fileInfo = generateFileInfo(postfix, subRoot);
 		FileUtils.copyInputStreamToFile(source, fileInfo.file);
-		if (log.isDebugEnabled()) {
-			log.debug("saved file:" + fileInfo.file.getAbsolutePath());
-		}
+		logger.debug("saved file: {}" + fileInfo.file.getAbsolutePath());
 		return fileInfo;
 	}
 

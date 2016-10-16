@@ -42,6 +42,7 @@ public abstract class Outbound {
 		synchronized (this) {
 			try {
 				this.content = JsonUtils.toString(this);
+				this.contentGenerated = true;
 				return this.content;
 			} catch (JsonProcessingException e) {
 				e.printStackTrace();
@@ -64,6 +65,7 @@ public abstract class Outbound {
 	}
 
 	public void setCreationDate(Date creationDate) {
+		this.contentGenerated = false;
 		this.creationDate = creationDate;
 	}
 
@@ -72,6 +74,7 @@ public abstract class Outbound {
 	}
 
 	public void setSentDate(Date sentDate) {
+		this.contentGenerated = false;
 		this.sentDate = sentDate;
 	}
 

@@ -3,6 +3,7 @@ package com.woyao.admin.dto.product;
 import java.util.List;
 
 import com.woyao.admin.dto.BasePKDTO;
+import com.woyao.admin.dto.product.ProductDTO;
 
 public class OrderDTO extends BasePKDTO {
 

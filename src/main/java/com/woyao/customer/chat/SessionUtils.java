@@ -7,7 +7,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.web.socket.WebSocketSession;
 
-import com.woyao.customer.dto.ChatterDTO;
+import com.woyao.customer.dto.ProfileDTO;
 import com.woyao.customer.dto.chat.in.InMsg;
 
 public abstract class SessionUtils {
@@ -16,12 +16,12 @@ public abstract class SessionUtils {
 		return (String) wsSession.getAttributes().get(SessionContainer.SESSION_ATTR_HTTPSESSION_ID);
 	}
 
-	public static ChatterDTO getChatter(WebSocketSession wsSession) {
-		return (ChatterDTO) wsSession.getAttributes().get(SessionContainer.SESSION_ATTR_CHATTER);
+	public static ProfileDTO getChatter(WebSocketSession wsSession) {
+		return (ProfileDTO) wsSession.getAttributes().get(SessionContainer.SESSION_ATTR_CHATTER);
 	}
 
 	public static Long getChatterId(WebSocketSession wsSession) {
-		ChatterDTO dto = getChatter(wsSession);
+		ProfileDTO dto = getChatter(wsSession);
 		if (dto == null) {
 			return null;
 		}
@@ -45,12 +45,12 @@ public abstract class SessionUtils {
 		return (Map<Long, InMsg>) wsSession.getAttributes().get(SessionContainer.SESSION_ATTR_MSG_CACHE);
 	}
 
-	public static ChatterDTO getChatter(HttpSession session) {
-		return (ChatterDTO) session.getAttribute(SessionContainer.SESSION_ATTR_CHATTER);
+	public static ProfileDTO getChatter(HttpSession session) {
+		return (ProfileDTO) session.getAttribute(SessionContainer.SESSION_ATTR_CHATTER);
 	}
 
 	public static Long getChatterId(HttpSession session) {
-		ChatterDTO dto = (ChatterDTO) session.getAttribute(SessionContainer.SESSION_ATTR_CHATTER);
+		ProfileDTO dto = (ProfileDTO) session.getAttribute(SessionContainer.SESSION_ATTR_CHATTER);
 		if (dto == null) {
 			return null;
 		}
@@ -63,6 +63,10 @@ public abstract class SessionUtils {
 
 	public static Long getShopId(HttpSession session) {
 		return (Long) session.getAttribute(SessionContainer.SESSION_ATTR_SHOP_ID);
+	}
+
+	public static String getRemoteIp(WebSocketSession wsSession) {
+		return (String) wsSession.getAttributes().get(SessionContainer.SESSION_ATTR_REMOTE_IP);
 	}
 
 }

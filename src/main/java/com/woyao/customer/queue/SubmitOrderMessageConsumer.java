@@ -2,8 +2,8 @@ package com.woyao.customer.queue;
 
 import javax.annotation.Resource;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.woyao.customer.DefaultOrderProcessor;
@@ -13,7 +13,7 @@ import com.woyao.customer.service.IOrderService;
 @Component("submitOrderMessageConsumer")
 public class SubmitOrderMessageConsumer {
 
-	private Log log = LogFactory.getLog(this.getClass());
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@Resource(name = "orderService")
 	private IOrderService orderService;
@@ -27,7 +27,7 @@ public class SubmitOrderMessageConsumer {
 			orderProcessor.process(dto);
 			return true;
 		} catch (Exception e) {
-			log.error("consume order :" + orderId + " exception occurred!", e);
+			logger.error("consume order :" + orderId + " exception occurred!", e);
 		}
 		return false;
 	}

@@ -13,11 +13,11 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,12 +29,14 @@ import com.woyao.customer.chat.MessageCacheOperator;
 import com.woyao.customer.chat.SessionContainer;
 import com.woyao.customer.chat.SessionUtils;
 import com.woyao.customer.dto.ChatPicDTO;
-import com.woyao.customer.dto.ChatterDTO;
+import com.woyao.customer.dto.ChatRoomStatistics;
 import com.woyao.customer.dto.MsgProductDTO;
 import com.woyao.customer.dto.OrderDTO;
+import com.woyao.customer.dto.ProfileDTO;
 import com.woyao.customer.dto.chat.BlockDTO;
 import com.woyao.customer.dto.chat.MsgQueryRequest;
 import com.woyao.customer.dto.chat.in.InMsg;
+import com.woyao.customer.dto.chat.out.ChatRoomInfoDTO;
 import com.woyao.customer.dto.chat.out.ErrorOutbound;
 import com.woyao.customer.dto.chat.out.OutMsgDTO;
 import com.woyao.customer.dto.chat.out.Outbound;
@@ -55,7 +57,7 @@ import com.woyao.utils.PaginationUtils;
 @Component("chatService")
 public class ChatServiceImpl implements IChatService {
 
-	private Log log = LogFactory.getLog(this.getClass());
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@Resource(name = "sessionContainer")
 	private SessionContainer sessionContainer;
@@ -83,23 +85,43 @@ public class ChatServiceImpl implements IChatService {
 
 	@Transactional(readOnly = true)
 	@Override
-	public String newChatter(WebSocketSession wsSession, HttpSession httpSession) {
+	public void newChatter(WebSocketSession wsSession, HttpSession httpSession) {
 		this.sessionContainer.wsEnabled(wsSession, httpSession);
+		sendSelfInfo(wsSession);
+		Long chatRoomId = SessionUtils.getChatRoomId(wsSession);
+		if (chatRoomId != null) {
+			boardRoomStatisticsInfo(chatRoomId);
+		}
+	}
+
+	private void sendSelfInfo(WebSocketSession wsSession) {
 		SelfChatterInfoDTO selfDTO = new SelfChatterInfoDTO();
-		ChatterDTO self = SessionUtils.getChatter(wsSession);
+		ProfileDTO self = SessionUtils.getChatter(wsSession);
 		selfDTO.setSelf(self);
 		this.sendMsg(selfDTO, wsSession);
-		return null;
 	}
 
 	@Override
 	public void leave(WebSocketSession wsSession) {
 		this.sessionContainer.wsClosed(wsSession.getId());
+		Long chatRoomId = SessionUtils.getChatRoomId(wsSession);
+		if (chatRoomId != null) {
+			boardRoomStatisticsInfo(chatRoomId);
+		}
+	}
+
+	private void boardRoomStatisticsInfo(long chatRoomId) {
+		Set<WebSocketSession> sessions = this.sessionContainer.getWsSessionOfRoom(chatRoomId);
+		ChatRoomStatistics statistics = this.sessionContainer.getRoomStatistics(chatRoomId);
+		Outbound outbound = new ChatRoomInfoDTO(statistics);
+		for (WebSocketSession s : sessions) {
+			this.sendMsg(outbound, s);
+		}
 	}
 
 	@Override
 	public void acceptMsg(WebSocketSession wsSession, InMsg inMsg) {
-		ChatterDTO sender = SessionUtils.getChatter(wsSession);
+		ProfileDTO sender = SessionUtils.getChatter(wsSession);
 		// Received the whole message
 		StringBuilder sb = new StringBuilder();
 		for (BlockDTO block : inMsg.getBlocks()) {
@@ -123,8 +145,7 @@ public class ChatServiceImpl implements IChatService {
 			if (msgProductId != null) {
 				MsgProductDTO msgProductDTO = this.productService.getMsgProduct(msgProductId);
 				if (msgProductDTO != null) {
-					// TODO 如果是付费消息，那么中断操作，返回付费消息
-					OrderDTO savedOrder = orderService.placeOrder(sender.getId(), msgProductId, 1, msgId);
+					OrderDTO savedOrder = orderService.placeOrder(sender.getId(), msgProductId, 1, inMsg.getRemoteAddress(), msgId);
 					orderId = savedOrder.getId();
 					this.updateMsg(msgId, orderId);
 					this.submitOrderQueueService.putToQueue(orderId);
@@ -139,11 +160,11 @@ public class ChatServiceImpl implements IChatService {
 				this.sendRoomMsg(outbound, chatRoomId, wsSession);
 			}
 		} catch (IOException e) {
-			log.error("Process message failure!", e);
+			logger.error("Process message failure!", e);
 		}
 	}
 
-	private OutMsgDTO generateOutMsg(InMsg inMsg, ChatterDTO sender, long id) {
+	private OutMsgDTO generateOutMsg(InMsg inMsg, ProfileDTO sender, long id) {
 		OutMsgDTO outMsg = new OutMsgDTO();
 		outMsg.setId(id);
 		outMsg.setClientMsgId(inMsg.getMsgId());
@@ -214,8 +235,8 @@ public class ChatServiceImpl implements IChatService {
 	}
 
 	@Override
-	public ChatterDTO getChatter(long chatterId) {
-		ChatterDTO dto = this.sessionContainer.getChatter(chatterId);
+	public ProfileDTO getChatter(long chatterId) {
+		ProfileDTO dto = this.sessionContainer.getChatter(chatterId);
 		if (dto == null) {
 			dto = this.getChatterFromDB(chatterId);
 		}
@@ -223,24 +244,27 @@ public class ChatServiceImpl implements IChatService {
 	}
 
 	@Override
-	public ChatterDTO getChatterFromDB(long chatterId) {
+	public ProfileDTO getChatterFromDB(long chatterId) {
 		ProfileWX profile = this.dao.get(ProfileWX.class, chatterId);
-		ChatterDTO dto = new ChatterDTO();
+		if (profile == null) {
+			return null;
+		}
+		ProfileDTO dto = new ProfileDTO();
 		BeanUtils.copyProperties(profile, dto);
 		return dto;
 	}
 
 	@Override
-	public PaginationBean<ChatterDTO> listOnlineChatters(Long selfChatterId, long chatRoomId, Gender gender, long pageNumber,
+	public PaginationBean<ProfileDTO> listOnlineChatters(Long selfChatterId, long chatRoomId, Gender gender, long pageNumber,
 			int pageSize) {
 		Set<WebSocketSession> wsSessions = this.sessionContainer.getWsSessionOfRoom(chatRoomId);
-		List<ChatterDTO> dtos = new ArrayList<>();
+		List<ProfileDTO> dtos = new ArrayList<>();
 		if (wsSessions != null && !wsSessions.isEmpty()) {
 			for (WebSocketSession wsSession : wsSessions) {
-				ChatterDTO chatter = SessionUtils.getChatter(wsSession);
+				ProfileDTO chatter = SessionUtils.getChatter(wsSession);
 				if (gender == null || chatter.getGender() == gender) {
 					if (chatter.getId().equals(selfChatterId)) {
-						ChatterDTO tmpChatter = new ChatterDTO();
+						ProfileDTO tmpChatter = new ProfileDTO();
 						BeanUtils.copyProperties(chatter, tmpChatter);
 						dtos.add(tmpChatter);
 					} else {
@@ -300,12 +324,10 @@ public class ChatServiceImpl implements IChatService {
 			dto.setId(e.getId());
 			dto.setPic(e.getPicURL());
 			dto.setText(e.getText());
-			ChatterDTO sender = this.getChatter(e.getFrom());
+			ProfileDTO sender = this.getChatter(e.getFrom());
 			// 如果没找到sender，忽略此条消息
 			if (sender == null) {
-				if (log.isDebugEnabled()) {
-					log.debug(String.format("用户%s丢失！", e.getFrom()));
-				}
+				logger.debug("用户:{} 丢失！", e.getFrom());
 				continue;
 			}
 			dto.setSender(sender);
@@ -351,14 +373,12 @@ public class ChatServiceImpl implements IChatService {
 			return false;
 		}
 		try {
-			if (log.isDebugEnabled()) {
-				log.debug("send out: " + outbound.getContent());
-			}
+			logger.debug("Send out: \n{}", outbound.getContent());
 			outbound.send(wsSession);
 			return true;
 		} catch (Exception e) {
 			String msg = String.format("Msg send to session: %s failure!\n%s", wsSession.getId(), outbound.getContent());
-			log.error(msg, e);
+			logger.error(msg, e);
 		}
 		return false;
 	}

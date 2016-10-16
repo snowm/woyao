@@ -9,6 +9,8 @@ import javax.annotation.Resource;
 
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -27,6 +29,8 @@ import com.woyao.utils.DistanceUtils;
 @Service("mobileService")
 public class MobileServiceImpl implements IMobileService {
 
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
+	
 	@Resource(name = "commonDao")
 	private CommonDao dao;
 

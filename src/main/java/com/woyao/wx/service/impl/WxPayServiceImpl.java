@@ -1,13 +1,12 @@
 package com.woyao.wx.service.impl;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.apache.http.NameValuePair;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ReflectionUtils;
+import org.springframework.util.ReflectionUtils.FieldFilter;
 
 import com.woyao.GlobalConfig;
 import com.woyao.customer.dto.OrderDTO;
@@ -17,6 +16,8 @@ import com.woyao.wx.WxUtils;
 import com.woyao.wx.dto.UnifiedOrderRequest;
 import com.woyao.wx.dto.UnifiedOrderResponse;
 import com.woyao.wx.service.IWxPayService;
+import com.woyao.wx.validate.PaySignValidateFieldCallback;
+import com.woyao.wx.validate.SignValidateFieldFilter;
 
 @Service("wxPayService")
 public class WxPayServiceImpl implements IWxPayService {
@@ -69,29 +70,12 @@ public class WxPayServiceImpl implements IWxPayService {
 		rs.setTradeType(tradeType);
 		rs.setOpenId(openId);
 
-		List<NameValuePair> parameters = new ArrayList<>();
-		try {
-			parameters.add(WxUtils.generateNVPair("appid", appId));
-			parameters.add(WxUtils.generateNVPair("mch_id", mchId));
-			parameters.add(WxUtils.generateNVPair("nonce_str", nonceStr));
-			parameters.add(WxUtils.generateNVPair("body", body));
-			parameters.add(WxUtils.generateNVPair("out_trade_no", outTradeNo));
-			parameters.add(WxUtils.generateNVPair("total_fee", totalFee+""));
-			parameters.add(WxUtils.generateNVPair("spbill_create_ip", spbillCreateIp));
-			parameters.add(WxUtils.generateNVPair("time_start", timeStart));
-			parameters.add(WxUtils.generateNVPair("time_expire", timeExpire));
-			parameters.add(WxUtils.generateNVPair("notify_url", notifyUrl));
-			parameters.add(WxUtils.generateNVPair("trade_type", tradeType));
-			parameters.add(WxUtils.generateNVPair("openid", openId));
-			parameters.add(WxUtils.generateNVPair("body", body));
-			// parameters.add(WxUtils.generateNVPair("signType",
-			// rs.getSignType()));
-		} catch (Exception ex) {
-			return null;
-		}
-		String sign = WxUtils.generatePaySign(parameters, globalConfig.getPayApiKey());
+		PaySignValidateFieldCallback fc = new PaySignValidateFieldCallback(rs);
+		ReflectionUtils.doWithFields(rs.getClass(), fc, ff);
+		String sign = WxUtils.generatePaySign(fc.getNvs(), globalConfig.getPayApiKey());
+		
 		rs.setSign(sign);
 		return rs;
 	}
-
+	private FieldFilter ff = new SignValidateFieldFilter(new String[] { "sign" });
 }

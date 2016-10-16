@@ -2,8 +2,8 @@ package com.woyao.scheduler;
 
 import javax.annotation.Resource;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -19,8 +19,8 @@ import com.woyao.wx.dto.GetJsapiTicketResponse;
 
 @Component
 public class GetGlobalAccessTokenJob {
-
-	private Log log = LogFactory.getLog(this.getClass());
+	
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@Resource(name = "globalAccessTokenService")
 	private GlobalAccessTokenService globalTokenService;
@@ -43,7 +43,7 @@ public class GetGlobalAccessTokenJob {
 	@Scheduled(fixedDelay = 120000, initialDelay = 20000)
 	public void executeInternal() {
 		if (!this.enabled) {
-			this.log.debug("GetGlobalAccessTokenJob is disabled...");
+			logger.debug("GetGlobalAccessTokenJob is disabled...");
 			return;
 		}
 		this.getGlobalAccessToken();
@@ -51,7 +51,7 @@ public class GetGlobalAccessTokenJob {
 	}
 
 	private void getGlobalAccessToken() {
-		this.log.debug("Starting to get global access token...");
+		logger.debug("Starting to get global access token...");
 		long start = System.currentTimeMillis();
 		try {
 			GlobalAccessToken token = this.globalTokenService.getToken();
@@ -67,17 +67,17 @@ public class GetGlobalAccessTokenJob {
 				this.globalTokenService.saveOrUpdate(token);
 			}
 		} catch (Exception ex) {
-			log.error("Get global access token error!", ex);
+			logger.error("Get global access token error!", ex);
 		} finally {
-			if (this.log.isDebugEnabled()) {
+			if (logger.isDebugEnabled()) {
 				long spent = System.currentTimeMillis() - start;
-				this.log.debug("Global access token got! Spent time:" + spent + " ms");
+				logger.debug("Global access token got! Spent time:{} ms", spent);
 			}
 		}
 	}
 
 	private void getJsapiTicket() {
-		this.log.debug("Starting to get jsapi ticket...");
+		logger.debug("Starting to get jsapi ticket...");
 		long start = System.currentTimeMillis();
 		try {
 			JsapiTicket ticket = this.jsapiTicketservice.getToken();
@@ -93,11 +93,11 @@ public class GetGlobalAccessTokenJob {
 				this.jsapiTicketservice.saveOrUpdate(ticket);
 			}
 		} catch (Exception ex) {
-			log.error("Get jsapi ticket error!", ex);
+			logger.error("Get jsapi ticket error!", ex);
 		} finally {
-			if (this.log.isDebugEnabled()) {
+			if (logger.isDebugEnabled()) {
 				long spent = System.currentTimeMillis() - start;
-				this.log.debug("Jsapi ticket got! Spent time:" + spent + " ms");
+				logger.debug("Jsapi ticket got! Spent time:" + spent + " ms");
 			}
 		}
 	}

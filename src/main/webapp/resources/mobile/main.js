@@ -11,6 +11,7 @@ require.config({//第一块，配置
         text: ['js/require/text'],
         domReady: 'js/require/domReady',
         jquery: 'js/jquery-1.9.1/jquery',
+//        jquery: 'js/jquery-2.1.4/jquery',
         qqface:'js/qqface/jquery.qqFace',
         swiper:'js/swiper-master/swiper.min',
         'async': 'js/require/async',

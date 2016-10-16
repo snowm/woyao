@@ -3,12 +3,12 @@ package com.woyao.customer.queue;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class OrderProcessQueueImpl implements IOrderProcessQueue {
 
-	private Log log = LogFactory.getLog(OrderProcessQueueImpl.class);
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	private LinkedBlockingDeque<Long> queue;
 
@@ -30,7 +30,7 @@ public class OrderProcessQueueImpl implements IOrderProcessQueue {
 		try {
 			return queue.offerLast(orderId, offerTimeout, TimeUnit.SECONDS);
 		} catch (InterruptedException e) {
-			log.error("Blocking queue is interrupted!", e);
+			logger.error("Blocking queue is interrupted!", e);
 			return false;
 		}
 	}
@@ -40,7 +40,7 @@ public class OrderProcessQueueImpl implements IOrderProcessQueue {
 		try {
 			return queue.offerFirst(orderId, offerTimeout, TimeUnit.SECONDS);
 		} catch (InterruptedException e) {
-			log.error("Blocking queue is interrupted!", e);
+			logger.error("Blocking queue is interrupted!", e);
 		}
 		return false;
 	}
@@ -50,7 +50,7 @@ public class OrderProcessQueueImpl implements IOrderProcessQueue {
 		try {
 			return queue.take();
 		} catch (InterruptedException e) {
-			log.error("Blocking queue is interrupted!", e);
+			logger.error("Blocking queue is interrupted!", e);
 		}
 		return 0;
 	}

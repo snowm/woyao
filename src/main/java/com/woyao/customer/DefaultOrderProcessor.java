@@ -7,9 +7,9 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.http.NameValuePair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
@@ -32,7 +32,7 @@ import com.woyao.wx.service.IWxPayService;
 @Component("defaultOrderProcessor")
 public class DefaultOrderProcessor {
 
-	private Log log = LogFactory.getLog(this.getClass());
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@Resource(name = "wxPayService")
 	private IWxPayService wxPayService;
@@ -57,10 +57,8 @@ public class DefaultOrderProcessor {
 		this.orderService.savePrepayInfo(m, orderId);
 
 		if (!this.validateUnifiedOrderResponse(resp)) {
+			logger.error("错误的响应信息!\n{}", resp);
 			this.orderService.updateOrderStatus(orderId, OrderStatus.FAIL);
-			if (log.isDebugEnabled()) {
-				log.debug("错误的响应信息!");
-			}
 			OrderResultInfo info = new OrderResultInfo();
 			info.setTimeEnd(new Date());
 			info.setOpenId(order.getConsumer().getOpenId());

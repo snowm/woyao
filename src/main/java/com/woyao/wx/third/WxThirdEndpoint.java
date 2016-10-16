@@ -10,6 +10,8 @@ import javax.ws.rs.core.Response;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
@@ -29,7 +31,7 @@ import com.woyao.wx.third.dto.GetPreAuthCodeResponse;
 //@PropertySource("classpath:/wx.properties")
 public class WxThirdEndpoint {
 
-	private Log log = LogFactory.getLog(this.getClass());
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	private final static String QUERY_PARA_ACCESS_TOKEN = "component_access_token";
 
@@ -79,7 +81,7 @@ public class WxThirdEndpoint {
 			return result;
 		} catch (Exception e) {
 			String msg = "Can not parse response!";
-			log.error(msg, e);
+			logger.error(msg, e);
 		}
 		return null;
 	}
@@ -110,7 +112,7 @@ public class WxThirdEndpoint {
 			return result;
 		} catch (Exception e) {
 			String msg = "Can not parse response!";
-			log.error(msg, e);
+			logger.error(msg, e);
 		}
 		return null;
 	}
@@ -145,7 +147,7 @@ public class WxThirdEndpoint {
 			return result;
 		} catch (Exception e) {
 			String msg = "Can not parse response!";
-			log.error(msg, e);
+			logger.error(msg, e);
 		}
 		return null;
 	}
@@ -180,7 +182,7 @@ public class WxThirdEndpoint {
 			return result;
 		} catch (Exception e) {
 			String msg = "Can not parse response!";
-			log.error(msg, e);
+			logger.error(msg, e);
 		}
 		return null;
 	}
@@ -213,7 +215,7 @@ public class WxThirdEndpoint {
 			return result;
 		} catch (Exception e) {
 			String msg = "Can not parse response!";
-			log.error(msg, e);
+			logger.error(msg, e);
 		}
 		return null;
 	}
@@ -227,10 +229,10 @@ public class WxThirdEndpoint {
 		if (resp.getStatus() >= Response.Status.BAD_REQUEST.getStatusCode()) {
 			try {
 				String error = resp.readEntity(String.class);
-				log.error("Error response: " + error);
+				logger.error("Error response: {}", error);
 			} catch (Exception e) {
 				String msg = "Can not parse error response!";
-				log.error(msg, e);
+				logger.error(msg, e);
 			}
 			return false;
 		}

@@ -7,67 +7,69 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.eclipse.persistence.oxm.annotations.XmlCDATA;
+
 @XmlRootElement(name = "xml")
 @XmlAccessorType(value = XmlAccessType.FIELD)
-public class UnifiedOrderResponse implements Serializable{
+public class UnifiedOrderResponse implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@XmlCDATA
 	@XmlElement(name = "return_code", required = true)
-	private String returnCode;//返回状态码
-	
+	private String returnCode;// 返回状态码
+
 	@XmlCDATA
 	@XmlElement(name = "return_msg")
-	private String returnMsg;//返回信息
-	
+	private String returnMsg;// 返回信息
+
 	@XmlCDATA
 	@XmlElement(name = "appid", required = true)
-	private String appid;//公众账号ID
-	
+	private String appid;// 公众账号ID
+
 	@XmlCDATA
 	@XmlElement(name = "mch_id", required = true)
-	private String mchId;//商户号
-	
+	private String mchId;// 商户号
+
 	@XmlCDATA
 	@XmlElement(name = "device_info")
-	private String deviceInfo;//设备号
-	
+	private String deviceInfo;// 设备号
+
 	@XmlCDATA
 	@XmlElement(name = "nonce_str", required = true)
-	private String nonceStr;//随机字符串
-	
+	private String nonceStr;// 随机字符串
+
 	@XmlCDATA
 	@XmlElement(name = "sign", required = true)
-	private String sign;//签名
-	
+	private String sign;// 签名
 
 	@XmlCDATA
 	@XmlElement(name = "result_code", required = true)
-	private String resultCode;//业务结果
-	
+	private String resultCode;// 业务结果
+
 	@XmlCDATA
 	@XmlElement(name = "err_code")
-	private String errCode;//错误代码
-	
+	private String errCode;// 错误代码
+
 	@XmlCDATA
 	@XmlElement(name = "err_code_des")
-	private String errCodeDes;//错误代码描述
-	
+	private String errCodeDes;// 错误代码描述
+
 	@XmlCDATA
 	@XmlElement(name = "trade_type", required = true)
-	private String tradeType;//交易类型	
-	
+	private String tradeType;// 交易类型
+
 	@XmlCDATA
 	@XmlElement(name = "prepay_id", required = true)
-	private String prepayId;//预支付交易会话标识
-	
+	private String prepayId;// 预支付交易会话标识
+
 	@XmlCDATA
 	@XmlElement(name = "code_url")
-	private String codeUrl;//二维码链接
+	private String codeUrl;// 二维码链接
 
 	public String getReturnCode() {
 		return returnCode;
@@ -171,6 +173,16 @@ public class UnifiedOrderResponse implements Serializable{
 
 	public void setCodeUrl(String codeUrl) {
 		this.codeUrl = codeUrl;
+	}
+
+	@Override
+	public int hashCode() {
+		return HashCodeBuilder.reflectionHashCode(this);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		return EqualsBuilder.reflectionEquals(this, obj);
 	}
 
 	@Override

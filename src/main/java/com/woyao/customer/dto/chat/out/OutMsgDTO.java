@@ -1,6 +1,6 @@
 package com.woyao.customer.dto.chat.out;
 
-import com.woyao.customer.dto.ChatterDTO;
+import com.woyao.customer.dto.ProfileDTO;
 
 public class OutMsgDTO extends Outbound {
 
@@ -8,7 +8,7 @@ public class OutMsgDTO extends Outbound {
 
 	private Long clientMsgId;
 
-	private ChatterDTO sender;
+	private ProfileDTO sender;
 
 	private String text;
 
@@ -26,11 +26,11 @@ public class OutMsgDTO extends Outbound {
 		this.id = id;
 	}
 
-	public ChatterDTO getSender() {
+	public ProfileDTO getSender() {
 		return sender;
 	}
 
-	public void setSender(ChatterDTO sender) {
+	public void setSender(ProfileDTO sender) {
 		this.sender = sender;
 	}
 

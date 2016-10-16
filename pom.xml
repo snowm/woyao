@@ -15,7 +15,8 @@
 	<properties>
 		<site.url>http://www.woyao.com</site.url>
 		<jersey.version>2.23.2</jersey.version>
-		<cxf.version>3.1.7</cxf.version>
+		<slf4j.version>1.7.21</slf4j.version>
+		<logback.version>1.1.7</logback.version>
 	</properties>
 	<dependencies>
 		<!-- Test -->
@@ -32,17 +33,22 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-			<version>1.7.21</version>
+			<version>${slf4j.version}</version>
 		</dependency>
-		<dependency>
+		<!-- <dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
-			<version>1.7.21</version>
+			<version>${slf4j.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-nop</artifactId>
-			<version>1.7.21</version>
+			<version>${slf4j.version}</version>
+		</dependency> -->
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>${logback.version}</version>
 		</dependency>
 		<!-- <dependency>
 			<groupId>org.aspectj</groupId>
@@ -155,14 +161,6 @@
 			<artifactId>jersey-netty-connector</artifactId>
 			<version>${jersey.version}</version>
 		</dependency>
-		<!-- CXF -->
-		<!-- <dependency> <groupId>org.apache.cxf</groupId> <artifactId>cxf-api</artifactId> 
-			<version>${cxf-api.version}</version> </dependency> -->
-		<dependency>
-			<groupId>org.apache.cxf</groupId>
-			<artifactId>cxf-bundle-compatible</artifactId>
-			<version>${cxf.version}</version>
-		</dependency>
 		<!-- Main.Spring -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -218,24 +216,8 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-core</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-web</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-messaging</artifactId>
 			<version>${spring-security.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-config</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-acl</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.security</groupId>
@@ -364,16 +346,37 @@
 			<plugin>
 				<groupId>org.eclipse.jetty</groupId>
 				<artifactId>jetty-maven-plugin</artifactId>
-				<!-- <version>9.3.12.v20160915</version> -->
-				<version>9.4.0.RC0</version>
+				<version>9.3.12.v20160915</version>
 				<configuration>
+					<!-- <jettyXml>config/jetty.xml</jettyXml> -->
+					<systemProperties>
+						<systemProperty>
+							<name>log.dir</name>
+							<value>logs</value>
+						</systemProperty>
+						<systemProperty>
+							<name>log.level</name>
+							<value>debug</value>
+						</systemProperty>
+						<systemProperty>
+							<name>file.encoding</name>
+							<value>utf-8</value>
+						</systemProperty>
+						<systemProperty>
+							<name>spring.profiles.active</name>
+							<value>dev</value>
+						</systemProperty>
+					</systemProperties>
 					<stopKey>foo</stopKey>
 					<stopPort>9999</stopPort>
 					<httpConnector>
 						<port>8080</port>
+						<idleTimeout>30000</idleTimeout>
+						<soLingerTime>-1</soLingerTime>
 					</httpConnector>
 					<webApp>
 						<contextPath>/</contextPath>
+						<webInfIncludeJarPattern>.*/.*jetty[^/]*\.jar$|.*/.*spring[^/]*\.jar$|.*/.*servlet[^/]*\.jar$</webInfIncludeJarPattern>
 					</webApp>
 				</configuration>
 			</plugin>

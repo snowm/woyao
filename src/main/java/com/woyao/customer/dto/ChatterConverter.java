@@ -6,8 +6,8 @@ import com.woyao.domain.profile.ProfileWX;
 
 public abstract class ChatterConverter {
 
-	public static ChatterDTO toDTO(ProfileWX chatter){
-		ChatterDTO dto = new ChatterDTO();
+	public static ProfileDTO toDTO(ProfileWX chatter){
+		ProfileDTO dto = new ProfileDTO();
 		BeanUtils.copyProperties(chatter, dto);
 		return dto;
 	}

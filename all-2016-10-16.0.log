@@ -1,0 +1,64 @@
+2016-10-16 15:52:04 [DEBUG] [ChatServiceImpl] [qtp123270182-15] [com.woyao.customer.service.impl.ChatServiceImpl:354] - Send out: 
+{"command":"selfInfo","creationDate":"2016-10-16 15:52:04","sentDate":"2016-10-16 15:52:04","self":{"id":5,"self":false,"chatRoomId":null,"openId":"openId3","nickname":"nickname3","gender":"FEMALE","province":null,"city":"city3","country":"country3","headImg":"/pic/head/4.jpg","longitude":null,"latitude":null,"distanceToRoom":null,"loginDate":null}}
+2016-10-16 15:52:04 [DEBUG] [ChatWebSocketHandler] [qtp123270182-15] [com.woyao.customer.chat.ChatWebSocketHandler:63] - connectionEstablished, wsSessionId: 6b20902, httpSessionId: pnwvzfhg4xhfg6ntsvgeee97
+2016-10-16 15:52:09 [DEBUG] [ChatWebSocketHandler] [qtp123270182-55] [com.woyao.customer.chat.ChatWebSocketHandler:41] - Recieved msg: 
+msg
+{"msgId":1,"to":"","blockSize":1,"productId":"0","block":{"block":"{\"text\":\"3333333\",\"pic\":\"\"}","seq":0}}
+2016-10-16 15:52:09 [DEBUG] [ChatServiceImpl] [qtp123270182-55] [com.woyao.customer.service.impl.ChatServiceImpl:354] - Send out: 
+{"command":"smACK","creationDate":"2016-10-16 15:52:09","sentDate":"2016-10-16 15:52:09","id":88,"clientMsgId":1,"sender":{"id":5,"self":false,"chatRoomId":null,"openId":"openId3","nickname":"nickname3","gender":"FEMALE","province":null,"city":"city3","country":"country3","headImg":"/pic/head/4.jpg","longitude":null,"latitude":null,"distanceToRoom":null,"loginDate":null},"text":"3333333","pic":null,"duration":0,"privacy":false}
+2016-10-16 15:52:39 [DEBUG] [ChatWebSocketHandler] [qtp123270182-15] [com.woyao.customer.chat.ChatWebSocketHandler:41] - Recieved msg: 
+msg
+{"msgId":2,"to":"","blockSize":1,"productId":"0","block":{"block":"{\"text\":\"jackson\",\"pic\":\"\"}","seq":0}}
+2016-10-16 15:52:39 [DEBUG] [ChatServiceImpl] [qtp123270182-15] [com.woyao.customer.service.impl.ChatServiceImpl:354] - Send out: 
+{"command":"smACK","creationDate":"2016-10-16 15:52:39","sentDate":"2016-10-16 15:52:39","id":89,"clientMsgId":2,"sender":{"id":5,"self":false,"chatRoomId":null,"openId":"openId3","nickname":"nickname3","gender":"FEMALE","province":null,"city":"city3","country":"country3","headImg":"/pic/head/4.jpg","longitude":null,"latitude":null,"distanceToRoom":null,"loginDate":null},"text":"jackson","pic":null,"duration":0,"privacy":false}
+2016-10-16 15:53:00 [DEBUG] [InternalLoggerFactory] [pool-2-thread-1] [io.netty.util.internal.logging.Slf4JLogger:71] - Using SLF4J as the default logging framework
+2016-10-16 15:53:00 [DEBUG] [MultithreadEventLoopGroup] [pool-2-thread-1] [io.netty.util.internal.logging.Slf4JLogger:76] - -Dio.netty.eventLoopThreads: 16
+2016-10-16 15:53:00 [DEBUG] [PlatformDependent0] [pool-2-thread-1] [io.netty.util.internal.logging.Slf4JLogger:76] - java.nio.Buffer.address: available
+2016-10-16 15:53:00 [DEBUG] [PlatformDependent0] [pool-2-thread-1] [io.netty.util.internal.logging.Slf4JLogger:76] - sun.misc.Unsafe.theUnsafe: available
+2016-10-16 15:53:00 [DEBUG] [PlatformDependent0] [pool-2-thread-1] [io.netty.util.internal.logging.Slf4JLogger:71] - sun.misc.Unsafe.copyMemory: available
+2016-10-16 15:53:00 [DEBUG] [PlatformDependent0] [pool-2-thread-1] [io.netty.util.internal.logging.Slf4JLogger:76] - java.nio.Bits.unaligned: true
+2016-10-16 15:53:00 [DEBUG] [PlatformDependent0] [pool-2-thread-1] [io.netty.util.internal.logging.Slf4JLogger:76] - java.nio.DirectByteBuffer.<init>(long, int): available
+2016-10-16 15:53:00 [DEBUG] [Cleaner0] [pool-2-thread-1] [io.netty.util.internal.logging.Slf4JLogger:76] - java.nio.ByteBuffer.cleaner(): available
+2016-10-16 15:53:00 [DEBUG] [PlatformDependent] [pool-2-thread-1] [io.netty.util.internal.logging.Slf4JLogger:76] - Java version: 8
+2016-10-16 15:53:00 [DEBUG] [PlatformDependent] [pool-2-thread-1] [io.netty.util.internal.logging.Slf4JLogger:76] - -Dio.netty.noUnsafe: false
+2016-10-16 15:53:00 [DEBUG] [PlatformDependent] [pool-2-thread-1] [io.netty.util.internal.logging.Slf4JLogger:76] - sun.misc.Unsafe: available
+2016-10-16 15:53:00 [DEBUG] [PlatformDependent] [pool-2-thread-1] [io.netty.util.internal.logging.Slf4JLogger:76] - -Dio.netty.noJavassist: false
+2016-10-16 15:53:00 [DEBUG] [PlatformDependent] [pool-2-thread-1] [io.netty.util.internal.logging.Slf4JLogger:71] - Javassist: available
+2016-10-16 15:53:00 [DEBUG] [PlatformDependent] [pool-2-thread-1] [io.netty.util.internal.logging.Slf4JLogger:76] - -Dio.netty.tmpdir: /var/folders/5y/cz_7jnhx2t725xh4h3y6bs3c0000gp/T (java.io.tmpdir)
+2016-10-16 15:53:00 [DEBUG] [PlatformDependent] [pool-2-thread-1] [io.netty.util.internal.logging.Slf4JLogger:76] - -Dio.netty.bitMode: 64 (sun.arch.data.model)
+2016-10-16 15:53:00 [DEBUG] [PlatformDependent] [pool-2-thread-1] [io.netty.util.internal.logging.Slf4JLogger:76] - -Dio.netty.noPreferDirect: false
+2016-10-16 15:53:00 [DEBUG] [PlatformDependent] [pool-2-thread-1] [io.netty.util.internal.logging.Slf4JLogger:76] - io.netty.maxDirectMemory: 3817865216 bytes
+2016-10-16 15:53:00 [DEBUG] [NioEventLoop] [pool-2-thread-1] [io.netty.util.internal.logging.Slf4JLogger:76] - -Dio.netty.noKeySetOptimization: false
+2016-10-16 15:53:00 [DEBUG] [NioEventLoop] [pool-2-thread-1] [io.netty.util.internal.logging.Slf4JLogger:76] - -Dio.netty.selectorAutoRebuildThreshold: 512
+2016-10-16 15:53:00 [DEBUG] [DefaultChannelId] [pool-2-thread-1] [io.netty.util.internal.logging.Slf4JLogger:76] - -Dio.netty.processId: 1795 (auto-detected)
+2016-10-16 15:53:00 [DEBUG] [NetUtil] [pool-2-thread-1] [io.netty.util.internal.logging.Slf4JLogger:86] - Loopback interface: lo0 (lo0, 0:0:0:0:0:0:0:1)
+2016-10-16 15:53:00 [DEBUG] [NetUtil] [pool-2-thread-1] [io.netty.util.internal.logging.Slf4JLogger:81] - /proc/sys/net/core/somaxconn: 128 (non-existent)
+2016-10-16 15:53:00 [DEBUG] [DefaultChannelId] [pool-2-thread-1] [io.netty.util.internal.logging.Slf4JLogger:76] - -Dio.netty.machineId: 60:f8:1d:ff:fe:ba:0b:4a (auto-detected)
+2016-10-16 15:53:00 [DEBUG] [ThreadLocalRandom] [pool-2-thread-1] [io.netty.util.internal.logging.Slf4JLogger:71] - -Dio.netty.initialSeedUniquifier: 0x13065ce5c4096aad
+2016-10-16 15:53:00 [DEBUG] [ResourceLeakDetector] [pool-2-thread-1] [io.netty.util.internal.logging.Slf4JLogger:81] - -Dio.netty.leakDetection.level: simple
+2016-10-16 15:53:00 [DEBUG] [ResourceLeakDetector] [pool-2-thread-1] [io.netty.util.internal.logging.Slf4JLogger:81] - -Dio.netty.leakDetection.maxRecords: 4
+2016-10-16 15:53:00 [DEBUG] [PooledByteBufAllocator] [pool-2-thread-1] [io.netty.util.internal.logging.Slf4JLogger:76] - -Dio.netty.allocator.numHeapArenas: 16
+2016-10-16 15:53:00 [DEBUG] [PooledByteBufAllocator] [pool-2-thread-1] [io.netty.util.internal.logging.Slf4JLogger:76] - -Dio.netty.allocator.numDirectArenas: 16
+2016-10-16 15:53:00 [DEBUG] [PooledByteBufAllocator] [pool-2-thread-1] [io.netty.util.internal.logging.Slf4JLogger:76] - -Dio.netty.allocator.pageSize: 8192
+2016-10-16 15:53:00 [DEBUG] [PooledByteBufAllocator] [pool-2-thread-1] [io.netty.util.internal.logging.Slf4JLogger:76] - -Dio.netty.allocator.maxOrder: 11
+2016-10-16 15:53:00 [DEBUG] [PooledByteBufAllocator] [pool-2-thread-1] [io.netty.util.internal.logging.Slf4JLogger:76] - -Dio.netty.allocator.chunkSize: 16777216
+2016-10-16 15:53:00 [DEBUG] [PooledByteBufAllocator] [pool-2-thread-1] [io.netty.util.internal.logging.Slf4JLogger:76] - -Dio.netty.allocator.tinyCacheSize: 512
+2016-10-16 15:53:00 [DEBUG] [PooledByteBufAllocator] [pool-2-thread-1] [io.netty.util.internal.logging.Slf4JLogger:76] - -Dio.netty.allocator.smallCacheSize: 256
+2016-10-16 15:53:00 [DEBUG] [PooledByteBufAllocator] [pool-2-thread-1] [io.netty.util.internal.logging.Slf4JLogger:76] - -Dio.netty.allocator.normalCacheSize: 64
+2016-10-16 15:53:00 [DEBUG] [PooledByteBufAllocator] [pool-2-thread-1] [io.netty.util.internal.logging.Slf4JLogger:76] - -Dio.netty.allocator.maxCachedBufferCapacity: 32768
+2016-10-16 15:53:00 [DEBUG] [PooledByteBufAllocator] [pool-2-thread-1] [io.netty.util.internal.logging.Slf4JLogger:76] - -Dio.netty.allocator.cacheTrimInterval: 8192
+2016-10-16 15:53:00 [DEBUG] [ByteBufUtil] [pool-2-thread-1] [io.netty.util.internal.logging.Slf4JLogger:76] - -Dio.netty.allocator.type: pooled
+2016-10-16 15:53:00 [DEBUG] [ByteBufUtil] [pool-2-thread-1] [io.netty.util.internal.logging.Slf4JLogger:76] - -Dio.netty.threadLocalDirectBufferSize: 65536
+2016-10-16 15:53:00 [DEBUG] [ByteBufUtil] [pool-2-thread-1] [io.netty.util.internal.logging.Slf4JLogger:76] - -Dio.netty.maxThreadLocalCharBufferSize: 16384
+2016-10-16 15:53:00 [DEBUG] [JdkSslContext] [nioEventLoopGroup-2-1] [io.netty.util.internal.logging.Slf4JLogger:76] - Default protocols (JDK): [TLSv1.2, TLSv1.1, TLSv1] 
+2016-10-16 15:53:00 [DEBUG] [JdkSslContext] [nioEventLoopGroup-2-1] [io.netty.util.internal.logging.Slf4JLogger:76] - Default cipher suites (JDK): [TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256, TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA, TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA, TLS_RSA_WITH_AES_128_GCM_SHA256, TLS_RSA_WITH_AES_128_CBC_SHA, TLS_RSA_WITH_AES_256_CBC_SHA, SSL_RSA_WITH_3DES_EDE_CBC_SHA]
+2016-10-16 15:53:00 [DEBUG] [AbstractByteBuf] [nioEventLoopGroup-2-1] [io.netty.util.internal.logging.Slf4JLogger:81] - -Dio.netty.buffer.bytebuf.checkAccessible: true
+2016-10-16 15:53:00 [DEBUG] [ResourceLeakDetectorFactory] [nioEventLoopGroup-2-1] [io.netty.util.internal.logging.Slf4JLogger:76] - Loaded default ResourceLeakDetector: io.netty.util.ResourceLeakDetector@38f82342
+2016-10-16 15:53:00 [DEBUG] [JavassistTypeParameterMatcherGenerator] [nioEventLoopGroup-2-1] [io.netty.util.internal.logging.Slf4JLogger:76] - Generated: io.netty.util.internal.__matchers__.io.netty.handler.codec.http.HttpObjectMatcher
+2016-10-16 15:53:00 [DEBUG] [JavassistTypeParameterMatcherGenerator] [nioEventLoopGroup-2-1] [io.netty.util.internal.logging.Slf4JLogger:76] - Generated: io.netty.util.internal.__matchers__.java.net.InetSocketAddressMatcher
+2016-10-16 15:53:01 [DEBUG] [Recycler] [nioEventLoopGroup-2-1] [io.netty.util.internal.logging.Slf4JLogger:76] - -Dio.netty.recycler.maxCapacity: 32768
+2016-10-16 15:53:01 [DEBUG] [Recycler] [nioEventLoopGroup-2-1] [io.netty.util.internal.logging.Slf4JLogger:76] - -Dio.netty.recycler.maxSharedCapacityFactor: 2
+2016-10-16 15:53:01 [DEBUG] [Recycler] [nioEventLoopGroup-2-1] [io.netty.util.internal.logging.Slf4JLogger:76] - -Dio.netty.recycler.linkCapacity: 16
+2016-10-16 15:53:01 [DEBUG] [SslHandler] [nioEventLoopGroup-2-1] [io.netty.util.internal.logging.Slf4JLogger:81] - [id: 0xad398f94, L:/192.168.0.50:53759 - R:api.mch.weixin.qq.com/182.254.12.36:443] HANDSHAKEN: TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+2016-10-16 15:53:14 [DEBUG] [ChatWebSocketHandler] [qtp123270182-19] [com.woyao.customer.chat.ChatWebSocketHandler:35] - WebSocket session:6b20902 closed!
+2016-10-16 15:53:14 [DEBUG] [PoolThreadCache] [nioEventLoopGroup-2-1] [io.netty.util.internal.logging.Slf4JLogger:81] - Freed 20 thread-local buffer(s) from thread: nioEventLoopGroup-2-1

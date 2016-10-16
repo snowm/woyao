@@ -4,15 +4,10 @@ import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.woyao.PaginationQueryRequestDTO;
-import com.woyao.admin.dto.DTOConfig;
 
 public class QueryChatMsgRequestDTO extends PaginationQueryRequestDTO {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	
 	private Long from;

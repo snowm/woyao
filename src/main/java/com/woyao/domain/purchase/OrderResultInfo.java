@@ -35,7 +35,7 @@ public class OrderResultInfo extends DefaultModelImpl {
 	@Column(name = "RETURN_CODE", length = 10, nullable = false)
 	private String returnCode;
 
-	@Column(name = "DESC", length = 200)
+	@Column(name = "DESCRIPTION", length = 200)
 	private String desc;
 
 	@Column(name = "RESULT_CODE", length = 20)

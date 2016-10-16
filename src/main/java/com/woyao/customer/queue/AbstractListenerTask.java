@@ -12,13 +12,13 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.annotation.PreDestroy;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 
 public abstract class AbstractListenerTask implements Runnable {
 
-	private Log log = LogFactory.getLog(this.getClass());
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@Value("${queue.submitOrder.consumer.threads}")
 	private int submitOrderConsumerThreads;
@@ -49,9 +49,7 @@ public abstract class AbstractListenerTask implements Runnable {
 				Future<?> future = this.es.submit(task);
 				this.futures.add(future);
 			} catch (Exception ex) {
-				if (log.isWarnEnabled()) {
-					log.warn("consume order error!", ex);
-				}
+				logger.warn("consume order error!", ex);
 			}
 		}
 	}
@@ -61,7 +59,7 @@ public abstract class AbstractListenerTask implements Runnable {
 
 	public void start() {
 		if (!started.getAndSet(true)) {
-			log.debug("Start submit order listerner!");
+			logger.debug("Start submit order listerner!");
 			this.t = new Thread(this, "submitOrderListenTask");
 			this.t.start();
 		}
@@ -83,7 +81,7 @@ public abstract class AbstractListenerTask implements Runnable {
 	}
 
 	public void stop() {
-		log.debug("stopping submit order listener!");
+		logger.debug("stopping submit order listener!");
 		this.stop = true;
 		if (!this.es.isShutdown()) {
 			this.es.shutdown();
@@ -92,10 +90,10 @@ public abstract class AbstractListenerTask implements Runnable {
 		try {
 			this.es.awaitTermination(10, TimeUnit.MINUTES);
 		} catch (InterruptedException ex) {
-			log.error("submit order listen task shut down is interrupted!", ex);
+			logger.error("submit order listen task shut down is interrupted!", ex);
 		}
 		this.started.set(false);
-		log.debug("submit order listener stopped!");
+		logger.debug("submit order listener stopped!");
 	}
 
 	private void clearDoneCancelledFuture() {

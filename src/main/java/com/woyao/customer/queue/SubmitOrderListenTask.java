@@ -4,15 +4,15 @@ import java.util.concurrent.Callable;
 
 import javax.annotation.Resource;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component("submitOrderListenTask")
 public class SubmitOrderListenTask extends AbstractListenerTask {
 
-	private Log log = LogFactory.getLog(this.getClass());
-	
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
+
 	@Resource(name = "submitOrderQueueService")
 	private IOrderProcessQueue queue;
 
@@ -26,17 +26,17 @@ public class SubmitOrderListenTask extends AbstractListenerTask {
 
 	@Override
 	protected Callable<?> createTask(long localOrderId) {
-		if (log.isDebugEnabled()) {
-			log.debug("received submit order message:" + localOrderId);
-		}
+		logger.debug("received submit order message:{}", localOrderId);
 		ConsumeTask task = new ConsumeTask(consumer, localOrderId);
 		return task;
 	}
 
 	private class ConsumeTask implements Callable<Boolean> {
 
-		private Log log = LogFactory.getLog(this.getClass());
+		private Logger logger = LoggerFactory.getLogger(this.getClass());
+
 		private SubmitOrderMessageConsumer consumer;
+
 		private long localOrderId;
 
 		public ConsumeTask(SubmitOrderMessageConsumer consumer, long localOrderId) {
@@ -47,15 +47,11 @@ public class SubmitOrderListenTask extends AbstractListenerTask {
 
 		public Boolean call() throws Exception {
 			try {
-				if (log.isDebugEnabled()) {
-					log.debug("Starting to consume submit order message:" + this.localOrderId);
-				}
+				logger.debug("Starting to consume submit order message:{}", this.localOrderId);
 				this.consumer.consume(localOrderId);
 				return true;
 			} catch (Exception ex) {
-				if (log.isWarnEnabled()) {
-					log.warn("consume order error!", ex);
-				}
+				logger.warn("consume order error!", ex);
 			}
 			return false;
 		}

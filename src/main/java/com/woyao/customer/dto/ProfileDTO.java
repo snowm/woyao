@@ -3,17 +3,20 @@ package com.woyao.customer.dto;
 import java.io.Serializable;
 import java.util.Date;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.snowm.security.profile.domain.Gender;
 import com.woyao.admin.dto.DTOConfig;
 
-public class ChatterDTO implements Serializable {
+public class ProfileDTO implements Serializable {
 
 	private static final long serialVersionUID = 2260608506954249912L;
 
 	private Long id;
-
-	private boolean self;
 
 	private Long chatRoomId;
 
@@ -52,14 +55,6 @@ public class ChatterDTO implements Serializable {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public boolean isSelf() {
-		return self;
-	}
-
-	public void setSelf(boolean self) {
-		this.self = self;
 	}
 
 	public Long getChatRoomId() {
@@ -158,4 +153,18 @@ public class ChatterDTO implements Serializable {
 		this.loginDate = loginDate;
 	}
 
+	@Override
+	public int hashCode() {
+		return HashCodeBuilder.reflectionHashCode(this);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		return EqualsBuilder.reflectionEquals(this, obj);
+	}
+
+	@Override
+	public String toString() {
+		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+	}
 }

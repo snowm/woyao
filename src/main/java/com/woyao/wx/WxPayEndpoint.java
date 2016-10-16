@@ -9,8 +9,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.xml.bind.JAXBException;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -21,16 +21,16 @@ import com.woyao.wx.dto.UnifiedOrderResponse;
 @Component("wxPayEndpoint")
 public class WxPayEndpoint {
 
-	private Log log = LogFactory.getLog(this.getClass());
-	
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
+
 	@Value("${wx.api.pay.unifiedOrder.url}")
 	private String wxUnifiedOrderUrl;
 
-	@Resource(name="wxJerseyClient")
+	@Resource(name = "wxJerseyClient")
 	private Client client;
 
 	public UnifiedOrderResponse unifiedOrder(UnifiedOrderRequest request) {
-		log.debug("Start to unified order...");
+		logger.debug("Start to unified order...");
 		WebTarget target = client.target(this.wxUnifiedOrderUrl);
 		String body = null;
 		try {
@@ -38,6 +38,7 @@ public class WxPayEndpoint {
 		} catch (JAXBException e1) {
 			throw new RuntimeException(e1);
 		}
+		logger.debug(body);
 		Entity<String> entity = Entity.entity(body, MediaType.TEXT_PLAIN);
 		Response resp = createXmlRequestBuilder(target).post(entity);
 
@@ -48,13 +49,11 @@ public class WxPayEndpoint {
 		try {
 			String responseBody = resp.readEntity(String.class);
 			UnifiedOrderResponse orderResponse = JaxbUtils.unmarshall(UnifiedOrderResponse.class, responseBody);
-			if (log.isDebugEnabled()) {
-				log.debug("Unified order response:" + orderResponse);
-			}
+			logger.debug("Unified order response:{}", orderResponse);
 			return orderResponse;
 		} catch (Exception e) {
 			String msg = "Can not parse response!";
-			log.error(msg, e);
+			logger.error(msg, e);
 		}
 		return null;
 	}
@@ -68,10 +67,10 @@ public class WxPayEndpoint {
 		if (resp.getStatus() >= Response.Status.BAD_REQUEST.getStatusCode()) {
 			try {
 				String error = resp.readEntity(String.class);
-				log.error("Error response: " + error);
+				logger.error("Error response: " + error);
 			} catch (Exception e) {
 				String msg = "Can not parse error response!";
-				log.error(msg, e);
+				logger.error(msg, e);
 			}
 			return false;
 		}

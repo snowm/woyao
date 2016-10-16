@@ -2,10 +2,13 @@ package com.woyao.wx.dto;
 
 import java.io.Serializable;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 public class ProductDetail implements Serializable{
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
 	
 	private String goods_id;
@@ -77,6 +80,19 @@ public class ProductDetail implements Serializable{
 	public void setGoods_category(String goods_category) {
 		this.goods_category = goods_category;
 	}
-	
-	
+
+    @Override
+    public int hashCode() {
+        return HashCodeBuilder.reflectionHashCode(this);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return EqualsBuilder.reflectionEquals(this, obj);
+    }
+
+    @Override
+    public String toString() {
+        return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+    }
 }

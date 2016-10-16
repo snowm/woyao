@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -19,9 +21,9 @@ public class OrderDTO implements Serializable {
 
 	private Long version;
 
-	private ChatterDTO consumer;
+	private ProfileDTO consumer;
 
-	private ChatterDTO toProfile;
+	private ProfileDTO toProfile;
 
 	private List<OrderItemDTO> items;
 
@@ -52,19 +54,19 @@ public class OrderDTO implements Serializable {
 		this.version = version;
 	}
 
-	public ChatterDTO getConsumer() {
+	public ProfileDTO getConsumer() {
 		return consumer;
 	}
 
-	public void setConsumer(ChatterDTO consumer) {
+	public void setConsumer(ProfileDTO consumer) {
 		this.consumer = consumer;
 	}
 
-	public ChatterDTO getToProfile() {
+	public ProfileDTO getToProfile() {
 		return toProfile;
 	}
 
-	public void setToProfile(ChatterDTO toProfile) {
+	public void setToProfile(ProfileDTO toProfile) {
 		this.toProfile = toProfile;
 	}
 
@@ -116,9 +118,18 @@ public class OrderDTO implements Serializable {
 		this.msgId = msgId;
 	}
 
-	@Override
-	public String toString() {
-		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
-	}
+    @Override
+    public int hashCode() {
+        return HashCodeBuilder.reflectionHashCode(this);
+    }
 
+    @Override
+    public boolean equals(Object obj) {
+        return EqualsBuilder.reflectionEquals(this, obj);
+    }
+
+    @Override
+    public String toString() {
+        return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+    }
 }

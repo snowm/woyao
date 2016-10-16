@@ -1,13 +1,13 @@
 package com.woyao.customer.service;
 
-import com.woyao.customer.dto.ChatterDTO;
+import com.woyao.customer.dto.ProfileDTO;
 
 public interface IProfileWxService {
 
-	ChatterDTO getByOpenId(String openId);
+	ProfileDTO getByOpenId(String openId);
 
-	ChatterDTO saveChatterInfo(ChatterDTO dto);
+	ProfileDTO saveChatterInfo(ProfileDTO dto);
 
-	ChatterDTO getById(long id);
+	ProfileDTO getById(long id);
 
 }

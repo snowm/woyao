@@ -7,8 +7,6 @@ import com.woyao.customer.dto.chat.BlockDTO;
 
 public class InMsgDTO extends Inbound {
 
-	private Long msgId;
-
 	private Long to;
 
 	private BlockDTO block;
@@ -16,14 +14,6 @@ public class InMsgDTO extends Inbound {
 	private int blockSize;
 
 	private Long productId;
-
-	public Long getMsgId() {
-		return msgId;
-	}
-
-	public void setMsgId(Long msgId) {
-		this.msgId = msgId;
-	}
 
 	public Long getTo() {
 		return to;

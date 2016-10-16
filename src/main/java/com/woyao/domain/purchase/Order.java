@@ -45,12 +45,12 @@ public class Order extends DefaultModelImpl {
 	@JoinColumn(referencedColumnName = "id", name = "TO_PROFILE_WX_ID", nullable = true)
 	private ProfileWX toProfile;
 
-	@OneToOne(optional = false, fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.REMOVE })
-	@JoinColumn(referencedColumnName = "id", name = "PREPAY_INFO_ID", nullable = false)
+	@OneToOne(optional = true, fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.REMOVE })
+	@JoinColumn(referencedColumnName = "id", name = "PREPAY_INFO_ID", nullable = true)
 	private OrderPrepayInfo prepayInfo;
 
-	@OneToOne(optional = false, fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.REMOVE })
-	@JoinColumn(referencedColumnName = "id", name = "RESULT_INFO_ID")
+	@OneToOne(optional = true, fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.REMOVE })
+	@JoinColumn(referencedColumnName = "id", name = "RESULT_INFO_ID", nullable = true)
 	private OrderResultInfo resultInfo;
 
 	@Column(name = "ORDER_STATUS", length = 2)

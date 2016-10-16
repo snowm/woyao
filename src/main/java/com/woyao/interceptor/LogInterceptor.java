@@ -5,16 +5,16 @@ import java.util.Enumeration;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 public class LogInterceptor extends HandlerInterceptorAdapter {
 
-	private Log log = LogFactory.getLog(LogInterceptor.class);
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-		if (!log.isDebugEnabled()) {
+		if (!logger.isDebugEnabled()) {
 			return true;
 		}
 		String requestUri = request.getRequestURI();
@@ -25,7 +25,7 @@ public class LogInterceptor extends HandlerInterceptorAdapter {
 			String key = a.nextElement();
 			sb.append(key + ":" + request.getParameter(key) + ", ");
 		}
-		log.debug(sb.toString());
+		logger.debug(sb.toString());
 		
 		sb = new StringBuilder("===headers===\n");
 		Enumeration<String> headerNames = request.getHeaderNames();
@@ -33,7 +33,7 @@ public class LogInterceptor extends HandlerInterceptorAdapter {
 			String name = headerNames.nextElement();
 			sb.append(name).append(":").append(request.getHeader(name)).append("\n");
 		}
-		log.debug(sb.toString());
+		logger.debug(sb.toString());
 		return true;
 	}
 

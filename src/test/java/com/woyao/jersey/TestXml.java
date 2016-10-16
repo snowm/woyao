@@ -13,7 +13,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.xml.bind.JAXBException;
 
-import org.apache.cxf.common.logging.Log4jLogger;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.conn.HttpClientConnectionManager;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
@@ -43,9 +42,9 @@ public class TestXml {
 		ConnectorProvider connectorProvider = new SnowmNettyConnectorProvider();
 		clientConfig.connectorProvider(connectorProvider);
 
-		Logger logger = new Log4jLogger("JerseyClientLogging", null);
-		LoggingFeature loggingFeature = new LoggingFeature(logger);
-		ClientBuilder cb = ClientBuilder.newBuilder().withConfig(clientConfig).register(JacksonFeature.class).register(loggingFeature);
+//		Logger logger = new Log4jLogger("JerseyClientLogging", null);
+//		LoggingFeature loggingFeature = new LoggingFeature(logger);
+		ClientBuilder cb = ClientBuilder.newBuilder().withConfig(clientConfig).register(JacksonFeature.class).register(LoggingFeature.class);
 		return cb.build();
 	}
 
@@ -59,9 +58,9 @@ public class TestXml {
 		SnowmApacheConnectorProvider connectorProvider = new SnowmApacheConnectorProvider();
 		clientConfig.connectorProvider(connectorProvider);
 
-		Logger logger = new Log4jLogger("JerseyClientLogging", null);
-		LoggingFeature loggineFeature = new LoggingFeature(logger);
-		ClientBuilder cb = ClientBuilder.newBuilder().withConfig(clientConfig).register(JacksonFeature.class).register(loggineFeature);
+//		Logger logger = new Log4jLogger("JerseyClientLogging", null);
+//		LoggingFeature loggineFeature = new LoggingFeature(logger);
+		ClientBuilder cb = ClientBuilder.newBuilder().withConfig(clientConfig).register(JacksonFeature.class).register(LoggingFeature.class);
 		return cb.build();
 	}
 

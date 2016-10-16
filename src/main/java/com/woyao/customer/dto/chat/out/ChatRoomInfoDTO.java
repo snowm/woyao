@@ -1,32 +1,27 @@
 package com.woyao.customer.dto.chat.out;
 
-import com.woyao.customer.dto.ChatterDTO;
+import com.woyao.customer.dto.ChatRoomStatistics;
 
 public class ChatRoomInfoDTO extends Outbound {
 
-	private ChatterDTO richer;
-
-	private Integer totalNumber;
+	private ChatRoomStatistics statistics;
 
 	public ChatRoomInfoDTO() {
 		super();
 		this.command = OutboundCommand.ROOM_INFO_MSG;
 	}
 
-	public ChatterDTO getRicher() {
-		return richer;
+	public ChatRoomInfoDTO(ChatRoomStatistics statistics) {
+		this();
+		this.statistics = statistics;
 	}
 
-	public void setRicher(ChatterDTO richer) {
-		this.richer = richer;
+	public ChatRoomStatistics getStatistics() {
+		return statistics;
 	}
 
-	public Integer getTotalNumber() {
-		return totalNumber;
-	}
-
-	public void setTotalNumber(Integer totalNumber) {
-		this.totalNumber = totalNumber;
+	public void setStatistics(ChatRoomStatistics statistics) {
+		this.statistics = statistics;
 	}
 
 }

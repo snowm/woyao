@@ -2,7 +2,7 @@ package com.woyao.customer.translator;
 
 import org.springframework.beans.BeanUtils;
 
-import com.woyao.customer.dto.ChatterDTO;
+import com.woyao.customer.dto.ProfileDTO;
 import com.woyao.customer.dto.OrderDTO;
 import com.woyao.customer.dto.OrderItemDTO;
 import com.woyao.domain.product.Product;
@@ -48,8 +48,8 @@ public class DefaultTranslator {
 		return dto;
 	}
 
-	public static ChatterDTO translateToDTO(ProfileWX m) {
-		ChatterDTO dto = new ChatterDTO();
+	public static ProfileDTO translateToDTO(ProfileWX m) {
+		ProfileDTO dto = new ProfileDTO();
 		BeanUtils.copyProperties(m, dto);
 		return dto;
 	}
@@ -59,7 +59,9 @@ public class DefaultTranslator {
 		BeanUtils.copyProperties(m, dto);
 		dto.setProductId(m.getProduct().getId());
 		dto.setProductName(m.getProduct().getName());
-		dto.setProductPic(m.getProduct().getPic().getUrl());
+		if (m.getProduct().getPic() != null) {
+			dto.setProductPic(m.getProduct().getPic().getUrl());
+		}
 		return dto;
 	}
 }

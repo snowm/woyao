@@ -11,9 +11,9 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.snowm.utils.query.PaginationBean;
-import com.woyao.admin.dto.product.OrderDTO;
 import com.woyao.admin.dto.product.ProductDTO;
 import com.woyao.admin.dto.product.QueryOrderRequestDTO;
+import com.woyao.admin.dto.purchase.OrderDTO;
 import com.woyao.admin.service.IOrderAdminService;
 import com.woyao.domain.product.Product;
 import com.woyao.domain.purchase.Order;

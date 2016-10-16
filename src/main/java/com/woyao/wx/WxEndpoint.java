@@ -7,8 +7,8 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -27,24 +27,24 @@ public class WxEndpoint {
 	private static final String QUERY_PARA_APPID = "appid";
 	private static final String QUERY_PARA_ACCESS_TOKEN = "access_token";
 
-	private Log log = LogFactory.getLog(this.getClass());
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@Value("${wx.api.getGlobalAccessToken.url}")
 	private String getGlobalAccessTokenUrl;
-	
+
 	@Value("${wx.api.getAccessToken.url}")
 	private String getAccessTokenUrl;
-	
+
 	@Value("${wx.api.refreshAccessToken.url}")
 	private String refreshAccessTokenUrl;
-	
+
 	@Value("${wx.api.getUserInfo.url}")
 	private String getUserInfoUrl;
-	
+
 	@Value("${wx.api.jsapi.getTicket.url}")
 	private String getJsapiTicketUrl;
 
-	@Resource(name="wxJerseyClient")
+	@Resource(name = "wxJerseyClient")
 	private Client client;
 
 	/**
@@ -80,6 +80,7 @@ public class WxEndpoint {
 	 * @return token；如果获取失败，返回null
 	 */
 	public GetGlobalAccessTokenResponse getGlobalAccessToken(String appId, String appSecret, String grantType) {
+		logger.debug("Starting to get global access token...");
 		WebTarget target = client.target(this.getGlobalAccessTokenUrl).queryParam(QUERY_PARA_GRANT_TYPE, grantType)
 				.queryParam(QUERY_PARA_APPID, appId).queryParam("secret", appSecret);
 
@@ -92,10 +93,10 @@ public class WxEndpoint {
 		try {
 			String result = resp.readEntity(String.class);
 			GetGlobalAccessTokenResponse token = JsonUtils.toObject(result, GetGlobalAccessTokenResponse.class);
+			logger.debug("Global access token got!");
 			return token;
 		} catch (Exception e) {
-			String msg = "Can not parse response!";
-			log.error(msg, e);
+			logger.error("Can not parse response!", e);
 		}
 		return null;
 	}
@@ -123,7 +124,7 @@ public class WxEndpoint {
 	 * @return
 	 */
 	public GetAccessTokenResponse getAccessToken(String appId, String appSecret, String code, String grantType) {
-		log.debug("Start to get accessToken of user...");
+		logger.debug("Start to get accessToken of user...");
 		WebTarget target = client.target(this.getAccessTokenUrl).queryParam(QUERY_PARA_APPID, appId).queryParam("secret", appSecret)
 				.queryParam("code", code).queryParam(QUERY_PARA_GRANT_TYPE, grantType);
 
@@ -136,13 +137,10 @@ public class WxEndpoint {
 		try {
 			String result = resp.readEntity(String.class);
 			GetAccessTokenResponse token = JsonUtils.toObject(result, GetAccessTokenResponse.class);
-			if (log.isDebugEnabled()) {
-				log.debug("AccessToken of user got:" + token);
-			}
+			logger.debug("AccessToken of user got!");
 			return token;
 		} catch (Exception e) {
-			String msg = "Can not parse response!";
-			log.error(msg, e);
+			logger.error("Can not parse response!", e);
 		}
 		return null;
 	}
@@ -160,7 +158,7 @@ public class WxEndpoint {
 	 * @return
 	 */
 	public GetAccessTokenResponse refreshAccessToken(String appId, String refreshToken, String grantType) {
-		log.debug("Start to refresh accessToken of user...");
+		logger.debug("Start to refresh accessToken of user...");
 		WebTarget target = client.target(this.refreshAccessTokenUrl).queryParam(QUERY_PARA_APPID, appId)
 				.queryParam(QUERY_PARA_GRANT_TYPE, grantType).queryParam("refresh_token", refreshToken);
 
@@ -173,13 +171,10 @@ public class WxEndpoint {
 		try {
 			String result = resp.readEntity(String.class);
 			GetAccessTokenResponse token = JsonUtils.toObject(result, GetAccessTokenResponse.class);
-			if (log.isDebugEnabled()) {
-				log.debug("AccessToken of user refreshed:" + token);
-			}
+			logger.debug("AccessToken of user refreshed!");
 			return token;
 		} catch (Exception e) {
-			String msg = "Can not parse response!";
-			log.error(msg, e);
+			logger.error("Can not parse response!", e);
 		}
 		return null;
 	}
@@ -195,7 +190,7 @@ public class WxEndpoint {
 	 * @return
 	 */
 	public GetUserInfoResponse getUserInfo(String accessToken, String openId, String lang) {
-		log.debug("Start to get user info...");
+		logger.debug("Start to get user info...");
 		WebTarget target = client.target(this.getUserInfoUrl).queryParam(QUERY_PARA_ACCESS_TOKEN, accessToken)
 				.queryParam(QUERY_PARA_OPEN_ID, openId).queryParam("lang", lang);
 
@@ -208,13 +203,13 @@ public class WxEndpoint {
 		try {
 			String result = resp.readEntity(String.class);
 			GetUserInfoResponse user = JsonUtils.toObject(result, GetUserInfoResponse.class);
-			if (log.isDebugEnabled()) {
-				log.debug("User info got:" + user);
+			if (logger.isDebugEnabled()) {
+				logger.debug("User info got:" + user);
 			}
 			return user;
 		} catch (Exception e) {
 			String msg = "Can not parse response!";
-			log.error(msg, e);
+			logger.error(msg, e);
 		}
 		return null;
 	}
@@ -246,14 +241,13 @@ public class WxEndpoint {
 			}
 			return false;
 		} catch (Exception e) {
-			String msg = "Can not parse response!";
-			log.error(msg, e);
+			logger.error("Can not parse response!", e);
 		}
 		return false;
 	}
 
 	public GetJsapiTicketResponse getJsapiTicket(String accessToken) {
-		log.debug("Start to get jsapi token...");
+		logger.debug("Start to get jsapi token...");
 		WebTarget target = client.target(this.getJsapiTicketUrl).queryParam(QUERY_PARA_ACCESS_TOKEN, accessToken).queryParam("type",
 				"jsapi");
 
@@ -266,13 +260,10 @@ public class WxEndpoint {
 		try {
 			String result = resp.readEntity(String.class);
 			GetJsapiTicketResponse token = JsonUtils.toObject(result, GetJsapiTicketResponse.class);
-			if (log.isDebugEnabled()) {
-				log.debug("Jsapi token got:" + token);
-			}
+			logger.debug("Jsapi token got!");
 			return token;
 		} catch (Exception e) {
-			String msg = "Can not parse response!";
-			log.error(msg, e);
+			logger.error("Can not parse response!", e);
 		}
 		return null;
 	}
@@ -286,10 +277,10 @@ public class WxEndpoint {
 		if (resp.getStatus() >= Response.Status.BAD_REQUEST.getStatusCode()) {
 			try {
 				String error = resp.readEntity(String.class);
-				log.error("Error response: " + error);
+				logger.error("Error response: " + error);
 			} catch (Exception e) {
 				String msg = "Can not parse error response!";
-				log.error(msg, e);
+				logger.error(msg, e);
 			}
 			return false;
 		}

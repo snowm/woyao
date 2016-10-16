@@ -8,9 +8,11 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
-import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections4.CollectionUtils;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,7 +32,9 @@ import com.woyao.domain.purchase.OrderStatus;
 
 @Service("orderService")
 public class OrderServiceImpl implements IOrderService {
-
+	
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
+	
 	@Resource(name = "commonDao")
 	private CommonDao commonDao;
 
@@ -41,7 +45,7 @@ public class OrderServiceImpl implements IOrderService {
 
 	@Transactional
 	@Override
-	public OrderDTO placeOrder(long consumerId, long productId, int quantity, Long msgId) {
+	public OrderDTO placeOrder(long consumerId, long productId, int quantity, String spbillCreateIp, Long msgId) {
 		ProfileWX consumer = this.commonDao.get(ProfileWX.class, consumerId);
 		Product product = this.commonDao.get(Product.class, productId);
 
@@ -54,6 +58,7 @@ public class OrderServiceImpl implements IOrderService {
 
 		Order order = new Order();
 		order.setConsumer(consumer);
+		order.setSpbillCreateIp(spbillCreateIp);
 		order.setToProfile(consumer);
 		order.setTotalFee(totalFee);
 		order.setStatus(OrderStatus.SAVED);

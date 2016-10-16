@@ -5,50 +5,54 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.woyao.customer.dto.ChatterDTO;
+import com.woyao.customer.dto.ProfileDTO;
 import com.woyao.customer.service.IProfileWxService;
 import com.woyao.dao.CommonDao;
 import com.woyao.domain.profile.ProfileWX;
 
 @Component("profileWxService")
 public class ProfileWxServiceImpl implements IProfileWxService {
-
+	
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
+	
 	@Resource(name = "commonDao")
 	private CommonDao dao;
 
 	@Transactional(readOnly = true)
 	@Override
-	public ChatterDTO getByOpenId(String openId) {
+	public ProfileDTO getByOpenId(String openId) {
 		Map<String, Object> paramMap = new HashMap<>();
 		paramMap.put("openId", openId);
 		ProfileWX profile = this.dao.queryUnique("from ProfileWX where openId = :openId", paramMap);
 		if (profile == null) {
 			return null;
 		}
-		ChatterDTO dto = new ChatterDTO();
+		ProfileDTO dto = new ProfileDTO();
 		BeanUtils.copyProperties(profile, dto);
 		return dto;
 	}
 
 	@Transactional(readOnly = true)
 	@Override
-	public ChatterDTO getById(long id) {
+	public ProfileDTO getById(long id) {
 		ProfileWX m = this.dao.get(ProfileWX.class, id);
 		if (m == null) {
 			return null;
 		}
-		ChatterDTO dto = new ChatterDTO();
+		ProfileDTO dto = new ProfileDTO();
 		BeanUtils.copyProperties(m, dto);
 		return dto;
 	}
 
 	@Transactional
 	@Override
-	public ChatterDTO saveChatterInfo(ChatterDTO dto) {
+	public ProfileDTO saveChatterInfo(ProfileDTO dto) {
 		Long id = dto.getId();
 		if (id != null) {
 			ProfileWX m = this.dao.get(ProfileWX.class, id);

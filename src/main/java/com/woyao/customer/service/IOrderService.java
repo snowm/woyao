@@ -11,7 +11,7 @@ public interface IOrderService {
 
 	OrderDTO placeOrder(OrderDTO order);
 
-	OrderDTO placeOrder(long consumerId, long productId, int quantity, Long msgId);
+	OrderDTO placeOrder(long consumerId, long productId, int quantity, String spbillCreateIp, Long msgId);
 
 	OrderDTO get(long id);
 

@@ -7,6 +7,8 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,7 +28,9 @@ public class ProductServiceImpl implements IProductService {
 
 	private static final String HQL_LIST_PROD_SHOP = "from Product where shop.id = :shopId "
 			+ "and type = :type and logicalDelete.deleted = false";
-
+	
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
+	
 	@Resource(name = "commonDao")
 	private CommonDao dao;
 
@@ -76,6 +80,7 @@ public class ProductServiceImpl implements IProductService {
 	private MsgProductDTO transferToDTO(PaidMsgProductConfig msgProductConfig) {
 		MsgProductDTO dto = new MsgProductDTO();
 		BeanUtils.copyProperties(msgProductConfig.getProduct(), dto);
+		dto.setUnitPrice(msgProductConfig.getProduct().getUnitPrice() / 100);
 		dto.setHoldTime(msgProductConfig.getHoldTime());
 		return dto;
 	}

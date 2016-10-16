@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.snowm.utils.query.PaginationBean;
-import com.woyao.admin.dto.product.OrderDTO;
 import com.woyao.admin.dto.product.QueryOrderRequestDTO;
+import com.woyao.admin.dto.purchase.OrderDTO;
 import com.woyao.admin.service.IAdminService;
 import com.woyao.admin.service.IOrderAdminService;
 import com.woyao.domain.purchase.Order;
