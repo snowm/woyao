@@ -84,10 +84,10 @@
 	</appender>
 
     <logger name="com.woyao">
-        <level value="${log_level}"/>
+        <level value="${log.level}"/>
     </logger>
     <logger name="com.snowm">
-        <level value="${log_level}"/>
+        <level value="${log.level}"/>
     </logger>
     <logger name="org.mortbay">
         <level value="ERROR"/>
@@ -136,7 +136,7 @@
     <!-- ======================= -->
 
     <root>
-        <level value="${log_level}"/>
+        <level value="${log.level}"/>
         
 		<appender-ref ref="STDOUT" />
 		<appender-ref ref="ERROR-OUT" />
