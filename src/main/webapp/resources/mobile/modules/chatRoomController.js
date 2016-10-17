@@ -315,8 +315,6 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"wxsdk","dom
     })
 
 
-    avalon.scan();
-
 
     function isEmptyObject(e) {
         var t;
@@ -668,6 +666,8 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"wxsdk","dom
 
 
 
+
+    avalon.scan();
 
     return chatRoom = {
         init:function(){

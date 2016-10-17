@@ -42,15 +42,22 @@ define(['jquery','avalon','wxsdk',"domReady!"], function ($,avalon,wx,domReady) 
         	avalon.vmodels.rootController._roomInfo = msg;
             return;
         }
-        if(msg.command == '付费类型'){
+        if(msg.command == 'prePay'){
         	alert("收到付费类型消息 可发起支付请求");
+        	
+        	var data = msg.prepayInfo;
+        	
+        	
+        	
         	wx.chooseWXPay({
-        	    timestamp: 0, 
-        	    nonceStr: '', 
-        	    package: '',
-        	    signType: '',
-        	    paySign: '', 
+        	    'timestamp': data.timeStamp, 
+        	    'nonceStr': data.nonceStr, 
+        	    'package': data.packageStr,
+        	    'signType': data.signType,
+        	    'paySign': data.paySign, 
         	    success: function (res) {
+        	    	alert("支付回调")
+        	    	alert(res)
         	        // 支付成功后的回调函数
                 	avalon.vmodels.rootController._loading = false;
                 	avalon.vmodels.mainController.hidePopSend();
@@ -85,7 +92,6 @@ define(['jquery','avalon','wxsdk',"domReady!"], function ($,avalon,wx,domReady) 
                 }
             });
         }else{
-            msg.text = replace_em(msg.text);
             avalon.vmodels.rootController._publicMsg.push(msg);
             avalon.vmodels.mainController.msgList.push(msg);
 
