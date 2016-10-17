@@ -68,7 +68,7 @@
 	<cache name="profileWX" maxElementsInMemory="1000" eternal="false" overflowToDisk="true" maxElementsOnDisk="10000"
 	 	timeToIdleSeconds="1800">
 	</cache>
-	<cache name="picture" maxElementsInMemory="1000" eternal="true" overflowToDisk="true" maxElementsOnDisk="10000"
+	<cache name="picture" maxElementsInMemory="1000" eternal="false" overflowToDisk="true" maxElementsOnDisk="10000"
 	 	timeToIdleSeconds="300">
 	</cache>
 	
