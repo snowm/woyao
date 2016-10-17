@@ -46,7 +46,8 @@ public class WxPayServiceImpl implements IWxPayService {
 		String mchId = globalConfig.getMchId();
 		String nonceStr = WxUtils.generateNonce(32);
 		String body = "我要-酒水";
-		String outTradeNo = order.getId() + "";
+		String outTradeNo = order.getOrderNo();
+		System.out.println(outTradeNo);
 		int totalFee = order.getTotalFee();
 		Date startDate = new Date();
 		String spbillCreateIp = order.getSpbillCreateIp();
