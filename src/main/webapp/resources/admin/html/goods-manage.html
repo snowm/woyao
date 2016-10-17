@@ -38,7 +38,7 @@
         <div class="tab-pane active" id="home">
             <div class="row">
                 <!-- 选择图片 -->
-                <div class="row">
+                <div class="row" ms-if="picture">
                     <div class="panel panel-stat col-sm-12">
                         <div class="panel-heading">
                             <div class="row text-center">
@@ -52,7 +52,10 @@
                     </div><!-- panel -->
                 </div>
                 <!-- 选择图片 -->
-                <div class="col-sm-6">
+                          
+            </div><!-- row -->
+            <div class="row" ms-if="shop">
+            	<div class="col-sm-6">
                     <div class="form-group">
                         <label class="control-label">商品名字</label>
                         <input type="text" name="name" class="form-control prdocut" placeholder="请输入产品名称" ms-duplex="goodsChg.name">
@@ -64,9 +67,7 @@
                         <label class="control-label">商品描述</label>
                         <input type="text" name="chatRoomName" class="form-control description" placeholder="请输入产品描述" ms-duplex="goodsChg.description">
                     </div>
-                </div><!-- col-sm-6 -->             
-            </div><!-- row -->
-            <div class="row">               
+                </div><!-- col-sm-6 -->                  
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label class="control-label">价格</label>
@@ -115,9 +116,9 @@
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label class="control-label">商品类型</label>
-                        <select class="form-control shopType"  ms-duplex="goodsChg.typeId">
-                            <option ms-value="1">MATERIA</option>
-                            <option ms-value="2">MSG</option>
+                        <select class="form-control shopType mp"  ms-duplex="goodsChg.typeId" ms-click="chooseType">
+                            <option  value="1">MATERIA</option>
+                            <option  value="2">MSG</option>
                         </select>
                     </div>
                 </div>
@@ -131,7 +132,6 @@
 
 
     <!-- 新增商品 -->
-
 
 
     <div class="table-responsive" style="border-top: 1px solid #dadada" ms-if="goods">

@@ -11,7 +11,9 @@ define(['uploadfile'],function(){
         choose:true,
         goodsAdd:false,
         demand:true,
-        nothing:false,       
+        nothing:false,
+        picture:false,
+        shop:false,
         totlePage:0,
         goodsList:[],
         shopList:[],
@@ -107,10 +109,12 @@ define(['uploadfile'],function(){
 		clickOut:function(){			
 			goodsController.shopList=[];			
 		},
-        Alter:function(id){
+        Alter:function(id){        	
             goodsController.goodsShow = true;
             goodsController.goods = false;
             goodsController.demand = false;
+            goodsController.picture=false;
+    		goodsController.shop=true;            
             goodsController.goodsList.forEach(function(item){
                 if(item.id == id){
                     goodsController.goodsChg = item;
@@ -118,7 +122,7 @@ define(['uploadfile'],function(){
                 }
             })
 
-        },
+        },        
         //修改并保存
         Sava:function(){            
             var prdocut = $(".prdocut").val();
@@ -132,10 +136,10 @@ define(['uploadfile'],function(){
 //				return;
 //			}else 
             if(prdocut == ""){
-				alert("请输入正确产品名称");
+				alert("产品名称不能为空");
 				return;
 			}else if(unitPrice == ""){
-				alert("请输入正确价格");
+				alert("产品单价不能为空");
 				return;
 			}else if(shopList ==""){
 				alert("请选择正确的商店名称");
@@ -195,7 +199,16 @@ define(['uploadfile'],function(){
                 shopName:"",
                 unitPrice:"" 
             }            
-        },        
+        },
+        chooseType:function(){
+        	if(goodsController.goodsChg.typeId == "2"){
+        		goodsController.picture=false;
+        		goodsController.shop=true;
+        	}else if(goodsController.goodsChg.typeId == "1"){
+        		goodsController.picture=true;
+        		goodsController.shop=true;
+        	}
+        },
         deletedGoods:function(id){
             if(confirm("确认删除 ？")) {
                 $.ajax({
@@ -274,19 +287,17 @@ define(['uploadfile'],function(){
             var size = file.size / 1024 > 1024 ? (~~(10 * file.size / 1024 / 1024)) / 10 + "MB" : ~~(file.size / 1024) + "KB";
             console.log("图片原始大小：" + size);
 
-            reader.onload = function() {
+            reader.onload = function() {        	
                 var result = this.result;
                 var img = new Image();
                 img.src = result;
                 goodsController.imgViewSrc = result;
                 // 上传图片
-                $.ajaxFileUpload
-                (
-                    {
+                $.ajaxFileUpload({
                         url: '/admin/upload/file', //用于文件上传的服务器端请求地址
                         secureuri: false, //是否需要安全协议，一般设置为false
                         fileElementId: 'goodsUploadfile', //文件上传域的ID
-                        dataType: 'json', //返回值类型 一般设置为json
+                        dataType: 'json', //返回值类型 一般设置为json                   
                         success: function (data, status)  //服务器成功响应处理函数
                         {
                             console.log(data);
