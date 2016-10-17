@@ -174,6 +174,7 @@ define(['uploadfile'],function(){
     	avalon.scan();
     	
     	function queryData(page){
+    		
     		var data = shopController.queryCdt;    	
 	    	if(page == "upPage"){
 	    		if(shopController.queryCdt.pageNumber == 1){
@@ -199,7 +200,7 @@ define(['uploadfile'],function(){
 	      			  shopController.shopList = data.results;
 	      			  console.log(shopController.shopList = data.results);
 	      			if(shopController.shopList.length != 0){
-	      				shopController.nothing=false;
+	      				shopController.nothing=false;	      				
   	      				console.log(1);
   	      			}else if(shopController.shopList.length == 0){  	      				
   	      				shopController.nothing=true;

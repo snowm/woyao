@@ -101,7 +101,7 @@
                                 <li><a href="#"><i class="glyphicon glyphicon-question-sign"></i> 帮 助</a></li>
                                 <li>
 		                            <form action="${logout_url}" method="POST">
-				                   		<a><i class="glyphicon glyphicon-log-out"></i><input style="width:153px;text-align: left;background:rgba(0,0,0,0);border:0;outline:0;" type='submit' value="注销"></a>				                   		
+				                   		<a><i class="glyphicon glyphicon-log-out"></i><input style="width:153px;text-align: left;background:rgba(0,0,0,0);border:0;outline:0;color:#94989d" type='submit' value="注销"></a>				                   		
 				                	</form>
                                </li>
                             </ul>

@@ -109,18 +109,28 @@ define(['uploadfile'],function(){
 		clickOut:function(){			
 			goodsController.shopList=[];			
 		},
-        Alter:function(id){        	
+        Alter:function(id){         	
             goodsController.goodsShow = true;
             goodsController.goods = false;
-            goodsController.demand = false;
-            goodsController.picture=false;
-    		goodsController.shop=true;            
-            goodsController.goodsList.forEach(function(item){
-                if(item.id == id){
-                    goodsController.goodsChg = item;
-                    goodsController.imgViewSrc = item.mainPic;
-                }
-            })
+            goodsController.demand = false;            
+    		goodsController.shop=true;    			
+    		goodsController.goodsList.forEach(function(item){
+                    if(item.id == id){
+                        goodsController.goodsChg = item;
+                        
+                       
+                        if(goodsController.goodsChg.typeId == "1"){
+                        	 goodsController.picture=true;
+                        	 goodsController.imgViewSrc = item.mainPic;
+                        	 console.log("123");
+                        }else if(goodsController.goodsChg.typeId == "2"){
+	                        goodsController.picture=false;
+	                        console.log("456");
+                        }
+                    }
+                })
+    		
+            
 
         },        
         //修改并保存
@@ -129,56 +139,105 @@ define(['uploadfile'],function(){
             var description = $(".description").val();
             var unitPrice = $(".unitPrice").val();
             var shopList = $(".shopList").val();
-            var shopType = $(".shopType").val();
-           
-//            if(goodsController.imgViewSrc=="/admin/resources/images/photos/upload1.png"){
-//				alert("请选择图片");
-//				return;
-//			}else 
-            if(prdocut == ""){
-				alert("产品名称不能为空");
-				return;
-			}else if(unitPrice == ""){
-				alert("产品单价不能为空");
-				return;
-			}else if(shopList ==""){
-				alert("请选择正确的商店名称");
-				return;
-			}else if(shopType ==""){
-				alert("请选择正确的类型");
-				return;
-			}else{				
-				 var date={
-		                    name:goodsController.goodsChg.name,
-		                    code:goodsController.goodsChg.code,
-		                    description:goodsController.goodsChg.description,
-		                    mainPicId:goodsController.goodsChg.mainPicId,
-		                    typeId:parseInt(goodsController.goodsChg.typeId),
-		                    shopId:goodsController.goodsChg.shopId,
-		                    unitPrice:goodsController.goodsChg.unitPrice,
-		                    id:goodsController.goodsChg.id
-		                }
-		            $.ajax({
-		                type: "post",
-		                url: '/admin/product/',
-		                data:date,
-		                success: function(data){
-		                    console.log(data);
-		                    alert('提交成功');
-		                    goodsController.goodsShow = false;
-		                    goodsController.goods = true;
-		                    goodsController.goodsChg.mainPicId = '';                    
-		                    goodsController.goodsChg.shopId="";
-		                    goodsController.goodsChg.name="";
-		                    goodsController.imgViewSrc = '/admin/resources/images/photos/upload1.png';
-		                    $("#goodsUploadfile").val('');
-		                    goodsController.goodsShow=false;
-		    	            goodsController.demand=true;
-		                    Submit();
-		                },
-		                dataType: 'json',
-		            });
-				}           
+            var shopType = $(".shopType").val();           
+            
+            if(goodsController.goodsChg.typeId == "1"){    	
+            	
+            	if(goodsController.imgViewSrc=="/admin/resources/images/photos/upload1.png"){
+    				alert("请选择图片");
+    				return;
+    			}else if(prdocut == ""){
+    				alert("产品名称不能为空");
+    				return;
+    			}else if(unitPrice == ""){
+    				alert("产品单价不能为空");
+    				return;
+    			}else if(shopList ==""){
+    				alert("请选择正确的商店名称");
+    				return;
+    			}else if(shopType ==""){
+    				alert("请选择正确的类型");
+    				return;
+    			}else{				
+    				 var date={
+    		                    name:goodsController.goodsChg.name,
+    		                    code:goodsController.goodsChg.code,
+    		                    description:goodsController.goodsChg.description,
+    		                    mainPicId:goodsController.goodsChg.mainPicId,
+    		                    typeId:parseInt(goodsController.goodsChg.typeId),
+    		                    shopId:goodsController.goodsChg.shopId,
+    		                    unitPrice:goodsController.goodsChg.unitPrice,
+    		                    id:goodsController.goodsChg.id
+    		                }
+    		            $.ajax({
+    		                type: "post",
+    		                url: '/admin/product/',
+    		                data:date,
+    		                success: function(data){
+    		                    console.log(data);
+    		                    alert('提交成功');
+    		                    goodsController.goodsShow = false;
+    		                    goodsController.goods = true;
+    		                    goodsController.goodsChg.mainPicId = '';                    
+    		                    goodsController.goodsChg.shopId="";
+    		                    goodsController.goodsChg.name="";
+    		                    goodsController.imgViewSrc = '/admin/resources/images/photos/upload1.png';
+    		                    $("#goodsUploadfile").val('');
+    		                    goodsController.goodsShow=false;
+    		    	            goodsController.demand=true;
+    		                    Submit();
+    		                },
+    		                dataType: 'json',
+    		            });
+    				}           
+            	}else if(goodsController.goodsChg.typeId == "2"){
+            		
+            		if(prdocut == ""){
+        				alert("产品名称不能为空");
+        				return;
+        			}else if(unitPrice == ""){
+        				alert("产品单价不能为空");
+        				return;
+        			}else if(shopList ==""){
+        				alert("请选择正确的商店名称");
+        				return;
+        			}else if(shopType ==""){
+        				alert("请选择正确的类型");
+        				return;
+        			}else{				
+        				 var date={
+        		                    name:goodsController.goodsChg.name,
+        		                    code:goodsController.goodsChg.code,
+        		                    description:goodsController.goodsChg.description,
+        		                    mainPicId:goodsController.goodsChg.mainPicId,
+        		                    typeId:parseInt(goodsController.goodsChg.typeId),
+        		                    shopId:goodsController.goodsChg.shopId,
+        		                    unitPrice:goodsController.goodsChg.unitPrice,
+        		                    id:goodsController.goodsChg.id
+        		                }
+        		            $.ajax({
+        		                type: "post",
+        		                url: '/admin/product/',
+        		                data:date,
+        		                success: function(data){
+        		                    console.log(data);
+        		                    alert('提交成功');
+        		                    goodsController.goodsShow = false;
+        		                    goodsController.goods = true;
+        		                    goodsController.goodsChg.mainPicId = '';                    
+        		                    goodsController.goodsChg.shopId="";
+        		                    goodsController.goodsChg.name="";
+        		                    goodsController.imgViewSrc = '/admin/resources/images/photos/upload1.png';
+        		                    $("#goodsUploadfile").val('');
+        		                    goodsController.goodsShow=false;
+        		    	            goodsController.demand=true;
+        		                    Submit();
+        		                },
+        		                dataType: 'json',
+        		            });
+        				} 
+            	}
+            
            
         },
         //新增
@@ -187,6 +246,8 @@ define(['uploadfile'],function(){
             goodsController.goods=false;
             goodsController.demand=false;
             goodsController.nothing=false;
+            goodsController.picture=false;
+            goodsController.shop=false;
             goodsController.imgViewSrc = '/admin/resources/images/photos/upload1.png';
             $("#goodsUploadfile").val('');          
             goodsController.goodsChg = {
@@ -204,9 +265,9 @@ define(['uploadfile'],function(){
         	if(goodsController.goodsChg.typeId == "2"){
         		goodsController.picture=false;
         		goodsController.shop=true;
-        	}else if(goodsController.goodsChg.typeId == "1"){
-        		goodsController.picture=true;
+        	}else if(goodsController.goodsChg.typeId == "1"){        		
         		goodsController.shop=true;
+        		goodsController.picture=true;
         	}
         },
         deletedGoods:function(id){
@@ -216,8 +277,8 @@ define(['uploadfile'],function(){
                     url: '/admin/product/delete/' + id,
                     success: function(data){
                         console.log(data);
-                        goodsController.goods=false;
-                        Submit();
+                        goodsController.goods=true;
+                        Submit();                        
                     },
                     dataType: 'json'
                 });
@@ -294,10 +355,11 @@ define(['uploadfile'],function(){
                 goodsController.imgViewSrc = result;
                 // 上传图片
                 $.ajaxFileUpload({
+                	
                         url: '/admin/upload/file', //用于文件上传的服务器端请求地址
                         secureuri: false, //是否需要安全协议，一般设置为false
                         fileElementId: 'goodsUploadfile', //文件上传域的ID
-                        dataType: 'json', //返回值类型 一般设置为json                   
+                        dataType: 'json', //返回值类型 一般设置为json                       
                         success: function (data, status)  //服务器成功响应处理函数
                         {
                             console.log(data);
@@ -311,7 +373,7 @@ define(['uploadfile'],function(){
                             alert(e);
                         }
                     }
-                )
+                )                
                 //如果图片大小小于200kb，则直接上传
                 /* if (result.length <= 400 * 1024) {
                  img = null;
@@ -376,12 +438,11 @@ define(['uploadfile'],function(){
                      console.log(data);
                      goodsController.goodsList = data.results;
                      goodsController.totlePage = data.totalPageCount;
-
    	      			if(goodsController.goodsList.length != 0){
-   	      			goodsController.nothing=false;
+   	      				goodsController.nothing=false;
    	      				console.log(1);
    	      			}else if(goodsController.goodsList.length == 0){  	      				
-   	      			goodsController.nothing=true;
+   	      				goodsController.nothing=true;
    	      				console.log(2);
    	      			}
                  },
