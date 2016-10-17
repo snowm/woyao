@@ -516,7 +516,7 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"wxsdk","dom
                 for(var i = 0;i < msg.length ; i++){
                     msg[i].text = replace_em(msg[i].text);
                     if(msg[i].privacy){
-                    	alert("这里不应该收到私聊消息");
+//                    	alert("这里不应该收到私聊消息");
 //                        avalon.vmodels.rootController._privacyMsg.unshift(msg[i]);
 //                        mainController.pMsgCount = 0;
 //                        for(var j = 0; j < avalon.vmodels.rootController._privacyMsg.$model.length; j++){

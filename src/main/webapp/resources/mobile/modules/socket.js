@@ -39,6 +39,7 @@ define(['jquery','avalon','wxsdk',"domReady!"], function ($,avalon,wx,domReady) 
             return;
         }
         if(msg.command == 'roomInfo'){
+        	avalon.vmodels.rootController._roomInfo = msg;
             return;
         }
         if(msg.command == '付费类型'){

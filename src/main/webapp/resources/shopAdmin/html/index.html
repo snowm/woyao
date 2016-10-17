@@ -14,91 +14,32 @@
 </head>
 <script data-main="../js/main.js" src="../js/plugin/require.js"></script>
 <body ms-controller="root">
+<div class="m-header-ctn">
 
+</div>
+<div class="m-nav-ctn">
+    <div class="m-nav-logo">
+        logo
+    </div>
+    <ul class="m-nav">
+        <li>
+            <i class="fa fa-car"></i>
+            <a href="#!setting">首页</a>
+        </li>
+        <li>
+            <i class="fa fa-fire"></i>
+            <a href="#!/">订单查询</a>
+        </li>
+        <li>
+            <i class="fa fa-fire"></i>
+            <a href="#!index.html">商品管理</a>
+        </li>
+    </ul>
+</div>
 
-<div id='wrapper'>
-    <!-- Sidebar -->
-    <section id='sidebar'>
-        <i class='icon-align-justify icon-large' id='toggle'></i>
-        <ul id='dock'>
-            <li class='active launcher'>
-                <i class='fa fa-home'></i>
-                <a href="#!/home">首页</a>
-            </li>
-            <li class='launcher'>
-                <i class='fa fa-wrench'></i>
-                <a href="#!/setting">设置</a>
-            </li>
-            <li class='launcher'>
-                <i class='fa fa-star'></i>
-                <a href="#!/setting">收入明细</a>
-            </li>
-            <li class='launcher'>
-                <i class='fa fa-gift'></i>
-                <a href="tables.html">礼物管理</a>
-            </li>
-        </ul>
-        <div data-toggle='tooltip' id='beaker' title='Made by lab2023'></div>
-    </section>
-    <!-- Tools -->
-    <section id='tools'>
-        <ul class='breadcrumb' id='breadcrumb'>
-            <li class='title'>Tables</li>
-            <li><a href="#">Lorem</a></li>
-            <li class='active'><a href="#">ipsum</a></li>
-        </ul>
-        <div id='toolbar'>
-            <ul class='nav navbar-nav pull-right'>
-                <li class='dropdown'>
-                    <a class='dropdown-toggle' data-toggle='dropdown' href='#'>
-                        <i class='icon-envelope'></i>
-                        Messages
-                        <span class='badge'>5</span>
-                        <b class='caret'></b>
-                    </a>
-                    <ul class='dropdown-menu'>
-                        <li>
-                            <a href='#'>New message</a>
-                        </li>
-                        <li>
-                            <a href='#'>Inbox</a>
-                        </li>
-                        <li>
-                            <a href='#'>Out box</a>
-                        </li>
-                        <li>
-                            <a href='#'>Trash</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a href='#'>
-                        <i class='icon-cog'></i>
-                        Settings
-                    </a>
-                </li>
-                <li class='dropdown user'>
-                    <a class='dropdown-toggle' data-toggle='dropdown' href='#'>
-                        <i class='icon-user'></i>
-                        <strong>John DOE</strong>
-                        <img class="img-rounded" src="http://placehold.it/20x20/ccc/777" />
-                        <b class='caret'></b>
-                    </a>
-                    <ul class='dropdown-menu'>
-                        <li>
-                            <a href='#'>Edit Profile</a>
-                        </li>
-                        <li class='divider'></li>
-                        <li>
-                            <a href="/">Sign out</a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-    </section>
-    <!-- Content -->
-    <!-- <div id='content' ms-include-src="content"> -->
+<div class="m-container">
+    <div class="m-content" ms-include-src="content">
+
     </div>
 </div>
 </body>
