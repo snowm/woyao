@@ -2,7 +2,7 @@
  * Created by Luozhongdao on 2016/9/20 0020.
  */
 
-define(['jquery','flatUI','application','jquery.cookies'],function($){
+define(['jquery','flatUI','jquery.cookies'],function($){
 
 
     jQuery(document).ready(function() {

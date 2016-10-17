@@ -34,6 +34,7 @@ require(['mmRouter',"domReady!",'socket','wxsdk'],function(mmRouter,domReady,soc
         _loading:false, // loading遮盖层
         content: "",
         _userInfo:{}, //当前用户信息
+        _roomInfo:{}, //房间消息
         _privacyMsg:[],//私聊消息
         privacyMsglength:0,//私聊消息总数
         _publicMsg:[],//公共消息

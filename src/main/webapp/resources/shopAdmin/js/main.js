@@ -16,7 +16,7 @@ require.config({
 //        'jquery-ui': ['./js/plugin/jquery-ui-1.10.3.min'],
 //        'jquery-migrate': ['./js/plugin/jquery-migrate-1.2.1.min'],
 //        'bootstrap': ['./js/plugin/bootstrap.min'],
-        'application':['./js/plugin/application']
+//        'application':['./js/plugin/application']
 //        'custom': ['./js/plugin/custom'],
 //        'toggles': ['./js/plugin/toggles.min'],
 //        'modernizr': ['./js/plugin/modernizr.min'],
@@ -31,7 +31,7 @@ require.config({
 //        "toggles":["jquery"],
 //        "bootstrap":["jquery"],
         "flatUI":["jquery"],
-        "application":["jquery"],
+//        "application":["jquery"],
     },
     priority: ['text']
 });
@@ -40,7 +40,7 @@ require.config({
 require(['/shopAdmin/resources/js/common.js','mmRouter',"domReady!"],function(mmRouter,domReady){
     var model = avalon.define({
         $id: "root",
-        content: "/admin/resources/html/home.html",
+        content: "/shopAdmin/resources/html/home.html",
     });
 
     //导航回调
@@ -59,12 +59,8 @@ require(['/shopAdmin/resources/js/common.js','mmRouter',"domReady!"],function(mm
             avalon.vmodels.root.content = viewPath + ".html";
         });
     }
-
-    avalon.router.get("/gift", callback);
-    avalon.router.get("/income", callback);
-    avalon.router.get("/chat", callback);   
-    avalon.router.get("/home", callback);
-    avalon.router.get("/signin", callback);;
+ 
+    avalon.router.get("/order", callback);
     avalon.router.get("/demo", callback);
 
     avalon.history.start({
