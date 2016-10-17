@@ -26,6 +26,7 @@ define(['jquery','avalon','wxsdk',"domReady!"], function ($,avalon,wx,domReady) 
 
 
     socket.onmessage = function(message) {
+
         var msg = JSON.parse(message.data);
         console.log("get masage:");
         console.log(msg);
@@ -43,12 +44,9 @@ define(['jquery','avalon','wxsdk',"domReady!"], function ($,avalon,wx,domReady) 
             return;
         }
         if(msg.command == 'prePay'){
-        	alert("收到付费类型消息 可发起支付请求");
         	
         	var data = msg.prepayInfo;
-        	
-        	
-        	
+
         	wx.chooseWXPay({
         	    'timestamp': data.timeStamp, 
         	    'nonceStr': data.nonceStr, 
