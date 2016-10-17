@@ -9,8 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.http.NameValuePair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,10 +25,10 @@ import com.woyao.customer.chat.SessionContainer;
 import com.woyao.customer.chat.SessionUtils;
 import com.woyao.customer.dto.ChatPicDTO;
 import com.woyao.customer.dto.ChatRoomDTO;
-import com.woyao.customer.dto.ProfileDTO;
 import com.woyao.customer.dto.ChatterQueryRequest;
 import com.woyao.customer.dto.MsgProductDTO;
 import com.woyao.customer.dto.ProductDTO;
+import com.woyao.customer.dto.ProfileDTO;
 import com.woyao.customer.dto.RicherDTO;
 import com.woyao.customer.dto.ShopDTO;
 import com.woyao.customer.dto.ShopPaginationQueryRequest;
@@ -65,8 +63,6 @@ public class MobileController {
 
 	@Resource(name = "globalConfig")
 	private GlobalConfig globalConfig;
-
-	private int maxAge = 31536000;
 
 	@RequestMapping(value = { "/", "" })
 	public String index(HttpServletRequest httpRequest) {

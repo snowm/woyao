@@ -160,7 +160,7 @@ public class ChatServiceImpl implements IChatService {
 				this.sendRoomMsg(outbound, chatRoomId, wsSession);
 			}
 		} catch (IOException e) {
-			logger.error("Process message failure!", e);
+			throw new RuntimeException(e);
 		}
 	}
 
