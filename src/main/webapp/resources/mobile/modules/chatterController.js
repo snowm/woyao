@@ -84,15 +84,17 @@ define(['jquery','avalon', 'text!./chatter.html',"domReady!"], function ($,avalo
     			pageSize:500,
     			gender:'',
         	}
-    	}else if(type == 'FEMALE'){
+    	}
+    	if(type == 'FEMALE'){
     		data = {
         			pageNumber:1,
         			pageSize:500,
         			gender:'FEMALE',
             	}
-    	}else if(type == 'MALE'){
+    	}
+    	if(type == 'MALE'){
     		data = {
-        			pageNumber:1,
+    				pageNumber:1,
         			pageSize:500,
         			gender:'MALE',
             	}

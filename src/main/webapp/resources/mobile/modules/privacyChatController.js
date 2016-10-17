@@ -206,8 +206,6 @@ define(['jquery','avalon', 'text!./privacyChat.html','socket','swiper',"domReady
         
 
         function queryHistoryMsg(){
-        	console.log("↓↓↓↓↓↓↓↓查询历史消息参数：↓↓↓↓↓↓↓↓");
-        	console.log(pChatController.queryHistoryInfo.$model);
             
             $.ajax({
                 url: "/m/chat/listMsg",
@@ -216,13 +214,11 @@ define(['jquery','avalon', 'text!./privacyChat.html','socket','swiper',"domReady
                 async: true,
                 type: "post",
                 success: function(data) {
-                    console.log("收到私聊消息列表:");
-                    console.log(data);
                     var msg = data;
                     for(var i = 0;i < msg.length ; i++){
                         msg[i].text = replace_em(msg[i].text);
                         if(msg[i].privacy){           
-                        	pChatController.pMsgList.push(msg[i]);
+                        	pChatController.pMsgList.unshift(msg[i]);
                         }else{
 //                        	alert('这里不应该查询到公共消息');  
                         	return;

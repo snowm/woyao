@@ -282,7 +282,7 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"wxsdk","dom
         showPics:function(msg,url){
         	wx.previewImage({
         	    current: msg, // 当前显示图片的http链接
-        	    urls: [url], // 需要预览的图片http链接列表
+        	    urls: ['http://www.luoke30.com' + url], // 需要预览的图片http链接列表
         	});
         }
     });

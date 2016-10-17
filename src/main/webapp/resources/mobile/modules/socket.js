@@ -20,7 +20,7 @@ define(['jquery','avalon','wxsdk',"domReady!"], function ($,avalon,wx,domReady) 
                 setTimeout(function(){
                     avalon.vmodels.mainController.tipsShow = false;
                 },3000)
-            },300)
+            },1000)
         };
     };
 
@@ -36,6 +36,9 @@ define(['jquery','avalon','wxsdk',"domReady!"], function ($,avalon,wx,domReady) 
         }
         if(msg.command == 'selfInfo'){
             avalon.vmodels.rootController._userInfo = msg;
+            return;
+        }
+        if(msg.command == 'roomInfo'){
             return;
         }
         if(msg.command == '付费类型'){
@@ -64,8 +67,8 @@ define(['jquery','avalon','wxsdk',"domReady!"], function ($,avalon,wx,domReady) 
         	});
         }
         
-        msg.text = replace_em(msg.text);
 
+        msg.text = replace_em(msg.text);
         if(msg.privacy){
             if(window.location.hash == '#!/privacyChat'){
                 if(msg.sender.id == avalon.vmodels.pChatController.toWho.id || msg.command == 'smACK'){
@@ -81,6 +84,7 @@ define(['jquery','avalon','wxsdk',"domReady!"], function ($,avalon,wx,domReady) 
                 }
             });
         }else{
+            msg.text = replace_em(msg.text);
             avalon.vmodels.rootController._publicMsg.push(msg);
             avalon.vmodels.mainController.msgList.push(msg);
 

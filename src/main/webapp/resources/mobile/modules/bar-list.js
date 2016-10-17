@@ -17,7 +17,7 @@ window.onload = function(){
             
         // 配置微信js-sdk许可
         wx.config({
-            debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+            debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
             appId: wxadt.appId, // 必填，企业号的唯一标识，此处填写企业号corpid
             timestamp: wxadt.timestamp, // 必填，生成签名的时间戳
             nonceStr: wxadt.nonceStr, // 必填，生成签名的随机串
@@ -40,20 +40,18 @@ window.onload = function(){
         toChatRooms:function(id){
             window.location.href = '/m/chatRoom/' + id + '#!/'
         },
+        location:{}
     });
 
     
     wx.ready(function(){
-      console.log("wx jsapi ready");
     	wx.getLocation({
     	    type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
     	    success: function (res) {
-    	        console.log("wx getLocation success:"+res);
     	        var latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
     	        var longitude = res.longitude ; // 经度，浮点数，范围为180 ~ -180。
     	        var speed = res.speed; // 速度，以米/每秒计
     	        var accuracy = res.accuracy; // 位置精度
-    	        alert(res)
     	        var urls = "http://api.map.baidu.com/geoconv/v1/?coords=" +　longitude + "," + latitude + "&from=1&to=5&ak=mZm3GQOvw7AFyZIKrkeomWMbhMbpP2Cc";
     	        $.ajax({
     	            url: urls,   
@@ -61,9 +59,8 @@ window.onload = function(){
     	            async: true, 
     	            type: "get",
     	            success: function(data) {
-    	            	alert("获取到了百度坐标");
-    	            	alert(data.result);
     	                queryData(data.result.x,data.result.y);
+    	                map.centerAndZoom(new BMap.Point( data.result[0].x , data.result[0].y ), 15);
     	                barListController.location = data.result;
     	            },
     	            complete: function() {
@@ -74,13 +71,10 @@ window.onload = function(){
     	        });
     	    },
     	    error : function(){
-    	      console.log(arguments);
     	    },
             fail : function(){
-              console.log(arguments);
             },
             failure : function(){
-              console.log(arguments);
             }
     	});
     });
@@ -89,7 +83,7 @@ window.onload = function(){
     });
     
     
-    function queryData(lat,lnt){
+    function queryData(lnt,lat){
     	 $.ajax({
             url: "/m/shopList",   
             dataType: "JSON",  
@@ -104,7 +98,6 @@ window.onload = function(){
             },
             type: "POST",
             success: function(data) {
-            	console.log();
             	if(data.results != null){
             		barListController.barList = data.results;
                     addShop(data.results);
@@ -118,12 +111,10 @@ window.onload = function(){
         });
     }
     
-    queryData();
-
 
     var mlocation = {};
     var map = new BMap.Map("map");
-    map.centerAndZoom(new BMap.Point(104.072227,30.663456), 18);
+//    map.centerAndZoom(new BMap.Point(104.072227,30.663456), 18);
 
     //map.setMapStyle({style:'googlelite'});
     map.addControl(new BMap.NavigationControl({offset: new BMap.Size(10, 50)}));
@@ -153,7 +144,42 @@ window.onload = function(){
         div.style.backgroundColor = "rgba(255, 255, 255, 0.85)";
         // 绑定事件，点击回到定位位置
         div.onclick = function(e){
-            map.centerAndZoom(new BMap.Point(barListController.location.x,barListController.location.y), 18);
+        	wx.getLocation({
+        	    type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
+        	    success: function (res) {
+        	        var latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
+        	        var longitude = res.longitude ; // 经度，浮点数，范围为180 ~ -180。
+        	        var speed = res.speed; // 速度，以米/每秒计
+        	        var accuracy = res.accuracy; // 位置精度
+        	        var urls = "http://api.map.baidu.com/geoconv/v1/?coords=" +　longitude + "," + latitude + "&from=1&to=5&ak=mZm3GQOvw7AFyZIKrkeomWMbhMbpP2Cc";
+        	        $.ajax({
+        	            url: urls,   
+        	            dataType: "JSONP",  
+        	            async: true, 
+        	            type: "get",
+        	            success: function(data) {
+        	                map.centerAndZoom(new BMap.Point(data.result[0].x,data.result[0].y), 15);
+        	                queryData(data.result.x,data.result.y);
+        	                barListController.location = data.result;
+        	            },
+        	            complete: function() {
+        	            },
+        	            error: function() {
+        	            	alert("GPS坐标转换百度坐标失败");
+        	            }
+        	        });
+        	    },
+        	    error : function(){
+        	      console.log(arguments);
+        	    },
+                fail : function(){
+                  console.log(arguments);
+                },
+                failure : function(){
+                  console.log(arguments);
+                }
+        	});
+            
         };
         // 添加DOM元素到地图中
         map.getContainer().appendChild(div);
@@ -247,7 +273,7 @@ window.onload = function(){
     
     map.addEventListener("dragend", function(){    
     	 var center = map.getCenter();    
-    	 queryData(center.lat,center.lng);
+    	 queryData(center.lng,center.lat);
     });
     
     

@@ -60,20 +60,19 @@ require(['mmRouter',"domReady!",'socket','wxsdk'],function(mmRouter,domReady,soc
 //    })
     
     var wxadt = {
-		appId: 'wxf55a7c00ffaca994', 
-		timestamp: Date.parse(new Date())/1000,
-		nonceStr: '', 
-		signature: '',
-    }
-        
+    		appId: document.getElementById('appId').value, 
+    		timestamp: document.getElementById('timestamp').value,
+    		nonceStr: document.getElementById('nonceStr').value, 
+    		signature: document.getElementById('signature').value,
+        }
     //========================  配置微信js-sdk许可  ========================
     wx.config({
-        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+        debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
         appId: wxadt.appId, // 必填，企业号的唯一标识，此处填写企业号corpid
         timestamp: wxadt.timestamp, // 必填，生成签名的时间戳
         nonceStr: wxadt.nonceStr, // 必填，生成签名的随机串
         signature: wxadt.signature,// 必填，签名，见附录1
-        jsApiList: ['previewImage','getLocation'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+        jsApiList: ['previewImage','getLocation','chooseWXPay'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
     });
     //========================  配置微信js-sdk许可  ========================
     
