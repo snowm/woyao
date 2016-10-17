@@ -3,7 +3,7 @@
 	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
 		<!-- encoders are by default assigned the type ch.qos.logback.classic.encoder.PatternLayoutEncoder -->
 		<encoder>
-			<pattern>%d{yyyy-MM-dd HH:mm:ss,SSS} [%-5level] [%logger{0}] [%thread] [%class:%line] - %m%n</pattern>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss,SSS} [%-5level] [%thread] [%class:%line] - %m%n</pattern>
 
 	        <!-- 常用的Pattern变量,大家可打开该pattern进行输出观察 -->
 	        <!-- 
@@ -33,10 +33,10 @@
 	<!-- 按日期区分的滚动日志 -->
 	<appender name="ERROR-OUT"
 		class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<file>${log.dir}/error.log</file>
+		<file>${log.dir:-logs}/error.log</file>
 
 		<encoder>
-			<pattern>%d{yyyy-MM-dd HH:mm:ss,SSS} [%logger{0}] [%thread] [%class:%line] - %m%n</pattern>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss,SSS} [%thread] [%class:%line] - %m%n</pattern>
 		</encoder>
 
 		<filter class="ch.qos.logback.classic.filter.LevelFilter">
@@ -47,7 +47,7 @@
 
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 			<!-- daily rollover -->
-			<fileNamePattern>error.%d{yyyy-MM-dd}.log.zip</fileNamePattern>
+			<fileNamePattern>${log.dir:-logs}/error.%d{yyyy-MM-dd}.log.zip</fileNamePattern>
 
 			<!-- keep 30 days' worth of history -->
 			<maxHistory>10</maxHistory>
@@ -57,10 +57,10 @@
 	<!-- 按日期和大小区分的滚动日志 -->
 	<appender name="DEBUG-OUT"
 		class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<file>logs/all.log</file>
+		<file>${log.dir:-logs}/all.log</file>
 
 		<encoder>
-			<pattern>%d{yyyy-MM-dd HH:mm:ss,SSS} [%-5level] [%logger{0}] [%thread] [%class:%line] - %m%n</pattern>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss,SSS} [%-5level] [%thread] [%class:%line] - %m%n</pattern>
 		</encoder>
 
 		<!-- <filter class="ch.qos.logback.classic.filter.LevelFilter">
@@ -71,7 +71,7 @@
 
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 			<!-- rollover daily -->
-			<fileNamePattern>all-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+			<fileNamePattern>${log.dir:-logs}/all-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
 
 			<timeBasedFileNamingAndTriggeringPolicy
 				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
@@ -84,19 +84,19 @@
 	</appender>
 
     <logger name="com.woyao">
-        <level value="${log.level}"/>
+        <level value="${log.level:-DEBUG}"/>
     </logger>
     <logger name="com.snowm">
-        <level value="${log.level}"/>
+        <level value="${log.level:-DEBUG}"/>
     </logger>
     <logger name="org.mortbay">
         <level value="ERROR"/>
     </logger>
     <logger name="httpclient.wire">
-        <level value="INFO"/>
+        <level value="WARN"/>
     </logger>
     <logger name="java">
-        <level value="INFO"/>
+        <level value="WARN"/>
     </logger>
     <logger name="org.springframework">
         <level value="WARN"/>
@@ -104,31 +104,24 @@
     <logger name="org.hibernate">
         <level value="WARN"/>
     </logger>
-    <logger name="org.hibernate.impl.SessionFactoryImpl">
-        <level value="ERROR"/>
-    </logger>
-    <logger name="org.hibernate.engine.loading.LoadContexts">
-        <level value="ERROR"/>
-    </logger>
 
     <!-- General Catch All -->
     <logger name="edu">
-        <level value="INFO"/>
-    </logger>
-    <logger name="org">
-        <level value="INFO"/>
+        <level value="WARN"/>
     </logger>
     <logger name="net">
-        <level value="INFO"/>
+        <level value="WARN"/>
     </logger>
-    
     <logger name="io.netty">
         <level value="WARN"/>
     </logger>
     
     <!-- security -->
+    <logger name="org.glassfish.jersey.logging.LoggingInterceptor">
+        <level value="${log.level:-DEBUG}"/>
+    </logger>
     <logger name="com.woyao.security.Oauth2SecurityFilter">
-    	<level value="WARN"/>
+    	<level value="${log.level:-DEBUG}"/>
     </logger>
 
     <!-- ======================= -->
@@ -136,7 +129,7 @@
     <!-- ======================= -->
 
     <root>
-        <level value="${log.level}"/>
+        <level value="${log.level:-DEBUG}"/>
         
 		<appender-ref ref="STDOUT" />
 		<appender-ref ref="ERROR-OUT" />

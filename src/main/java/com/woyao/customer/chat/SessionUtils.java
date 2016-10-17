@@ -16,6 +16,10 @@ public abstract class SessionUtils {
 		return (String) wsSession.getAttributes().get(SessionContainer.SESSION_ATTR_HTTPSESSION_ID);
 	}
 
+	public static HttpSession getHttpSession(WebSocketSession wsSession) {
+		return (HttpSession) wsSession.getAttributes().get(SessionContainer.SESSION_ATTR_HTTPSESSION);
+	}
+
 	public static ProfileDTO getChatter(WebSocketSession wsSession) {
 		return (ProfileDTO) wsSession.getAttributes().get(SessionContainer.SESSION_ATTR_CHATTER);
 	}

@@ -103,15 +103,16 @@ public class WxJerseyService {
 			BeanUtils.copyProperties(req, resultInfo);
 			resultInfo.setTimeEnd(WxUtils.parseDate(req.getTimeEnd()));
 			resultInfo.setDesc(req.getReturnMsg());
-			long orderId = Long.parseLong(req.getOutTradeNo());
+			String orderNo = req.getOutTradeNo();
+			OrderDTO orderDTO = this.orderService.getByOrderNo(orderNo);
+			long orderId = orderDTO.getId();
 			this.orderService.savePayResultInfo(resultInfo, orderId);
 
 			if (RESULT_CODE_SUCCESS.equals(req.getResultCode()) && !StringUtils.isBlank(req.getTransactionId())) {
-				logger.debug("支付成功！");
+				logger.debug("订单:{}支付成功！", orderId);
 				this.orderService.updateOrderStatus(orderId, OrderStatus.SUCCESS);
 				OutMsgDTO outbound = new OutMsgDTO();
-				OrderDTO order = this.orderService.get(orderId);
-				Long msgId = order.getMsgId();
+				Long msgId = orderDTO.getMsgId();
 
 				if (msgId != null) {
 					logger.debug("发送霸屏消息！");
@@ -120,7 +121,7 @@ public class WxJerseyService {
 					outbound.setCommand(OutboundCommand.ACCEPT_MSG);
 					outbound.setText(msg.getText());
 					outbound.setPic(msg.getPicURL());
-					outbound.setSender(this.chatService.getChatter(order.getConsumer().getId()));
+					outbound.setSender(this.chatService.getChatter(orderDTO.getConsumer().getId()));
 					outbound.setSentDate(new Date());
 					outbound.setCreationDate(msg.getModification().getCreationDate());
 					MsgProductDTO msgProduct = productService.getMsgProduct(msg.getProductId());

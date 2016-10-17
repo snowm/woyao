@@ -17,6 +17,8 @@ public interface IOrderService {
 
 	OrderDTO getFull(long id);
 	
+	OrderDTO getByOrderNo(String orderNo);
+	
 	void updateOrderStatus(long id, OrderStatus orderStatus);
 
 	List<Long> queryUnSubmittedOrders(int maxSize);

@@ -100,7 +100,7 @@ public class DefaultOrderProcessor {
 		if (!"SUCCESS".equals(resp.getResultCode())) {
 			return false;
 		}
-		return StringUtils.isBlank(resp.getPrepayId());
+		return !StringUtils.isBlank(resp.getPrepayId());
 	}
 
 	private PrepayInfoDTO generatePrepayInfo(UnifiedOrderResponse response) {
@@ -119,9 +119,9 @@ public class DefaultOrderProcessor {
 			parameters.add(WxUtils.generateNVPair("timeStamp", timeStamp));
 			parameters.add(WxUtils.generateNVPair("nonceStr", nonceStr));
 			parameters.add(WxUtils.generateNVPair("package", packageStr));
-			// parameters.add(WxUtils.generateNVPair("signType",
-			// rs.getSignType()));
+			parameters.add(WxUtils.generateNVPair("signType", rs.getSignType()));
 		} catch (Exception ex) {
+			logger.error("计算签名出错！", ex);
 			return null;
 		}
 		String paySign = WxUtils.generatePaySign(parameters, globalConfig.getPayApiKey());

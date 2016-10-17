@@ -80,7 +80,7 @@ public class ProductServiceImpl implements IProductService {
 	private MsgProductDTO transferToDTO(PaidMsgProductConfig msgProductConfig) {
 		MsgProductDTO dto = new MsgProductDTO();
 		BeanUtils.copyProperties(msgProductConfig.getProduct(), dto);
-		dto.setUnitPrice(msgProductConfig.getProduct().getUnitPrice() / 100);
+		dto.setUnitPrice((float)msgProductConfig.getProduct().getUnitPrice() / 100);
 		dto.setHoldTime(msgProductConfig.getHoldTime());
 		return dto;
 	}

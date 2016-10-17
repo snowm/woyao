@@ -45,6 +45,9 @@
 	 	timeToIdleSeconds="86400"
 		timeToLiveSeconds="86400">
 	</cache>
+	<cache name="permission" maxElementsInMemory="20" eternal="true" overflowToDisk="false">
+	</cache>
+	
 	
 	<!-- system wx -->
 	<cache name="globalAccessToken" maxElementsInMemory="10" eternal="true" overflowToDisk="false">

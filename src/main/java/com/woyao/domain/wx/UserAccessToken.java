@@ -45,7 +45,7 @@ public class UserAccessToken extends DefaultModelImpl {
 	@Column(name = "OPEN_ID", nullable = false, unique = true)
 	private String openId;
 
-	@Column(name = "SCOPE", nullable = false)
+	@Column(name = "SCOPE", nullable = true)
 	private String scope;
 
 	@Column(name = "EFFECTIVE")

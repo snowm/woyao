@@ -25,9 +25,9 @@ public class SubmitOrderListenTask extends AbstractListenerTask {
 	}
 
 	@Override
-	protected Callable<?> createTask(long localOrderId) {
-		logger.debug("received submit order message:{}", localOrderId);
-		ConsumeTask task = new ConsumeTask(consumer, localOrderId);
+	protected Callable<?> createTask(long orderId) {
+		logger.debug("received submit order message:{}", orderId);
+		ConsumeTask task = new ConsumeTask(consumer, orderId);
 		return task;
 	}
 

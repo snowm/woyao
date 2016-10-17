@@ -1,5 +1,7 @@
 package com.woyao.jersey;
 
+import java.util.logging.Logger;
+
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 
@@ -28,9 +30,9 @@ public class JerseyNettyClientFactory implements FactoryBean<Client>, Initializi
 		ConnectorProvider connectorProvider = new SnowmNettyConnectorProvider();
 		clientConfig.connectorProvider(connectorProvider);
 
-//		Logger logger = new Log4jLogger("JerseyClientLogging", null);
-//		LoggingFeature loggingFeature = new LoggingFeature(logger);
-		ClientBuilder cb = ClientBuilder.newBuilder().withConfig(clientConfig).register(JacksonFeature.class).register(LoggingFeature.class);
+		Logger logger = new com.woyao.log.Slf4jLogger("JerseyClientLogging", null);
+		LoggingFeature loggingFeature = new LoggingFeature(logger);
+		ClientBuilder cb = ClientBuilder.newBuilder().withConfig(clientConfig).register(JacksonFeature.class).register(loggingFeature);
 		this.client = cb.build();
 	}
 

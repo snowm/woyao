@@ -116,6 +116,16 @@ public class OrderServiceImpl implements IOrderService {
 		return dto;
 	}
 
+	@Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true)
+	@Override
+	public OrderDTO getByOrderNo(String orderNo) {
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("orderNo", orderNo);
+		Order order = this.commonDao.queryUnique("from Order where orderNo = :orderNo", paramMap);
+		OrderDTO dto = DefaultTranslator.translateToDTO(order);
+		return dto;
+	}
+
 	@Transactional
 	@Override
 	public void updateOrderStatus(long id, OrderStatus status) {
