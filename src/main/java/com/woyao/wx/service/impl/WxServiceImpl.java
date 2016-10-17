@@ -47,7 +47,7 @@ public class WxServiceImpl implements IWxService {
 			tokenDomain.setAccessToken(accessToken);
 			tokenDomain.setExpiresIn(tokenResponse.getExpiresIn());
 			tokenDomain.setRefreshToken(tokenResponse.getRefreshToken());
-			tokenDomain.setOpenid(tokenResponse.getOpenId());
+			tokenDomain.setOpenId(tokenResponse.getOpenId());
 			userAccessTokenService.saveOrUpdate(tokenDomain);
 		}
 		if (!StringUtils.isBlank(accessToken)) {
