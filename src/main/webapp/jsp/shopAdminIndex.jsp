@@ -32,7 +32,7 @@
         </li>
         <li>
             <i class="fui-bubble"></i>
-            <a href="#!/">消息查询</a>
+            <a href="#!/chat">消息查询</a>
         </li>
         <li>
             <i class="fa fa-fire"></i>

@@ -276,8 +276,7 @@ define(['uploadfile'],function(){
                     type: "put",
                     url: '/admin/product/delete/' + id,
                     success: function(data){
-                        console.log(data);
-                        goodsController.goods=true;
+                        console.log(data);                      
                         Submit();                        
                     },
                     dataType: 'json'
@@ -443,6 +442,7 @@ define(['uploadfile'],function(){
    	      				console.log(1);
    	      			}else if(goodsController.goodsList.length == 0){  	      				
    	      				goodsController.nothing=true;
+   	      				goodsController.goods=false;
    	      				console.log(2);
    	      			}
                  },

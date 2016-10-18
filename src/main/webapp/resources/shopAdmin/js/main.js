@@ -61,6 +61,7 @@ require(['/shopAdmin/resources/js/common.js','mmRouter',"domReady!"],function(mm
     }
  
     avalon.router.get("/order", callback);
+    avalon.router.get("/chat", callback);
     avalon.router.get("/demo", callback);
 
     avalon.history.start({

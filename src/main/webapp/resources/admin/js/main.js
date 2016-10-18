@@ -20,7 +20,7 @@ require.config({
         'modernizr': ['./js/plugin/modernizr.min'],
         'uploadfile': ['./js/plugin/uploadfile'],
         'datapicker':['./js/plugin/datapicker'],
-        'datapicker.cn':['./js/plugin/datapicker.cn'],
+        'datapicker.cn':['./js/plugin/datapicker.cn'],      
     },shim: {
         "jquery":{
             "expotrs":'$'
@@ -33,7 +33,8 @@ require.config({
         "bootstrap":["jquery"],
         "uploadfile":["jquery"],
         "datapicker":["jquery"],
-        "datapicker.cn":["jquery"] 
+        "datapicker.cn":["jquery"],  
+        
     },
     priority: ['text']
 });
