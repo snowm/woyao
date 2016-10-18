@@ -5,7 +5,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 
 import com.woyao.customer.dto.chat.BlockDTO;
 
-public class InMsgBlockDTO extends Inbound {
+public class InMsgBlockDTO extends ChatMsgDTO {
 
 	private BlockDTO block;
 

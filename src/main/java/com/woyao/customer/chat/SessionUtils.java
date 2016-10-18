@@ -8,7 +8,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.web.socket.WebSocketSession;
 
 import com.woyao.customer.dto.ProfileDTO;
-import com.woyao.customer.dto.chat.in.InMsg;
+import com.woyao.customer.dto.chat.in.EntireInMsg;
 
 public abstract class SessionUtils {
 
@@ -45,8 +45,8 @@ public abstract class SessionUtils {
 	}
 
 	@SuppressWarnings("unchecked")
-	public static Map<Long, InMsg> getMsgCache(WebSocketSession wsSession) {
-		return (Map<Long, InMsg>) wsSession.getAttributes().get(SessionContainer.SESSION_ATTR_MSG_CACHE);
+	public static Map<Long, EntireInMsg> getMsgCache(WebSocketSession wsSession) {
+		return (Map<Long, EntireInMsg>) wsSession.getAttributes().get(SessionContainer.SESSION_ATTR_MSG_CACHE);
 	}
 
 	public static ProfileDTO getChatter(HttpSession session) {

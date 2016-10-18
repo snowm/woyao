@@ -14,6 +14,8 @@ public abstract class Inbound {
 
 	private static Log log = LogFactory.getLog(Inbound.class);
 
+	private Long from;
+	
 	private Long msgId;
 
 	private String remoteAddress;
@@ -46,6 +48,14 @@ public abstract class Inbound {
 			log.warn("Parse in message error:" + payload, e);
 			return null;
 		}
+	}
+	
+	public Long getFrom() {
+		return from;
+	}
+
+	public void setFrom(Long from) {
+		this.from = from;
 	}
 
 	public Long getMsgId() {

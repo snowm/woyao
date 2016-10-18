@@ -28,6 +28,7 @@ import com.snowm.utils.query.PaginationBean;
 import com.woyao.customer.chat.MessageCacheOperator;
 import com.woyao.customer.chat.SessionContainer;
 import com.woyao.customer.chat.SessionUtils;
+import com.woyao.customer.disruptor.LongEventProducer;
 import com.woyao.customer.dto.ChatPicDTO;
 import com.woyao.customer.dto.ChatRoomStatistics;
 import com.woyao.customer.dto.MsgProductDTO;
@@ -35,14 +36,13 @@ import com.woyao.customer.dto.OrderDTO;
 import com.woyao.customer.dto.ProfileDTO;
 import com.woyao.customer.dto.chat.BlockDTO;
 import com.woyao.customer.dto.chat.MsgQueryRequest;
-import com.woyao.customer.dto.chat.in.InMsg;
+import com.woyao.customer.dto.chat.in.EntireInMsg;
 import com.woyao.customer.dto.chat.out.ChatRoomInfoDTO;
 import com.woyao.customer.dto.chat.out.ErrorOutbound;
 import com.woyao.customer.dto.chat.out.OutMsgDTO;
 import com.woyao.customer.dto.chat.out.Outbound;
 import com.woyao.customer.dto.chat.out.OutboundCommand;
 import com.woyao.customer.dto.chat.out.SelfChatterInfoDTO;
-import com.woyao.customer.queue.IOrderProcessQueue;
 import com.woyao.customer.service.IChatService;
 import com.woyao.customer.service.IMobileService;
 import com.woyao.customer.service.IOrderService;
@@ -80,8 +80,11 @@ public class ChatServiceImpl implements IChatService {
 	@Resource(name = "orderService")
 	private IOrderService orderService;
 
-	@Resource(name = "submitOrderQueueService")
-	private IOrderProcessQueue submitOrderQueueService;
+	@Resource(name = "submitOrderProducer")
+	private LongEventProducer submitOrderProducer;
+	
+//	@Resource(name = "submitOrderQueueService")
+//	private IOrderProcessQueue submitOrderQueueService;
 
 	@Transactional(readOnly = true)
 	@Override
@@ -120,7 +123,7 @@ public class ChatServiceImpl implements IChatService {
 	}
 
 	@Override
-	public void acceptMsg(WebSocketSession wsSession, InMsg inMsg) {
+	public void acceptMsg(WebSocketSession wsSession, EntireInMsg inMsg) {
 		ProfileDTO sender = SessionUtils.getChatter(wsSession);
 		// Received the whole message
 		StringBuilder sb = new StringBuilder();
@@ -128,7 +131,7 @@ public class ChatServiceImpl implements IChatService {
 			sb.append(block.getBlock());
 		}
 		try {
-			InMsg tmpMsg = JsonUtils.toObject(sb.toString(), InMsg.class);
+			EntireInMsg tmpMsg = JsonUtils.toObject(sb.toString(), EntireInMsg.class);
 			inMsg.setText(tmpMsg.getText());
 
 			String base64PicString = tmpMsg.getPic();
@@ -139,16 +142,17 @@ public class ChatServiceImpl implements IChatService {
 
 			Long chatRoomId = SessionUtils.getChatRoomId(wsSession);
 
-			long msgId = this.saveMsg(inMsg, sender.getId(), chatRoomId);
+			ChatMsg savedMsg = this.saveMsg(inMsg, sender.getId(), chatRoomId);
+			long msgId = savedMsg.getId();
 			Long msgProductId = inMsg.getProductId();
 			Long orderId = null;
 			if (msgProductId != null) {
 				MsgProductDTO msgProductDTO = this.productService.getMsgProduct(msgProductId);
 				if (msgProductDTO != null) {
-					OrderDTO savedOrder = orderService.placeOrder(sender.getId(), msgProductId, 1, inMsg.getRemoteAddress(), msgId);
+					OrderDTO savedOrder = orderService.placeOrder(savedMsg);
 					orderId = savedOrder.getId();
-					this.updateMsg(msgId, orderId);
-					this.submitOrderQueueService.putToQueue(orderId);
+					this.submitOrderProducer.produce(orderId);
+//					this.submitOrderQueueService.putToQueue(orderId);
 					return;
 				}
 			}
@@ -164,7 +168,7 @@ public class ChatServiceImpl implements IChatService {
 		}
 	}
 
-	private OutMsgDTO generateOutMsg(InMsg inMsg, ProfileDTO sender, long id) {
+	private OutMsgDTO generateOutMsg(EntireInMsg inMsg, ProfileDTO sender, long id) {
 		OutMsgDTO outMsg = new OutMsgDTO();
 		outMsg.setId(id);
 		outMsg.setClientMsgId(inMsg.getMsgId());
@@ -178,24 +182,20 @@ public class ChatServiceImpl implements IChatService {
 		return outMsg;
 	}
 
-	private long saveMsg(InMsg msg, Long senderId, Long chatRoomId) {
+	private ChatMsg saveMsg(EntireInMsg msg, Long senderId, Long chatRoomId) {
 		ChatMsg m = new ChatMsg();
 		m.setChatRoomId(chatRoomId);
 		m.setTo(msg.getTo());
 		m.setText(msg.getText());
 		m.setPicURL(msg.getPic());
 		m.setFree(true);
+		m.setPayed(false);
+		m.setRemoteAddr(msg.getRemoteAddress());
 		m.setFrom(senderId);
 		m.setProductId(msg.getProductId());
 		m.setClientMsgId(msg.getMsgId());
 		this.dao.save(m);
-		return m.getId();
-	}
-
-	private void updateMsg(long msgId, long orderId) {
-		ChatMsg m = this.dao.get(ChatMsg.class, msgId);
-		m.setOrderId(orderId);
-		this.dao.update(m);
+		return m;
 	}
 
 	@Override
@@ -288,7 +288,7 @@ public class ChatServiceImpl implements IChatService {
 
 	@Override
 	public List<OutMsgDTO> listHistoryMsg(MsgQueryRequest request) {
-		// 如果max和min都为空，那么默认就设置最大的为-1，那么后面的取值就是order的降序
+		// 如果max和min都为空，那么默认就设置最大的为-1，那么后面的取值就是id的降序
 		if (request.getMaxId() == null && request.getMinId() == null) {
 			request.setMaxId(-1L);
 		}
@@ -317,6 +317,9 @@ public class ChatServiceImpl implements IChatService {
 		} else {
 			criterions.add(Restrictions.eq("chatRoomId", request.getChatRoomId()));
 		}
+		Criterion criterionFree =  Restrictions.eqOrIsNull("free", false);
+		Criterion criterionPayed =  Restrictions.and(Restrictions.eqOrIsNull("free", true), Restrictions.eqOrIsNull("payed", true));
+		criterions.add(Restrictions.or(criterionFree, criterionPayed));
 		List<ChatMsg> result = this.dao.query(ChatMsg.class, criterions, orders, 1L, request.getPageSize());
 		List<OutMsgDTO> dtos = new ArrayList<>();
 		for (ChatMsg e : result) {

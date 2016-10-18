@@ -11,16 +11,16 @@ import com.woyao.customer.queue.SubmitOrderListenTask;
 @Component("initComponents")
 public class InitComponents implements InitializingBean, DisposableBean {
 
-	@Resource(name = "submitOrderListenTask")
-	private SubmitOrderListenTask submitOrderListenTask;
+//	@Resource(name = "submitOrderListenTask")
+//	private SubmitOrderListenTask submitOrderListenTask;
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		this.submitOrderListenTask.start();
+//		this.submitOrderListenTask.start();
 	}
 
 	@Override
 	public void destroy() throws Exception {
-		this.submitOrderListenTask.destroy();
+//		this.submitOrderListenTask.destroy();
 	}
 }

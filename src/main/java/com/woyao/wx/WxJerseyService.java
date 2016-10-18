@@ -117,6 +117,8 @@ public class WxJerseyService {
 				if (msgId != null) {
 					logger.debug("发送霸屏消息！");
 					ChatMsg msg = this.commonDao.get(ChatMsg.class, msgId);
+					msg.setPayed(true);
+					this.commonDao.update(msg);
 					outbound.setClientMsgId(msg.getClientMsgId());
 					outbound.setCommand(OutboundCommand.ACCEPT_MSG);
 					outbound.setText(msg.getText());

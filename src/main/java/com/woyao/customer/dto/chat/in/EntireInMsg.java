@@ -8,9 +8,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 
 import com.woyao.customer.dto.chat.BlockDTO;
 
-public class InMsg extends Inbound {
-
-	private Long to;
+public class EntireInMsg extends ChatMsgDTO {
 
 	private Long productId;
 
@@ -21,14 +19,6 @@ public class InMsg extends Inbound {
 	private String text;
 
 	private String pic;
-
-	public Long getTo() {
-		return to;
-	}
-
-	public void setTo(Long to) {
-		this.to = to;
-	}
 
 	public String getText() {
 		return text;

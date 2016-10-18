@@ -10,7 +10,7 @@ import org.springframework.web.socket.WebSocketSession;
 
 import com.woyao.customer.chat.MessageCacheOperator;
 import com.woyao.customer.chat.SessionUtils;
-import com.woyao.customer.dto.chat.in.InMsg;
+import com.woyao.customer.dto.chat.in.EntireInMsg;
 import com.woyao.customer.dto.chat.in.InMsgBlockDTO;
 import com.woyao.customer.service.IChatService;
 
@@ -26,8 +26,8 @@ public class InChatMsgBlockHandler implements MsgHandler<InMsgBlockDTO> {
 	@Override
 	public void handle(WebSocketSession wsSession, InMsgBlockDTO inbound) {
 		Lock lock = SessionUtils.getMsgCacheLock(wsSession);
-		Map<Long, InMsg> cache = SessionUtils.getMsgCache(wsSession);
-		InMsg inMsg = this.messageCacheOperator.receiveMsg(lock, cache, inbound);
+		Map<Long, EntireInMsg> cache = SessionUtils.getMsgCache(wsSession);
+		EntireInMsg inMsg = this.messageCacheOperator.receiveMsg(lock, cache, inbound);
 		if (inMsg == null) {
 			return;
 		}

@@ -2,6 +2,7 @@ package com.woyao.customer.chat;
 
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.locks.Lock;
 
@@ -9,7 +10,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
 import com.woyao.customer.dto.chat.BlockDTO;
-import com.woyao.customer.dto.chat.in.InMsg;
+import com.woyao.customer.dto.chat.in.EntireInMsg;
 import com.woyao.customer.dto.chat.in.InMsgBlockDTO;
 import com.woyao.customer.dto.chat.in.InMsgDTO;
 import com.woyao.customer.dto.chat.in.Inbound;
@@ -19,7 +20,7 @@ public class MessageCacheOperator {
 
 	private BlockComparator blockComparator = new BlockComparator();
 
-	public InMsg receiveMsg(Lock lock, Map<Long, InMsg> cache, Inbound inbound) {
+	public EntireInMsg receiveMsg(Lock lock, Map<Long, EntireInMsg> cache, Inbound inbound) {
 		if (inbound instanceof InMsgDTO) {
 			return this.processMessage(lock, cache, InMsgDTO.class.cast(inbound));
 		} else if (inbound instanceof InMsgBlockDTO) {
@@ -28,60 +29,66 @@ public class MessageCacheOperator {
 		return null;
 	}
 
-	private InMsg processMessage(Lock lock, Map<Long, InMsg> cache, InMsgDTO msg) {
+	private EntireInMsg processMessage(Lock lock, Map<Long, EntireInMsg> cache, InMsgDTO msg) {
 		try {
 			Long msgId = msg.getMsgId();
+			EntireInMsg rs = cache.computeIfAbsent(msgId, key->new EntireInMsg());
 			lock.lock();
-			InMsg rs = cache.getOrDefault(msgId, new InMsg());
 
+			if (rs.getMsgId() != null) {
+				rs = new EntireInMsg();
+				cache.put(msgId, rs);
+			}
 			BeanUtils.copyProperties(msg, rs);
-			rs.getBlocks().add(msg.getBlock());
+
+			this.addBlock(rs.getBlocks(), msg.getBlock());
 
 			if (this.checkMsgIntegrity(rs)) {
 				cache.remove(msgId);
 				return this.assembleMsg(rs);
 			}
 
-			cache.put(msgId, rs);
 			return null;
 		} finally {
 			lock.unlock();
 		}
 	}
 
-	private InMsg processMessage(Lock lock, Map<Long, InMsg> cache, InMsgBlockDTO block) {
+	private EntireInMsg processMessage(Lock lock, Map<Long, EntireInMsg> cache, InMsgBlockDTO block) {
 		try {
 			Long msgId = block.getMsgId();
+			EntireInMsg rs = cache.computeIfAbsent(msgId, key->new EntireInMsg());
 			lock.lock();
-			InMsg rs = cache.getOrDefault(msgId, new InMsg());
 
-			rs.setMsgId(msgId);
-			rs.getBlocks().add(block.getBlock());
+			this.addBlock(rs.getBlocks(), block.getBlock());
 
 			if (this.checkMsgIntegrity(rs)) {
 				cache.remove(msgId);
 				return this.assembleMsg(rs);
 			}
 
-			cache.put(msgId, rs);
 			return null;
 		} finally {
 			lock.unlock();
 		}
 	}
 
+	private void addBlock(List<BlockDTO> blocks, BlockDTO block){
+		blocks.add(block);
+	}
+	
 	/**
 	 * 检查消息完整性
 	 * @param msg
 	 * @return
 	 */
-	private boolean checkMsgIntegrity(InMsg msg) {
+	private boolean checkMsgIntegrity(EntireInMsg msg) {
 		int size = msg.getBlockSize();
 		int actualSize = msg.getBlocks().size();
 		return size == actualSize;
 	}
 
-	private InMsg assembleMsg(InMsg msg) {
+	private EntireInMsg assembleMsg(EntireInMsg msg) {
 		Collections.sort(msg.getBlocks(), blockComparator);
 		return msg;
 	}

@@ -1,4 +1,4 @@
-package com.woyao.customer.queue;
+package com.woyao.customer.disruptor;
 
 import javax.annotation.Resource;
 
@@ -10,8 +10,8 @@ import com.woyao.customer.DefaultOrderProcessor;
 import com.woyao.customer.dto.OrderDTO;
 import com.woyao.customer.service.IOrderService;
 
-//@Component("submitOrderMessageConsumer")
-public class SubmitOrderMessageConsumer {
+@Component("submitOrderMessageHandler")
+public class SubmitOrderMessageHandler extends AbstractEventHandler<LongEvent> {
 
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -21,14 +21,14 @@ public class SubmitOrderMessageConsumer {
 	@Resource(name = "defaultOrderProcessor")
 	private DefaultOrderProcessor orderProcessor;
 
-	public boolean consume(long orderId) {
+	public void doTask(LongEvent event, long sequence, boolean endOfBatch) {
+		long orderId = event.getValue();
 		try {
 			OrderDTO dto = this.orderService.getFull(orderId);
 			orderProcessor.process(dto);
-			return true;
 		} catch (Exception e) {
 			logger.error("consume order :" + orderId + " exception occurred!", e);
 		}
-		return false;
 	}
+
 }

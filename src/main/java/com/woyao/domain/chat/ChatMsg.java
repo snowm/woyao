@@ -49,6 +49,9 @@ public class ChatMsg extends DefaultModelImpl {
 	@Column(name = "FREE")
 	private boolean free = true;
 
+	@Column(name = "PAYED")
+	private boolean payed = false;
+
 	/**
 	 * 哪种付费消息
 	 */
@@ -57,6 +60,9 @@ public class ChatMsg extends DefaultModelImpl {
 
 	@Column(name = "CLIENT_MSG_ID")
 	private Long clientMsgId;
+
+	@Column(name = "REMOTE_ADDR", length = 30)
+	private String remoteAddr;
 
 	@Override
 	public Long getId() {
@@ -124,6 +130,14 @@ public class ChatMsg extends DefaultModelImpl {
 		this.free = free;
 	}
 
+	public boolean isPayed() {
+		return payed;
+	}
+
+	public void setPayed(boolean payed) {
+		this.payed = payed;
+	}
+
 	public Long getProductId() {
 		return productId;
 	}
@@ -148,4 +162,12 @@ public class ChatMsg extends DefaultModelImpl {
 		this.clientMsgId = clientMsgId;
 	}
 
+	public String getRemoteAddr() {
+		return remoteAddr;
+	}
+
+	public void setRemoteAddr(String remoteAddr) {
+		this.remoteAddr = remoteAddr;
+	}
+	
 }

@@ -12,7 +12,7 @@ import com.snowm.utils.query.PaginationBean;
 import com.woyao.customer.dto.ChatPicDTO;
 import com.woyao.customer.dto.ProfileDTO;
 import com.woyao.customer.dto.chat.MsgQueryRequest;
-import com.woyao.customer.dto.chat.in.InMsg;
+import com.woyao.customer.dto.chat.in.EntireInMsg;
 import com.woyao.customer.dto.chat.out.OutMsgDTO;
 import com.woyao.customer.dto.chat.out.Outbound;
 
@@ -35,7 +35,7 @@ public interface IChatService {
 	 */
 	void leave(WebSocketSession wsSession);
 
-	void acceptMsg(WebSocketSession wsSession, InMsg inMsg);
+	void acceptMsg(WebSocketSession wsSession, EntireInMsg inMsg);
 
 	void sendRoomMsg(Outbound outbound, Long chatRoomId, WebSocketSession wsSession);
 

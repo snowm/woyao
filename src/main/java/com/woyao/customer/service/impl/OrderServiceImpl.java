@@ -26,6 +26,7 @@ import com.woyao.customer.dto.OrderItemDTO;
 import com.woyao.customer.service.IOrderService;
 import com.woyao.customer.translator.DefaultTranslator;
 import com.woyao.dao.CommonDao;
+import com.woyao.domain.chat.ChatMsg;
 import com.woyao.domain.product.Product;
 import com.woyao.domain.profile.ProfileWX;
 import com.woyao.domain.purchase.Order;
@@ -57,7 +58,6 @@ public class OrderServiceImpl implements IOrderService {
 	public OrderDTO placeOrder(long consumerId, long productId, int quantity, String spbillCreateIp, Long msgId) {
 		ProfileWX consumer = this.commonDao.get(ProfileWX.class, consumerId);
 		Product product = this.commonDao.get(Product.class, productId);
-
 		int totalFee = product.getUnitPrice() * quantity;
 		OrderItem oi = new OrderItem();
 		oi.setProduct(product);
@@ -81,6 +81,14 @@ public class OrderServiceImpl implements IOrderService {
 		oi.setOrder(order);
 		this.commonDao.save(oi);
 
+		if (msgId != null) {
+			ChatMsg m = this.commonDao.get(ChatMsg.class, msgId);
+			m.setOrderId(order.getId());
+			m.setFree(false);
+			m.setPayed(false);
+			this.commonDao.update(m);
+		}
+
 		OrderDTO orderDTO = DefaultTranslator.translateToDTO(order);
 		OrderItemDTO oiDTO = DefaultTranslator.translateToDTO(oi);
 		List<OrderItemDTO> ois = new ArrayList<>();
@@ -90,6 +98,11 @@ public class OrderServiceImpl implements IOrderService {
 		return orderDTO;
 	}
 
+	@Override
+	public OrderDTO placeOrder(ChatMsg chatMsg) {
+		return this.placeOrder(chatMsg.getFrom(), chatMsg.getProductId(), 1, chatMsg.getRemoteAddr(), chatMsg.getId());
+	}
+	
 	@Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true)
 	@Override
 	public OrderDTO get(long id) {

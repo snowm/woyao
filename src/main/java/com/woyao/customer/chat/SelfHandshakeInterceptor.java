@@ -16,7 +16,7 @@ import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor;
 
 import com.woyao.customer.dto.ProfileDTO;
-import com.woyao.customer.dto.chat.in.InMsg;
+import com.woyao.customer.dto.chat.in.EntireInMsg;
 
 public class SelfHandshakeInterceptor extends HttpSessionHandshakeInterceptor {
 
@@ -45,7 +45,7 @@ public class SelfHandshakeInterceptor extends HttpSessionHandshakeInterceptor {
 		attributes.put(SessionContainer.SESSION_ATTR_CHATROOM_ID, chatRoomId);
 		attributes.put(SessionContainer.SESSION_ATTR_REMOTE_IP, remoteAddress);
 		attributes.put(SessionContainer.SESSION_ATTR_MSG_CACHE_LOCK, new ReentrantLock());
-		attributes.put(SessionContainer.SESSION_ATTR_MSG_CACHE, new HashMap<Long, InMsg>());
+		attributes.put(SessionContainer.SESSION_ATTR_MSG_CACHE, new HashMap<Long, EntireInMsg>());
 		
 
 		boolean rs = super.beforeHandshake(request, response, wsHandler, attributes);
