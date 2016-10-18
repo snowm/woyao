@@ -83,12 +83,13 @@ html,body{
     width: 100%;
     height: 150px;
     bottom: 0;
+    left: 0;
     border-top: 1px solid #e1e1e1;
     background: #ffffff;
-    -moz-transform: translate3d(0,100px,0);
-    -ms-transform: translate3d(0,100px,0);
-    -o-transform: translate3d(0,100px,0);
-    transform: translate3d(0,100px,0);
+    -moz-transform: translate(0,100px);
+    -ms-transform: translate(0,100px);
+    -o-transform: translate(0,100px);
+    transform: translate(0,100px);
     -webkit-transition: transform .36s;
     -moz-transition: transform .36s;
     -ms-transition: transform .36s;
@@ -97,18 +98,18 @@ html,body{
     z-index: 999;
 }
 .show-plugin{
-    -webkit-transform: translate3d(0,0,0);
-    -moz-transform: translate3d(0,0,0);
-    -ms-transform: translate3d(0,0,0);
-    -o-transform: translate3d(0,0,0);
-    transform: translate3d(0,0,0);
+    -webkit-transform: translate(0,0);
+    -moz-transform: translate(0,0);
+    -ms-transform: translate(0,0);
+    -o-transform: translate(0,0);
+    transform: translate(0,0);
 }
 .show-emoji{
-    -webkit-transform: translate3d(0,-50px,0);
-    -moz-transform: translate3d(0,-50px,0);
-    -ms-transform: translate3d(0,-50px,0);
-    -o-transform: translate3d(0,-50px,0);
-    transform: translate3d(0,-50px,0);
+    -webkit-transform: translate(0,-50px);
+    -moz-transform: translate(0,-50px);
+    -ms-transform: translate(0,-50px);
+    -o-transform: translate(0,-50px);
+    transform: translate(0,-50px);
 }
 .entry-contain{
     position: absolute;
@@ -335,6 +336,7 @@ html,body{
 }
 .msg-smgs{
     top: 0px;
+    color:#6e6e6e;
 }
 .msg-forhe{
     top: 5px;
@@ -813,7 +815,7 @@ html,body{
 .pop-sreen{
     position: fixed;
     width: 100%;
-    height:45%;
+    height:33%;
     background: rgba(0, 0, 0, 0.28);
     top:30px;
     z-index:9999;
@@ -841,7 +843,11 @@ html,body{
 }
 .pop-sreen-img{
     position: absolute;
-    top: -20%;
+    top: 0;
+    bottom:0;
+    left:0;
+    right:0;
+    margin:auto;
     width: 100%;
     z-index:8;
 }
@@ -849,7 +855,7 @@ html,body{
     position: absolute;
     width: 100%;
     height:100%;
-    background: rgba(16, 16, 16, 0.61);
+    background: rgba(16, 16, 16, 0.21);
     z-index:9;
 }
 .blur {
@@ -876,9 +882,9 @@ html,body{
 .pop-sreen-head{
     position: relative;
     display: block;
-    width: 100px;
-    height:100px;
-    margin: 30px auto 15px auto;
+    width: 60px;
+    height:60px;
+    margin: 15px auto 10px auto;
     border-radius: 3px;
 }
 .pop-sreen-name{
@@ -890,6 +896,7 @@ html,body{
     color: #c0c0c0;
     text-align: center;
     top:20px;
+    font-size:12px;
 }
 .sreen-timer{
     position: absolute;
@@ -918,9 +925,9 @@ html,body{
     line-height: 18px;
     display: inline;
     padding: 2px;
-    color: #FFA1BB;
+    color: #B1DDF7;
     border-radius: 2px;
-    border: 1px solid #FFA1BB;
+    border: 1px solid #B1DDF7;
 }
 .header-sexy{
     position: relative;
@@ -929,7 +936,7 @@ html,body{
     width: 7px;
 }
 .text-heightlight{
-    color: #FFA1BB;
+   /*  color: #FFA1BB; */
     /*text-shadow: 0 0 5px #FFA1BB;*/
 }
 

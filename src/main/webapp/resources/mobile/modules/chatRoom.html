@@ -1,11 +1,11 @@
 <div class="user-sexy-man" ms-controller="mainController">
 <div class="pop-sreen" ms-class-pop-sreen-show="sreenShow">
     <!--<div class="pop-sreen" ms-class-pop-sreen-show="1">-->
-    <img class="pop-sreen-img blur" --src="/resources/static/img/delate/photo1.jpg" ms-attr-src="sreenImg" alt="">
+    <img class="pop-sreen-img blur" ms-attr-src="sreenImg" alt="">
     <div class="pop-sreen-img-flt"></div>
     <div class="pop-sreen-bg">
         <div class="pop-sreen-block">
-            <img class="pop-sreen-head" src="/resources/static/img/head.jpg" ms-attr-src='sreenHead' alt="">
+            <img class="pop-sreen-head" ms-attr-src='sreenHead' alt="">
             <p class="pop-sreen-name"> <span ms-text='sreenName'></span>
 	           <img class="header-sexy" ms-if="sreenGender == 'FEMALE'"  src="/resources/static/img/weman.png" alt="">
 	           <img class="header-sexy" ms-if="sreenGender == 'MALE'" src="/resources/static/img/man.png" alt="">
@@ -16,7 +16,7 @@
             <p class="pop-sreen-name">隔壁老王 <span><img class="header-sexy" src="/resources/static/img/weman.png" alt=""></span></p>
         </div> -->
         <div class="pop-sreen-msg">
-            <span class="text-org">我要霸屏<span ms-text="sreenTime"></span>秒：</span><span ms-text="sreenMsg"></span>
+            <span class="text-org">我要霸屏<span ms-text="sreenTime"></span>秒</span> <span ms-visible="sreenMsg">{{sreenMsg}}</span>
         </div>
         <span class="sreen-timer">倒计时：<span ms-text="sreenShowSeconds"></span></span>
     </div>
@@ -193,18 +193,17 @@
                         <img class="msg-arr" src="/resources/static/img/arblue.png" ms-if="item.sender.gender == 'MALE'" alt="">
                         <img class="msg-arr" src="/resources/static/img/arred.png" ms-if="item.sender.gender == 'FEMALE'" alt="">
 
-                        <!--<div class="msg-smgs"><span class="text-org">为 sreen 霸屏30秒：</span><span ms-text="item.msg">xxx</span></div>-->
-                        <div class="msg-smgs"><span ms-html="item.text"></span></div>
+                        <div class="msg-smgs"><span class="text-org" ms-visible="item.duration">霸屏<span ms-text="item.duration"></span>秒：</span><span ms-html="item.text"></span></div>
                         <div class="msg-img" ms-if="item.pic" ms-on-tap="showPics(item.sender.nickname,item.pic)">
                             <img --src="/resources/static/img/delate/photo1.jpg" ms-attr-src="item.pic" alt="">
                         </div>
                         <!--<p class="msg-forhe" ms-on-tap="forHer()">给<span ms-if="item.sexy == 'man'">他</span><span ms-if="item.sexy == 'weman'">她</span>送礼物</p>-->
-                        <p class="msg-forhe" ms-on-tap="forHer()" ms-if="item.pic && item.sender.id != userInfo.self.id">送礼物</p>
+                        <p class="msg-forhe" ms-on-tap="forHer(item.sender.id)" ms-visible="judgeBl(item.pic,item.sender.id)">送礼物</p>
                         <img class="msg-icon-right" src="/resources/static/img/cgrt.png" ms-if="item.sender.gender == 'MALE'" alt="">
                         <img class="msg-icon-right" src="/resources/static/img/lips.png" ms-if="item.sender.gender == 'FEMALE'" alt="">
                     </div>
                 </div>
-                <p class="msg-time"><span ms-if="0"></span>{{ item.sentDate | date("HH:mm")}}</p>
+                <p class="msg-time">{{ item.sentDate | date("HH:mm")}}</p>
             </div>
         </div>
     </div>
@@ -224,7 +223,7 @@
                         <div class="emoji-btn" ms-on-tap="toggleEmoji">
                         </div>
                         <div class="send-btn-ctn">
-                            <div class="send-btn" id="iwant" ms-on-tap="showPopSend">我 要</div>
+                            <div class="send-btn" id="iwant" ms-on-tap="showPopSend">我  要</div>
                         </div>
                     </td>
                 </tr>
@@ -234,7 +233,7 @@
             <tr>
                 <td class="plug-btn">
                     <div class="plug-photo">
-                        <img class="delete-img" ms-on-tap='clearImg' src="/resources/static/img/delete.png" ms-if="imgViewSrc != '/resources/static/img/photo.png'">
+                        <img class="delete-img" ms-on-tap='clearImg' src="/resources/static/img/delete.png" ms-visible="imgViewSrc != '/resources/static/img/photo.png'">
                         <input type="file" value='' id='photoInput' ms-change="fileChange(this)" style="width: 60px;height: 60px;position: absolute;left: 0;top: 0;z-index: 9;opacity:0;">
                         <img class="plug-photo-view" src="/resources/static/img/photo.png" ms-attr-src="imgViewSrc" alt="" style="border-radius: 5px;">
                     </div>

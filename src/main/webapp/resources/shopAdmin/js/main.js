@@ -13,9 +13,12 @@ require.config({
         'jquery': ['./js/plugin/vendor/jquery.min'],
         'flatUI': ['./js/plugin/flat-ui.min'],
         'jquery.cookies': ['./js/plugin/jquery.cookies'],
+        'datapicker':['./js/plugin/datapicker'],
+        'datapicker.cn':['./js/plugin/datapicker.cn'],
+        'bootstrap': ['./js/plugin/bootstrap.min'],
 //        'jquery-ui': ['./js/plugin/jquery-ui-1.10.3.min'],
 //        'jquery-migrate': ['./js/plugin/jquery-migrate-1.2.1.min'],
-//        'bootstrap': ['./js/plugin/bootstrap.min'],
+        
 //        'application':['./js/plugin/application']
 //        'custom': ['./js/plugin/custom'],
 //        'toggles': ['./js/plugin/toggles.min'],
@@ -25,11 +28,13 @@ require.config({
             "expotrs":'$'
         },
         "jquery.cookies":["jquery"],
+        "datapicker":["jquery"],
+        "datapicker.cn":["jquery"],  
 //        "jquery-ui":["jquery"],
 //        "jquery-migrate":["jquery"],
 //        "custom":["jquery"],
 //        "toggles":["jquery"],
-//        "bootstrap":["jquery"],
+        "bootstrap":["jquery"],
         "flatUI":["jquery"],
 //        "application":["jquery"],
     },

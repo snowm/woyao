@@ -39,6 +39,10 @@ require(['mmRouter',"domReady!",'socket','wxsdk'],function(mmRouter,domReady,soc
         privacyMsglength:0,//私聊消息总数
         _publicMsg:[],//公共消息
         toWho:{},//当前私聊对象
+        hiddenLoading:function(){
+        	alert("close loading");
+        	rootController._loading = false;
+        }
     });
     
 
@@ -68,7 +72,7 @@ require(['mmRouter',"domReady!",'socket','wxsdk'],function(mmRouter,domReady,soc
         }
     //========================  配置微信js-sdk许可  ========================
     wx.config({
-        debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
         appId: wxadt.appId, // 必填，企业号的唯一标识，此处填写企业号corpid
         timestamp: wxadt.timestamp, // 必填，生成签名的时间戳
         nonceStr: wxadt.nonceStr, // 必填，生成签名的随机串
