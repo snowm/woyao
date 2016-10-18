@@ -39,6 +39,9 @@ require(['mmRouter',"domReady!",'socket','wxsdk'],function(mmRouter,domReady,soc
         privacyMsglength:0,//私聊消息总数
         _publicMsg:[],//公共消息
         toWho:{},//当前私聊对象
+        hiddenLoading:function(){
+        	rootController._loading = false;
+        }
     });
     
 

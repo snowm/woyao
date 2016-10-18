@@ -919,9 +919,9 @@ html,body{
     line-height: 18px;
     display: inline;
     padding: 2px;
-    color: #FFA1BB;
+    color: #B1DDF7;
     border-radius: 2px;
-    border: 1px solid #FFA1BB;
+    border: 1px solid #B1DDF7;
 }
 .header-sexy{
     position: relative;
@@ -930,7 +930,7 @@ html,body{
     width: 7px;
 }
 .text-heightlight{
-    color: #FFA1BB;
+   /*  color: #FFA1BB; */
     /*text-shadow: 0 0 5px #FFA1BB;*/
 }
 

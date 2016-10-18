@@ -677,7 +677,7 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"wxsdk","dom
     return chatRoom = {
         init:function(){
             init();
-        }
+        },
     }
 
 

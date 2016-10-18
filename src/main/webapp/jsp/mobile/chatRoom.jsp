@@ -26,7 +26,7 @@
    		<p style="line-height:30px">请确保网络</p>
    		<p style="line-height:30px">重新进入聊天室</p>
    	</div>
-   	<div class="loading" ms-if='_loading' style="position:absolute;width:100%;height:100%;background:rgba(255, 255, 255, 1);left:0;top:0;color:red;z-index:9999999999">
+   	<div class="loading" ms-visible='_loading' ms-on-tap="hiddenLoading" style="position:absolute;width:100%;height:100%;background:rgba(255, 255, 255, 1);left:0;top:0;color:red;z-index:9999999999">
    		<img src="/resources/static/img/heart.gif" style="position:absolute;margin:auto;width:80px;right:0;top:0;left:0;bottom:0">
    	</div>
     <div ms-include-src="content"></div>

@@ -198,7 +198,7 @@
                             <img --src="/resources/static/img/delate/photo1.jpg" ms-attr-src="item.pic" alt="">
                         </div>
                         <!--<p class="msg-forhe" ms-on-tap="forHer()">给<span ms-if="item.sexy == 'man'">他</span><span ms-if="item.sexy == 'weman'">她</span>送礼物</p>-->
-                        <p class="msg-forhe" ms-on-tap="forHer()" ms-visible="judgeBl(item.pic,item.sender.id)">送礼物</p>
+                        <p class="msg-forhe" ms-on-tap="forHer(item.sender.id)" ms-visible="judgeBl(item.pic,item.sender.id)">送礼物</p>
                         <img class="msg-icon-right" src="/resources/static/img/cgrt.png" ms-if="item.sender.gender == 'MALE'" alt="">
                         <img class="msg-icon-right" src="/resources/static/img/lips.png" ms-if="item.sender.gender == 'FEMALE'" alt="">
                     </div>
