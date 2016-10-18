@@ -12,12 +12,17 @@
                 	<div class="panel panel-stat">
                         <div class="panel-heading">
                             <div class="row text-center">
-                                <img class="media-object thumbnail center-block" ms-attr-src="imgViewSrc" style="max-width:300px;max-height:300px;min-height:100px;min-width:100px" alt="">
-                                <input type="file" name="uploadFile" id="uploadfile" style="visibility: hidden">
-                                <a class="btn btn-xs btn-success" ms-click="uploadImg">修改图片</a>
-                                <div class="clearfix"></div>
+								
+								<form id="uploadForm">  
+									  <img class="media-object thumbnail center-block" ms-attr-src="imgViewSrc" style="max-width:200px;max-height:200px;min-height:100px;min-width:100px" alt="">
+								      <input type="file" id="uploadFileIpt" name="uploadFile" style="visibility: hidden"/>
+								      <div class="clearfix"></div>
+								</form>  
+                                <div ms-if="uploadbtn">
+							        <input class="btn btn-xs btn-default" type="button" value="选择图片" ms-click="chioseImgs"/>  
+							        <input class="btn btn-xs btn-success" type="button" value="上传" ms-click="uploadImg"/>  
+	                            </div>
                             </div><!-- row -->
-
                         </div><!-- panel-heading -->
                    </div><!-- panel -->
             </div>
@@ -105,7 +110,9 @@
 	        </div>
 	      </div> -->
 	      <div class="col-sm-12 text-right">
-	        <button class="btn btn btn-info" ms-click="queryData">查 询</button>
+	        <div class="form-group">
+	          <button class="btn btn-info" ms-click="queryData">查 询</button>
+	        </div>
 	      </div>
 	      <!-- col-sm-6 -->
 	    </div><!-- row -->
@@ -119,7 +126,10 @@
 	        <th class="text-center">商家名称</th>
 	        <th class="text-center">商家图片</th>
 	        <th class="text-center">商家编号</th>
+	        <th class="text-center">经纬度</th>
 	        <th class="text-center">联系人</th>
+	        <th class="text-center">创建时间</th>
+	        <th class="text-center">公共url</th>
 	        <!-- <th class="text-center">是否删除</th> -->
 	        <th class="text-center text-right" width="200">操作</th>
 	      </tr>
@@ -127,11 +137,15 @@
 	      <tbody>
 	      <tr ms-repeat-p="shopList">
 	        <td ms-text="p.name"></td>
-	       	<td>
-	       			<img class="media-object thumbnail center-block" ms-attr-src="p.picUrl" style="width:30px;height:30px;" alt="">
+	       	<td class="m-v-img" style="position:relative">
+	       			<img class="media-object center-block" ms-attr-src="p.picUrl" style="width:30px;height:30px;" alt="">
+	       			<img class="media-object center-block m-v-img-img" ms-attr-src="p.picUrl" style="display:none;z-index:9999999;width:200px;height:200px;position:absolute;top:-100%;left:-30%;border:1px solid #999999;padding:5px;background:white;border-radius:6px" alt="">
            	</td>
 	        <td ms-text="p.id"></td>
+	        <td>{{p.longitude + "," + p.latitude}}</td>
 	        <td ms-text="p.managerName"></td>
+	        <td ms-text="p.creationDate"></td>
+	        <td ms-text="p.publicAccURL"></td>
 	        <!-- <td><span ms-if="p.deleted" disabled="disabled">已删除</span><span ms-if="!p.deleted">未删除</span></td> -->
 	        <td class="table-action">
 		        <button class="btn btn-xs btn-info" ms-click="updateShop(p.id)"><i class="fa fa-pencil"></i> 修改</button>
@@ -140,7 +154,7 @@
 	      </tr>
 	      </tbody>
 	    </table>
-	    <div class="row">
+	    <div class="">
         	<div class="col-sm-5"></div>
         	<ul class="pagination pagination-split">
                 <li  ms-click="queryData('upPage')"><a href="#" style="background: #29406f;color:#fff;"><i class="glyphicon glyphicon-arrow-left"></i> 上一页</a></li>             

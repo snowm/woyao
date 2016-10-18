@@ -42,10 +42,17 @@
                     <div class="panel panel-stat col-sm-12">
                         <div class="panel-heading">
                             <div class="row text-center">
-                                <img class="media-object thumbnail center-block" ms-attr-src="imgViewSrc" style="max-width:300px;max-height:300px;min-height:100px;min-width:100px" alt="">
-                                <input type="file" name="uploadFile" id="goodsUploadfile" style="visibility: hidden">
-                                <a class="btn btn-xs btn-success" ms-click="uploadImg">修改图片</a>
-                                <div class="clearfix"></div>
+                                
+								<form id="uploadForm">  
+									  <img class="media-object thumbnail center-block" ms-attr-src="imgViewSrc" style="max-width:300px;max-height:300px;min-height:100px;min-width:100px" alt="">
+								      <input type="file" id="uploadFileIpt" name="uploadFile" style="visibility: hidden"/>
+								      <div class="clearfix"></div>
+								</form>  
+                                <div ms-if="uploadbtn">
+							        <input class="btn btn-xs btn-default" type="button" value="选择图片" ms-click="chioseImgs"/>  
+							        <input class="btn btn-xs btn-success" type="button" value="提交" ms-click="uploadImg"/>  
+	                            </div>
+	                            
                             </div><!-- row -->
 
                         </div><!-- panel-heading -->                        
@@ -71,7 +78,7 @@
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label class="control-label">价格</label>
-                        <input type="text" name="description" class="form-control unitPrice" placeholder="请输入产品价格" ms-duplex="goodsChg.unitPrice">
+                        <input type="number" name="description" class="form-control unitPrice" placeholder="请输入产品价格" ms-duplex="goodsChg.unitPrice">
                     </div>
                 </div><!-- col-sm-6 -->
                  <div class="col-sm-6"> 
@@ -147,8 +154,9 @@
             </thead>
             <tbody>
             <tr ms-repeat-p="goodsList" >
-                <td>
-                    <img class="media-object thumbnail center-block" ms-attr-src="p.mainPic" style="width:30px;height:30px;" alt="">
+                <td class="m-v-img" style="position:relative">
+                    <img class="media-object center-block" ms-attr-src="p.mainPic" style="width:30px;height:30px;" alt="">
+                    <img class="media-object center-block m-v-img-img" ms-attr-src="p.mainPic" style="display:none;z-index:9999999;width:200px;height:200px;position:absolute;top:-100%;left:-30%;border:1px solid #999999;padding:5px;background:white;border-radius:6px" alt="">
                 </td>
                 <td ms-text="p.name"></td>
                 <td ms-text="p.unitPrice"></td>
@@ -160,7 +168,8 @@
             </tr>
             </tbody>
         </table>
-       <div class="row">
+        
+       <div class="">
         	<div class="col-sm-5"></div>
         	<ul class="pagination pagination-split">
                 <li  ms-click="btnGoods('upPage')" ><a href="#" style="background: #29406f;color:#fff;"><i class="glyphicon glyphicon-arrow-left"></i>上一页</a></li> 

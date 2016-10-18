@@ -1,7 +1,7 @@
 /**
  * Created by Administrator on 2016/10/6 0006.
  */
-define(['jquery','datapicker','datapicker.cn'],function($){
+define(['jquery','datapicker'],function($){
     $(function(){
     	var chatController=avalon.define({
     		$id:"chatController",    		
@@ -81,10 +81,8 @@ define(['jquery','datapicker','datapicker.cn'],function($){
     	      			chatController.chat=true; 
     	      			if(chatController.chatList.length != 0){
     	      				chatController.nothing=false;
-    	      				console.log(1);
     	      			}else if(chatController.chatList.length == 0){  	      				
     	      				chatController.nothing=true;
-    	      				console.log(2);
     	      			}
     	      		  },
     	      		  dataType: 'json'
@@ -109,17 +107,10 @@ define(['jquery','datapicker','datapicker.cn'],function($){
     	    	Seach(page);
     	    }
     	});
-//    	$(".mainpanel").click({
-//    		chatController.shopList=[];
-//    	});
-    	console.log("load chat-manage");    
+    	
     	avalon.scan();    	
     	
-    	
-    	setTimeout(function(){
-    		$('#date_picker1').datetimepicker({format: 'yyyy-mm-dd hh:ii',language: 'zh-CN'});
-    		$('#date_picker2').datetimepicker({format: 'yyyy-mm-dd hh:ii',language: 'zh-CN'});
-    	},300);
+    
     	function Seach(page){
     		
     		if(page == "upPage"){
@@ -166,6 +157,18 @@ define(['jquery','datapicker','datapicker.cn'],function($){
         
     });
     
-    
+   	function initData(){
+   		
+    	setTimeout(function(){
+    		$('#date_picker1').datetimepicker({format: 'yyyy-mm-dd hh:ii',language:'cn'});
+    		$('#date_picker2').datetimepicker({format: 'yyyy-mm-dd hh:ii',language:'cn'});
+    	},300);
+	}
+   	
+   	initData();
+	
+	return chatPage = {
+			init:initData,
+	}
 
 });

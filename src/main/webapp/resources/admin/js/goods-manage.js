@@ -113,25 +113,19 @@ define(['uploadfile'],function(){
             goodsController.goodsShow = true;
             goodsController.goods = false;
             goodsController.demand = false;            
-    		goodsController.shop=true;    			
+    		goodsController.shop=true;    
+    		goodsController.uploadbtn = true;
     		goodsController.goodsList.forEach(function(item){
                     if(item.id == id){
                         goodsController.goodsChg = item;
-                        
-                       
                         if(goodsController.goodsChg.typeId == "1"){
                         	 goodsController.picture=true;
                         	 goodsController.imgViewSrc = item.mainPic;
-                        	 console.log("123");
                         }else if(goodsController.goodsChg.typeId == "2"){
 	                        goodsController.picture=false;
-	                        console.log("456");
                         }
                     }
                 })
-    		
-            
-
         },        
         //修改并保存
         Sava:function(){            
@@ -182,7 +176,7 @@ define(['uploadfile'],function(){
     		                    goodsController.goodsChg.shopId="";
     		                    goodsController.goodsChg.name="";
     		                    goodsController.imgViewSrc = '/admin/resources/images/photos/upload1.png';
-    		                    $("#goodsUploadfile").val('');
+    		                    $("#uploadFileIpt").val('');
     		                    goodsController.goodsShow=false;
     		    	            goodsController.demand=true;
     		                    Submit();
@@ -228,7 +222,7 @@ define(['uploadfile'],function(){
         		                    goodsController.goodsChg.shopId="";
         		                    goodsController.goodsChg.name="";
         		                    goodsController.imgViewSrc = '/admin/resources/images/photos/upload1.png';
-        		                    $("#goodsUploadfile").val('');
+        		                    $("#uploadFileIpt").val('');
         		                    goodsController.goodsShow=false;
         		    	            goodsController.demand=true;
         		                    Submit();
@@ -249,7 +243,8 @@ define(['uploadfile'],function(){
             goodsController.picture=false;
             goodsController.shop=false;
             goodsController.imgViewSrc = '/admin/resources/images/photos/upload1.png';
-            $("#goodsUploadfile").val('');          
+            $("#uploadFileIpt").val('');  
+    		goodsController.uploadbtn = true;
             goodsController.goodsChg = {
                 name:"",
                 code:"",
@@ -282,8 +277,7 @@ define(['uploadfile'],function(){
                     },
                     dataType: 'json'
                 });
-            }           
-            
+            }  
         },
         //选择商店
         chooseShop:function(){        	
@@ -316,7 +310,7 @@ define(['uploadfile'],function(){
         	goodsController.goodsChg.name="";
         	goodsController.goodsChg.shopId="";
             goodsController.imgViewSrc = '/admin/resources/images/photos/upload1.png';
-            $("#goodsUploadfile").val('');           
+            $("#uploadFileIpt").val('');           
             
 	    },
         chooseShopItem:function(data){
@@ -325,13 +319,34 @@ define(['uploadfile'],function(){
             $(".in").click();
             
         },
+        chioseImgs:function(){
+            $("#uploadFileIpt").click();
+        },
+        uploadbtn:true,
         uploadImg:function(){
-            $("#goodsUploadfile").click();
-        }
+	    	  var formData = new FormData($("#uploadForm")[0]);  
+     	     $.ajax({  
+     	          url: 'admin/upload/file' ,  
+     	          type: 'POST',  
+     	          data: formData,  
+     	          async: false,  
+     	          cache: false,  
+     	          contentType: false,  
+     	          processData: false,  
+     	          success: function (data) {  
+     	        	  alert("提交成功");
+     	        	  goodsController.goodsChg.mainPicId = data.result.id;
+     	     		  goodsController.uploadbtn = false;
+     	          },  
+     	          error: function (data) {  
+     	        	  console.log(data);  
+     	          }  
+     	     });  
+	    },
     });
 
 
-    $("#goodsUploadfile").live("change",function(){
+    $("#uploadFileIpt").live("change",function(){
         if (!this.files.length) return;
 
         var files = Array.prototype.slice.call(this.files);
@@ -353,50 +368,6 @@ define(['uploadfile'],function(){
                 var img = new Image();
                 img.src = result;
                 goodsController.imgViewSrc = result;
-                // 上传图片
-                $.ajaxFileUpload({
-                	
-                        url: '/admin/upload/file', //用于文件上传的服务器端请求地址
-                        secureuri: false, //是否需要安全协议，一般设置为false
-                        fileElementId: 'goodsUploadfile', //文件上传域的ID
-                        dataType: 'json', //返回值类型 一般设置为json                       
-                        success: function (data, status)  //服务器成功响应处理函数
-                        {
-                            console.log(data);
-                            alert("上传成功了！返回值" + data.result)
-                            goodsController.goodsChg.mainPicId = data.result.id;
-//            	    			shopController.formData = item;
-//            	    			shopController.imgViewSrc = item.picUrl;
-                        },
-                        error: function (data, status, e)//服务器响应失败处理函数
-                        {
-                            alert(e);
-                        }
-                    }
-                )                
-                //如果图片大小小于200kb，则直接上传
-                /* if (result.length <= 400 * 1024) {
-                 img = null;
-                 alert("图片小于400KB 可以直接上传。");
-                 upload(result, file.type);
-
-                 return;
-                 }
-
-                 //                  图片加载完毕之后进行压缩，然后上传
-                 if (img.complete) {
-                 callback();
-                 } else {
-                 img.onload = callback;
-                 }
-
-                 function callback() {
-                 alert("图片大于400KB 进行压缩。");
-                 var data = compress(img);
-                 upload(data, file.type);
-
-                 img = null;
-                 }*/
             };
 
             reader.readAsDataURL(file);

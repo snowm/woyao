@@ -1,4 +1,4 @@
-define(["datapicker","datapicker.cn"],function(){
+define(["datapicker"],function(){
 
     $(function(){
     	var orderController = avalon.define({
@@ -79,13 +79,23 @@ define(["datapicker","datapicker.cn"],function(){
     });
     console.log("order");
     avalon.scan();
-    setTimeout(function(){
-		$('#date_picker1').datetimepicker({format: 'yyyy-mm-dd hh:ii',language: 'zh-CN'});
-		$('#date_picker2').datetimepicker({format: 'yyyy-mm-dd hh:ii',language: 'zh-CN'});
-	},300);
+    
     function Submit(page){ 
     	 
     }
+    
+   	function initData(){
+   		setTimeout(function(){
+   			$('#date_picker1').datetimepicker({format: 'yyyy-mm-dd hh:ii',language: 'cn'});
+   			$('#date_picker2').datetimepicker({format: 'yyyy-mm-dd hh:ii',language: 'cn'});
+   		},300);
+	}
+	
+	initData();
+	
+	return orderPage = {
+			init:initData,
+	}
     
 	
 });

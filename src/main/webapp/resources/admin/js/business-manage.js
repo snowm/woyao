@@ -32,9 +32,11 @@ define(['uploadfile'],function(){
     	    	picId:'', 
     	    	managerPwd:''
     	    },
+    	    uploadbtn:true,
     	    Alter:function(){
     	    	shopController.business=false;
-    	    	shopController.businessalter=true;    	    	
+    	    	shopController.businessalter=true;    	  
+	            shopController.uploadbtn = true;
     	    },
     	    save:function(){
     	    	shopController.business=true;
@@ -63,8 +65,9 @@ define(['uploadfile'],function(){
     	    hideNewShop:function(){
     	    	shopController.formShow = false;
     	    	  shopController.formData.picId = '';
+	              shopController.uploadbtn = true;
       	    	  shopController.imgViewSrc = '/admin/resources/images/photos/upload1.png';
-                  $("#uploadfile").val('');
+                  $("#uploadFileIpt").val('');
     	    },
     	    deleteShop:function(id){
     	    	 if(confirm("确认删除 ？")) {
@@ -85,6 +88,7 @@ define(['uploadfile'],function(){
     	    	$(".managerName").attr("readonly","readonly");
     	    	$(".managerPwd").attr("readonly","readonly");
     	    	shopController.formShow = true;
+	            shopController.uploadbtn = true;
     	    	shopController.shopList.forEach(function(item){
     	    		if(item.id == id){
     	    			shopController.formData = item;
@@ -140,7 +144,7 @@ define(['uploadfile'],function(){
     	     	      	    	  shopController.formShow = false;
     		   	      	    	  shopController.formData.picId = '';
     			      	    	  shopController.imgViewSrc = '/admin/resources/images/photos/upload1.png';    			      	    	  
-    			                  $("#uploadfile").val('');
+    			                  $("#uploadFileIpt").val('');
     	      	      			  console.log(data);
     	      	      			  queryData();
     	      	      		  },
@@ -156,7 +160,7 @@ define(['uploadfile'],function(){
     	        	      	    	  shopController.formShow = false;
     	        	      	    	  shopController.formData.picId = '';
     	        	      	    	  shopController.imgViewSrc = '/admin/resources/images/photos/upload1.png';
-    	        	                  $("#uploadfile").val('');
+    	        	                  $("#uploadFileIpt").val('');
     	        	      			  console.log(data);
     	        	      			  queryData();
     	        	      		  },
@@ -165,13 +169,61 @@ define(['uploadfile'],function(){
     	    	    	}
     				}   			
     	   
-    	    	
     	    },
     	    uploadImg:function(){
-    	    	$("#uploadfile").click();
+    	    	  var formData = new FormData($("#uploadForm")[0]);  
+            	     $.ajax({  
+            	          url: 'admin/upload/file' ,  
+            	          type: 'POST',  
+            	          data: formData,  
+            	          async: false,  
+            	          cache: false,  
+            	          contentType: false,  
+            	          processData: false,  
+            	          success: function (data) {  
+            	        	  alert("提交成功");
+            	              shopController.formData.picId = data.result.id;
+            	              shopController.uploadbtn = false;
+            	          },  
+            	          error: function (data) {  
+            	        	  console.log(data);  
+            	          }  
+            	     });  
+    	    },
+    	    chioseImgs:function(){
+    	    	$("#uploadFileIpt").click();
     	    }
     	});
+    	
     	avalon.scan();
+    	
+    	$("#uploadFileIpt").live("change",function(){
+    		if (!this.files.length) return;
+
+            var files = Array.prototype.slice.call(this.files);
+
+            if (files.length > 1) {
+                alert("一次只能上传一张图片");
+                return;
+            }
+            files.forEach(function(file, i) {
+                if (!/\/(?:jpeg|png|gif)/i.test(file.type)) return;
+                var reader = new FileReader();
+                var li = document.createElement("li");
+//              获取图片大小
+                var size = file.size / 1024 > 1024 ? (~~(10 * file.size / 1024 / 1024)) / 10 + "MB" : ~~(file.size / 1024) + "KB";
+                console.log("图片原始大小：" + size);
+
+                reader.onload = function() {        	
+                    var result = this.result;
+                    var img = new Image();
+                    img.src = result;
+                    shopController.imgViewSrc = result;
+                };
+                reader.readAsDataURL(file);
+            });
+    	})
+    	
     	
     	function queryData(page){
     		
@@ -200,11 +252,9 @@ define(['uploadfile'],function(){
 	      			  shopController.shopList = data.results;
 	      			  console.log(shopController.shopList = data.results);
 	      			if(shopController.shopList.length != 0){
-	      				shopController.nothing=false;	      				
-  	      				console.log(1);
+	      				shopController.nothing=false;	   
   	      			}else if(shopController.shopList.length == 0){  	      				
   	      				shopController.nothing=true;
-  	      				console.log(2);
   	      			}
 	      		  },
 	      		  dataType: 'json'
@@ -213,77 +263,7 @@ define(['uploadfile'],function(){
     	
     	
     	
-    	$("#uploadfile").live("change",function(){  
-    		if (!this.files.length) return;
-
-                var files = Array.prototype.slice.call(this.files);
-                
-                if (files.length > 1) {
-                    alert("一次只能上传一张图片");
-                    return;
-                }
-                files.forEach(function(file, i) {
-                    if (!/\/(?:jpeg|png|gif)/i.test(file.type)) return;
-                    var reader = new FileReader();
-                    var li = document.createElement("li");
-//              获取图片大小
-                    var size = file.size / 1024 > 1024 ? (~~(10 * file.size / 1024 / 1024)) / 10 + "MB" : ~~(file.size / 1024) + "KB";
-                    console.log("图片原始大小：" + size);
-
-                    reader.onload = function() {
-                        var result = this.result;
-                        var img = new Image();
-                        img.src = result;
-                        shopController.imgViewSrc = result;
-                        // 上传图片
-                        $.ajaxFileUpload
-                        (
-                            {
-                                url: '/admin/upload/file', //用于文件上传的服务器端请求地址
-                                secureuri: false, //是否需要安全协议，一般设置为false
-                                fileElementId: 'uploadfile', //文件上传域的ID
-                                dataType: 'JSON', //返回值类型 一般设置为json
-                                success: function (data, status)  //服务器成功响应处理函数
-                                {
-                                    console.log(data);
-                                    alert("上传成功了！返回值" + data.result)
-                                    shopController.formData.picId = data.result.id;
-//                	    			shopController.formData = item;
-//                	    			shopController.imgViewSrc = item.picUrl;
-                                },
-                                error: function (data, status, e)//服务器响应失败处理函数
-                                {
-                                    alert(e);
-                                }
-                            }
-                        )
-                        //如果图片大小小于200kb，则直接上传
-                        /* if (result.length <= 400 * 1024) {
-                            img = null;
-                            alert("图片小于400KB 可以直接上传。");
-                            upload(result, file.type);
-
-                            return;
-                        }
-
-//                      图片加载完毕之后进行压缩，然后上传
-                        if (img.complete) {
-                            callback();
-                        } else {
-                            img.onload = callback;
-                        }
-
-                        function callback() {
-                            alert("图片大于400KB 进行压缩。");
-                            var data = compress(img);
-                          	upload(data, file.type);
-
-                            img = null;
-                        }*/
-                    };
-
-                    reader.readAsDataURL(file);
-                });
+    	
     	})
     	
     	
@@ -351,15 +331,11 @@ define(['uploadfile'],function(){
 
             return ndata;
         }
-    	
-
-
-
-        /*  图片压缩 上传  */
-        console.log("load business-manage");
+        
+        
         
     	function initData(){
-    		
+            console.log("load business-manage");
     	}
     	
     	//initData();
@@ -368,5 +344,4 @@ define(['uploadfile'],function(){
     			init:initData,
     	}
     	
-    })
 });

@@ -44,6 +44,9 @@ window.onload = function(){
     });
 
     
+
+    
+    
     wx.ready(function(){
     	wx.getLocation({
     	    type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
@@ -119,7 +122,12 @@ window.onload = function(){
     //map.setMapStyle({style:'googlelite'});
     map.addControl(new BMap.NavigationControl({offset: new BMap.Size(10, 50)}));
 
-
+    
+    function debug(){
+         map.centerAndZoom(new BMap.Point(104.072227,30.663456), 18);
+    	 queryData(104.072227,30.663456);
+    }
+    debug();
 
 // 定义一个控件类，即function
     function ZoomControl(){

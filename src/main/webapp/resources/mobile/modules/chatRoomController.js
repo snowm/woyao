@@ -665,8 +665,6 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"wxsdk","dom
     }
 
 
-
-
     avalon.scan();
 
     return chatRoom = {

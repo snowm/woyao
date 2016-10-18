@@ -20,7 +20,7 @@ define(['jquery','avalon','wxsdk',"domReady!"], function ($,avalon,wx,domReady) 
                 setTimeout(function(){
                     avalon.vmodels.mainController.tipsShow = false;
                 },3000)
-            },1000)
+            },300)
         };
     };
 
