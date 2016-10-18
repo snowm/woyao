@@ -3,6 +3,8 @@ package com.woyao.admin.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
@@ -16,14 +18,19 @@ import com.snowm.utils.query.PaginationBean;
 import com.woyao.admin.dto.product.ChatMsgDTO;
 import com.woyao.admin.dto.product.QueryChatMsgRequestDTO;
 import com.woyao.admin.service.IChatMsgAdminService;
+import com.woyao.admin.service.IOrderAdminService;
 import com.woyao.domain.chat.ChatMsg;
 import com.woyao.domain.chat.ChatRoom;
 import com.woyao.domain.product.Product;
+import com.woyao.domain.profile.ProfileWX;
 
 
 @Service("chatMsgAdminService")
 public class ChatMsgAdminServiceImpl extends AbstractAdminService<ChatMsg, ChatMsgDTO> implements IChatMsgAdminService {
-
+	
+	@Resource(name="orderAdminService")
+	private IOrderAdminService orderAdminService;
+	
 	public ChatMsgDTO update(ChatMsgDTO dto) {
 		ChatMsg m = this.transferToDomain(dto);
 		this.dao.saveOrUpdate(m);
@@ -90,10 +97,19 @@ public class ChatMsgAdminServiceImpl extends AbstractAdminService<ChatMsg, ChatM
 		BeanUtils.copyProperties(m, dto);
 		dto.setChatRoomName(this.dao.get(ChatRoom.class, m.getChatRoomId()).getName());
 		Product p = this.dao.get(Product.class, m.getProductId());
+		if(m.getOrderId()!=null){		
+			dto.setOrderId(orderAdminService.get(m.getOrderId()).getOrderNo());
+		}
+		if(m.getPicURL()!=null){
+			dto.setPicURL(m.getPicURL());
+		}
 		if (p != null) {
 			dto.setProductName(p.getName());
 			dto.setProductUnitPrice(p.getUnitPrice());
-		}
+		}	
+		ProfileWX wx=this.dao.get(ProfileWX.class, m.getFrom());
+		dto.setFromName(wx.getNickname());
+		
 		dto.setEnabled(m.getLogicalDelete().isEnabled());
 		dto.setDeleted(m.getLogicalDelete().isDeleted());
 		dto.setCreationDate(m.getModification().getCreationDate());

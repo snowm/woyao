@@ -146,5 +146,11 @@ public class OrderAdminServiceImpl extends AbstractAdminService<Order, OrderDTO>
 		return null;
 	}
 
+	@Override
+	public Order get(Long OrderId) {
+		
+		return this.dao.get(Order.class, OrderId);
+	}
+
 
 }

@@ -10,5 +10,7 @@ public interface IOrderAdminService extends IAdminService<Order, OrderDTO> {
 	PaginationBean<OrderDTO> query(QueryOrderRequestDTO queryRequest);
 
 	/*OrderDTO transferToSimpleDTO(Order m);*/
+	
+	Order get(Long OrderId);
 
 }
