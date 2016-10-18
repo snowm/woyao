@@ -284,9 +284,17 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"wxsdk","dom
         	    current: msg, // 当前显示图片的http链接
         	    urls: ['http://www.luoke30.com' + url], // 需要预览的图片http链接列表
         	});
+        },
+        judgeBl:function(a,b){
+        	if(a != null && a != "" && b != mainController.userInfo.self.id){
+        		return true;
+        	}else{
+        		return false;
+        	}
         }
     });
 
+    avalon.scan();
 
     function initView(){
     	mainController.hidePopSend();
@@ -665,7 +673,6 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"wxsdk","dom
     }
 
 
-    avalon.scan();
 
     return chatRoom = {
         init:function(){
