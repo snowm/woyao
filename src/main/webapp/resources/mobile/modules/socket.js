@@ -54,8 +54,6 @@ define(['jquery','avalon','wxsdk',"domReady!"], function ($,avalon,wx,domReady) 
         	    'signType': data.signType,
         	    'paySign': data.paySign, 
         	    success: function (res) {
-        	    	alert("支付回调")
-        	    	alert(res)
         	        // 支付成功后的回调函数
                 	avalon.vmodels.rootController._loading = false;
                 	avalon.vmodels.mainController.hidePopSend();

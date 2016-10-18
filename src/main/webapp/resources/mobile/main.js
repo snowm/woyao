@@ -40,6 +40,7 @@ require(['mmRouter',"domReady!",'socket','wxsdk'],function(mmRouter,domReady,soc
         _publicMsg:[],//公共消息
         toWho:{},//当前私聊对象
         hiddenLoading:function(){
+        	alert("close loading");
         	rootController._loading = false;
         }
     });

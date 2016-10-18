@@ -1,5 +1,5 @@
 <div class="user-sexy-man" ms-controller="mainController">
-<div class="pop-sreen" ms-class-pop-sreen-show="sreenShow">
+<div class="pop-sreen" ms-class-pop-sreen-show="!sreenShow">
     <!--<div class="pop-sreen" ms-class-pop-sreen-show="1">-->
     <img class="pop-sreen-img blur" --src="/resources/static/img/delate/photo1.jpg" ms-attr-src="sreenImg" alt="">
     <div class="pop-sreen-img-flt"></div>
@@ -16,7 +16,7 @@
             <p class="pop-sreen-name">隔壁老王 <span><img class="header-sexy" src="/resources/static/img/weman.png" alt=""></span></p>
         </div> -->
         <div class="pop-sreen-msg">
-            <span class="text-org">我要霸屏<span ms-text="sreenTime"></span>秒：</span><span ms-text="sreenMsg"></span>
+            <span class="text-org">我要霸屏<span ms-text="sreenTime"></span>秒</span> <span ms-visible="sreenMsg">{{sreenMsg}}</span>
         </div>
         <span class="sreen-timer">倒计时：<span ms-text="sreenShowSeconds"></span></span>
     </div>
