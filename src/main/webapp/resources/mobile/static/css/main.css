@@ -839,7 +839,7 @@ html,body{
     -ms-transform: scale(1,1);
     -o-transform: scale(1,1);
     transform: scale(1,1);
-    opacity: 0.9;
+    opacity: 1;
 }
 .pop-sreen-img{
     position: absolute;

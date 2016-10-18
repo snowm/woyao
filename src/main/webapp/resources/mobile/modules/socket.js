@@ -119,7 +119,7 @@ define(['jquery','avalon','wxsdk',"domReady!"], function ($,avalon,wx,domReady) 
         if(seconds != 0){
             avalon.vmodels.mainController.sreenShow = true;
             avalon.vmodels.mainController.sreenImg = item.pic;
-            avalon.vmodels.mainController.sreenMsg = item.text;
+            avalon.vmodels.mainController.sreenMsg = replace_em_null(item.text);
             avalon.vmodels.mainController.sreenTime = item.duration;
             avalon.vmodels.mainController.sreenHead = item.sender.headImg;
             avalon.vmodels.mainController.sreenName = item.sender.nickname;
@@ -158,7 +158,14 @@ define(['jquery','avalon','wxsdk',"domReady!"], function ($,avalon,wx,domReady) 
         str = str.replace(/\[em_([0-9]*)\]/g,"<img src='/resources/js/qqface/face/$1.gif'/>");
         return str;
     };
-
+    
+    function replace_em_null(str){
+        str = str.replace(/\</g,'&lt;');
+        str = str.replace(/\>/g,'&gt;');
+        str = str.replace(/\n/g,'<br/>');
+        str = str.replace(/\[em_([0-9]*)\]/g,"");
+        return str;
+    };
 
     /* qqface */
 
