@@ -1,6 +1,7 @@
 package com.woyao.jersey;
 
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -43,11 +44,10 @@ public class JerseyApacheClientFactory implements FactoryBean<Client>, Initializ
         SnowmApacheConnectorProvider connectorProvider = new SnowmApacheConnectorProvider();
         clientConfig.connectorProvider(connectorProvider);
 
-//        Logger logger = new Log4jLogger("JerseyClientLogging", null);
-//		LoggingFeature loggineFeature = new LoggingFeature(logger);
-        ClientBuilder cb = ClientBuilder.newBuilder().withConfig(clientConfig).register(JacksonFeature.class)
-        		.register(LoggingFeature.class);
-        this.client = cb.build();
+		Logger logger = new com.woyao.log.Slf4jLogger("JerseyClientLogging", null);
+		LoggingFeature loggingFeature = new LoggingFeature(logger);
+		ClientBuilder cb = ClientBuilder.newBuilder().withConfig(clientConfig).register(JacksonFeature.class).register(loggingFeature);
+		this.client = cb.build();
     }
 
     @Override

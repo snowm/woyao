@@ -40,16 +40,11 @@ import com.woyao.wx.service.IWxService;
 public class Oauth2SecurityFilter implements Filter, InitializingBean {
 
 	public static final String PARA_OAUTH_CODE = "code";
-	
-	private static final int COOKIE_AGE = 31536000;
 
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@Resource(name = "globalConfig")
 	private GlobalConfig globalConfig;
-
-	// private RedirectStrategy redirectStrategy = new
-	// DefaultRedirectStrategy();
 
 	@Resource(name = "wxEndpoint")
 	private WxEndpoint wxEndpoint;
@@ -99,11 +94,10 @@ public class Oauth2SecurityFilter implements Filter, InitializingBean {
 				}
 				logger.debug("Authorize pass，calling doFilter()");
 				chain.doFilter(servletRequest, servletResponse);
-				logger.debug("Authorize pass，doFilter() called");
 				return;
 			} catch (Exception ex) {
 				logger.error("Authorize error", ex);
-				response.sendError(HttpStatus.SC_INTERNAL_SERVER_ERROR, "服务器出错啦！");
+				response.sendError(HttpStatus.SC_INTERNAL_SERVER_ERROR, "授权失败，服务器出错啦！");
 				return;
 			}
 		}
@@ -111,7 +105,7 @@ public class Oauth2SecurityFilter implements Filter, InitializingBean {
 		String scope = "snsapi_userinfo";
 		String state = System.currentTimeMillis() + "";
 		currentUri = URLEncoder.encode(currentUri, "UTF-8");
-		String redirectUrl = this.calculateRedirectUrl(this.globalConfig.getAppId(), currentUri, scope, state);
+		String redirectUrl = this.generateOauthRedirectUrl(this.globalConfig.getAppId(), currentUri, scope, state);
 		logger.debug("Authorize failure, redirect to : {}", redirectUrl);
 		this.redirectUser(request, response, redirectUrl);
 	}
@@ -132,8 +126,8 @@ public class Oauth2SecurityFilter implements Filter, InitializingBean {
 
 		// 获取到信息后，将chatter放进session，将chatterId和openId放入cookie
 		session.setAttribute(SessionContainer.SESSION_ATTR_CHATTER, dto);
-		CookieUtils.setCookie(response, CookieUtils.COOKIE_CHATTER_ID, dto.getId() + "", COOKIE_AGE);
-		CookieUtils.setCookie(response, CookieUtils.COOKIE_OPEN_ID, dto.getOpenId(), COOKIE_AGE);
+		CookieUtils.setCookie(response, CookieUtils.COOKIE_CHATTER_ID, dto.getId() + "");
+		CookieUtils.setCookie(response, CookieUtils.COOKIE_OPEN_ID, dto.getOpenId());
 		return true;
 	}
 
@@ -152,17 +146,18 @@ public class Oauth2SecurityFilter implements Filter, InitializingBean {
 		if (!StringUtils.isBlank(cookieProfileId)) {
 			profileId = Long.parseLong(cookieProfileId);
 			dto = this.chatService.getChatterFromDB(profileId);
-			logger.debug("根据cookie里面的chatterId获取用户信息:{}", dto);
 			if (dto != null) {
+				logger.debug("根据cookie里面的chatterId获取到用户信息:{}", dto);
 				return dto;
 			}
 		}
+		logger.debug("根据cookie里面的chatterId没有获取到用户信息:{}", dto);
 
 		// 最后尝试根据openId或oauth code，从微信服务器获取chatter信息
 		String cookieOpenId = CookieUtils.getCookie(request, CookieUtils.COOKIE_OPEN_ID);
 		String code = request.getParameter(PARA_OAUTH_CODE);
 		if (StringUtils.isBlank(cookieOpenId) && StringUtils.isBlank(code)) {
-			logger.debug("openId 和 code 都没有！");
+			logger.debug("Authorize failure, openId 和 code 都没有！");
 			return null;
 		}
 
@@ -170,34 +165,51 @@ public class Oauth2SecurityFilter implements Filter, InitializingBean {
 		return dto;
 	}
 
-	private String calculateRedirectUrl(String appId, String currentUrl, String scope, String state) {
+	private String generateOauthRedirectUrl(String appId, String currentUrl, String scope, String state) {
 		return String.format(this.globalConfig.getAuthorizeFormat(), appId, currentUrl, scope, state);
 	}
 
 	protected void redirectUser(HttpServletRequest request, HttpServletResponse response, String url) throws IOException {
 		response.sendRedirect(url);
-		// this.redirectStrategy.sendRedirect(request, response, url);
 	}
 
 	private ProfileDTO getUserInfoFromWx(String openId, String code) {
 		GetUserInfoResponse userInfoResponse = null;
-		if ("woyao".equals(code)) {
+		switch (code) {
+		case "woyao":
+			openId = "oBu2swG0OuBsc0hZp8VM7ToMU1jw";
+			logger.debug("真实测试模式！可支付，仅用于调试！{}", openId);
+			break;
+		case "woyao-test":
+			logger.debug("测试模式！仅限于聊天！");
 			userInfoResponse = this.createMockResponse();
-		} else {
-			if (!StringUtils.isBlank(openId)) {
-				userInfoResponse = this.wxService.getUserInfoViaExistedOpenId(openId, globalConfig.getAppId(), globalConfig.getAppSecret());
-			}
-			if (userInfoResponse == null && !StringUtils.isBlank(code)) {
-				userInfoResponse = this.wxService.getUserInfo(globalConfig.getAppId(), globalConfig.getAppSecret(), code);
-			}
-			if (userInfoResponse == null) {
-				return null;
-			}
+			ProfileDTO dto = new ProfileDTO();
+			BeanUtils.copyProperties(userInfoResponse, dto);
+			dto.setGender(this.parseGender(userInfoResponse.getSex()));
+			dto.setLoginDate(new Date());
+			dto.setId(idGenerator.get());
+			return dto;
+		default:
+			break;
+		}
+		if (!StringUtils.isBlank(openId)) {
+			userInfoResponse = this.wxService.getUserInfoViaExistedOpenId(openId, globalConfig.getAppId(), globalConfig.getAppSecret());
+			logger.debug("wxService.getUserInfoViaExistedOpenId:{}", userInfoResponse);
+		}
+		if (userInfoResponse == null && !StringUtils.isBlank(code)) {
+			userInfoResponse = this.wxService.getUserInfo(globalConfig.getAppId(), globalConfig.getAppSecret(), code);
+			logger.debug("wxService.getUserInfo:{}", userInfoResponse);
+		}
+		if (userInfoResponse == null) {
+			return null;
 		}
 		// 将用户信息入库
 		ProfileDTO dto = this.profileWxService.getByOpenId(openId);
 		if (dto == null) {
+			logger.debug("Openid {} does not exist!");
 			dto = new ProfileDTO();
+		} else {
+			logger.debug("Openid {} exists!", dto);
 		}
 		BeanUtils.copyProperties(userInfoResponse, dto);
 		dto.setGender(this.parseGender(userInfoResponse.getSex()));
@@ -222,16 +234,16 @@ public class Oauth2SecurityFilter implements Filter, InitializingBean {
 	}
 
 	// mock code
-	private AtomicLong idGenerator = new AtomicLong();
+	private AtomicLong idGenerator = new AtomicLong(0L);
 
 	public GetUserInfoResponse createMockResponse() {
-		long id = idGenerator.incrementAndGet();
+		long id = idGenerator.decrementAndGet();
 		GetUserInfoResponse resp = new GetUserInfoResponse();
-		resp.setOpenId("openId" + id);
-		resp.setNickname("nickname" + id);
-		resp.setCity("city" + id);
-		resp.setCountry("country" + id);
-		resp.setHeadImg("/pic/head/" + ((id % 4) + 1) + ".jpg");
+		resp.setOpenId("openId[" + id + "]");
+		resp.setNickname("nickname[" + id + "]");
+		resp.setCity("city[" + id + "]");
+		resp.setCountry("country[" + id + "]");
+		resp.setHeadImg("/pic/head/" + ((Math.abs(id) % 4) + 1) + ".jpg");
 		String gender = "2";
 		if ((id % 2) == 0) {
 			gender = "1";

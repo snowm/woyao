@@ -43,9 +43,9 @@ public class UserAccessToken extends DefaultModelImpl {
 	private String refreshToken;
 
 	@Column(name = "OPEN_ID", nullable = false, unique = true)
-	private String openid;
+	private String openId;
 
-	@Column(name = "SCOPE", nullable = false)
+	@Column(name = "SCOPE", nullable = true)
 	private String scope;
 
 	@Column(name = "EFFECTIVE")
@@ -93,12 +93,12 @@ public class UserAccessToken extends DefaultModelImpl {
 		this.refreshToken = refreshToken;
 	}
 
-	public String getOpenid() {
-		return openid;
+	public String getOpenId() {
+		return openId;
 	}
 
-	public void setOpenid(String openid) {
-		this.openid = openid;
+	public void setOpenId(String openId) {
+		this.openId = openId;
 	}
 
 	public String getScope() {

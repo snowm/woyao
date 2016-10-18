@@ -5,11 +5,13 @@ import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.NameValuePair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,10 +25,10 @@ import com.woyao.customer.chat.SessionContainer;
 import com.woyao.customer.chat.SessionUtils;
 import com.woyao.customer.dto.ChatPicDTO;
 import com.woyao.customer.dto.ChatRoomDTO;
-import com.woyao.customer.dto.ProfileDTO;
 import com.woyao.customer.dto.ChatterQueryRequest;
 import com.woyao.customer.dto.MsgProductDTO;
 import com.woyao.customer.dto.ProductDTO;
+import com.woyao.customer.dto.ProfileDTO;
 import com.woyao.customer.dto.RicherDTO;
 import com.woyao.customer.dto.ShopDTO;
 import com.woyao.customer.dto.ShopPaginationQueryRequest;
@@ -37,14 +39,15 @@ import com.woyao.customer.service.IMobileService;
 import com.woyao.customer.service.IProductService;
 import com.woyao.domain.wx.JsapiTicket;
 import com.woyao.service.JsapiTicketService;
+import com.woyao.utils.CookieUtils;
 import com.woyao.utils.UrlUtils;
 import com.woyao.wx.WxUtils;
 
 @Controller
 @RequestMapping(value = "/m")
 public class MobileController {
-	
-	private Log log = LogFactory.getLog(this.getClass());
+
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@Resource(name = "mobileService")
 	private IMobileService mobileService;
@@ -68,17 +71,55 @@ public class MobileController {
 	}
 
 	@RequestMapping(value = { "/chatRoom/{shopId}" }, method = RequestMethod.GET)
-	public String chatRoom(@PathVariable("shopId") long shopId, HttpServletRequest httpRequest) {
-		generateJsapiToken(httpRequest);
+	public String chatRoomPortal(@PathVariable("shopId") long shopId, HttpServletRequest httpRequest, HttpServletResponse response) {
+		CookieUtils.setCookie(response, CookieUtils.COOKIE_SHOP_ID, shopId + "");
 		HttpSession session = httpRequest.getSession();
 		session.setAttribute(SessionContainer.SESSION_ATTR_SHOP_ID, shopId);
 
 		ChatRoomDTO room = this.mobileService.getChatRoom(shopId);
-		long roomId = room != null ? room.getId() : shopId;
+		long roomId = room.getId();
 		session.setAttribute(SessionContainer.SESSION_ATTR_CHATROOM_ID, roomId);
 
 		ProfileDTO chatter = SessionUtils.getChatter(session);
 		chatter.setDistanceToRoom(this.mobileService.calculateDistanceToShop(chatter.getLatitude(), chatter.getLongitude(), shopId));
+		return "redirect:/m/chatRoom/";
+	}
+
+	@RequestMapping(value = { "/chatRoom" }, method = RequestMethod.GET)
+	public String chatRoomAlias(HttpServletRequest httpRequest) {
+		return "redirect:/m/chatRoom/";
+	}
+
+	@RequestMapping(value = { "/chatRoom/" }, method = RequestMethod.GET)
+	public String chatRoom(HttpServletRequest httpRequest) {
+		HttpSession session = httpRequest.getSession();
+		Long shopId = (Long) session.getAttribute(SessionContainer.SESSION_ATTR_SHOP_ID);
+		if (shopId == null) {
+			String shopIdCookieStr = CookieUtils.getCookie(httpRequest, CookieUtils.COOKIE_SHOP_ID);
+			if (!StringUtils.isBlank(shopIdCookieStr)) {
+				try {
+					shopId = Long.parseLong(shopIdCookieStr);
+					session.setAttribute(SessionContainer.SESSION_ATTR_SHOP_ID, shopId);
+				} catch (NumberFormatException nfex) {
+					logger.error("从cookie中解析shopId错误", nfex);
+				}
+			}
+		}
+		if (shopId == null) {
+			return "redirect:/m";
+		}
+		Long roomId = (Long) session.getAttribute(SessionContainer.SESSION_ATTR_CHATROOM_ID);
+
+		if (roomId == null) {
+			ChatRoomDTO room = this.mobileService.getChatRoom(shopId);
+			roomId = room.getId();
+			session.setAttribute(SessionContainer.SESSION_ATTR_CHATROOM_ID, roomId);
+		}
+
+		ProfileDTO chatter = SessionUtils.getChatter(session);
+		chatter.setDistanceToRoom(this.mobileService.calculateDistanceToShop(chatter.getLatitude(), chatter.getLongitude(), shopId));
+
+		generateJsapiToken(httpRequest);
 		return "mobile/chatRoom";
 	}
 
@@ -128,7 +169,7 @@ public class MobileController {
 			}
 			pb.setResults(list);
 		}
-		log.debug("list richer:"+pb);
+		logger.debug("list richer:{}", pb);
 		return pb;
 	}
 

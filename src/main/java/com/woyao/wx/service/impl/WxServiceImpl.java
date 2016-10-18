@@ -34,21 +34,23 @@ public class WxServiceImpl implements IWxService {
 		String accessToken = null;
 
 		UserAccessToken tokenDomain = this.userAccessTokenService.getTokenByOpenId(openId);
-		if (tokenDomain != null && !tokenDomain.isExpired()) {
-			accessToken = tokenDomain.getAccessToken();
-		} else if (tokenDomain.isExpired()) {
-			GetAccessTokenResponse tokenResponse = this.wxEndpoint.refreshAccessToken(appId, tokenDomain.getRefreshToken(),
-					"refresh_token");
-			if (tokenResponse == null) {
-				return null;
-			}
-			accessToken = tokenResponse.getAccessToken();
+		if (tokenDomain != null) {
+			if (!tokenDomain.isExpired()) {
+				accessToken = tokenDomain.getAccessToken();
+			} else {
+				GetAccessTokenResponse tokenResponse = this.wxEndpoint.refreshAccessToken(appId, tokenDomain.getRefreshToken(),
+						"refresh_token");
+				if (tokenResponse == null) {
+					return null;
+				}
+				accessToken = tokenResponse.getAccessToken();
 
-			tokenDomain.setAccessToken(accessToken);
-			tokenDomain.setExpiresIn(tokenResponse.getExpiresIn());
-			tokenDomain.setRefreshToken(tokenResponse.getRefreshToken());
-			tokenDomain.setOpenid(tokenResponse.getOpenId());
-			userAccessTokenService.saveOrUpdate(tokenDomain);
+				tokenDomain.setAccessToken(accessToken);
+				tokenDomain.setExpiresIn(tokenResponse.getExpiresIn());
+				tokenDomain.setRefreshToken(tokenResponse.getRefreshToken());
+				tokenDomain.setOpenId(tokenResponse.getOpenId());
+				userAccessTokenService.saveOrUpdate(tokenDomain);
+			}
 		}
 		if (!StringUtils.isBlank(accessToken)) {
 			GetUserInfoResponse userInfoResponse = this.wxEndpoint.getUserInfo(accessToken, openId, "zh_CN");
@@ -63,6 +65,19 @@ public class WxServiceImpl implements IWxService {
 		if (tokenResponse == null) {
 			return null;
 		}
+
+		String accessToken = tokenResponse.getAccessToken();
+		String openId = tokenResponse.getOpenId();
+		UserAccessToken tokenDomain = this.userAccessTokenService.getTokenByOpenId(openId);
+		if (tokenDomain == null) {
+			tokenDomain = new UserAccessToken();
+		}
+		tokenDomain.setAccessToken(accessToken);
+		tokenDomain.setExpiresIn(tokenResponse.getExpiresIn());
+		tokenDomain.setRefreshToken(tokenResponse.getRefreshToken());
+		tokenDomain.setOpenId(tokenResponse.getOpenId());
+		userAccessTokenService.saveOrUpdate(tokenDomain);
+
 		GetUserInfoResponse userInfoResponse = this.wxEndpoint.getUserInfo(tokenResponse.getAccessToken(), tokenResponse.getOpenId(),
 				"zh_CN");
 		return userInfoResponse;

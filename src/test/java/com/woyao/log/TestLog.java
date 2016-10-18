@@ -1,12 +1,12 @@
 package com.woyao.log;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class TestLog {
 
-	private Log logger = LogFactory.getLog(TestLog.class);
+	private Logger logger = LoggerFactory.getLogger(TestLog.class);
 
 	@Test
 	public void testLog(){

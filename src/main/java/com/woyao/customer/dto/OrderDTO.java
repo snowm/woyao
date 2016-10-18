@@ -21,6 +21,8 @@ public class OrderDTO implements Serializable {
 
 	private Long version;
 
+	private String orderNo;
+
 	private ProfileDTO consumer;
 
 	private ProfileDTO toProfile;
@@ -52,6 +54,14 @@ public class OrderDTO implements Serializable {
 
 	public void setVersion(Long version) {
 		this.version = version;
+	}
+
+	public String getOrderNo() {
+		return orderNo;
+	}
+
+	public void setOrderNo(String orderNo) {
+		this.orderNo = orderNo;
 	}
 
 	public ProfileDTO getConsumer() {
@@ -118,18 +128,18 @@ public class OrderDTO implements Serializable {
 		this.msgId = msgId;
 	}
 
-    @Override
-    public int hashCode() {
-        return HashCodeBuilder.reflectionHashCode(this);
-    }
+	@Override
+	public int hashCode() {
+		return HashCodeBuilder.reflectionHashCode(this);
+	}
 
-    @Override
-    public boolean equals(Object obj) {
-        return EqualsBuilder.reflectionEquals(this, obj);
-    }
+	@Override
+	public boolean equals(Object obj) {
+		return EqualsBuilder.reflectionEquals(this, obj);
+	}
 
-    @Override
-    public String toString() {
-        return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
-    }
+	@Override
+	public String toString() {
+		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+	}
 }

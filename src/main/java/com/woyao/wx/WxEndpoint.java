@@ -203,9 +203,6 @@ public class WxEndpoint {
 		try {
 			String result = resp.readEntity(String.class);
 			GetUserInfoResponse user = JsonUtils.toObject(result, GetUserInfoResponse.class);
-			if (logger.isDebugEnabled()) {
-				logger.debug("User info got:" + user);
-			}
 			return user;
 		} catch (Exception e) {
 			String msg = "Can not parse response!";

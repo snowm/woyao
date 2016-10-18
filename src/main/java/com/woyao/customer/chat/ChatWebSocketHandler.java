@@ -16,7 +16,6 @@ import org.springframework.web.socket.handler.AbstractWebSocketHandler;
 import com.woyao.customer.chat.handler.MsgHandler;
 import com.woyao.customer.dto.chat.in.Inbound;
 import com.woyao.customer.service.IChatService;
-import com.woyao.security.SharedHttpSessionContext;
 
 public class ChatWebSocketHandler extends AbstractWebSocketHandler {
 
@@ -56,13 +55,17 @@ public class ChatWebSocketHandler extends AbstractWebSocketHandler {
 	@Override
 	public void afterConnectionEstablished(WebSocketSession wsSession) throws Exception {
 		try {
-			String httpSessionId = SessionUtils.getHttpSessionId(wsSession);
-			HttpSession httpSession = SharedHttpSessionContext.getSession(httpSessionId);
+			HttpSession httpSession = SessionUtils.getHttpSession(wsSession);
+			String httpSessionId = httpSession.getId();
+			logger.debug("WebSocket session: {} establishing, httpSessionId: {}, httpSession: {}", wsSession.getId(), httpSessionId,
+					httpSession);
 			chatService.newChatter(wsSession, httpSession);
 
 			logger.debug("WebSocket session: {} established, httpSessionId: {}", wsSession.getId(), httpSession.getId());
 		} catch (Exception ex) {
-			logger.error("WebSocket session: {} establish error!", ex);
+			logger.error("WebSocket session establish error!", ex);
+			wsSession.close();
+			throw ex;
 		}
 	}
 

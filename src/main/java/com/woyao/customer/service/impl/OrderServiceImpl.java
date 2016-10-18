@@ -1,10 +1,14 @@
 package com.woyao.customer.service.impl;
 
 import java.math.BigInteger;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import javax.annotation.Resource;
 
@@ -33,8 +37,13 @@ import com.woyao.domain.purchase.OrderStatus;
 @Service("orderService")
 public class OrderServiceImpl implements IOrderService {
 	
-	private Logger logger = LoggerFactory.getLogger(this.getClass());
+	public static final String DT_PATTERN = "yyyyMMddHHmmssSSS";
+	public static final DateFormat DF = new SimpleDateFormat(DT_PATTERN);
 	
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
+
+	private Random r = new Random();
+
 	@Resource(name = "commonDao")
 	private CommonDao commonDao;
 
@@ -57,6 +66,8 @@ public class OrderServiceImpl implements IOrderService {
 		oi.setUnitPrice(product.getUnitPrice());
 
 		Order order = new Order();
+		String orderNo = DF.format(new Date()) + r.nextInt(1000);
+		order.setOrderNo(orderNo);
 		order.setConsumer(consumer);
 		order.setSpbillCreateIp(spbillCreateIp);
 		order.setToProfile(consumer);
@@ -102,6 +113,16 @@ public class OrderServiceImpl implements IOrderService {
 		paramMap.put("orderId", id);
 		List<OrderItem> items = this.commonDao.query("from OrderItem where order.id = :orderId", paramMap);
 		OrderDTO dto = this.generateOrderDTO(order, items);
+		return dto;
+	}
+
+	@Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true)
+	@Override
+	public OrderDTO getByOrderNo(String orderNo) {
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("orderNo", orderNo);
+		Order order = this.commonDao.queryUnique("from Order where orderNo = :orderNo", paramMap);
+		OrderDTO dto = DefaultTranslator.translateToDTO(order);
 		return dto;
 	}
 

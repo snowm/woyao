@@ -30,7 +30,7 @@ public class WxPayEndpoint {
 	private Client client;
 
 	public UnifiedOrderResponse unifiedOrder(UnifiedOrderRequest request) {
-		logger.debug("Start to unified order...");
+		logger.debug("Start to call unified order...");
 		WebTarget target = client.target(this.wxUnifiedOrderUrl);
 		String body = null;
 		try {
@@ -38,7 +38,6 @@ public class WxPayEndpoint {
 		} catch (JAXBException e1) {
 			throw new RuntimeException(e1);
 		}
-		logger.debug(body);
 		Entity<String> entity = Entity.entity(body, MediaType.TEXT_PLAIN);
 		Response resp = createXmlRequestBuilder(target).post(entity);
 
@@ -49,7 +48,7 @@ public class WxPayEndpoint {
 		try {
 			String responseBody = resp.readEntity(String.class);
 			UnifiedOrderResponse orderResponse = JaxbUtils.unmarshall(UnifiedOrderResponse.class, responseBody);
-			logger.debug("Unified order response:{}", orderResponse);
+			logger.debug("Unified order called!");
 			return orderResponse;
 		} catch (Exception e) {
 			String msg = "Can not parse response!";

@@ -20,6 +20,7 @@ import com.woyao.customer.dto.ProfileDTO;
 public class SessionContainer {
 
 	public static final String SESSION_ATTR_HTTPSESSION_ID = HttpSessionHandshakeInterceptor.HTTP_SESSION_ID_ATTR_NAME;
+	public static final String SESSION_ATTR_HTTPSESSION = "HTTP.SESSION";
 	public static final String SESSION_ATTR_REMOTE_IP = "REMOTE_IP";
 	public static final String SESSION_ATTR_CHATTER = "CHATTER";
 	public static final String SESSION_ATTR_SHOP_ID = "SHOP_ID";

@@ -38,11 +38,15 @@ public class SelfHandshakeInterceptor extends HttpSessionHandshakeInterceptor {
 		Long chatRoomId = (Long) session.getAttribute(SessionContainer.SESSION_ATTR_CHATROOM_ID);
 		String remoteAddress = this.getClientIp(request);
 
+		logger.debug("handshake with httpSession:" + session.getId());
+		attributes.put(SessionContainer.SESSION_ATTR_HTTPSESSION_ID, session.getId());
+		attributes.put(SessionContainer.SESSION_ATTR_HTTPSESSION, session);
 		attributes.put(SessionContainer.SESSION_ATTR_CHATTER, dto);
 		attributes.put(SessionContainer.SESSION_ATTR_CHATROOM_ID, chatRoomId);
 		attributes.put(SessionContainer.SESSION_ATTR_REMOTE_IP, remoteAddress);
 		attributes.put(SessionContainer.SESSION_ATTR_MSG_CACHE_LOCK, new ReentrantLock());
 		attributes.put(SessionContainer.SESSION_ATTR_MSG_CACHE, new HashMap<Long, InMsg>());
+		
 
 		boolean rs = super.beforeHandshake(request, response, wsHandler, attributes);
 		return rs;
@@ -51,9 +55,13 @@ public class SelfHandshakeInterceptor extends HttpSessionHandshakeInterceptor {
 	private String getClientIp(ServerHttpRequest request) {
 		HttpHeaders headers = request.getHeaders();
 
-		String ip = headers.getFirst("x-forwarded-for");
-		logger.debug("headers.getFirst(\"x-forwarded-for\")=" + ip);
+		String ip = headers.getFirst("Origin-Client-Addr");
+		logger.debug("headers.getFirst(\"Origin-Client-Addr\")=" + ip);
 
+		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = headers.getFirst("x-forwarded-for");
+			logger.debug("headers.getFirst(\"x-forwarded-for\")={}", ip);
+		}
 		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
 			ip = headers.getFirst("X-Forwarded-For");
 			logger.debug("headers.getFirst(\"X-Forwarded-For\")={}", ip);

@@ -2,7 +2,6 @@ package com.woyao.jersey;
 
 import static org.junit.Assert.assertEquals;
 
-import java.net.URI;
 import java.util.logging.Logger;
 
 import javax.ws.rs.client.Client;
@@ -28,23 +27,23 @@ import com.woyao.wx.dto.TestXMLObj;
 
 public class TestXml {
 
-	private Client client;
+	private Client nettyClient;
 	private Client apacheClient;
 
 	public TestXml() {
-		this.client = this.initClient();
+		this.nettyClient = this.initNettyClient();
 		this.apacheClient = this.initApacheClient();
 	}
 
-	private Client initClient() {
-		ClientConfig clientConfig = new ClientConfig().property(ClientProperties.ASYNC_THREADPOOL_SIZE, 2)
+	private Client initNettyClient() {
+		ClientConfig clientConfig = new ClientConfig().property(ClientProperties.ASYNC_THREADPOOL_SIZE, 10)
 				.property(ClientProperties.READ_TIMEOUT, 10000).property(ClientProperties.CONNECT_TIMEOUT, 3000);
 		ConnectorProvider connectorProvider = new SnowmNettyConnectorProvider();
 		clientConfig.connectorProvider(connectorProvider);
 
-//		Logger logger = new Log4jLogger("JerseyClientLogging", null);
-//		LoggingFeature loggingFeature = new LoggingFeature(logger);
-		ClientBuilder cb = ClientBuilder.newBuilder().withConfig(clientConfig).register(JacksonFeature.class).register(LoggingFeature.class);
+		Logger logger = new com.woyao.log.Slf4jLogger("JerseyClientLogging", null);
+		LoggingFeature loggingFeature = new LoggingFeature(logger);
+		ClientBuilder cb = ClientBuilder.newBuilder().withConfig(clientConfig).register(JacksonFeature.class).register(loggingFeature);
 		return cb.build();
 	}
 
@@ -66,7 +65,7 @@ public class TestXml {
 
 	private void testPostXML() throws JAXBException {
 		String uri = "http://localhost:8080/wx/orderNotify";
-		WebTarget target = this.client.target(uri);
+		WebTarget target = this.nettyClient.target(uri);
 		String content = "<xml><Id><![CDATA[id2]]></Id><Name><![CDATA[name1]]></Name></xml>";
 		Entity<String> entity = Entity.entity(content, MediaType.TEXT_PLAIN_TYPE);
 		Response resp = target.request().post(entity);
@@ -78,7 +77,7 @@ public class TestXml {
 	private void testGetUserAccessTokenNetty() {
 		String code = "031YQUDq0Yychb1LBpFq0wSTDq0YQUDo";
 		String uri = "https://api.weixin.qq.com/sns/oauth2/access_token";
-		WebTarget target = this.client.target(uri).queryParam("appid", "wxf55a7c00ffaca994")
+		WebTarget target = this.nettyClient.target(uri).queryParam("appid", "wxf55a7c00ffaca994")
 				.queryParam("secret", "c2a3b331343402b2ef8ad60851c80e73").queryParam("code", code)
 				.queryParam("grant_type", "authorization_code");
 		Response resp = target.request().get();
@@ -96,7 +95,7 @@ public class TestXml {
 	private void testNettyGet() {
 		String code = "031YQUDq0Yychb1LBpFq0wSTDq0YQUDo";
 		String uri = "http://luoke30.com/sns/oauth2/access_token";
-		WebTarget target = this.client.target(uri).queryParam("appid", "wxf55a7c00ffaca994")
+		WebTarget target = this.nettyClient.target(uri).queryParam("appid", "wxf55a7c00ffaca994")
 				.queryParam("secret", "c2a3b331343402b2ef8ad60851c80e73").queryParam("code", code)
 				.queryParam("grant_type", "authorization_code");
 		Response resp = target.request().get();
@@ -109,15 +108,21 @@ public class TestXml {
 				.queryParam("grant_type", "authorization_code");
 		Response resp = target.request().get();
 	}
+
+	private void testGet163Netty() {
+		String uri = "http://localhost:40080/develop/";
+		WebTarget target = this.nettyClient.target(uri);
+		target.request().get();
+	}
 	
 	public static void main(String[] args) {
-		try{
-		URI.create("https://api.weixin.qq.com/sns/userinfo");
-		}catch(Exception ex){
-			ex.printStackTrace();
-		}
-//		TestXml t = new TestXml();
-//		t.testGetUserAccessTokenNetty();
+//		try{
+//		URI.create("https://api.weixin.qq.com/sns/userinfo");
+//		}catch(Exception ex){
+//			ex.printStackTrace();
+//		}
+		TestXml t = new TestXml();
+		t.testGet163Netty();
 		// try {
 		// t.testPostXML();
 		// } catch (JAXBException e) {

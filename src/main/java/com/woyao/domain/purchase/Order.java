@@ -37,6 +37,9 @@ public class Order extends DefaultModelImpl {
 	@Column(name = "VERSION")
 	private int version = 0;
 
+	@Column(name = "ORDER_NO", length = 32, nullable = false, unique = true)
+	private String orderNo;
+
 	@ManyToOne(optional = false, fetch = FetchType.LAZY)
 	@JoinColumn(referencedColumnName = "id", name = "CONSUMER_ID", nullable = false)
 	private ProfileWX consumer;
@@ -75,13 +78,21 @@ public class Order extends DefaultModelImpl {
 	public void setId(Long id) {
 		this.id = id;
 	}
-
+	
 	public int getVersion() {
 		return version;
 	}
 
 	public void setVersion(int version) {
 		this.version = version;
+	}
+
+	public String getOrderNo() {
+		return orderNo;
+	}
+
+	public void setOrderNo(String orderNo) {
+		this.orderNo = orderNo;
 	}
 
 	public ProfileWX getConsumer() {

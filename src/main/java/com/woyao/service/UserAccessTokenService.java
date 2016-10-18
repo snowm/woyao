@@ -40,7 +40,6 @@ public class UserAccessTokenService {
 
 	@Transactional
 	public void saveOrUpdate(UserAccessToken token) {
-		token.getProfileWXId();
 		this.dao.saveOrUpdate(token);
 	}
 

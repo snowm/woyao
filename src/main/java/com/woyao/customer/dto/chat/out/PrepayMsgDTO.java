@@ -13,6 +13,11 @@ public class PrepayMsgDTO extends Outbound {
 
 	private String desc;
 
+	public PrepayMsgDTO() {
+		super();
+		this.command = OutboundCommand.PREPAY_MSG;
+	}
+
 	public Long getClientMsgId() {
 		return clientMsgId;
 	}

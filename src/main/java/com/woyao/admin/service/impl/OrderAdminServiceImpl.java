@@ -15,6 +15,7 @@ import com.woyao.admin.dto.product.ProductDTO;
 import com.woyao.admin.dto.product.QueryOrderRequestDTO;
 import com.woyao.admin.dto.purchase.OrderDTO;
 import com.woyao.admin.service.IOrderAdminService;
+import com.woyao.domain.chat.ChatMsg;
 import com.woyao.domain.product.Product;
 import com.woyao.domain.purchase.Order;
 import com.woyao.domain.purchase.OrderItem;
@@ -82,10 +83,11 @@ public class OrderAdminServiceImpl extends AbstractAdminService<Order, OrderDTO>
 			ProductDTO pdto=new ProductDTO();
 			BeanUtils.copyProperties(product,pdto);
 			pdto.setTypeId(product.getType().getPersistedValue());
-			pdto.setShopId(product.getShop().getId());
-			pdto.setShopName(product.getShop().getName());
-			pdtos.add(pdto);
-			
+			if(product.getShop()!=null){			
+				pdto.setShopId(product.getShop().getId());
+				pdto.setShopName(product.getShop().getName());
+			}
+			pdtos.add(pdto);		
 		} 
 		dto.setProducts(pdtos);	
 		dto.setConsumerId(m.getConsumer().getId());
@@ -94,7 +96,25 @@ public class OrderAdminServiceImpl extends AbstractAdminService<Order, OrderDTO>
 		dto.setToProfileName(m.getToProfile().getNickname());
 		dto.setPrepayInfoId(m.getPrepayInfo().getId());
 		dto.setStatusId(m.getStatus().getPersistedValue());
-		
+		if(m.getPrepayInfo()!=null){		
+			dto.setPrepayId(m.getPrepayInfo().getPrepayId());
+			dto.setAppid(m.getPrepayInfo().getAppid());
+			dto.setMchId(m.getPrepayInfo().getMchId());
+			dto.setResultCode(m.getPrepayInfo().getResultCode());
+			if(m.getPrepayInfo().getErrCode()!=null){
+				dto.setErrCode(m.getPrepayInfo().getErrCode());
+				dto.setErrCodeDes(m.getPrepayInfo().getErrCodeDes());
+			}
+			dto.setTradeType(m.getPrepayInfo().getTradeType());
+			dto.setCodeUrl(m.getPrepayInfo().getCodeUrl());			
+		}
+		dto.setSpbillCreateIp(m.getSpbillCreateIp());
+		dto.setOrderNo(m.getOrderNo());
+		if(m.getMsgId()!=null){		
+			dto.setMsgId(getMsg(m.getMsgId()).getId());
+			dto.setMsgpic(getMsg(m.getMsgId()).getPicURL());
+		}
+			
 		dto.setEnabled(m.getLogicalDelete().isEnabled());
 		dto.setDeleted(m.getLogicalDelete().isDeleted());
 		dto.setCreationDate(m.getModification().getCreationDate());
@@ -102,6 +122,10 @@ public class OrderAdminServiceImpl extends AbstractAdminService<Order, OrderDTO>
 		return dto;
 	}
 
+	private ChatMsg getMsg(Long id){
+		return this.dao.get(ChatMsg.class, id);
+	}
+	
 	@Override
 	public Order transferToDomain(OrderDTO dto) {
 		Order m=new Order();
