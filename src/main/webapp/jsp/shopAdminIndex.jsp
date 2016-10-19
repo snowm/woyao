@@ -47,6 +47,9 @@
             <a href="#!/demo">demo</a>
         </li>
         <li>
+            <a href="/shop/admin/dapin">大屏</a>
+        </li>
+        <li>
             <form action="" method="">
 				<i class="fui-exit"></i>
 				<a style="color:white">退出</a>				                   		
