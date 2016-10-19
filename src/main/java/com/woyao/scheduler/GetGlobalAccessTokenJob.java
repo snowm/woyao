@@ -66,6 +66,7 @@ public class GetGlobalAccessTokenJob {
 				token.setEffective(true);
 				this.globalTokenService.saveOrUpdate(token);
 			}
+			logger.debug("现有token有效，没必要重新获取GlobalAccessToken!");
 		} catch (Exception ex) {
 			logger.error("Get global access token error!", ex);
 		} finally {
@@ -92,6 +93,7 @@ public class GetGlobalAccessTokenJob {
 				ticket.setEffective(true);
 				this.jsapiTicketservice.saveOrUpdate(ticket);
 			}
+			logger.debug("现有ticket有效，没必要重新获取JsapiTicket!");
 		} catch (Exception ex) {
 			logger.error("Get jsapi ticket error!", ex);
 		} finally {

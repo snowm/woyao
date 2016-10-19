@@ -47,9 +47,9 @@ import com.woyao.customer.service.IChatService;
 import com.woyao.customer.service.IMobileService;
 import com.woyao.customer.service.IOrderService;
 import com.woyao.customer.service.IProductService;
+import com.woyao.customer.service.IProfileWxService;
 import com.woyao.dao.CommonDao;
 import com.woyao.domain.chat.ChatMsg;
-import com.woyao.domain.profile.ProfileWX;
 import com.woyao.service.UploadService;
 import com.woyao.utils.JsonUtils;
 import com.woyao.utils.PaginationUtils;
@@ -82,6 +82,9 @@ public class ChatServiceImpl implements IChatService {
 
 	@Resource(name = "submitOrderProducer")
 	private LongEventProducer submitOrderProducer;
+
+	@Resource(name = "profileWxService")
+	private IProfileWxService profileWxService;
 	
 //	@Resource(name = "submitOrderQueueService")
 //	private IOrderProcessQueue submitOrderQueueService;
@@ -238,19 +241,8 @@ public class ChatServiceImpl implements IChatService {
 	public ProfileDTO getChatter(long chatterId) {
 		ProfileDTO dto = this.sessionContainer.getChatter(chatterId);
 		if (dto == null) {
-			dto = this.getChatterFromDB(chatterId);
+			dto = this.profileWxService.getById(chatterId);
 		}
-		return dto;
-	}
-
-	@Override
-	public ProfileDTO getChatterFromDB(long chatterId) {
-		ProfileWX profile = this.dao.get(ProfileWX.class, chatterId);
-		if (profile == null) {
-			return null;
-		}
-		ProfileDTO dto = new ProfileDTO();
-		BeanUtils.copyProperties(profile, dto);
 		return dto;
 	}
 
