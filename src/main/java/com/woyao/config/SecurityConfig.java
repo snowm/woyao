@@ -142,7 +142,7 @@ public class SecurityConfig {
 		List<SessionAuthenticationStrategy> strategies = new ArrayList<>();
 		ConcurrentSessionControlAuthenticationStrategy concurrentSessionStrategy = new ConcurrentSessionControlAuthenticationStrategy(
 				sessionRegistry());
-		concurrentSessionStrategy.setMaximumSessions(1);
+		concurrentSessionStrategy.setMaximumSessions(10);
 		concurrentSessionStrategy.setExceptionIfMaximumExceeded(false);
 		strategies.add(concurrentSessionStrategy);
 
@@ -181,7 +181,7 @@ public class SecurityConfig {
 
 		@Override
 		public void configure(WebSecurity web) throws Exception {
-			web.ignoring().antMatchers("/admin/resources/**", "/resources/**", "/favicon.ico", "/ali/**", "/test/**",
+			web.ignoring().antMatchers("/admin/resources/**", "/shopAdmin/resources/**", "/resources/**", "/favicon.ico", "/ali/**", "/test/**",
 					"/MP_verify_ExuzNoCNVM22thc+.txt**", "/MP_verify_uxa7tD8pJYJJCFjm.txt**", "/m/**");
 		}
 
@@ -196,11 +196,8 @@ public class SecurityConfig {
 			http.authorizeRequests()
 				.antMatchers("/login.jsp**", "/login**").anonymous()
 				.antMatchers("/logout**").authenticated()
-				// .antMatchers("/**", "/index.jsp**", "/admin/**").hasAnyRole("SUPER", "ADMIN", "OP", "CS")
-				.antMatchers("/admin/**").authenticated()
-				// .antMatchers("/", "/admin/**").hasAnyAuthority("ROLE_SUPER","ROLE_ADMIN", "ROLE_OP", "ROLE_CS")
-				.antMatchers("/api/op2.html**").access("hasRole('OP') and hasRole('ADMIN')")
-				// .antMatchers("/admin/**").hasAnyRole("SUPER", "ADMIN", "OP", "CS")
+				.antMatchers("/admin/**").hasAnyRole("SUPER", "ADMIN", "S_ADMIN")
+				.antMatchers("/shop/admin/**").hasAnyRole("S_ADMIN")
 				.anyRequest().denyAll();
 		}
 	}

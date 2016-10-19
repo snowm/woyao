@@ -67,7 +67,7 @@ public class UserAdminServiceImpl extends AbstractAdminService<Profile, ProfileD
 			String encodedPassword = this.passwordEncoder.encode(dto.getPassword());
 			m.setPassword(encodedPassword);
 		}
-		BeanUtils.copyProperties(dto, m, "password");
+		BeanUtils.copyProperties(dto, m, "username","password");
 		this.dao.update(m);
 		ProfileDTO rs = this.transferToDTO(m, true);
 		return rs;

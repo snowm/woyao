@@ -1,43 +1,54 @@
-package com.woyao.admin.controller;
+package com.woyao.admin.shop;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.snowm.utils.query.PaginationBean;
+import com.woyao.admin.dto.product.ProductDTO;
+import com.woyao.admin.dto.product.QueryProductsRequestDTO;
 import com.woyao.admin.dto.product.ShopDTO;
+import com.woyao.admin.service.IProductAdminService;
 import com.woyao.admin.service.IShopAdminService;
 import com.woyao.dao.CommonDao;
 import com.woyao.domain.Shop;
-import com.woyao.security.AuthorityConstants;
 import com.woyao.security.SelfSecurityUtils;
 
 @Controller
-@RequestMapping(value = "/admin")
-public class AdminController {
+@RequestMapping(value = "/shop/admin")
+public class ShopRootController {
 
 	@Resource(name = "shopAdminService")
 	private IShopAdminService shopAdminService;
-	
+
+	@Resource(name = "productAdminService")
+	private IProductAdminService productService;
+
 	@Resource(name = "commonDao")
 	private CommonDao commonDao;
-	
+
 	@RequestMapping(value = { "/", "" }, method = RequestMethod.GET)
 	public String rootHome(Model model) {
-		boolean isShopAdmin = SelfSecurityUtils.hasAuthority(AuthorityConstants.SHOP_ADMIN);
-		boolean isAdmin = SelfSecurityUtils.hasAuthority(AuthorityConstants.ADMIN)
-				|| SelfSecurityUtils.hasAuthority(AuthorityConstants.SUPER);
-		if (isShopAdmin && !isAdmin) {
-			ShopDTO dto = getCurrentShop();
-			model.addAttribute("shop", dto);
-			return "shopAdminIndex";
-		}
-		return "adminIndex";
+		ShopDTO dto = getCurrentShop();
+		model.addAttribute("shop", dto);
+		return "shopAdminIndex";
+	}
+
+	@RequestMapping(value = { "/search" }, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@ResponseBody
+	public PaginationBean<ProductDTO> query(QueryProductsRequestDTO request) {
+		Long shopId = this.getCurrentShop().getId();
+		request.setShopId(shopId);
+		PaginationBean<ProductDTO> result = this.productService.query(request);
+		return result;
 	}
 
 	private ShopDTO getCurrentShop() {
@@ -48,7 +59,8 @@ public class AdminController {
 		if (currentShop == null) {
 			throw new IllegalStateException();
 		}
-		ShopDTO dto = shopAdminService.get(currentShop.getId(), true);
+		ShopDTO dto = shopAdminService.transferToFullDTO(currentShop);
 		return dto;
 	}
+
 }
