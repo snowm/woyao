@@ -191,8 +191,10 @@ public class SecurityConfig {
 
 		@Override
 		public void configure(WebSecurity web) throws Exception {
-			web.ignoring().antMatchers("/admin/resources/**", "/shopAdmin/resources/**", "/resources/**", "/favicon.ico", "/ali/**", "/test/**",
+			web.ignoring().antMatchers("/admin/resources/**", "/shopAdmin/resources/**", "/resources/**", "/favicon.ico",
 					"/MP_verify_ExuzNoCNVM22thc+.txt**", "/MP_verify_uxa7tD8pJYJJCFjm.txt**", "/m/**");
+//			web.ignoring().antMatchers("/admin/resources/**", "/shopAdmin/resources/**", "/resources/**", "/favicon.ico",
+//					"/MP_verify_ExuzNoCNVM22thc+.txt**", "/m/**");
 		}
 
 		@Override

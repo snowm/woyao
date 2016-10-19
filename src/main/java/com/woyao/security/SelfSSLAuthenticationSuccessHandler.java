@@ -66,7 +66,7 @@ public class SelfSSLAuthenticationSuccessHandler extends SSLAuthenticationSucces
 		if (currentShop == null) {
 			throw new IllegalStateException();
 		}
-		ShopDTO dto = shopAdminService.transferToFullDTO(currentShop);
+		ShopDTO dto = shopAdminService.get(currentShop.getId(), true);
 		dto.setManagerPwd(null);
 		return dto;
 	}

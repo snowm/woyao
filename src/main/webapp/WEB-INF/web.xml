@@ -51,6 +51,7 @@
 	<filter-mapping>
 		<filter-name>springSecurityFilterChain</filter-name>
 		<url-pattern>/admin/*</url-pattern>
+		<url-pattern>/shop/admin/*</url-pattern>
 	</filter-mapping>
 	<filter-mapping>
 		<filter-name>oauth2SecurityFilter</filter-name>
