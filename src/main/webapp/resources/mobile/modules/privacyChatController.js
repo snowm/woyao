@@ -6,7 +6,8 @@
 define(['jquery','avalon', 'text!./privacyChat.html','socket','swiper',"domReady!",'qqface'], function ($,avalon,_privacyChat,socket,swiper,domReady) {
     avalon.templateCache._privacyChat = _privacyChat;
 
-    var privacySocket = socket;
+    socket.init();
+    var privacySocket = socket.ws;
     
         var pChatController = avalon.define({
             $id : "pChatController",
@@ -241,7 +242,7 @@ define(['jquery','avalon', 'text!./privacyChat.html','socket','swiper',"domReady
         function init(){
         	pChatController.pMsgList = [];//清空私聊消息列表
         	
-        	privacySocket = socket;
+        	privacySocket = socket.ws;
         	
         	pChatController.toWho = avalon.vmodels.rootController.toWho;// 保存toId
         	console.log(pChatController.toWho.$model);

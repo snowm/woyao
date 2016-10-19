@@ -42,7 +42,7 @@ public class UserAccessToken extends DefaultModelImpl {
 	@Column(name = "REFRESH_TOKEN", nullable = false)
 	private String refreshToken;
 
-	@Column(name = "OPEN_ID", nullable = false, unique = true)
+	@Column(name = "OPEN_ID", nullable = false, unique = true, length = 50)
 	private String openId;
 
 	@Column(name = "SCOPE", nullable = true)

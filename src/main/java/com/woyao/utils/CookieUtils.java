@@ -6,15 +6,16 @@ import javax.servlet.http.HttpServletResponse;
 
 public class CookieUtils {
 
-	public static final String COOKIE_SHOP_ID = "_spWY_id";
+	public static final String COOKIE_SHOP_ID = "__woyao_spWY_id";
 	
-	public static final String COOKIE_CHATTER_ID = "_ctWY_id";
+	public static final String COOKIE_CHATTER_ID = "__woyao_ctWY_id";
 	
-	public static final String COOKIE_OPEN_ID = "_opWY_id";
+	public static final String COOKIE_OPEN_ID = "__woyao_opWY_id";
 	
-	public static final String COOKIE_PATH = "\\";
+	public static final String COOKIE_PATH = "/";
 	
-	public static final int COOKIE_AGE = 31536000;
+//	public static final int COOKIE_AGE = 31536000;
+	public static final int COOKIE_AGE = -31536000;
 
 	public static String getCookie(HttpServletRequest request, String name) {
 		Cookie[] cookies = request.getCookies();
