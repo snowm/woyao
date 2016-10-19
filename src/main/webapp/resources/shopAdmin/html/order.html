@@ -1,56 +1,180 @@
-<div class="panel-default">
-    <div class="panel-heading">鏌ヨ鍙傛暟</div>
+<div class="panel-default" ms-controller="orderController">
+    
     <div class="panel-body">
-        <div>
-            <div class="col-xs-3">
+        <div ms-if="top">
+        <div class="panel-heading">查询条件</div>
+            <div class="col-xs-2">
                 <div class="form-group">
-                    <input type="text" value="" placeholder="Inactive" class="form-control">
+                <label class="control-label">总价格（大于）</label>
+                    <input type="text" value="" placeholder="Inactive" class="form-control" ms-duplex="orderData.mintotalFee">
                 </div>
             </div>
-            <div class="col-xs-3">
+            <div class="col-xs-2">
                 <div class="form-group">
-                    <input type="text" value="" placeholder="Inactive" class="form-control">
+                <label class="control-label">总价格（小于）</label>
+                    <input type="text" value="" placeholder="Inactive" class="form-control" ms-duplex="orderData.maxtotalFee">
                 </div>
             </div>
-            <div class="col-xs-3">
+            <div class="col-xs-2">
+                 <div class="form-group" style="position: relative;">
+			          <label class="control-label">消费者名称</label>
+			             <input type="text" name="firstname" placeholder="Inactive" class="form-control" ms-duplex="ordername.nickname" ms-keyup="chang">
+			             <div style="position:absolute;top:80px;width:100%;max-height:160px;overflow-y: scroll;border:1px solid #8ab0fa; background-color: white;z-index: 1000000;" ms-if="nameList.length !=0">
+			             	 <table> 
+			             	 	<tr style="cursor: pointer;" ms-repeat-p="nameList" ms-hover="chooseShopItem">	             	                 
+					                <td ms-text="p.nickname" ms-click="chooseName(p.id,p.nickname)" style="width:900px;height:30px;text-indent:12px;"></td>			                			                
+					            </tr>
+					          </table>   
+			             </div>		          
+			        </div> 
+            </div>
+             <div class="col-xs-2">
                 <div class="form-group">
-                    <input type="text" value="" placeholder="Inactive" class="form-control">
+                	<label class="control-label">创建开始时间</label>
+                    <input type="text" value="" placeholder="Inactive" class="form-control" id="date_picker1" ms-duplex="orderData.startcreationDate">
                 </div>
             </div>
-            <div class="col-xs-3">
+            <div class="col-xs-2">
                 <div class="form-group">
-                    <input type="text" value="" placeholder="Inactive" class="form-control">
+                	<label class="control-label">创建结束时间</label>
+                    <input type="text" value="" placeholder="Inactive" class="form-control" id="date_picker2" ms-duplex="orderData.endcreationDate">
+                </div>
+            </div>   
+            <div class="col-xs-2">
+                <div class="form-group">
+                <label class="control-label">订单状态</label>
+                   <select class="form-control" ms-duplex="orderData.statusId">
+		             	<option value=''>-- 请选择 --</option>	                  
+		                <option value='1'>已送达</option> 
+		                <option value='2'>成功</option>
+		                <option value='3'>失败</option>
+	             	</select>
                 </div>
             </div>
+            
+             <div class="col-sm-12 text-right">
+	        	<button class="btn btn btn-inverse" ms-click="btnOrder">查 询</button>	        	
+	     	</div>
         </div>
-        <div class="clearfix"></div>
-        <div class="">
-            <div class="m-table">
-                <ul class="">
-                    <li class="m-table-item">
-                        <div>订单号</div>
-                        <div>消费者名称</div>
-                        <div>创建时间</div>
-                        <div>订单状态</div>
-                        <div>总价</div>
-                        <div>操作
-                            <!-- <button type="button" class="btn btn-xs btn-default">详情</button> -->
-                        </div>
-                    </li>                     
-                </ul>
-                <table class="table table-striped table-hover text-center">				     
-				     <tbody>
-				      <tr>	       	       	
-				        <td>1</td>
-				        <td>2</td>
-				        <td>3</td>
-				        <td>4</td>	
-				        <td>5</td>	
-				        <td>6</td>	        
+        <div class="clearfix" ms-if="orderList !=0 && list">
+        		<table class="table table-striped table-hover text-center">
+			    <thead>
+				      <tr>
+				        <th class="text-center">订单号</th>
+				        <th class="text-center">消费者名称</th>
+				        <th class="text-center">时间</th>				        
+				        <th class="text-center">订单状态</th>
+				        <th class="text-center">总价</th>					        	
+				        <!-- <th class="text-center">是否删除</th> -->
+				        <th class="text-center text-right" width="200">操作</th>
 				      </tr>
-				     </tbody>
-	    		</table>
-            </div>
+			     </thead>
+			     <tbody>
+				      <tr ms-repeat-p="orderList">
+				      	<td ms-text="p.orderNo"></td>
+				        <td ms-text="p.consumerName"></td>				       	
+				        <td ms-text="p.creationDate"></td>				        				        
+				        <td><span ms-if="p.statusId == 1">已送达</span><span ms-if="p.statusId ==2">成功</span><span ms-if="p.statusId ==3">失败</span></td>
+				        <td ms-text="p.totalFee"></td>				        			        
+				        <td class="table-action">					        
+					        <button class="btn btn-xs btn-info" ms-click="details(p.id)"><i class="fa fa-trash-o"></i> 详情</button>
+				        </td>
+				      </tr>				      
+			      </tbody>
+	    	</table>
+	   		<div class="row">
+		        	<div class="col-sm-5"></div>
+		        	<ul class="pagination pagination-split">
+		                <li ms-click="page('upPage')"><a href="#" style="background: #29406f;color:#fff;"><span class="fui-arrow-left"></span> 上一页</a></li>             
+		                <li ms-click="page('nextPage')"><a href="#" style="background: #29406f;color:#fff;">下一页 <span class="fui-arrow-right"></span></a></li>
+		            </ul>
+        	</div>
         </div>
+        <!-- 订单详情   -->
+		      <div class="panel panel-default" ms-if='product'>
+		        <div class="panel-body">
+		            <h4 class="panel-title m-line" style="border-bottom: 1px solid #dadada;padding-bottom: 10px;">基本信息</h4>
+		            <div class="form-group col-xs-12">
+		                <div class='col-xs-4'>
+		                    <label class="control-label col-xs-6 text-right">订单号：</label>
+		                    <div class='col-xs-6 text-left'>
+		                        <p class="m-text" ms-text='pList.orderNo'></p>
+		                    </div>
+		                </div>
+		                <div class='col-xs-4'>
+		                    <label class="control-label col-xs-6 text-right">订单状态：</label>
+		                    <div class='col-xs-6 text-left'>
+		                        <p class="m-text" ms-text='pList.statusId'></p>
+		                    </div>
+		                </div>
+		                <div class='col-xs-4'>
+		                    <label class="control-label col-xs-6 text-right">消费者：</label>
+		                    <div class='col-xs-6 text-left'>
+		                        <p class="m-text" ms-text='pList.consumerName'></p>
+		                    </div>
+		                </div>
+		            </div>
+		
+		
+		            <h4 class="panel-title m-line" style="border-bottom: 1px solid #dadada;padding-bottom: 10px;">时间信息</h4>
+		            <div class="form-group col-xs-12">
+		                <div class='col-xs-4'>
+		                    <label class="control-label col-xs-6 text-right">创建时间：</label>
+		                    <div class='col-xs-6 text-left'>
+		                        <p class="m-text" ms-text='pList.creationDate'></p>
+		                    </div>
+		                </div>
+		                <div class='col-xs-4'>
+		                    <label class="control-label col-xs-6 text-right">最后操作时间：</label>
+		                    <div class='col-xs-6 text-left'>
+		                        <p class="m-text" ms-text='pList.lastModifiedDate'></p>
+		                    </div>
+		                </div>
+		            </div>
+		
+		            <h4 class="panel-title m-line" style="border-bottom: 1px solid #dadada;padding-bottom: 10px;">支付信息</h4>
+		            <div class="form-group col-xs-12">
+		                <div class='col-xs-4'>
+		                    <label class="control-label col-xs-6 text-right">支付金额：</label>
+		                    <div class='col-xs-6 text-left'>
+		                        <p class="m-text" ms-text='pList.totalFee'></p>
+		                    </div>
+		                </div>
+		            </div>
+		       		<h4 class="panel-title m-line">商品信息</h4>
+		        </div>
+		
+		
+		        <div class="table-responsive">		
+		
+		            <table class="table table-striped table-hover text-center">
+		                <thead>
+		                <tr>
+		                    <th class="text-center">商店名称</th>
+		                    <th class="text-center">产品图片</th>
+		                    <th class="text-center">产品名称</th>
+		                    <th class="text-center">产品价格</th>
+		                    <th class="text-center">产品描述</th>
+		                </tr>
+		                </thead>
+		                <tbody>
+		                <tr ms-repeat-p="pList.products">
+		                    <td ms-text="p.shopName"></td>
+		                    <td>
+		                        <img class="media-object center-block" ms-attr-src="p.mainPic" style="width:30px;height:30px;" alt="">
+		                    </td>
+		                    <td ms-text="p.name"></td>
+		                    <td ms-text="p.unitPrice"></td>
+		                    <td ms-text="p.description"></td>
+		                </tr>
+		                </tbody>
+		            </table>
+		            <div class="panel-footer text-right">
+		                <button class="btn btn-success" ms-click="back">返回</button>
+		            </div>
+		
+		        </div>
+		
+		    </div>              
     </div>
 </div>

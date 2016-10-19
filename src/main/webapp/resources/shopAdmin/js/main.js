@@ -16,6 +16,7 @@ require.config({
         'datapicker':['./js/plugin/datapicker'],
         'datapicker.cn':['./js/plugin/datapicker.cn'],
         'bootstrap': ['./js/plugin/bootstrap.min'],
+        'uploadfile': ['./js/plugin/uploadfile'],
 //        'jquery-ui': ['./js/plugin/jquery-ui-1.10.3.min'],
 //        'jquery-migrate': ['./js/plugin/jquery-migrate-1.2.1.min'],
         
@@ -29,7 +30,8 @@ require.config({
         },
         "jquery.cookies":["jquery"],
         "datapicker":["jquery"],
-        "datapicker.cn":["jquery"],  
+        "datapicker.cn":["jquery"],
+        "uploadfile":["jquery"],
 //        "jquery-ui":["jquery"],
 //        "jquery-migrate":["jquery"],
 //        "custom":["jquery"],
@@ -68,6 +70,8 @@ require(['/shopAdmin/resources/js/common.js','mmRouter',"domReady!"],function(mm
     avalon.router.get("/order", callback);
     avalon.router.get("/chat", callback);
     avalon.router.get("/demo", callback);
+    avalon.router.get("/shop", callback);
+    avalon.router.get("/goods", callback);
 
     avalon.history.start({
         basepath: "/avalon"
