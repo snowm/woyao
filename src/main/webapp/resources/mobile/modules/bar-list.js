@@ -130,9 +130,9 @@ window.onload = function(){
          map.centerAndZoom(new BMap.Point(104.072227,30.663456), 18);
     	 queryData(104.072227,30.663456); 	
     	 map.clearOverlays();     
-     	var marker = new BMap.Marker(new BMap.Point(104.072227,30.663456));  // 创建标注
-    	map.addOverlay(marker);               // 将标注添加到地图中
-    	marker.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画
+     	var markerP = new BMap.Marker(new BMap.Point(104.072227,30.663456));  // 创建标注
+    	map.addOverlay(markerP);               // 将标注添加到地图中
+    	markerP.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画
     }
     debug();
 
@@ -174,6 +174,7 @@ window.onload = function(){
         	            type: "get",
         	            success: function(data) {
         	                map.centerAndZoom(new BMap.Point(data.result[0].x,data.result[0].y), 15);
+        	            	marker.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画
         	                queryData(data.result.x,data.result.y);
         	                barListController.location = data.result;
         	            },

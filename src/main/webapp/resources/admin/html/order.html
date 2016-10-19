@@ -1,0 +1,187 @@
+﻿<div class="panel panel-default" ms-controller='orderController'>
+    <div class="panel panel-default"  ms-if="!formShow">
+        <div class="panel-body" ms-if="!formShow">
+            <div class="row">
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <label class="control-label">总价格（大于）</label>
+                        <input type="text" name="name" class="form-control prdocut" ms-duplex="orderData.mintotalFee">
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <label class="control-label">总价格（小于）</label>
+                        <input type="text" name="name" class="form-control prdocut" ms-duplex="orderData.maxtotalFee">
+
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <label class="control-label">创建开始时间</label>
+                        <input type="text"name="firstname" class="form-control" id="date_picker1" ms-duplex="orderData.startcreationDate">
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <label class="control-label">创建结束时间</label>
+                        <input type="text"name="firstname" class="form-control" id="date_picker2" ms-duplex="orderData.endcreationDate" >
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <label class="control-label">订单状态</label>
+                        <select class="form-control" ms-duplex="orderData.statusId">
+                            <option value="">-- 请选择  --</option>
+                            <option value="1">已送达</option>
+                            <option value="2">成功</option>
+                            <option value="3">失败</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <label class="control-label">是否删除</label>
+                        <select class="form-control" ms-duplex="orderData.deleted">
+                            <option value="">-- 请选择  --</option>
+                            <option value="true">是</option>
+                            <option value="false">否</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-12 text-right">
+                    <button class="btn btn btn-info" ms-click="queryData">查 询</button>
+                </div>
+                <!-- col-sm-6 -->
+            </div><!-- row -->
+        </div><!-- panel-body -->
+    </div>
+    <!-- 订单详情  -->
+    <div class="panel panel-default" ms-if='product'>
+        <div class="panel-body">
+            <h4 class="panel-title m-line">基本信息</h4>
+            <div class="form-group col-xs-12">
+                <div class='col-xs-4'>
+                    <label class="control-label col-xs-6 text-right">订单号：</label>
+                    <div class='col-xs-6 text-left'>
+                        <p class="m-text" ms-text='pList.orderNo'></p>
+                    </div>
+                </div>
+                <div class='col-xs-4'>
+                    <label class="control-label col-xs-6 text-right">订单状态：</label>
+                    <div class='col-xs-6 text-left'>
+                        <p class="m-text" ms-text='pList.statusId'></p>
+                    </div>
+                </div>
+                <div class='col-xs-4'>
+                    <label class="control-label col-xs-6 text-right">消费者：</label>
+                    <div class='col-xs-6 text-left'>
+                        <p class="m-text" ms-text='pList.consumerName'></p>
+                    </div>
+                </div>
+            </div>
+
+
+            <h4 class="panel-title m-line">时间信息</h4>
+            <div class="form-group col-xs-12">
+                <div class='col-xs-4'>
+                    <label class="control-label col-xs-6 text-right">创建时间：</label>
+                    <div class='col-xs-6 text-left'>
+                        <p class="m-text" ms-text='pList.creationDate'></p>
+                    </div>
+                </div>
+                <div class='col-xs-4'>
+                    <label class="control-label col-xs-6 text-right">最后操作时间：</label>
+                    <div class='col-xs-6 text-left'>
+                        <p class="m-text" ms-text='pList.lastModifiedDate'></p>
+                    </div>
+                </div>
+            </div>
+
+            <h4 class="panel-title m-line">支付信息</h4>
+            <div class="form-group col-xs-12">
+                <div class='col-xs-4'>
+                    <label class="control-label col-xs-6 text-right">支付金额：</label>
+                    <div class='col-xs-6 text-left'>
+                        <p class="m-text" ms-text='pList.totalFee'></p>
+                    </div>
+                </div>
+            </div>
+       		<h4 class="panel-title m-line">商品信息</h4>
+        </div>
+
+
+        <div class="table-responsive" style="border-top: 1px solid #dadada">
+
+
+            <table class="table table-striped table-hover text-center">
+                <thead>
+                <tr>
+                    <th class="text-center">商店名称</th>
+                    <th class="text-center">产品图片</th>
+                    <th class="text-center">产品名称</th>
+                    <th class="text-center">产品价格</th>
+                    <th class="text-center">产品描述</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ms-repeat-p="pList.products">
+                    <td ms-text="p.shopName"></td>
+                    <td>
+                        <img class="media-object center-block" ms-attr-src="p.mainPic" style="width:30px;height:30px;" alt="">
+                    </td>
+                    <td ms-text="p.name"></td>
+                    <td ms-text="p.unitPrice"></td>
+                    <td ms-text="p.description"></td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="panel-footer text-right">
+                <button class="btn btn-success" ms-click="back">返回</button>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="table-responsive" style="border-top: 1px solid #dadada" ms-if='order'>
+        <table class="table table-striped table-hover text-center">
+            <thead>
+            <tr>
+                <th class="text-center">消费者名称</th>
+                <th class="text-center">创建时间</th>
+                <th class="text-center">订单状态</th>
+                <th class="text-center">总价</th>
+                <th class="text-center text-right" width="200">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ms-repeat-p="orderList">
+                <td ms-text="p.consumerName"></td>
+                <td ms-text="p.creationDate"></td>
+                <td><i ms-if="p.statusId == 1">已送达</i><i ms-if="p.statusId == 2">成功</i><i ms-if="p.statusId == 3">失败</i></td>
+                <td ms-text="p.totalFee"></td>
+                <td class="table-action">
+                    <button class="btn btn-xs btn-info" ms-click="details(p.id)"><i class="fa fa-pencil"></i> 详情</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="text-center">
+            <div class="col-sm-1"></div>
+            <ul class="pagination pagination-split">
+                <li  ms-click="queryData('upPage')"><a href="#" style="background: #29406f;color:#fff;"><i class="glyphicon glyphicon-arrow-left"></i>上一页</a></li>
+                <li><a href="#" ms-click="queryData('nextPage')" style="background: #29406f;color:#fff;">下一页 <i class="glyphicon glyphicon-arrow-right"></i></a></li>
+            </ul>
+        </div>
+    </div>
+    <!-- 没有数据 -->
+    <div class="table-responsive"  ms-if="nothing">
+        <table class="table table-striped table-hover text-center">
+            <thead>
+            <tr>
+                <th class="text-center">亲！暂时没有数据哦</th>
+            </tr>
+            </thead>
+        </table>
+    </div>
+</div>

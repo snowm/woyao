@@ -20,7 +20,6 @@ require.config({
         'modernizr': ['./js/plugin/modernizr.min'],
         'uploadfile': ['./js/plugin/uploadfile'],
         'datapicker':['./js/plugin/datapicker'],
-        'datapicker.cn':['./js/plugin/datapicker.cn'],      
     },shim: {
         "jquery":{
             "expotrs":'$'
@@ -33,11 +32,10 @@ require.config({
         "bootstrap":["jquery"],
         "uploadfile":["jquery"],
         "datapicker":["jquery"],
-        "datapicker.cn":["jquery"],  
-        
     },
     priority: ['text']
 });
+
 
 
 require(["/admin/resources/js/common.js",'mmRouter',"domReady!"],function(mmRouter,domReady){
@@ -86,11 +84,21 @@ require(["/admin/resources/js/common.js",'mmRouter',"domReady!"],function(mmRout
         }
         console.log(_modelList)
         if(modelName == 'business-manage' && modelflag){
-        	business.init();
+        	if(typeof(business) == undefined){
+        		return;
+        	}else{
+        		business.init();
+        	}
+        }else if(modelName == 'order' && modelflag){
+        	if(typeof(orderPage) == undefined){
+        		return;
+        	}else{
+        		orderPage.init();
+        	}
+        	
         }
         
     }
-
 //    avalon.log("加载avalon路由");
     avalon.router.get("/business-manage", callback);
     avalon.router.get("/chat-manage", callback);
@@ -104,4 +112,5 @@ require(["/admin/resources/js/common.js",'mmRouter',"domReady!"],function(mmRout
         basepath: "/avalon"
     });
     avalon.scan()
+     
 });
