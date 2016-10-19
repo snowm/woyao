@@ -36,6 +36,10 @@ public class ChatMsgDTO  extends BasePKDTO {
 	
 	private String orderId;//订单号
 	
+	private String remoteAddr;//地址
+	
+	private boolean payed = false;
+	
 	@JsonFormat(pattern = DTOConfig.DATE_TIME_FULL_FMT)
 	private Date startcreationDate;//开始创建时间
 
@@ -161,6 +165,22 @@ public class ChatMsgDTO  extends BasePKDTO {
 
 	public void setPicURL(String picURL) {
 		this.picURL = picURL;
+	}
+
+	public String getRemoteAddr() {
+		return remoteAddr;
+	}
+
+	public void setRemoteAddr(String remoteAddr) {
+		this.remoteAddr = remoteAddr;
+	}
+
+	public boolean isPayed() {
+		return payed;
+	}
+
+	public void setPayed(boolean payed) {
+		this.payed = payed;
 	}
 	
 	
