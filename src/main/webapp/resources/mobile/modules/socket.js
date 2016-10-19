@@ -97,9 +97,11 @@ define(['jquery','avalon','wxsdk',"domReady!"], function ($,avalon,wx,domReady) 
                     avalon.vmodels.mainController.pageDownBtn = false;
                     if(msg.duration != 0){
                         if(avalon.vmodels.mainController.sreenShow){
+                        	msg.text = replace_em_null(msg.text);
                         	avalon.vmodels.mainController.sreenItem.push(msg);
                             return
                         }else{
+                        	msg.text = replace_em_null(msg.text);
                         	sreenPop(msg);
                         }
                     }
@@ -119,7 +121,7 @@ define(['jquery','avalon','wxsdk',"domReady!"], function ($,avalon,wx,domReady) 
         if(seconds != 0){
             avalon.vmodels.mainController.sreenShow = true;
             avalon.vmodels.mainController.sreenImg = item.pic;
-            avalon.vmodels.mainController.sreenMsg = replace_em_null(item.text);
+            avalon.vmodels.mainController.sreenMsg = item.text;
             avalon.vmodels.mainController.sreenTime = item.duration;
             avalon.vmodels.mainController.sreenHead = item.sender.headImg;
             avalon.vmodels.mainController.sreenName = item.sender.nickname;

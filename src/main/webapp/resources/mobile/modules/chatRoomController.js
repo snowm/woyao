@@ -207,7 +207,6 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"wxsdk","dom
             
             // 判断是否为付费类型 如果是：拦截，并发起订单请求；等待回调参数，以发起支付请求
             if(productsId != 0){
-            	alert("发送支付消息");
             	avalon.vmodels.rootController._loading = true;
             }else{
             	initView();
