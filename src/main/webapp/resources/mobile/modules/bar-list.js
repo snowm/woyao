@@ -65,9 +65,9 @@ window.onload = function(){
     	                barListController.location = data.result;
     	                queryData(data.result.x,data.result.y);
     	                map.centerAndZoom(new BMap.Point( data.result[0].x , data.result[0].y ), 12);    	                
-    	            	var marker = new BMap.Marker(new BMap.Point( data.result[0].x , data.result[0].y ));  // 创建标注
-    	            	map.addOverlay(marker);               // 将标注添加到地图中
-    	            	marker.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画
+    	            	markerP = new BMap.Marker(new BMap.Point( data.result[0].x , data.result[0].y ));  // 创建标注
+    	            	map.addOverlay(markerP);               // 将标注添加到地图中
+    	            	markerP.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画
     	            },
     	            complete: function() {
     	            },
@@ -120,6 +120,7 @@ window.onload = function(){
 
     var mlocation = {};
     var map = new BMap.Map("map");
+ //   map.setMapStyle({style:'dark'});  
 //    map.centerAndZoom(new BMap.Point(104.072227,30.663456), 18);
 
     //map.setMapStyle({style:'googlelite'});
@@ -130,7 +131,7 @@ window.onload = function(){
          map.centerAndZoom(new BMap.Point(104.072227,30.663456), 18);
     	 queryData(104.072227,30.663456); 	
     	 map.clearOverlays();     
-     	var markerP = new BMap.Marker(new BMap.Point(104.072227,30.663456));  // 创建标注
+     	markerP = new BMap.Marker(new BMap.Point(104.072227,30.663456));  // 创建标注
     	map.addOverlay(markerP);               // 将标注添加到地图中
     	markerP.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画
     }
@@ -174,7 +175,6 @@ window.onload = function(){
         	            type: "get",
         	            success: function(data) {
         	                map.centerAndZoom(new BMap.Point(data.result[0].x,data.result[0].y), 15);
-        	            	marker.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画
         	                queryData(data.result.x,data.result.y);
         	                barListController.location = data.result;
         	            },
@@ -225,7 +225,8 @@ window.onload = function(){
         var p = document.createElement("p");
         var p2 = document.createElement("p");;
         var pic = document.createElement("img");
-        p.innerHTML = "距离:50km";
+        var ar = document.createElement("img");
+//        p.innerHTML = "距离:50km";
         p.style.color = 'rgba(255, 255, 255, 0.8)';
         p.style.fontSize = '8px';
         
@@ -235,27 +236,43 @@ window.onload = function(){
         pic.style.display = "block";
         pic.style.margin = "0 auto";
         pic.style.borderRadius = '5px';
+        
+        
 
+        ar.src = '/resources/static/img/ar.png';
+        ar.style.width = 20 + "px";
+        ar.style.height = 10 + "px";
+        ar.style.display = "block";
+        ar.style.margin = "0 auto";
+        ar.style.bottom = "-7px";
+        ar.style.left = "50%";
+        ar.style.marginLeft = "-10px";
+        ar.style.position = "absolute";
+
+        
         p2.innerHTML = "点击进入聊天室";
         p2.style.color = '#00DAFF';
         p2.style.fontSize = '6px';
 
         div.innerHTML = this._text;
 
-        div.appendChild(pic);
+ //       div.appendChild(pic);
         div.appendChild(p);
         div.appendChild(p2);
+        div.appendChild(ar);
         div.style.position = "absolute";
         // 可以根据参数设置元素外观
         div.style.width = this._length + "px";
         div.style.minHeight = '20px';
         div.style.borderRadius = '4px';
-        div.style.background = "rgba(0, 0, 0, 0.7)";
+        div.style.background = "rgba(0, 0, 0, 0.9)";
+        div.style.position = "relative";
 
         div.style.border = "1px solid #000000";
         div.style.color = "white";
         div.style.textAlign = "center";
         div.style.fontSize = "12px";
+        div.setAttribute('class','map-block');
         // 将div添加到覆盖物容器中
         map.getPanes().markerPane.appendChild(div);
         // 保存div实例
@@ -295,6 +312,7 @@ window.onload = function(){
     
 // 添加自定义覆盖物
     function addShop(data){
+    	map.clearOverlays();
     	for (var i = 0; i < data.length; i++) { 
             (function (x) {
             	var flag = x;
@@ -305,6 +323,10 @@ window.onload = function(){
               });
             })(i);  
          };
+
+
+     	map.addOverlay(markerP);               // 将标注添加到地图中
+     	markerP.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画
 //    	setTimeout(function(){
 //      		map.centerAndZoom(new BMap.Point(104.072227,30.66378), 12)
 //    	},500)

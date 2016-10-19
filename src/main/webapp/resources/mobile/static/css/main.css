@@ -338,6 +338,9 @@ html,body{
     top: 0px;
     color:#6e6e6e;
 }
+.msg-smgs img{
+	max-width:100%;
+}
 .msg-forhe{
     top: 5px;
     line-height: 22px;
