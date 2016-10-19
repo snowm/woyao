@@ -14,9 +14,9 @@
 </head>
 <script data-main="/shopAdmin/resources/js/main.js" src="/shopAdmin/resources/js/plugin/require.js"></script>
 <body ms-controller="root">
-<div class="m-header-ctn">
+<!-- <div class="m-header-ctn">
 
-</div>
+</div> -->
 <div class="m-nav-ctn">
     <div class="m-nav-logo">
         <img src="/shopAdmin/resources/img/logo0.png" alt="">
@@ -35,8 +35,22 @@
             <a href="#!/chat">消息查询</a>
         </li>
         <li>
+            <i class="fui-calendar-solid"></i>
+            <a href="#!/goods">商品管理</a>
+        </li>
+        <li>
+            <i class="fui-star-2"></i>
+            <a href="#!/shop">商店管理</a>
+        </li>
+        <li>
             <i class="fa fa-fire"></i>
             <a href="#!/demo">demo</a>
+        </li>
+        <li>
+            <form action="" method="">
+				<i class="fui-exit"></i>
+				<a style="color:white">退出</a>				                   		
+			</form>
         </li>
     </ul>
 </div>

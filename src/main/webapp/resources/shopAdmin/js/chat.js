@@ -121,8 +121,8 @@ define(['jquery','datapicker','datapicker.cn'],function(){
 	    	}
     	});    	
     	setTimeout(function(){
-    		$('#date_picker1').datetimepicker({format: 'yyyy-mm-dd hh:ii',language: 'zh-CN'});
-    		$('#date_picker2').datetimepicker({format: 'yyyy-mm-dd hh:ii',language: 'zh-CN'});
+    		$('#date_picker1').datetimepicker({format: 'yyyy-mm-dd hh:ii',language: 'cn'});
+    		$('#date_picker2').datetimepicker({format: 'yyyy-mm-dd hh:ii',language: 'cn'});
     	},300);
     	
 });
