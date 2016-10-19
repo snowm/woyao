@@ -21,12 +21,13 @@ public class SessionContainer {
 
 	public static final String SESSION_ATTR_HTTPSESSION_ID = HttpSessionHandshakeInterceptor.HTTP_SESSION_ID_ATTR_NAME;
 	public static final String SESSION_ATTR_HTTPSESSION = "HTTP.SESSION";
-	public static final String SESSION_ATTR_REMOTE_IP = "REMOTE_IP";
+	public static final String SESSION_ATTR_REMOTE_IP = "REMOTE.IP";
 	public static final String SESSION_ATTR_CHATTER = "CHATTER";
-	public static final String SESSION_ATTR_SHOP_ID = "SHOP_ID";
-	public static final String SESSION_ATTR_CHATROOM_ID = "CHATROOM_ID";
-	public static final String SESSION_ATTR_MSG_CACHE_LOCK = "MSG_CACHE_LOCK";
-	public static final String SESSION_ATTR_MSG_CACHE = "MSG_CACHE";
+	public static final String SESSION_ATTR_SHOP_ID = "SHOP.ID";
+	public static final String SESSION_ATTR_CHATROOM_ID = "CHATROOM.ID";
+	public static final String SESSION_ATTR_MSG_CACHE_LOCK = "MSG.CACHE.LOCK";
+	public static final String SESSION_ATTR_MSG_CACHE = "MSG.CACHE";
+	public static final String SESSION_ATTR_ISDAPIN = "IS.DAPIN";
 
 	/**
 	 * 保存webSocket到http session的映射，websocketSession id为key， httpSession id

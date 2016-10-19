@@ -73,4 +73,12 @@ public abstract class SessionUtils {
 		return (String) wsSession.getAttributes().get(SessionContainer.SESSION_ATTR_REMOTE_IP);
 	}
 
+	public static boolean isDapin(WebSocketSession wsSession) {
+		Object value = wsSession.getAttributes().get(SessionContainer.SESSION_ATTR_REMOTE_IP);
+		if (value == null) {
+			return false;
+		}
+		return (Boolean) value;
+	}
+
 }
