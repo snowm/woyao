@@ -1,118 +1,139 @@
 
 define(['jquery','avalon','wxsdk',"domReady!"], function ($,avalon,wx,domReady) {
     var socket = undefined;
-    // 创建一个Socket实例
-    var isHttps = ('https:' == window.location.protocol);
-    var protocol = 'ws://';
-    if (isHttps) {
-        protocol = 'wss://';
-    }
-    socket = new WebSocket(protocol + window.location.host + '/mobile/chat/socket');
+    
+    var socket = {
+        ws: undefined,
+        initilized : false,
+        path:'/mobile/chat/socket',
+        init: function(){
+          if (!this.initilized) {
+            this.initilized = true;
 
-    // 打开Socket 
-    socket.onopen = function(event) {
-        if(window.location.hash == '#!/'){
-            setTimeout(function(){
-                avalon.vmodels.mainController.tipsShow = true;
-                avalon.vmodels.mainController.tipsMsg = '欢迎进入聊天室';
-                console.log("聊天室连接成功");
+            // 创建一个Socket实例
+            var isHttps = ('https:' == window.location.protocol);
+            var protocol = 'ws://';
+            if (isHttps) {
+                protocol = 'wss://';
+            }
+            this.ws = new WebSocket(protocol + window.location.host + '/mobile/chat/socket');
+         // 打开Socket 
+            this.ws.onopen = function(event) {
+                if(window.location.hash == '#!/'){
+                    setTimeout(function(){
+                        avalon.vmodels.mainController.tipsShow = true;
+                        avalon.vmodels.mainController.tipsMsg = '欢迎进入聊天室';
+                        console.log("聊天室连接成功");
 
-                setTimeout(function(){
-                    avalon.vmodels.mainController.tipsShow = false;
-                },3000)
-            },300)
-        };
-    };
-
-
-    socket.onmessage = function(message) {
-
-        var msg = JSON.parse(message.data);
-        console.log("get masage:");
-        console.log(msg);
-
-        if(msg.command == 'err'){
-            alert(msg.reason);
-            return
-        }
-        if(msg.command == 'selfInfo'){
-            avalon.vmodels.rootController._userInfo = msg;
-            return;
-        }
-        if(msg.command == 'roomInfo'){
-        	avalon.vmodels.rootController._roomInfo = msg;
-            return;
-        }
-        if(msg.command == 'prePay'){
-        	
-        	var data = msg.prepayInfo;
-
-        	wx.chooseWXPay({
-        	    'timestamp': data.timeStamp, 
-        	    'nonceStr': data.nonceStr, 
-        	    'package': data.packageStr,
-        	    'signType': data.signType,
-        	    'paySign': data.paySign, 
-        	    success: function (res) {
-        	        // 支付成功后的回调函数
-                	avalon.vmodels.rootController._loading = false;
-                	avalon.vmodels.mainController.hidePopSend();
-                    if(avalon.vmodels.mainController.emojiShow){
-                    	avalon.vmodels.mainController.pluginShow = false;
-                    	avalon.vmodels.mainController.emojiShow = false;
-                    }
-                    avalon.vmodels.mainController.payCount = 0;
-                    avalon.vmodels.mainController.msgText = '';
-                    avalon.vmodels.mainController.pluginShow = false;
-                    avalon.vmodels.mainController.imgUrl = '';
-                    avalon.vmodels.mainController.imgViewSrc = '/resources/static/img/photo.png';
-                    $("#photoInput").val('');
-        	    }
-        	});
-        }
-        
-
-        msg.text = replace_em(msg.text);
-        if(msg.privacy){
-            if(window.location.hash == '#!/privacyChat'){
-                if(msg.sender.id == avalon.vmodels.pChatController.toWho.id || msg.command == 'smACK'){
-                    avalon.vmodels.pChatController.pMsgList.push(msg);
-                    $(".msg-block-contain").animate({scrollTop:$(".msg-block-container").height() -  $(".msg-block-contain").height() + 100},300,'swing');
-                }
+                        setTimeout(function(){
+                            avalon.vmodels.mainController.tipsShow = false;
+                        },3000)
+                    },300)
+                };
             };
-            avalon.vmodels.rootController._privacyMsg.push(msg);
-            avalon.vmodels.mainController.pMsgCount = 0;
-            avalon.vmodels.rootController._privacyMsg.forEach(function(item){
-                if(item.command != 'smACK'){
-                    avalon.vmodels.mainController.pMsgCount++;
-                }
-            });
-        }else{
-            avalon.vmodels.rootController._publicMsg.push(msg);
-            avalon.vmodels.mainController.msgList.push(msg);
 
-            if(window.location.hash == '#!/'){
-                if($(".msg-block-container").height() - $(".msg-block-contain").height() - $(".msg-block-contain").scrollTop() < 600){
-                    $(".msg-block-contain").animate({scrollTop:$(".msg-block-container").height() -  $(".msg-block-contain").height() + 200},200,'swing');
-                    avalon.vmodels.mainController.pageDownBtn = false;
-                    if(msg.duration != 0){
-                        if(avalon.vmodels.mainController.sreenShow){
-                        	msg.text = replace_em_null(msg.text);
-                        	avalon.vmodels.mainController.sreenItem.push(msg);
-                            return
+
+            this.ws.onmessage = function(message) {
+
+                var msg = JSON.parse(message.data);
+                console.log("get masage:");
+                console.log(msg);
+
+                if(msg.command == 'err'){
+                    alert(msg.reason);
+                    return
+                }
+                if(msg.command == 'selfInfo'){
+                    avalon.vmodels.rootController._userInfo = msg;
+                    return;
+                }
+                if(msg.command == 'roomInfo'){
+                    avalon.vmodels.rootController._roomInfo = msg;
+                    return;
+                }
+                if(msg.command == 'prePay'){
+                    
+                    var data = msg.prepayInfo;
+
+                    wx.chooseWXPay({
+                        'timestamp': data.timeStamp, 
+                        'nonceStr': data.nonceStr, 
+                        'package': data.packageStr,
+                        'signType': data.signType,
+                        'paySign': data.paySign, 
+                        success: function (res) {
+                            // 支付成功后的回调函数
+                            avalon.vmodels.rootController._loading = false;
+                            avalon.vmodels.mainController.hidePopSend();
+                            if(avalon.vmodels.mainController.emojiShow){
+                                avalon.vmodels.mainController.pluginShow = false;
+                                avalon.vmodels.mainController.emojiShow = false;
+                            }
+                            avalon.vmodels.mainController.payCount = 0;
+                            avalon.vmodels.mainController.msgText = '';
+                            avalon.vmodels.mainController.pluginShow = false;
+                            avalon.vmodels.mainController.imgUrl = '';
+                            avalon.vmodels.mainController.imgViewSrc = '/resources/static/img/photo.png';
+                            $("#photoInput").val('');
+                        }
+                    });
+                }
+                
+
+                msg.text = replace_em(msg.text);
+                if(msg.privacy){
+                    if(window.location.hash == '#!/privacyChat'){
+                        if(msg.sender.id == avalon.vmodels.pChatController.toWho.id || msg.command == 'smACK'){
+                            avalon.vmodels.pChatController.pMsgList.push(msg);
+                            $(".msg-block-contain").animate({scrollTop:$(".msg-block-container").height() -  $(".msg-block-contain").height() + 100},300,'swing');
+                        }
+                    };
+                    avalon.vmodels.rootController._privacyMsg.push(msg);
+                    avalon.vmodels.mainController.pMsgCount = 0;
+                    avalon.vmodels.rootController._privacyMsg.forEach(function(item){
+                        if(item.command != 'smACK'){
+                            avalon.vmodels.mainController.pMsgCount++;
+                        }
+                    });
+                }else{
+                    avalon.vmodels.rootController._publicMsg.push(msg);
+                    avalon.vmodels.mainController.msgList.push(msg);
+
+                    if(window.location.hash == '#!/'){
+                        if($(".msg-block-container").height() - $(".msg-block-contain").height() - $(".msg-block-contain").scrollTop() < 600){
+                            $(".msg-block-contain").animate({scrollTop:$(".msg-block-container").height() -  $(".msg-block-contain").height() + 200},200,'swing');
+                            avalon.vmodels.mainController.pageDownBtn = false;
+                            if(msg.duration != 0){
+                                if(avalon.vmodels.mainController.sreenShow){
+                                    msg.text = replace_em_null(msg.text);
+                                    avalon.vmodels.mainController.sreenItem.push(msg);
+                                    return
+                                }else{
+                                    msg.text = replace_em_null(msg.text);
+                                    sreenPop(msg);
+                                }
+                            }
                         }else{
-                        	msg.text = replace_em_null(msg.text);
-                        	sreenPop(msg);
+                            avalon.vmodels.mainController.pageDownBtn = true;
                         }
                     }
-                }else{
-                    avalon.vmodels.mainController.pageDownBtn = true;
+
                 }
-            }
 
-        }
+            };
 
+            // 监听Socket的关闭
+            this.ws.onclose = function(event) {
+                avalon.vmodels.rootController.lock = true;
+            };
+          }
+        },
+
+        
     }
+//    socket = new WebSocket(protocol + window.location.host + '/mobile/chat/socket');
+
+    
     
     
     // 霸屏排队
@@ -145,11 +166,6 @@ define(['jquery','avalon','wxsdk',"domReady!"], function ($,avalon,wx,domReady) 
             },1000)
         }
    }
-
-    // 监听Socket的关闭
-    socket.onclose = function(event) {
-        avalon.vmodels.rootController.lock = true;
-    };
 
 
     // compile QQ faceCode

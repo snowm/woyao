@@ -317,8 +317,8 @@ public class ChatServiceImpl implements IChatService {
 		} else {
 			criterions.add(Restrictions.eq("chatRoomId", request.getChatRoomId()));
 		}
-		Criterion criterionFree =  Restrictions.eqOrIsNull("free", false);
-		Criterion criterionPayed =  Restrictions.and(Restrictions.eqOrIsNull("free", true), Restrictions.eqOrIsNull("payed", true));
+		Criterion criterionFree = Restrictions.eqOrIsNull("free", true);
+		Criterion criterionPayed = Restrictions.eqOrIsNull("payed", true);
 		criterions.add(Restrictions.or(criterionFree, criterionPayed));
 		List<ChatMsg> result = this.dao.query(ChatMsg.class, criterions, orders, 1L, request.getPageSize());
 		List<OutMsgDTO> dtos = new ArrayList<>();

@@ -5,9 +5,8 @@
 define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"wxsdk","domReady!",'qqface'], function ($,avalon,_chatRoom,socket,swiper,wx,domReady) {
     avalon.templateCache._chatRoom = _chatRoom;
 
-
-    var main_socket = socket;
-
+    socket.init();
+    var main_socket = socket.ws;
 
     var mainController = avalon.define({
         $id : "mainController",
@@ -409,7 +408,7 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"wxsdk","dom
     	console.log(mainController.userInfo)
         mainController.msgList = avalon.vmodels.rootController._publicMsg;
 
-        main_socket = socket;
+        main_socket = socket.ws;
 
     	$(".msg-block-contain").animate({scrollTop:$(".msg-block-container").height() - $(".msg-block-contain").height() + 100},300,'swing');
     	
