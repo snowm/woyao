@@ -49,6 +49,7 @@ public class AdminController {
 			throw new IllegalStateException();
 		}
 		ShopDTO dto = shopAdminService.get(currentShop.getId(), true);
+		dto.setManagerPwd(null);
 		return dto;
 	}
 }

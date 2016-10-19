@@ -42,6 +42,13 @@ public class ShopRootController {
 		return "shopAdminIndex";
 	}
 
+	@RequestMapping(value = { "/dapin" }, method = RequestMethod.GET)
+	public String dapin(Model model) {
+		ShopDTO dto = getCurrentShop();
+		model.addAttribute("shop", dto);
+		return "shopIndex";
+	}
+	
 	@RequestMapping(value = { "/search" }, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
 	public PaginationBean<ProductDTO> query(QueryProductsRequestDTO request) {
@@ -60,6 +67,7 @@ public class ShopRootController {
 			throw new IllegalStateException();
 		}
 		ShopDTO dto = shopAdminService.transferToFullDTO(currentShop);
+		dto.setManagerPwd(null);
 		return dto;
 	}
 
