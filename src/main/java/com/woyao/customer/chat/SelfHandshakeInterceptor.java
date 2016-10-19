@@ -17,7 +17,6 @@ import org.springframework.web.socket.server.support.HttpSessionHandshakeInterce
 
 import com.woyao.customer.dto.ProfileDTO;
 import com.woyao.customer.dto.chat.in.EntireInMsg;
-import com.woyao.security.SelfSecurityUtils;
 
 public class SelfHandshakeInterceptor extends HttpSessionHandshakeInterceptor {
 
@@ -51,10 +50,6 @@ public class SelfHandshakeInterceptor extends HttpSessionHandshakeInterceptor {
 
 		boolean rs = super.beforeHandshake(request, response, wsHandler, attributes);
 		return rs;
-	}
-	
-	private void processShopDapinWs(HttpSession session){
-		SelfSecurityUtils.getCurrentProfile();
 	}
 
 	private String getClientIp(ServerHttpRequest request) {

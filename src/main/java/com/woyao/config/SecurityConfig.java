@@ -39,11 +39,14 @@ import com.snowm.security.core.userdetails.AuthServiceImpl;
 import com.snowm.security.profile.service.PermissionService;
 import com.snowm.security.profile.service.ProfileService;
 import com.snowm.security.web.authentication.JsonAuthenticationFailureHandler;
-import com.snowm.security.web.authentication.SSLAuthenticationSuccessHandler;
 import com.snowm.security.web.authentication.SnowmAuthenticationEntryPoint;
 import com.snowm.security.web.authentication.SnowmConcurrentSessionFilter;
 import com.snowm.security.web.authentication.dao.DefaultAuthenticationProvider;
 import com.snowm.security.web.matcher.CsrfRequestMatcher;
+import com.woyao.admin.service.IShopAdminService;
+import com.woyao.customer.service.IMobileService;
+import com.woyao.dao.CommonDao;
+import com.woyao.security.SelfSSLAuthenticationSuccessHandler;
 
 @Configuration
 @Order(1)
@@ -85,11 +88,17 @@ public class SecurityConfig {
 	}
 
 	@Bean(name = "sslAuthenticationSuccessHandler")
-	public AuthenticationSuccessHandler successHandler() {
-		SSLAuthenticationSuccessHandler handler = new SSLAuthenticationSuccessHandler();
+	public AuthenticationSuccessHandler successHandler(
+			@Qualifier("shopAdminService") IShopAdminService shopAdminService, 
+			@Qualifier("commonDao") CommonDao commonDao,
+			@Qualifier("mobileService") IMobileService mobileService) {
+		SelfSSLAuthenticationSuccessHandler handler = new SelfSSLAuthenticationSuccessHandler();
 		handler.setShareSecureOrNonSecureCookie(true);
 		handler.setDefaultTargetUrl("/admin");
 		handler.setAlwaysUseDefaultTargetUrl(true);
+		handler.setShopAdminService(shopAdminService);
+		handler.setCommonDao(commonDao);
+		handler.setMobileService(mobileService);
 		return handler;
 	}
 
@@ -126,12 +135,13 @@ public class SecurityConfig {
 	@Bean(name = "usernamePasswordAuthenticationFilter")
 	public Filter usernamePasswordAuthenticationFilter(
 			@Qualifier("woyaoAuthenticationProvider") AuthenticationProvider authenticationProvider,
-			@Qualifier("authenticationManager") ProviderManager authenticationManager) {
+			@Qualifier("authenticationManager") ProviderManager authenticationManager,
+			@Qualifier("sslAuthenticationSuccessHandler") AuthenticationSuccessHandler successHandler) {
 		UsernamePasswordAuthenticationFilter bean = new UsernamePasswordAuthenticationFilter();
 		bean.setAuthenticationManager(authenticationManager);
 		bean.setSessionAuthenticationStrategy(sessionStrategy());
 		bean.setAuthenticationFailureHandler(failureHandler());
-		bean.setAuthenticationSuccessHandler(successHandler());
+		bean.setAuthenticationSuccessHandler(successHandler);
 		bean.setPostOnly(true);
 		bean.setFilterProcessesUrl("/admin/login");
 		return bean;
@@ -181,8 +191,10 @@ public class SecurityConfig {
 
 		@Override
 		public void configure(WebSecurity web) throws Exception {
-			web.ignoring().antMatchers("/admin/resources/**", "/shopAdmin/resources/**", "/resources/**", "/favicon.ico", "/ali/**", "/test/**",
+			web.ignoring().antMatchers("/admin/resources/**", "/shopAdmin/resources/**", "/resources/**", "/favicon.ico",
 					"/MP_verify_ExuzNoCNVM22thc+.txt**", "/MP_verify_uxa7tD8pJYJJCFjm.txt**", "/m/**");
+//			web.ignoring().antMatchers("/admin/resources/**", "/shopAdmin/resources/**", "/resources/**", "/favicon.ico",
+//					"/MP_verify_ExuzNoCNVM22thc+.txt**", "/m/**");
 		}
 
 		@Override

@@ -7,8 +7,8 @@
         <div class="pop-sreen-block">
             <img class="pop-sreen-head" ms-attr-src='sreenHead' alt="">
             <p class="pop-sreen-name"> <span ms-text='sreenName'></span>
-	           <img class="header-sexy" ms-if="sreenGender == 'FEMALE'"  src="/resources/static/img/weman.png" alt="">
-	           <img class="header-sexy" ms-if="sreenGender == 'MALE'" src="/resources/static/img/man.png" alt="">
+	           <img class="header-sexy" ms-visible="sreenGender == 'FEMALE'"  src="/resources/static/img/weman.png" alt="">
+	           <img class="header-sexy" ms-visible="sreenGender == 'MALE'" src="/resources/static/img/man.png" alt="">
             </p>
         </div>
         <!-- <div class="pop-sreen-block">
@@ -64,7 +64,7 @@
             <div ms-class-pop-tab-active="!tabShowFlag" ms-on-tap="tabChange(1)">霸屏</div>
             <div ms-class-pop-tab-active="tabShowFlag" ms-on-tap="tabChange(2)">送礼物</div>
         </div>
-        <div class="pop-tab-temp" ms-if="!tabShowFlag">
+        <div class="pop-tab-temp" ms-visible="!tabShowFlag">
             <select class="tab-select" ms-duplex="msgType" style="margin: auto 6%">
                 <option value="">请输入霸屏时间</option>
                 <option value="0">免费消息</option>
@@ -88,7 +88,7 @@
                 <div class="bp-cancel" ms-on-tap="hidePopSend">取 消</div>
             </div>
         </div>
-        <div class="pop-tab-temp" ms-if="tabShowFlag">
+        <div class="pop-tab-temp" ms-visible="tabShowFlag">
              <select class="tab-select" ms-duplex="toChatter" style="margin: auto 6%">
                 <option value="">请选择送礼对象</option>
                 <option value="0">全场观众</option>
@@ -106,7 +106,7 @@
                             </div>
                             <div class="radio-ctn" style="float:right">
                                 <div class="radio-back">
-                                    <span class="radio-checked" ms-if='goodsType.id == g.id'></span>
+                                    <span class="radio-checked" ms-visible='goodsType.id == g.id'></span>
                                 </div>
                             </div>
                             <div class="gift-cost" style="float:right">
@@ -140,9 +140,9 @@
         <div class="pop-wall-msg">
             <table>
                 <tr>
-                    <td><span class="pop-wall-name" ms-text="showUser.nickname">奥特曼</span> <img class="pop-wall-sexy" ms-if="showUser.sender == 'FEMALE'" src="/resources/static/img/weman.png" alt=""><img class="pop-wall-sexy" ms-if="showUser.sender == 'MALE'" src="/resources/static/img/man.png" alt=""></td>
-                    <td width="70" ms-if="showUser.id != userInfo.self.id"><div class="pop-wall-chat" ms-on-tap="forHer(showUser.id)">送 礼</div></td>
-                    <td width="70" ms-if="showUser.id != userInfo.self.id"><div class="pop-wall-chat" ms-on-tap="privateChat">搭 讪</div></td>
+                    <td><span class="pop-wall-name" ms-text="showUser.nickname">奥特曼</span> <img class="pop-wall-sexy" ms-visible="showUser.sender == 'FEMALE'" src="/resources/static/img/weman.png" alt=""><img class="pop-wall-sexy" ms-visible="showUser.sender == 'MALE'" src="/resources/static/img/man.png" alt=""></td>
+                    <td width="70" ms-visible="showUser.id != userInfo.self.id"><div class="pop-wall-chat" ms-on-tap="forHer(showUser.id)">送 礼</div></td>
+                    <td width="70" ms-visible="showUser.id != userInfo.self.id"><div class="pop-wall-chat" ms-on-tap="privateChat">搭 讪</div></td>
                 </tr>
             </table>
         </div>
@@ -154,7 +154,7 @@
         土豪榜
     </div>
     <div class="chat-list-btn" ms-on-tap="userList">
-        <span class="chat-msg-tips" ms-if="pMsgCount != 0 &&　pMsgCount != ''" ms-text="pMsgCount"></span>
+        <span class="chat-msg-tips" ms-visible="pMsgCount != 0 &&　pMsgCount != ''" ms-text="pMsgCount"></span>
         <img src="/resources/static/img/chats.png" alt="">
         私聊
     </div>
@@ -166,7 +166,7 @@
                 </td>
                 <td>
                     <img class="header-richer" src="/resources/static/img/head.jpg" ms-attr-src="topRicher.headImg" alt="">
-                    <span class="text-heightlight" ms-text='topRicher.nickname'></span> <img ms-if="topRicher.gender == 'MALE'" class="header-sexy" src="/resources/static/img/man.png" alt=""><img class="header-sexy" ms-if="topRicher.gender == 'FEMALE'"  src="/resources/static/img/weman.png" alt="">
+                    <span class="text-heightlight" ms-text='topRicher.nickname'></span> <img ms-visible="topRicher.gender == 'MALE'" class="header-sexy" src="/resources/static/img/man.png" alt=""><img class="header-sexy" ms-visible="topRicher.gender == 'FEMALE'"  src="/resources/static/img/weman.png" alt="">
                 </td>
                 <td width="80">
                     <span>消费 <span class="text-dark" ms-text='topRicher.payMsgCount'></span> 次</span>
@@ -180,8 +180,8 @@
     <div class="msg-block-contain">
         <div class="msg-block-container">
         	<div class="msg-block clearfix" style="text-align:center">
-        		<span ms-if="!queryHistoryIng" style="font-size:10px;color:#428BF7">下拉加载更多 <br><br><img src="/resources/static/img/adddown.png" width=20 alt=""></span>
-        		<span ms-if="queryHistoryIng" style="font-size:10px;color:#428BF7">加载中 <br><br><img src="/resources/static/img/loadsimg.gif" width=20 alt=""></span>
+        		<span ms-visible="!queryHistoryIng" style="font-size:10px;color:#428BF7">下拉加载更多 <br><br><img src="/resources/static/img/adddown.png" width=20 alt=""></span>
+        		<span ms-visible="queryHistoryIng" style="font-size:10px;color:#428BF7">加载中 <br><br><img src="/resources/static/img/loadsimg.gif" width=20 alt=""></span>
         	</div>
             <div class="msg-block clearfix" ms-repeat-item="msgList" ms-class="msg-block-self:item.command == 'smACK'">
                 <div class="msg-header">
@@ -190,17 +190,17 @@
                 <div class="msg-ctn clearfix">
                     <p class="msg-titles"><span class="msg-name" ms-text="item.sender.nickname">name</span></p>
                     <div class="msg-contant" ms-class-msg-blue="item.sender.gender == 'MALE'" ms-class-msg-purple="item.sender.gender == 'FEMALE'">
-                        <img class="msg-arr" src="/resources/static/img/arblue.png" ms-if="item.sender.gender == 'MALE'" alt="">
-                        <img class="msg-arr" src="/resources/static/img/arred.png" ms-if="item.sender.gender == 'FEMALE'" alt="">
+                        <img class="msg-arr" src="/resources/static/img/arblue.png" ms-visible="item.sender.gender == 'MALE'" alt="">
+                        <img class="msg-arr" src="/resources/static/img/arred.png" ms-visible="item.sender.gender == 'FEMALE'" alt="">
 
                         <div class="msg-smgs"><span class="text-org" ms-visible="item.duration">霸屏<span ms-text="item.duration"></span>秒：</span><span ms-html="item.text"></span></div>
-                        <div class="msg-img" ms-if="item.pic" ms-on-tap="showPics(item.sender.nickname,item.pic)">
+                        <div class="msg-img" ms-visible="item.pic" ms-on-tap="showPics(item.sender.nickname,item.pic)">
                             <img --src="/resources/static/img/delate/photo1.jpg" ms-attr-src="item.pic" alt="">
                         </div>
-                        <!--<p class="msg-forhe" ms-on-tap="forHer()">给<span ms-if="item.sexy == 'man'">他</span><span ms-if="item.sexy == 'weman'">她</span>送礼物</p>-->
+                        <!--<p class="msg-forhe" ms-on-tap="forHer()">给<span ms-visible="item.sexy == 'man'">他</span><span ms-visible="item.sexy == 'weman'">她</span>送礼物</p>-->
                         <p class="msg-forhe" ms-on-tap="forHer(item.sender.id)" ms-visible="judgeBl(item.pic,item.sender.id)">送礼物</p>
-                        <img class="msg-icon-right" src="/resources/static/img/cgrt.png" ms-if="item.sender.gender == 'MALE'" alt="">
-                        <img class="msg-icon-right" src="/resources/static/img/lips.png" ms-if="item.sender.gender == 'FEMALE'" alt="">
+                        <img class="msg-icon-right" src="/resources/static/img/cgrt.png" ms-visible="item.sender.gender == 'MALE'" alt="">
+                        <img class="msg-icon-right" src="/resources/static/img/lips.png" ms-visible="item.sender.gender == 'FEMALE'" alt="">
                     </div>
                 </div>
                 <p class="msg-time">{{ item.sentDate | date("HH:mm")}}</p>
@@ -208,7 +208,7 @@
         </div>
     </div>
     <div class="module-block"  ms-class-show-emoji="emojiShow" ms-class-show-plugin="pluginShow">
-    	<img ms-on-tap='pageDown' src="/resources/static/img/down.png" ms-if="pageDownBtn" style="width:30px;position:absolute;right:80px;top:-40px;">
+    	<img ms-on-tap='pageDown' src="/resources/static/img/down.png" ms-visible="pageDownBtn" style="width:30px;position:absolute;right:80px;top:-40px;">
         <div class="entry-contain">
             <table width="100%">
                 <tr>
@@ -229,7 +229,7 @@
                 </tr>
             </table>
         </div>
-        <table class="bottom-plug" ms-if="pluginShow">
+        <table class="bottom-plug" ms-visible="pluginShow">
             <tr>
                 <td class="plug-btn">
                     <div class="plug-photo">
@@ -243,7 +243,7 @@
                 <td> </td>
             </tr>
         </table>
-        <div class="bottom-emoji" ms-if="emojiShow">
+        <div class="bottom-emoji" ms-visible="emojiShow">
             <div class="emoji-ctn">
                 <div class="faceCtn"></div>
             </div>
