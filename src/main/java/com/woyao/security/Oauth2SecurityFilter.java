@@ -175,22 +175,24 @@ public class Oauth2SecurityFilter implements Filter, InitializingBean {
 
 	private ProfileDTO getUserInfoFromWx(String openId, String code) {
 		GetUserInfoResponse userInfoResponse = null;
-		switch (code) {
-		case "woyao":
-			openId = "oBu2swG0OuBsc0hZp8VM7ToMU1jw";
-			logger.debug("真实测试模式！可支付，仅用于调试！{}", openId);
-			break;
-		case "woyao-test":
-			logger.debug("测试模式！仅限于聊天！");
-			userInfoResponse = this.createMockResponse();
-			ProfileDTO dto = new ProfileDTO();
-			BeanUtils.copyProperties(userInfoResponse, dto);
-			dto.setGender(this.parseGender(userInfoResponse.getSex()));
-			dto.setLoginDate(new Date());
-			dto.setId(idGenerator.get());
-			return dto;
-		default:
-			break;
+		if (code != null) {
+			switch (code) {
+			case "woyao":
+				openId = "oBu2swG0OuBsc0hZp8VM7ToMU1jw";
+				logger.debug("真实测试模式！可支付，仅用于调试！{}", openId);
+				break;
+			case "woyao-test":
+				logger.debug("测试模式！仅限于聊天！");
+				userInfoResponse = this.createMockResponse();
+				ProfileDTO dto = new ProfileDTO();
+				BeanUtils.copyProperties(userInfoResponse, dto);
+				dto.setGender(this.parseGender(userInfoResponse.getSex()));
+				dto.setLoginDate(new Date());
+				dto.setId(idGenerator.get());
+				return dto;
+			default:
+				break;
+			}
 		}
 		if (!StringUtils.isBlank(openId)) {
 			userInfoResponse = this.wxService.getUserInfoViaExistedOpenId(openId, globalConfig.getAppId(), globalConfig.getAppSecret());
