@@ -22,7 +22,7 @@ public class ProductDTO extends BasePKDTO {
 	
 	private String shopName;
 	
-	private long unitPrice;
+	private int unitPrice;
 	
 	public String getCode() {
 		return code;
@@ -80,11 +80,11 @@ public class ProductDTO extends BasePKDTO {
 		this.shopName = shopName;
 	}
 
-	public long getUnitPrice() {
+	public int getUnitPrice() {
 		return unitPrice;
 	}
 
-	public void setUnitPrice(long unitPrice) {
+	public void setUnitPrice(int unitPrice) {
 		this.unitPrice = unitPrice;
 	}
 
