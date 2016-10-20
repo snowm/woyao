@@ -23,5 +23,6 @@
 		<property name="timeBetweenEvictionRunsMillis" value="${jdbc.timeBetweenEvictionRunsMillis}" />
 		<property name="numTestsPerEvictionRun" value="${jdbc.numTestsPerEvictionRun}" />
 		<property name="minEvictableIdleTimeMillis" value="${jdbc.minEvictableIdleTimeMillis}" />
+		<property name="connectionInitSqls" value="${jdbc.initSqls}" />
 	</bean>
 </beans>

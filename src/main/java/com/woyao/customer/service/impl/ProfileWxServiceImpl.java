@@ -19,6 +19,8 @@ import com.woyao.domain.profile.ProfileWX;
 @Component("profileWxService")
 public class ProfileWxServiceImpl implements IProfileWxService {
 	
+	private static final String HQL_GET_BY_OPENID = "from ProfileWX where openId = :openId";
+
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@Resource(name = "commonDao")
@@ -29,7 +31,7 @@ public class ProfileWxServiceImpl implements IProfileWxService {
 	public ProfileDTO getByOpenId(String openId) {
 		Map<String, Object> paramMap = new HashMap<>();
 		paramMap.put("openId", openId);
-		ProfileWX profile = this.dao.queryUnique("from ProfileWX where openId = :openId", paramMap);
+		ProfileWX profile = this.dao.queryUnique(HQL_GET_BY_OPENID, paramMap);
 		if (profile == null) {
 			return null;
 		}
@@ -52,7 +54,7 @@ public class ProfileWxServiceImpl implements IProfileWxService {
 
 	@Transactional
 	@Override
-	public ProfileDTO saveChatterInfo(ProfileDTO dto) {
+	public ProfileDTO saveProfileInfo(ProfileDTO dto) {
 		Long id = dto.getId();
 		if (id != null) {
 			ProfileWX m = this.dao.get(ProfileWX.class, id);
@@ -63,7 +65,7 @@ public class ProfileWxServiceImpl implements IProfileWxService {
 		} else {
 			Map<String, Object> paramMap = new HashMap<>();
 			paramMap.put("openId", dto.getOpenId());
-			ProfileWX existed = this.dao.queryUnique("from ProfileWX where openId = :openId", paramMap);
+			ProfileWX existed = this.dao.queryUnique(HQL_GET_BY_OPENID, paramMap);
 			if (existed == null) {
 				existed = new ProfileWX();
 			}

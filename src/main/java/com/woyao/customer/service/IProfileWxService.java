@@ -6,7 +6,7 @@ public interface IProfileWxService {
 
 	ProfileDTO getByOpenId(String openId);
 
-	ProfileDTO saveChatterInfo(ProfileDTO dto);
+	ProfileDTO saveProfileInfo(ProfileDTO dto);
 
 	ProfileDTO getById(long id);
 

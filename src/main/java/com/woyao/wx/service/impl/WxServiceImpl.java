@@ -36,14 +36,21 @@ public class WxServiceImpl implements IWxService {
 		UserAccessToken tokenDomain = this.userAccessTokenService.getTokenByOpenId(openId);
 		if (tokenDomain != null) {
 			if (!tokenDomain.isExpired()) {
+				logger.debug("UserAccessToken还有效，可以直接使用！");
 				accessToken = tokenDomain.getAccessToken();
 			} else {
+				logger.debug("UserAccessToken需要刷新！");
 				GetAccessTokenResponse tokenResponse = this.wxEndpoint.refreshAccessToken(appId, tokenDomain.getRefreshToken(),
 						"refresh_token");
 				if (tokenResponse == null) {
+					logger.debug("UserAccessToken刷新失败，没取到新的token！");
 					return null;
 				}
 				accessToken = tokenResponse.getAccessToken();
+				if (StringUtils.isBlank(accessToken)) {
+					logger.debug("UserAccessToken刷新失败，没取到新的token！");
+					return null;
+				}
 
 				tokenDomain.setAccessToken(accessToken);
 				tokenDomain.setExpiresIn(tokenResponse.getExpiresIn());
