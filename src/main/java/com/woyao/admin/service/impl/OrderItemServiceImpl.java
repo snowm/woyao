@@ -57,6 +57,10 @@ public class OrderItemServiceImpl extends AbstractAdminService<Order, OrderDTO> 
 			paramMap.put("modification.creationDate", queryRequest.getStartcreationDate());
 			sb.append(" and oi.order.modification.creationDate >= :totalFee");	
 		}
+		if(queryRequest.getNicknameId()!=null){
+			paramMap.put("nicknameId", queryRequest.getNicknameId());
+			sb.append(" and oi.order.consumer.id= :nicknameId");	
+		}
 		if(queryRequest.getEndcreationDate()!=null){
 			paramMap.put("modification.creationDate", queryRequest.getEndcreationDate());
 			sb.append(" and oi.order.modification.creationDate <= :totalFee");	

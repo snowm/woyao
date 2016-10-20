@@ -63,7 +63,7 @@ define(['jquery','datapicker','datapicker.cn'],function(){
 	    			}
 	    			$.ajax({
 	  	      		  type: "post",
-	  	      		  url: '/admin/order/search',
+	  	      		  url: '/shop/admin/order/search',
 	  	      		  data:date,
 	  	      		  success: function(data){
 	  	      			  console.log(data);	  	      			 

@@ -21,7 +21,7 @@ public class QueryOrderItemRequestDTO extends PaginationQueryRequestDTO {
 
 	private Long shopId;// 商店Id
 
-	private String nickname;// 昵称
+	private Long nicknameId;// 昵称
 
 	private Long orderId;// 订单Id
 
@@ -39,12 +39,14 @@ public class QueryOrderItemRequestDTO extends PaginationQueryRequestDTO {
 		this.orderId = orderId;
 	}
 
-	public String getNickname() {
-		return nickname;
+
+
+	public Long getNicknameId() {
+		return nicknameId;
 	}
 
-	public void setNickname(String nickname) {
-		this.nickname = nickname;
+	public void setNicknameId(Long nicknameId) {
+		this.nicknameId = nicknameId;
 	}
 
 	public Integer getStatusId() {
