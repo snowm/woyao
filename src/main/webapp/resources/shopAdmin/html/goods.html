@@ -19,8 +19,7 @@
     <!--修改管理  -->
 
     <div class="tab-content mb30" ms-if="goodsShow">
-        <div class="tab-pane active" id="home">
-            <div class="row">
+        <div class="tab-pane active" id="home">            
                 <!-- 选择图片 -->
                 <div class="row" ms-if="picture">
                     <div class="panel panel-stat col-sm-12">
@@ -42,36 +41,37 @@
                         </div><!-- panel-heading -->                        
                     </div><!-- panel -->
                 </div>
-                <!-- 选择图片 -->
-                          
-            </div><!-- row -->
-            <div class="row" ms-if="shop">
-            	<div class="col-sm-6">
-                    <div class="form-group">
-                        <label class="control-label">商品名字</label>
-                        <input type="text" name="name" class="form-control prdocut" placeholder="请输入产品名称" ms-duplex="goodsChg.name">
-                    </div>
+                <!-- 选择图片 -->            
+            <div class="row" >
+            	<div ms-if="shop" >
+	            	<div class="col-sm-6">
+	                    <div class="form-group">
+	                        <label class="control-label">商品名字</label>
+	                        <input type="text" name="name" class="form-control prdocut" placeholder="请输入产品名称" ms-duplex="goodsChg.name">
+	                    </div>
+	                </div>
+	               
+	                 <div class="col-sm-6">
+	                    <div class="form-group">
+	                        <label class="control-label">商品描述</label>
+	                        <input type="text" name="chatRoomName" class="form-control description" placeholder="请输入产品描述" ms-duplex="goodsChg.description">
+	                    </div>
+	                </div><!-- col-sm-6 -->                  
+	                <div class="col-sm-6">
+	                    <div class="form-group">
+	                        <label class="control-label">价格</label>
+	                        <input type="number" name="description" class="form-control unitPrice" placeholder="请输入产品价格" ms-duplex="goodsChg.unitPrice">
+	                    </div>
+	                </div><!-- col-sm-6 -->
                 </div>
-               
-                 <div class="col-sm-6">
-                    <div class="form-group">
-                        <label class="control-label">商品描述</label>
-                        <input type="text" name="chatRoomName" class="form-control description" placeholder="请输入产品描述" ms-duplex="goodsChg.description">
-                    </div>
-                </div><!-- col-sm-6 -->                  
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <label class="control-label">价格</label>
-                        <input type="number" name="description" class="form-control unitPrice" placeholder="请输入产品价格" ms-duplex="goodsChg.unitPrice">
-                    </div>
-                </div><!-- col-sm-6 -->
                              
-               	 <div class="col-sm-6">
+               	 <div class="col-sm-6" ms-if="type">
                     <div class="form-group">
                         <label class="control-label">商品类型</label>
-                        <select class="form-control shopType mp"  ms-duplex="goodsChg.typeId">
+                        <select class="form-control shopType mp"  ms-duplex="goodsChg.typeId" ms-click="chooseType">
                         	<option value="">-- 请选择 --</option>
-                            <option value="1">MATERIA</option>                            
+                            <option value="1">MATERIA</option> 
+                            <option value="2">MSG</option>                            
                         </select>
                     </div>               
            		 </div>            
@@ -83,7 +83,6 @@
             <button class="btn btn-default" ms-click="hideNewShop">取消</button>
         </div>
     </div>
-
 
     <!-- 新增商品 -->
 
@@ -121,9 +120,9 @@
        <div class="">
         	<div class="col-sm-5"></div>
         	<ul class="pagination pagination-split">
-                <li  ms-click="btnGoods('upPage')" ><a href="#" style="background: #29406f;color:#fff;"><i class="glyphicon glyphicon-arrow-left"></i>上一页</a></li> 
+                <li  ms-click="page('upPage')" ><a href="#" style="background: #29406f;color:#fff;"><i class="fui-arrow-left"></i>上一页</a></li> 
                 
-                <li ms-click="btnGoods('nextPage')" ><a href="#" style="background: #29406f;color:#fff;">下一页 <i class="glyphicon glyphicon-arrow-right"></i></a></li>
+                <li ms-click="page('nextPage')" ><a href="#" style="background: #29406f;color:#fff;">下一页 <i class="fui-arrow-right"></i></a></li>
             </ul>
        </div>
     </div>

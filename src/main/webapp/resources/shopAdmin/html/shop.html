@@ -1,1 +1,92 @@
-<div>shop</div>
+﻿<div class="panel panel-default" ms-controller='shopController'>
+	  <div class="panel panel-default" ms-if="formShow">        
+        <div class="panel-body">
+            
+<!-- 商品管理 -->
+		
+        <div class="tab-content mb30">
+          <div class="tab-pane active" id="msgsCtn">
+          <div class="row">
+         	<!-- 选择图片 -->
+	           <div class="row">
+                	<div class="panel panel-stat">
+                        <div class="panel-heading">
+                            <div class="row text-center">
+								
+								<form id="uploadForm">  
+									  <img class="media-object thumbnail center-block" ms-attr-src="imgViewSrc" style="max-width:200px;max-height:200px;min-height:100px;min-width:100px" alt="">
+								      <input type="file" id="uploadFileIpt" name="uploadFile" style="visibility: hidden"/>
+								      <div class="clearfix"></div>
+								</form>  
+                                <div ms-if="uploadbtn">
+							        <input class="btn btn-xs btn-default" type="button" value="选择图片" ms-click="chioseImgs"/>  
+							        <input class="btn btn-xs btn-success" type="button" value="上传" ms-click="uploadImg"/>  
+	                            </div>
+                            </div><!-- row -->
+                        </div><!-- panel-heading -->
+                   </div><!-- panel -->
+            	</div>
+            <!-- 选择图片 -->
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="control-label">商家名称</label>
+                        <input type="text" name="name" class="form-control shopName" placeholder="请输入商店名称" ms-duplex="formData.name">
+                    </div>
+                </div><!-- col-sm-6 -->
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="control-label">地 址</label>
+                        <input type="text" name="address" class="form-control adss" placeholder="请输入地址" ms-duplex="formData.address">
+                    </div>
+                </div><!-- col-sm-6 -->
+            </div><!-- row -->
+
+            <div class="row">              
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="control-label">描述信息</label>
+                        <input type="text" name="description" class="form-control" placeholder="请输入描述信息" ms-duplex="formData.description">
+                    </div>
+                </div><!-- col-sm-6 -->
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="control-label">维 度</label>
+                        <input type="text" name="latitude" class="form-control latitude" placeholder="整数部分为0～90，必须输入1到5位小数" ms-duplex="formData.latitude">
+                    </div>
+                </div><!-- col-sm-6 -->
+            </div><!-- row -->
+
+            <div class="row">                
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="control-label">经度</label>
+                        <input type="text" name="longitude" class="form-control longitude" placeholder="整数部分为0～180，必须输入1到5位小数" ms-duplex="formData.longitude">
+                    </div>
+                </div><!-- col-sm-6 -->
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="control-label">管理员账号</label>
+                        <input type="text" name="managerName" class="form-control managerName" placeholder="请输入账号" ms-duplex="formData.managerName">
+                    </div>
+                </div><!-- col-sm-6 -->
+            </div><!-- row -->
+
+            <div class="row">                
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="control-label">管理员密码</label>
+                        <input type="password" name="managerPwd" class="form-control managerPwd" placeholder="请输入密码" ms-duplex="formData.managerPwd">
+                    </div>
+                </div><!-- col-sm-6 -->
+            </div><!-- row -->            
+          </div>          
+     </div>
+    </div>
+        
+        <div class="panel-footer text-right">
+            <button class="btn btn-success" ms-click="submitItem">提交</button>
+            <button class="btn btn-default" ms-click="hideNewShop">取消</button>
+        </div>
+    </div>   
+	
+</div>

@@ -14,6 +14,7 @@ define(['uploadfile'],function(){
         nothing:false,
         picture:false,
         shop:false,
+        type:false,
         totlePage:0,
         goodsList:[],
         shopList:[],
@@ -38,32 +39,17 @@ define(['uploadfile'],function(){
             pageSize:12
         },
         //查询商品
-        btnGoods:function(page){          
+        btnGoods:function(){          
             goodsController.goodsAdd = false;
-            goodsController.goodsShow = false;         
-            if(page == "upPage"){
- 	    		if(goodsController.goodsDate.pageNumber == 1){
- 	    			alert("已是第一页");
- 	    			return;
- 	    		}
- 	    		goodsController.goodsDate.pageNumber--;
- 	    	}else if(page == "nextPage"){
- 	    		if(goodsController.goodsDate.pageNumber == goodsController.totlePage){
- 	    			alert("已是最后一页");
- 	    			return; 
- 	    		}
- 	    		goodsController.goodsDate.pageNumber++;
- 	    	} 	    	
- 	       
+            goodsController.goodsShow = false;     
+            goodsController.goodsDate.pageNumber=1;
  	    	 var date = { 	                
  	                 name:goodsController.goodsDate.name,
  	                 deleted:goodsController.goodsDate.deleted,                
  	                 pageNumber:goodsController.goodsDate.pageNumber,
  	                 pageSize:goodsController.goodsDate.pageSize,
  	                 shopId:goodsController.goodsChg.shopId
- 	             } 
- 	    	 
- 	    	 
+ 	             }
              $.ajax({
                  type: "post",
                  url: '/admin/product/search',
@@ -84,6 +70,9 @@ define(['uploadfile'],function(){
                  },
                  dataType: 'json'
              });
+        },
+        page:function(page){
+        	Submit(page);
         },
         change:function(){		
 			goodsController.goodsChg.shopId="";
@@ -113,16 +102,19 @@ define(['uploadfile'],function(){
             goodsController.goodsShow = true;
             goodsController.goods = false;
             goodsController.demand = false;            
-    		goodsController.shop=true;    
-    		goodsController.uploadbtn = true;
+    		goodsController.shop=true;
     		goodsController.goodsList.forEach(function(item){
                     if(item.id == id){
                         goodsController.goodsChg = item;
                         if(goodsController.goodsChg.typeId == "1"){
                         	 goodsController.picture=true;
+                        	 goodsController.type=false;
+                        	 goodsController.uploadbtn=false;                        	 
+                        	 console.log("type1");
                         	 goodsController.imgViewSrc = item.mainPic;
                         }else if(goodsController.goodsChg.typeId == "2"){
 	                        goodsController.picture=false;
+	                        goodsController.type=false;
                         }
                     }
                 })
@@ -139,6 +131,9 @@ define(['uploadfile'],function(){
             	
             	if(goodsController.imgViewSrc=="/admin/resources/images/photos/upload1.png"){
     				alert("请选择图片");
+    				return;
+    			}else if(goodsController.uploadbtn == true){
+    				alert("请提交图片")
     				return;
     			}else if(prdocut == ""){
     				alert("产品名称不能为空");
@@ -230,8 +225,9 @@ define(['uploadfile'],function(){
         		                dataType: 'json',
         		            });
         				} 
-            	}
-            
+            	}           
+
+            $(".mp").val("");
            
         },
         //新增
@@ -240,8 +236,9 @@ define(['uploadfile'],function(){
             goodsController.goods=false;
             goodsController.demand=false;
             goodsController.nothing=false;
-            goodsController.picture=true;
-            goodsController.shop=true;
+            goodsController.picture=false;
+            goodsController.shop=false;
+            goodsController.type=true;
             goodsController.imgViewSrc = '/admin/resources/images/photos/upload1.png';
             $("#uploadFileIpt").val('');  
     		goodsController.uploadbtn = true;
@@ -273,14 +270,13 @@ define(['uploadfile'],function(){
         hideNewShop:function(){
         	goodsController.goodsShow = false;
         	goodsController.demand = true;
-        	goodsController.goods = false;
+        	goodsController.goods = true;
         	goodsController.nothing = false;
         	goodsController.goodsChg.mainPicId = '';
         	goodsController.goodsChg.name="";
         	goodsController.goodsChg.shopId="";
             goodsController.imgViewSrc = '/admin/resources/images/photos/upload1.png';
-            $("#uploadFileIpt").val('');           
-            
+            $("#uploadFileIpt").val('');
 	    },
         chooseShopItem:function(data){
             goodsController.goodsChg.shopId = data.id;
@@ -288,8 +284,18 @@ define(['uploadfile'],function(){
             $(".in").click();
             
         },
+        chooseType:function(){
+        	if(goodsController.goodsChg.typeId == "2"){
+        		goodsController.picture=false;
+        		goodsController.shop=true;
+        	}else if(goodsController.goodsChg.typeId == "1"){        		
+        		goodsController.shop=true;
+        		goodsController.picture=true;
+        	}
+        },
         chioseImgs:function(){
             $("#uploadFileIpt").click();
+            console.log("woyao");
         },
         uploadbtn:true,
         uploadImg:function(){
@@ -315,7 +321,8 @@ define(['uploadfile'],function(){
     });
 
 
-    $("#uploadFileIpt").on("change",function(){
+    $("#uploadFileIpt").live("change",function(){
+    	alert(1)
         if (!this.files.length) return;
 
         var files = Array.prototype.slice.call(this.files);

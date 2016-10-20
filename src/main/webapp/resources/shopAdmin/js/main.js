@@ -10,7 +10,7 @@ require.config({
         'mmRouter': './js/plugin/mmRouter',
         'text': ['./js/plugin/require/text'],
         'domReady': './js/plugin/domReady',
-        'jquery': ['./js/plugin/vendor/jquery.min'],
+        'jquery': ['http://libs.baidu.com/jquery/1.7.1/jquery.min'],
         'flatUI': ['./js/plugin/flat-ui.min'],
         'jquery.cookies': ['./js/plugin/jquery.cookies'],
         'datapicker':['./js/plugin/datapicker'],

@@ -117,10 +117,10 @@ define(['uploadfile'],function(){
     		goodsController.uploadbtn = true;
     		goodsController.goodsList.forEach(function(item){
                     if(item.id == id){
-                        goodsController.goodsChg = item;
+                        goodsController.goodsChg = item;                       
                         if(goodsController.goodsChg.typeId == "1"){
                         	 goodsController.picture=true;
-                        	 goodsController.imgViewSrc = item.mainPic;
+                        	 goodsController.imgViewSrc = item.mainPic;                        	
                         }else if(goodsController.goodsChg.typeId == "2"){
 	                        goodsController.picture=false;
                         }
