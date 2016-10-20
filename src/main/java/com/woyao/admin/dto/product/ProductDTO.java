@@ -24,6 +24,18 @@ public class ProductDTO extends BasePKDTO {
 	
 	private int unitPrice;
 	
+	private int quantity;
+	
+	private long totalFee;
+
+	public long getTotalFee() {
+		return totalFee;
+	}
+
+	public void setTotalFee(long totalFee) {
+		this.totalFee = totalFee;
+	}
+
 	public String getCode() {
 		return code;
 	}
@@ -94,6 +106,14 @@ public class ProductDTO extends BasePKDTO {
 
 	public void setMainPicId(Long mainPicId) {
 		this.mainPicId = mainPicId;
+	}
+
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
 	}
 
 	@Override

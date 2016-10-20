@@ -3,7 +3,6 @@ package com.woyao.admin.dto.product;
 import java.util.List;
 
 import com.woyao.admin.dto.BasePKDTO;
-import com.woyao.admin.dto.product.ProductDTO;
 
 public class OrderDTO extends BasePKDTO {
 
@@ -28,11 +27,8 @@ public class OrderDTO extends BasePKDTO {
 
 	private int totalFee;// 总费用
 	
-private String prepayId;//预付款Id
-	
-	
-	
-	
+	private String prepayId;//预付款Id
+
 	private String appid;// 公众账号ID
 	
 	private String mchId;// 商户号
@@ -54,8 +50,9 @@ private String prepayId;//预付款Id
 	private String msgpic;//消息图片
 	
 	private String orderNo;
-
+	
 	private List<ProductDTO> products;// 产品
+
 
 	public int getVersion() {
 		return version;
@@ -120,15 +117,6 @@ private String prepayId;//预付款Id
 	public void setTotalFee(int totalFee) {
 		this.totalFee = totalFee;
 	}
-
-	public List<ProductDTO> getProducts() {
-		return products;
-	}
-
-	public void setProducts(List<ProductDTO> products) {
-		this.products = products;
-	}
-
 	public String getPrepayId() {
 		return prepayId;
 	}
@@ -223,6 +211,14 @@ private String prepayId;//预付款Id
 
 	public void setOrderNo(String orderNo) {
 		this.orderNo = orderNo;
+	}
+
+	public List<ProductDTO> getProducts() {
+		return products;
+	}
+
+	public void setProducts(List<ProductDTO> products) {
+		this.products = products;
 	}
 
 	

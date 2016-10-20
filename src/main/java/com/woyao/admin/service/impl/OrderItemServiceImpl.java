@@ -1,12 +1,12 @@
 package com.woyao.admin.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
-import org.hibernate.criterion.Criterion;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -15,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.snowm.utils.query.PaginationBean;
 import com.woyao.admin.dto.product.OrderDTO;
-import com.woyao.admin.dto.product.OrderItemDTO;
 import com.woyao.admin.dto.product.ProductDTO;
 import com.woyao.admin.dto.product.QueryOrderItemRequestDTO;
 import com.woyao.admin.service.IOrderItemAdminService;
@@ -24,85 +23,68 @@ import com.woyao.domain.chat.ChatMsg;
 import com.woyao.domain.product.Product;
 import com.woyao.domain.purchase.Order;
 import com.woyao.domain.purchase.OrderItem;
-import com.woyao.domain.purchase.OrderStatus;
 
 @Service("orderItemService")
-public class OrderItemServiceImpl extends AbstractAdminService<OrderItem, OrderItemDTO> implements IOrderItemAdminService {
+public class OrderItemServiceImpl extends AbstractAdminService<Order, OrderDTO> implements IOrderItemAdminService {
 
 	@Resource(name = "commonDao")
 	private CommonDao dao;
 	
 	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED)
 	@Override
-	public OrderItemDTO update(OrderItemDTO dto) {
-		OrderItem m = this.transferToDomain(dto);
+	public OrderDTO update(OrderDTO dto) {
+		Order m = this.transferToDomain(dto);
 		dao.saveOrUpdate(m);
 		return this.transferToFullDTO(m);
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true, isolation = Isolation.READ_UNCOMMITTED)
 	@Override
-	public PaginationBean<OrderItemDTO> query(QueryOrderItemRequestDTO queryRequest) {
-		List<Criterion> criterions = new ArrayList<Criterion>();
-		if(queryRequest.getStatusId()!=null){
-			criterions.add(Restrictions.eq("order.status", OrderStatus.getEnum(queryRequest.getStatusId())));
-		}
+	public PaginationBean<OrderDTO> query(QueryOrderItemRequestDTO queryRequest) {
+		Map<String,Object> paramMap=new HashMap<String,Object>();
+		Long shopId=queryRequest.getShopId();	
+		paramMap.put("shopId", shopId);
+		StringBuffer sb=new StringBuffer("select distinct oi.order from OrderItem as oi where oi.product.shop.id= :shopId ");
 		if(queryRequest.getMintotalFee()!=null){
-			criterions.add(Restrictions.ge("order.totalFee", queryRequest.getMintotalFee()));
+			paramMap.put("totalFee", queryRequest.getMintotalFee());
+			sb.append(" and oi.order.totalFee >= :totalFee");
 		}
 		if(queryRequest.getMaxtotalFee()!=null){
-			criterions.add(Restrictions.le("order.totalFee", queryRequest.getMaxtotalFee()));
+			paramMap.put("totalFee", queryRequest.getMaxtotalFee());
+			sb.append(" and oi.order.totalFee <= :totalFee");			
 		}
 		if(queryRequest.getStartcreationDate()!=null){
-			criterions.add(Restrictions.ge("modification.creationDate", queryRequest.getStartcreationDate()));
+			paramMap.put("modification.creationDate", queryRequest.getStartcreationDate());
+			sb.append(" and oi.order.modification.creationDate >= :totalFee");	
 		}
 		if(queryRequest.getEndcreationDate()!=null){
-			criterions.add(Restrictions.le("modification.creationDate", queryRequest.getEndcreationDate()));
+			paramMap.put("modification.creationDate", queryRequest.getEndcreationDate());
+			sb.append(" and oi.order.modification.creationDate <= :totalFee");	
 		}
-		List<org.hibernate.criterion.Order> orders = new ArrayList<>();
-		orders.add(org.hibernate.criterion.Order.desc("id"));
-
-		long count = this.dao.count(this.entityClazz, criterions);
-		List<OrderItem> ms = new ArrayList<>();
-		if (count > 0l) {
-			ms = this.dao.query(this.entityClazz, criterions, orders, queryRequest.getPageNumber(), queryRequest.getPageSize());
+		String hql=sb.toString();					
+		List<Order> ms =this.dao.query(hql, paramMap, queryRequest.getPageNumber(), queryRequest.getPageSize());
+		PaginationBean<OrderDTO> rs = new PaginationBean<>(queryRequest.getPageNumber(), queryRequest.getPageSize());
+		List<OrderDTO> results = new ArrayList<>();
+		for (Order m : ms) {			
+			OrderDTO dto = this.transferToFullDTO(m);
+			results.add(dto);
 		}
-
-		PaginationBean<OrderItemDTO> rs = new PaginationBean<>(queryRequest.getPageNumber(), queryRequest.getPageSize());
-		rs.setTotalCount(count);
-		List<OrderItemDTO> results = new ArrayList<>();
-		for (OrderItem m : ms) {
-			Long shopId=m.getProduct().getShop().getId();
-			if(queryRequest.getShopId()==shopId){			
-				OrderItemDTO dto = this.transferToDTO(m, false);
-				results.add(dto);
-			}
+		if(ms!=null){	
+			rs.setTotalCount(ms.size());
 		}
 		rs.setResults(results);
 		return rs;
 	}
 
 	@Override
-	public OrderItem transferToDomain(OrderItemDTO dto) {
-		OrderItem m=new OrderItem();
+	public Order transferToDomain(OrderDTO dto) {
+		Order m=new Order();
 		BeanUtils.copyProperties(dto, m);
 		m.getLogicalDelete().setEnabled(dto.isEnabled());
 		m.getLogicalDelete().setDeleted(dto.isDeleted());
 		return m;
 	}
-
-	@Override
-	public OrderItemDTO transferToSimpleDTO(OrderItem m) {
-		OrderItemDTO dto=new OrderItemDTO();
-		BeanUtils.copyProperties(m, dto);		
-		dto.setPdto(transferToSimpleDTO(m.getProduct()));
-		dto.setOdto(transferToSimpleDTO(m.getOrder()));			
-		dto.setEnabled(m.getLogicalDelete().isEnabled());
-		dto.setDeleted(m.getLogicalDelete().isDeleted());
-		dto.setCreationDate(m.getModification().getCreationDate());
-		dto.setLastModifiedDate(m.getModification().getLastModifiedDate());
-		return dto;
-	}
+	
 	/**
 	 * 
 	 * @param 商品转换
@@ -157,7 +139,7 @@ public class OrderItemServiceImpl extends AbstractAdminService<OrderItem, OrderI
 		if(m.getMsgId()!=null){		
 			dto.setMsgId(getMsg(m.getMsgId()).getId());
 			dto.setMsgpic(getMsg(m.getMsgId()).getPicURL());
-		}		
+		}	
 		return dto;
 	}
 	
@@ -166,8 +148,68 @@ public class OrderItemServiceImpl extends AbstractAdminService<OrderItem, OrderI
 		return this.dao.get(ChatMsg.class, id);
 	}
 	@Override
-	public OrderItemDTO transferToFullDTO(OrderItem m) {
+	public OrderDTO transferToFullDTO(Order m) {
 		
 		return transferToSimpleDTO(m);
 	}
+	
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true, isolation = Isolation.READ_UNCOMMITTED)
+	public OrderDTO queryItem(QueryOrderItemRequestDTO request) {
+		Long orderId=request.getOrderId();	
+		Order order=this.dao.get(Order.class, orderId);
+		OrderDTO dto=transferToSimpleDTO(order);
+		Map<String,Object> paramMap=new HashMap<String,Object>();
+		paramMap.put("orderId", orderId);
+		String hql=" from OrderItem as oi where oi.order.id= :orderId";
+		List<OrderItem> OrderItems=this.dao.query(hql,paramMap);
+		List<ProductDTO> prods=new ArrayList<>();
+		for (OrderItem orderItem : OrderItems) {
+			int num=orderItem.getQuantity();
+			Long totalFee=orderItem.getTotalFee();
+			Product product=orderItem.getProduct();
+			ProductDTO prodto=transferToSimpleDTO(product);
+			prodto.setQuantity(num);
+			prodto.setTotalFee(totalFee);
+			prods.add(prodto);
+		}
+		dto.setProducts(prods);
+		return dto;
+	}
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

@@ -13,16 +13,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.snowm.utils.query.PaginationBean;
 import com.woyao.admin.controller.AbstractBaseController;
-import com.woyao.admin.dto.product.OrderItemDTO;
+import com.woyao.admin.dto.product.OrderDTO;
 import com.woyao.admin.dto.product.QueryOrderItemRequestDTO;
 import com.woyao.admin.service.IAdminService;
 import com.woyao.admin.service.IOrderItemAdminService;
-import com.woyao.admin.shop.ShopRootController;
-import com.woyao.domain.purchase.OrderItem;
+import com.woyao.domain.purchase.Order;
 
 @Controller
 @RequestMapping(value = "/shop/admin/order")
-public class OrderItemController extends AbstractBaseController<OrderItem, OrderItemDTO> {
+public class OrderItemController extends AbstractBaseController<Order, OrderDTO> {
 
 	@Resource(name = "orderItemService")
 	private IOrderItemAdminService service;
@@ -32,18 +31,24 @@ public class OrderItemController extends AbstractBaseController<OrderItem, Order
 
 	@RequestMapping(value = { "/search" }, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
-	public PaginationBean<OrderItemDTO> query(QueryOrderItemRequestDTO request) {
-		System.out.println(shopRoot.getCurrentShop().getId()+"？？？？？？？？？？？？？？？？？？？？？");
+	public PaginationBean<OrderDTO> query(QueryOrderItemRequestDTO request) {
 		Long shopId=shopRoot.getCurrentShop().getId();
 		request.setShopId(shopId);
-		PaginationBean<OrderItemDTO> result = this.service.query(request);
+		PaginationBean<OrderDTO> result = this.service.query(request);
+		return result;
+	}
+	
+	@RequestMapping(value = { "/detil" }, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@ResponseBody
+	public OrderDTO queryitem(QueryOrderItemRequestDTO request) {
+		OrderDTO result = this.service.queryItem(request);
 		return result;
 	}
 
 	@RequestMapping(value = { "", "/" }, method = { RequestMethod.PUT,
 			RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
-	public OrderItemDTO saveOrUpdate(@RequestBody OrderItemDTO dto) {
+	public OrderDTO saveOrUpdate(@RequestBody OrderDTO dto) {
 		if (dto.getId() != null) {
 			return this.service.update(dto);
 		} else {
@@ -53,7 +58,7 @@ public class OrderItemController extends AbstractBaseController<OrderItem, Order
 	
 	@Resource
 	@Override
-	public void setBaseService(@Qualifier("orderItemService") IAdminService<OrderItem, OrderItemDTO> baseService) {
+	public void setBaseService(@Qualifier("orderItemService") IAdminService<Order, OrderDTO> baseService) {
 		this.baseService = baseService;
 	}
 
