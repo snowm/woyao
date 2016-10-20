@@ -1,315 +1,171 @@
-*{
-    margin: 0;
-    padding: 0;
-    font-family: Helvetica, 'Hiragino Sans GB', 'Microsoft Yahei', '微软雅黑', Arial, sans-serif;
-}
-html{
-
-    width: 100%;
-    height: 100%;
-    position: absolute;
-}
-body {
-    background-color: #776960;
-    background: url("./img/background.jpg") no-repeat;
-    background-position: center;
-    background-size: cover;
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    overflow: hidden;
-}
-.all{
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-}
-/*轮播部分*/
-.wrap{
-    width:100%;
-    height:560px;
-    position:relative;
-    margin:50px auto;
-}
-.wrap ul{
-    width:100%;
-    height:100%;
-    perspective: 500px;
-}
-img{
-    width:100%;
-}
-li{
-    width: 700px;
-    height: 560px;
-    position:absolute;
-    top:50%;
-    transform: translateY(-50%);
-    box-shadow:0 10px 10px rgba(0, 0, 0, 0.5);
-    /*border: solid red 1px;*/
-    background: url("./img/back1.jpg");
-    background-size: 100%;
-    list-style: none;
-}
-.show0{
-    transform-origin: left;
-    width:360px;
-    left:-75%;
-    z-index:77;
-    transform: translate(-110%, -50%) rotateY(30deg);
-    background-color: black;
-    opacity: 0.4;
-    border: 0;
-    transition: all 1.5s;
-}
-.show1{
-    transform-origin: left;
-    width:360px;
-    left:10%;
-    z-index:77;
-    transform: translate(-110%, -50%) rotateY(30deg);
-    background-color: black;
-    opacity: 0.4;
-    border: 0;
-    transition: all 1.5s;
-}
-.show2{
-    /*width:60%;*/
-    max-width: 800px;
-    left:50%;
-    z-index:88;
-    transform: translate(-50%, -50%);
-    border:1px solid rgb(82, 159, 255);
-    box-shadow: 0 0 20px #64c8ff;
-    transition: all 1.5s;
-}
-.show3{
-    transform-origin: right;
-    width:360px;
-    left:90%;
-    z-index:77;
-    transform: translate(10%, -50%) rotateY(-30deg);
-    background-color: black;
-    opacity: 0.4;
-    border: 0;
-    transition: all 1.5s;
-}
-.show4{
-    transform-origin: right;
-    width:360px;
-    left:165%;
-    z-index:77;
-    transform: translate(10%, -50%) rotateY(-30deg);
-    background-color: black;
-    opacity: 0.4;
-    border: 0;
-    /*transition: all 1.5s;*/
-}
-.showL{
-    transform-origin: right;
-    width:360px;
-    left:-100%;
-    z-index:77;
-    transform: translate(10%, -50%) rotateY(-30deg);
-    background-color: black;
-    opacity: 0;
-    border: 0;
-    /*transition: all 1.5s;*/
-}
-.showR{
-    transform-origin: right;
-    width:360px;
-    left:100%;
-    z-index:77;
-    transform: translate(10%, -50%) rotateY(-30deg);
-    background-color: black;
-    opacity: 0;
-    border: 0;
-    /*transition: all 1.5s;*/
-}
-.btns{
-    position:absolute;
-    width:100%;
-    height:40px;
-    left:0;
-    top:160px;
-}
-.btns button:first-child{
-    color:#fff;
-    border-radius:10px;
-    height:260px;
-    width:120px;
-    float:left;
-    border:0;
-    margin-left:90px;
-    background:transparent;
-    outline:none;
-    font-size: 20px;
-}
-.btns button:last-child{
-    color:#fff;
-    border-radius:10px;
-    height:260px;
-    width:120px;
-    float:right;
-    border:0;
-    margin-right:90px;
-    background:transparent;
-    outline:none;
-    font-size: 20px;
-}
-.waiting{
-    display: none;
-}
-.show-back{
-    background:rgba(0,0,0,0.7);
-    width: 100%;
-    height: 100%;
-    text-align: center;
-    color: white;
-}
-.show-back img{
-    width: 150px;
-    margin-top: 160px;
-}
-.show-name{
-    font-size: 22px;
-    font-weight: 600;
-    padding-top: 30px;
-}
-.show-time{
-    color: #f7c752;
-    font-size: 25px;
-    font-weight: 600;
-    padding-top: 30px;
-}
-/*聊天展示*/
-.chat{
-    position: absolute;
-    width: 100%;
-    height: 360px;
-    bottom: -90px;
-}
-.chat-text {
-    /*width: 100%;*/
-    /*height: 90px;*/
-    /*border-bottom: 1px solid #634e53;*/
-    /*overflow: hidden;*/
-    /*position: absolute;*/
-    /*left:0;*/
-    /*top:0;*/
-}
-.chat-text-img{
-    display: inline-block;
-    float: left;
-    width: 70px;
-    padding:10px 0 0 125px;
-}
-.chat-right{
-    padding:10px 0 0 30px;
-    float: left;
-    overflow: hidden;
-}
-.right-name{
-   font-size: 21px;
-    color: white;
-}
-.right-name img{
-    width: 12px;
-    margin-left: 20px;
-}
-.right-tip{
-    color: #999999;
-    margin-top: 15px;
-    font-size: 20px;
-}
-.chat-time{
-    float: right;
-    color: #999999;
-    margin: 60px 120px 0 0;
-}
-
-
-
-
-
-
-
 
 /**/
 .m0{
-    width: 100%;
-    height: 90px;
-    border-bottom: 1px solid #634e53;
-    overflow: hidden;
-    position: absolute;
-    left:0;
-    top:0;
     transform-origin: center;
-    transform: translate(0, -90px);
-    opacity: 0;
+    transform: translate(0,-105%);
     transition: all 1.5s;
-    background-color: rgba(0,0,0,0.6);
+    opacity: 0;
 }
 .m1{
-    width: 100%;
-    height: 90px;
-    border-bottom: 1px solid #634e53;
-    overflow: hidden;
-    position: absolute;
-    left:0;
-    top:0;
     transform-origin: center;
     transform: translate(0, 0px);
     transition: all 1.5s;
-    background-color: rgba(0,0,0,0.6);
 }
 .m2{
-    width: 100%;
-    height: 90px;
-    border-bottom: 1px solid #634e53;
-    overflow: hidden;
-    position: absolute;
-    left:0;
-    top:0;
     transform-origin: center;
-    transform: translate(0, 90px);
+    transform: translate(0,110%);
     transition: all 1.5s;
-    background-color: rgba(0,0,0,0.6);
 }
 .m3{
-    width: 100%;
-    height: 90px;
-    border-bottom: 1px solid #634e53;
-    overflow: hidden;
-    position: absolute;
-    left:0;
-    top:0;
     transform-origin: center;
-    transform: translate(0, 180px);
+    transform: translate(0,220%);
     transition: all 1.5s;
-    background-color: rgba(0,0,0,0.6);
 }
 .m4{
-    width: 100%;
-    height: 90px;
-    border-bottom: 1px solid #634e53;
-    overflow: hidden;
-    position: absolute;
-    left:0;
-    top:0;
     transform-origin: center;
-    transform: translate(0, 270px);
-    background-color: rgba(0,0,0,0.6);
+    transform: translate(0,330%);
+    opacity: 0;
 }
 
 
+*{
+    margin: 0;
+    padding:0;
+    font-family: Helvetica, 'Hiragino Sans GB', 'Microsoft Yahei', '微软雅黑', Arial, sans-serif;
+}
+html,body{
+    position: absolute;
+    width:100%;
+    height:100%;
+    left:0;
+    top:0;
+    overflow: hidden;
+}
+body{
+    background: url("/show/resources/img/bg.jpg") center no-repeat;
+    background-size: cover;
+    color: #f9f9f9;
+}
+.m-contain{
+    position: absolute;
+    width: 70%;
+    height: 100%;
+    margin: auto;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right:0;
+}
+.m-top{
+    position: absolute;
+    top:0;
+    width: 100%;
+    font-size: 0.4rem;
+    text-align: center;
+    height: 6%;
+}
+.m-msg-ctn{
+    width: 100%;
+    height: 90%;
+    margin-top: 5%;
+    position: relative;
+    overflow: hidden;
+}
+.m-msg-ctn > div{
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height:30.33333333%;
+    background: rgba(255, 255, 255, 0.27);
+    border-radius: 6px;
+    margin: 1.5% 0;
+}
+.msg-h{
+    float: left;
+    position: relative;
+    width: 20%;
+    height: 100%;
+}
+.msg-hd{
+    position: absolute;
+    display: block;
+    left:0;
+    top:0;
+    bottom:0;
+    right:0;
+    margin: auto;
+    width: 60%;
+    border-radius: 6px;
+}
+.msg-c{
+    float: right;
+    width: 80%;
+    height:100%;
+    overflow: hidden;
+    position: relative;
+}
+.msg-name{
+    width: 100%;
+    height: 0.5rem;
+    line-height: 0.5rem;
+    font-size: .3rem;
+}
+.msg-name-text{
+	float:left;
+	display:block;
+	max-width:2rem;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+.msg-text{
+    height: 80%;
+    overflow: hidden;
+    position: relative;
+}
+.msg-img-c{
+    position: relative;
+    float: left;
+    width: 1.2rem;
+    height: 100%;
+    margin-right: 0.1rem;
+}
+.msg-img{
+    position: absolute;
+    left:0;
+    top:0;
+    bottom:0;
+    right:0;
+    margin: auto;
+    width: 100%;
+    border-radius: 4px;
+}
+.msg-text-c{
+    width: 100%;
+    height: 100%;
+    font-size: .5rem;
+}
 
+.l-code{
+    position: absolute;
+    left:0;
+    top:0;
+    width: 15%;
+    height:100%;
+}
+.l-code > img{
+    position: absolute;
+    display:block;
+    width:80%;
+    left:0;
+    top:0;
+    bottom:0;
+    right:0;
+    margin: auto;
+}
 
-
-
-
-
+/*   --   */
 /**/
 
 .wall-all-ctn {
@@ -320,7 +176,7 @@ li{
     width: 100%;
     height:100%;
     z-index: 99;
-    background: url("./img/wall.jpg") no-repeat;
+    background: url("/show/resources/img/wall.jpg") no-repeat;
     background-size: cover;
     font-size: 25px;
 }
@@ -382,8 +238,19 @@ li{
     bottom:0;
     right:0;
     margin: auto;
-    width: 60%;
-
+    width: 100%;
+    border-radius:6px;
+}
+.wall-name-text{
+	max-width:2rem;
+	display:block;
+	float:left;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+.wall-texts{
+	line-height: .4rem;
 }
 @keyframes myfirst
 {
@@ -405,36 +272,3 @@ li{
     20%{transform: scale(1.5,1.5);}
     80%{transform: rotateY(180deg);}
 }
-.across-one{
-    top: 30%;
-    left: 0;
-    position: absolute;
-    width: 100%;
-    height: 1%;
-    background: #000d18;
-}
-.across-two{
-    top: 65%;
-    left: 0;
-    position: absolute;
-    width: 100%;
-    height: 1%;
-    background: #000d18;
-}
-.stand-one{
-    top: 0;
-    left: 30%;
-    position: absolute;
-    width: 1%;
-    height: 100%;
-    background: #000d18;
-}
-.stand-two{
-    top: 0;
-    left: 65%;
-    position: absolute;
-    width: 1%;
-    height: 100%;
-    background: #000d18;
-}
-
