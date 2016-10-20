@@ -77,11 +77,14 @@ public class OrderAdminServiceImpl extends AbstractAdminService<Order, OrderDTO>
 		BeanUtils.copyProperties(m,dto);
 		List<ProductDTO> pdtos=new ArrayList<>();;
 		for (OrderItem orderItem : orderItems) {
-			System.out.println(orderItem.getId());
+			int quantity=orderItem.getQuantity();
+			long totalFee=orderItem.getTotalFee();
 			hql="from Product where id="+orderItem.getProduct().getId();
 			Product product=this.dao.queryUnique(hql);
 			ProductDTO pdto=new ProductDTO();
 			BeanUtils.copyProperties(product,pdto);
+			pdto.setQuantity(quantity);
+			pdto.setTotalFee(totalFee);
 			pdto.setTypeId(product.getType().getPersistedValue());
 			if(product.getShop()!=null){			
 				pdto.setShopId(product.getShop().getId());
