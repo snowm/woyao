@@ -15,7 +15,7 @@ import com.snowm.security.profile.domain.Gender;
 import com.snowm.security.web.authentication.SSLAuthenticationSuccessHandler;
 import com.woyao.admin.dto.product.ShopDTO;
 import com.woyao.admin.service.IShopAdminService;
-import com.woyao.customer.chat.SessionContainer;
+import com.woyao.customer.chat.session.SessionContainer;
 import com.woyao.customer.dto.ChatRoomDTO;
 import com.woyao.customer.dto.ProfileDTO;
 import com.woyao.customer.service.IMobileService;

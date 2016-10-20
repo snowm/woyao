@@ -21,8 +21,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.snowm.utils.query.PaginationBean;
 import com.woyao.GlobalConfig;
-import com.woyao.customer.chat.SessionContainer;
 import com.woyao.customer.chat.SessionUtils;
+import com.woyao.customer.chat.session.SessionContainer;
 import com.woyao.customer.dto.ChatPicDTO;
 import com.woyao.customer.dto.ChatRoomDTO;
 import com.woyao.customer.dto.ChatterQueryRequest;

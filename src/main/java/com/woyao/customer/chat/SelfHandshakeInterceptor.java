@@ -15,6 +15,7 @@ import org.springframework.http.server.ServletServerHttpRequest;
 import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor;
 
+import com.woyao.customer.chat.session.SessionContainer;
 import com.woyao.customer.dto.ProfileDTO;
 import com.woyao.customer.dto.chat.in.EntireInMsg;
 
@@ -36,17 +37,21 @@ public class SelfHandshakeInterceptor extends HttpSessionHandshakeInterceptor {
 			return false;
 		}
 		Long chatRoomId = (Long) session.getAttribute(SessionContainer.SESSION_ATTR_CHATROOM_ID);
+		Boolean isDapin = (Boolean) session.getAttribute(SessionContainer.SESSION_ATTR_ISDAPIN);
+		if (isDapin == null) {
+			isDapin = false;
+		}
 		String remoteAddress = this.getClientIp(request);
 
 		logger.debug("handshake with httpSession:" + session.getId());
 		attributes.put(SessionContainer.SESSION_ATTR_HTTPSESSION_ID, session.getId());
 		attributes.put(SessionContainer.SESSION_ATTR_HTTPSESSION, session);
+		attributes.put(SessionContainer.SESSION_ATTR_ISDAPIN, isDapin);
 		attributes.put(SessionContainer.SESSION_ATTR_CHATTER, dto);
 		attributes.put(SessionContainer.SESSION_ATTR_CHATROOM_ID, chatRoomId);
 		attributes.put(SessionContainer.SESSION_ATTR_REMOTE_IP, remoteAddress);
 		attributes.put(SessionContainer.SESSION_ATTR_MSG_CACHE_LOCK, new ReentrantLock());
 		attributes.put(SessionContainer.SESSION_ATTR_MSG_CACHE, new HashMap<Long, EntireInMsg>());
-		
 
 		boolean rs = super.beforeHandshake(request, response, wsHandler, attributes);
 		return rs;

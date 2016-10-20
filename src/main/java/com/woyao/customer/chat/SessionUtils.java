@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.web.socket.WebSocketSession;
 
+import com.woyao.customer.chat.session.SessionContainer;
 import com.woyao.customer.dto.ProfileDTO;
 import com.woyao.customer.dto.chat.in.EntireInMsg;
 
@@ -74,7 +75,7 @@ public abstract class SessionUtils {
 	}
 
 	public static boolean isDapin(WebSocketSession wsSession) {
-		Object value = wsSession.getAttributes().get(SessionContainer.SESSION_ATTR_REMOTE_IP);
+		Object value = wsSession.getAttributes().get(SessionContainer.SESSION_ATTR_ISDAPIN);
 		if (value == null) {
 			return false;
 		}

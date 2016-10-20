@@ -26,8 +26,8 @@ import org.springframework.web.socket.WebSocketSession;
 import com.snowm.security.profile.domain.Gender;
 import com.snowm.utils.query.PaginationBean;
 import com.woyao.customer.chat.MessageCacheOperator;
-import com.woyao.customer.chat.SessionContainer;
 import com.woyao.customer.chat.SessionUtils;
+import com.woyao.customer.chat.session.SessionContainer;
 import com.woyao.customer.disruptor.LongEventProducer;
 import com.woyao.customer.dto.ChatPicDTO;
 import com.woyao.customer.dto.ChatRoomStatistics;
@@ -92,7 +92,7 @@ public class ChatServiceImpl implements IChatService {
 	@Transactional(readOnly = true)
 	@Override
 	public void newChatter(WebSocketSession wsSession, HttpSession httpSession) {
-		this.sessionContainer.wsEnabled(wsSession, httpSession);
+		this.sessionContainer.wsEnabled(wsSession);
 		sendSelfInfo(wsSession);
 		Long chatRoomId = SessionUtils.getChatRoomId(wsSession);
 		if (chatRoomId != null) {
@@ -109,7 +109,7 @@ public class ChatServiceImpl implements IChatService {
 
 	@Override
 	public void leave(WebSocketSession wsSession) {
-		this.sessionContainer.wsClosed(wsSession.getId());
+		this.sessionContainer.wsClosed(wsSession);
 		Long chatRoomId = SessionUtils.getChatRoomId(wsSession);
 		if (chatRoomId != null) {
 			boardRoomStatisticsInfo(chatRoomId);

@@ -15,7 +15,7 @@ public class ChatRoomStatistics implements Serializable {
 
 	private Long shopId;
 
-	private int onlineChattersNumber;
+	private int onlineChattersNumber = 0;
 
 	private ProfileDTO dailyRicher;
 

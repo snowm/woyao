@@ -28,7 +28,7 @@ import org.springframework.stereotype.Component;
 
 import com.snowm.security.profile.domain.Gender;
 import com.woyao.GlobalConfig;
-import com.woyao.customer.chat.SessionContainer;
+import com.woyao.customer.chat.session.SessionContainer;
 import com.woyao.customer.dto.ProfileDTO;
 import com.woyao.customer.service.IProfileWxService;
 import com.woyao.utils.CookieUtils;
@@ -128,7 +128,9 @@ public class Oauth2SecurityFilter implements Filter, InitializingBean {
 
 		// 获取到信息后，将chatter放进session，将chatterId和openId放入cookie
 		session.setAttribute(SessionContainer.SESSION_ATTR_CHATTER, dto);
+		session.setAttribute(SessionContainer.SESSION_ATTR_ISDAPIN, false);
 		CookieUtils.setCookie(response, CookieUtils.COOKIE_OPEN_ID, dto.getOpenId());
+
 		return true;
 	}
 
