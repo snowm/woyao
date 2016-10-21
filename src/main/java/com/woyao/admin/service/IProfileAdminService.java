@@ -9,4 +9,9 @@ public interface IProfileAdminService extends IAdminService<Profile, ProfileDTO>
 
 	PaginationBean<ProfileDTO> query(QueryProfileRequestDTO request);
 	
+	/**
+	 * 重置密码方法
+	 */
+	
+	boolean resetProfilePwd(Long shopId);
 }

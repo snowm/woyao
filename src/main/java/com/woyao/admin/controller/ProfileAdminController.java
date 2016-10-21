@@ -2,9 +2,11 @@ package com.woyao.admin.controller;
 
 import javax.annotation.Resource;
 
+import org.jboss.logging.annotations.Param;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -41,6 +43,17 @@ public class ProfileAdminController extends AbstractBaseController<Profile, Prof
 			return this.service.create(dto);
 		}
 	}
+	/**
+	 * 重置管理员密码
+	 */
+	@RequestMapping(value = {"/reset/{shopId}"}, method = {RequestMethod.GET }, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@ResponseBody
+	public boolean resetProfilePwd(@PathVariable("shopId") Long shopId) {
+			System.out.println(shopId);
+		return this.service.resetProfilePwd(shopId);
+	}
+	
+	
 	
 	@Resource
 	@Override

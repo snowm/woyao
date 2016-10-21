@@ -3,11 +3,14 @@ package com.woyao.admin.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.BeanUtils;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
@@ -18,9 +21,15 @@ import com.snowm.utils.query.PaginationBean;
 import com.woyao.admin.dto.product.QueryProfileRequestDTO;
 import com.woyao.admin.dto.profile.ProfileDTO;
 import com.woyao.admin.service.IProfileAdminService;
+import com.woyao.admin.service.IUserAdminService;
+import com.woyao.domain.Shop;
 @Service("profileAdminService")
 public class ProfileAdminServiceImpl extends AbstractAdminService<Profile, ProfileDTO> implements IProfileAdminService {
 
+	
+	@Resource(name = "userAdminService")
+	private IUserAdminService userAdminService;
+	
 	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED)
 	public ProfileDTO update(ProfileDTO dto) {
 		Profile m = this.transferToDomain(dto);
@@ -101,5 +110,20 @@ public class ProfileAdminServiceImpl extends AbstractAdminService<Profile, Profi
 	public ProfileDTO transferToFullDTO(Profile m) {
 		
 		return this.transferToSimpleDTO(m);
+	}
+
+	@Override
+	public boolean resetProfilePwd(Long shopId) {
+		Shop shop=this.dao.get(Shop.class, shopId);
+		if(shop!=null){		
+			Profile profile=this.dao.get(Profile.class, shop.getManagerProfileId());
+			if(profile!=null){	
+				ProfileDTO profileDTO=transferToSimpleDTO(profile);
+				profileDTO.setPassword("888888");
+				this.userAdminService.update(profileDTO);
+				return true;		
+			}
+		}	
+		return false;
 	}
 }
