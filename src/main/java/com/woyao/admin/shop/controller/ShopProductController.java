@@ -42,6 +42,7 @@ public class ShopProductController extends AbstractBaseController<Product, Produ
 			RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
 	public ProductDTO saveOrUpdate(ProductDTO dto) {
+		dto.setShopId(shopRoot.getCurrentShop().getId());
 		if (dto.getId() != null) {
 			return this.service.update(dto);
 		} else {
