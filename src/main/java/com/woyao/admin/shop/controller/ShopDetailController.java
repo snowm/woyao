@@ -34,7 +34,7 @@ public class ShopDetailController extends AbstractBaseController<Shop, ShopDTO>{
 	@RequestMapping(value = { "", "/" }, method = { RequestMethod.PUT,
 			RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
-	public ShopDTO saveOrUpdate(ShopDTO dto) {
+	public ShopDTO saveOrUpdate(ShopDTO dto) {	
 		dto.setId(shopRoot.getCurrentShop().getId());
 		if (dto.getId() != null) {
 			return this.service.update(dto);

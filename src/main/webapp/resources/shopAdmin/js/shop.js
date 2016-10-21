@@ -88,7 +88,7 @@ define(['uploadfile'],function(){
     	    	    	//性别 -------------------------------------------------------------------------------------------------
     	    	    	$.ajax({
     	        	      		  type: "post",
-    	        	      		  url: '/admin/shop/',
+    	        	      		  url: '/shop/admin/detail/',
     	        	      		  data: data,
     	        	      		  success: function(data){
     	        	      			  alert('提交成功')    	        	      	    	 
