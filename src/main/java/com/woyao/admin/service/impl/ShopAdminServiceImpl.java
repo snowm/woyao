@@ -87,7 +87,9 @@ public class ShopAdminServiceImpl extends AbstractAdminService<Shop, ShopDTO> im
 		ProfileDTO profileDTO = new ProfileDTO();
 		profileDTO.setId(managerProfileId);
 		profileDTO.setUsername(dto.getManagerName());
-		profileDTO.setPassword(dto.getManagerPwd());
+		if(dto.getManagerPwd()!=null){			
+			profileDTO.setPassword(dto.getManagerPwd());
+		}
 		profileDTO.setGender(Gender.FEMALE);
 		this.userAdminService.update(profileDTO);
 		return this.transferToFullDTO(m);
