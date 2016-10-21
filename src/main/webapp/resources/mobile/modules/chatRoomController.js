@@ -7,7 +7,7 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"wxsdk","dom
 
     socket.init();
     var main_socket = socket.ws;
-
+    
     var mainController = avalon.define({
         $id : "mainController",
         userInfo: {},
@@ -117,13 +117,19 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"wxsdk","dom
             avalon.vmodels.rootController.toWho = mainController.showUser;
             window.location.hash='#!/privacyChat'
         },
-        forHer:function(){
+        forHer:function(showUser){
+        	
+        	if(showUser){
+            	mainController.showUser = showUser;
+        	}
+        	
             if(mainController.isShowPhoto){
                 mainController.showPhotoWall();
             }
             mainController.forHerShow = true;
         },
         hideForOther:function(){
+        	mainController.showUser = {};
             avalon.vmodels.rootController.toWho = {};
             mainController.forHerShow = false;
         },
@@ -283,7 +289,7 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"wxsdk","dom
         	    urls: ['http://www.luoke30.com' + url], // 需要预览的图片http链接列表
         	});
         },
-        judgeBl:function(a,b){
+        judgeBl: function(a,b){
         	if(a != null && a != "" && b != mainController.userInfo.self.id){
         		return true;
         	}else{
@@ -291,9 +297,11 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"wxsdk","dom
         	}
         }
     });
-
+    
+    
     avalon.scan();
 
+    
     function initView(){
     	mainController.hidePopSend();
         if(mainController.emojiShow){
@@ -321,6 +329,14 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"wxsdk","dom
     })
 
 
+    mainController.$watch("msgText", function(t) {
+        if(t.length >= 50){
+        	mainController.msgText = t.substring(0,49);
+        	alert("已经超出文字限制，请输入50字以内的消息。");
+        	return !1;
+        }
+    })
+    
 
     function isEmptyObject(e) {
         var t;
@@ -504,9 +520,8 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"wxsdk","dom
     }
     queryGoodsData();
 
+    
     function queryHistoryMsg(){
-
-        
         $.ajax({
             url: "/m/chat/listMsg",
             dataType: "JSON",
@@ -520,14 +535,7 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"wxsdk","dom
                 for(var i = 0;i < msg.length ; i++){
                     msg[i].text = replace_em(msg[i].text);
                     if(msg[i].privacy){
-//                    	alert("这里不应该收到私聊消息");
-//                        avalon.vmodels.rootController._privacyMsg.unshift(msg[i]);
-//                        mainController.pMsgCount = 0;
-//                        for(var j = 0; j < avalon.vmodels.rootController._privacyMsg.$model.length; j++){
-//                        	if(avalon.vmodels.rootController._privacyMsg.$model[j].command != 'smACK'){
-//                                mainController.pMsgCount++;
-//                            }
-//                        }
+                    	
                     }else{
                     	avalon.vmodels.rootController._publicMsg.unshift(msg[i]);
                         mainController.msgList.unshift(msg[i]);
@@ -538,11 +546,11 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"wxsdk","dom
                     	}else{
                     		mainController.pageDownBtn = true;
                     	}
-                        
                     }
                 };
                 setTimeout(function(){
                     mainController.queryHistoryIng = false;
+                    avalon.scan();
                 },800)
                 
             },
@@ -555,8 +563,6 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"wxsdk","dom
         });
     }
     
-    queryHistoryMsg();
-
     // 今日最土豪
     function queryTopRicher(){
         $.ajax({
