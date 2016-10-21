@@ -21,10 +21,6 @@
         </div>
         <div class="wall-all-right">
             <img class="wall-all-right-img" src="/show/resources/img/1_07.png" alt="">
-            <!--<div class="across-one"></div>-->
-            <!--<div class="across-two"></div>-->
-            <!--<div class="stand-one"></div>-->
-            <!--<div class="stand-two"></div>-->
         </div>
     </div>
 </div>
@@ -33,16 +29,22 @@
 </div>
 <div class="m-contain">
     <div class="m-top">
-        音乐小房子酒吧
+    	<div class="m-top-l">
+    		<img class="" src="/show/resources/img/logo.png" alt="">
+    	</div>
+    	<div class="m-top-c">
+    		<img class="" src="/show/resources/img/woyao.png" alt="">
+    	</div>
     </div>
     <div class="m-msg-ctn">
         <div class="msg-block m0">
             <div class="msg-h">
                 <img class="msg-hd" src="/show/resources/img/head.jpg" alt="">
+                <div class="msg-name"><span class="msg-name-text">woyao</span> <img src="/show/resources/img/woman.png" alt=""></div>
             </div>
             <div class='msg-c'>
-                <div class="msg-name"><span class="msg-name-text">隔壁老王</span> <img src="/show/resources/img/woman.png" alt=""></div>
                 <div class="msg-text">
+                	<img class="msg-ba" src="/show/resources/img/ba.png" alt="">
                     <div class="msg-img-c" style="display: none">
                         <img class="msg-img" src="/show/resources/img/head.jpg" alt="">
                     </div>
@@ -55,10 +57,11 @@
         <div class="msg-block m1">
             <div class="msg-h">
                 <img class="msg-hd" src="/show/resources/img/head.jpg" alt="">
+                <div class="msg-name"><span class="msg-name-text">woyao</span>  <img src="/show/resources/img/woman.png" alt=""></div>
             </div>
             <div class='msg-c'>
-                <div class="msg-name"><span class="msg-name-text">隔壁老王</span>  <img src="/show/resources/img/woman.png" alt=""></div>
                 <div class="msg-text">
+                	<img class="msg-ba" src="/show/resources/img/ba.png" alt="">
                     <div class="msg-img-c" style="display: none">
                         <img class="msg-img" src="/show/resources/img/head.jpg" alt="">
                     </div>
@@ -71,10 +74,11 @@
         <div class="msg-block m2">
             <div class="msg-h">
                 <img class="msg-hd" src="/show/resources/img/head.jpg" alt="">
+                <div class="msg-name"><span class="msg-name-text">woyao</span> <img src="/show/resources/img/woman.png" alt=""></div>
             </div>
             <div class='msg-c'>
-                <div class="msg-name"><span class="msg-name-text">隔壁老王</span> <img src="/show/resources/img/woman.png" alt=""></div>
                 <div class="msg-text">
+                	<img class="msg-ba" src="/show/resources/img/ba.png" alt="">
                     <div class="msg-img-c" style="display: none">
                         <img class="msg-img" src="/show/resources/img/head.jpg" alt="">
                     </div>
@@ -87,10 +91,11 @@
         <div class="msg-block m3">
             <div class="msg-h">
                 <img class="msg-hd" src="/show/resources/img/head.jpg" alt="">
+                <div class="msg-name"><span class="msg-name-text">woyao</span>  <img src="/show/resources/img/woman.png" alt=""></div>
             </div>
             <div class='msg-c'>
-                <div class="msg-name"><span class="msg-name-text">隔壁老王</span>  <img src="/show/resources/img/woman.png" alt=""></div>
                 <div class="msg-text">
+	                <img class="msg-ba" src="/show/resources/img/ba.png" alt="">
                     <div class="msg-img-c" style="display: none">
                         <img class="msg-img" src="/show/resources/img/head.jpg" alt="">
                     </div>
@@ -103,10 +108,11 @@
         <div class="msg-block m4">
             <div class="msg-h">
                 <img class="msg-hd" src="/show/resources/img/head.jpg" alt="">
+                <div class="msg-name"><span class="msg-name-text">woyao</span>  <img src="/show/resources/img/woman.png" alt=""></div>
             </div>
             <div class='msg-c'>
-                <div class="msg-name"><span class="msg-name-text">隔壁老王</span>  <img src="/show/resources/img/woman.png" alt=""></div>
                 <div class="msg-text">
+                	<img class="msg-ba" src="/show/resources/img/ba.png" alt="">
                     <div class="msg-img-c" style="display: none">
                         <img class="msg-img" src="/show/resources/img/head.jpg" alt="">
                     </div>
@@ -117,6 +123,9 @@
             </div>
         </div>
     </div>
+</div>
+<div class="m-bottom-c">
+	 <img class="m-bottom-tip" src="/show/resources/img/tips.png" alt="">欢迎光临
 </div>
 </body>
 <script>
@@ -170,6 +179,11 @@
             	  changeBlock.find('.msg-img-c').attr('style','display:none');
             	  changeBlock.find('.msg-img').attr('src','');
               }
+              if(allMsgList[allMsgIndex].duration != 0){
+            	  changeBlock.find('.msg-ba').attr('style','display:block');
+              }else{
+            	  changeBlock.find('.msg-ba').attr('style','display:none');
+              }
         }
         
         window.setInterval(function(){
@@ -177,7 +191,7 @@
         		return;
         	}
             allAdd();
-        },2000);
+        },2500);
         
         
         var socket = undefined;
@@ -212,14 +226,18 @@
             	 return;
             }
             if(!msg.privacy){
+            	msg.duration = 100;
             	if(msg.duration != 0){
                     if(sreenShow){
                         msg.text = replace_em(msg.text);
                         sreenItem.push(msg);
+                    	allMsgList.push(msg);
                         return
                     }else{
                         msg.text = replace_em(msg.text);
                         sreenPop(msg);
+                    	allMsgList.push(msg);
+                    	return
                     }
                 }else{
                     msg.text = replace_em(msg.text);
