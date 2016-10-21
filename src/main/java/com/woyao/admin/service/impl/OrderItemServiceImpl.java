@@ -144,6 +144,10 @@ public class OrderItemServiceImpl extends AbstractAdminService<Order, OrderDTO> 
 			dto.setMsgId(getMsg(m.getMsgId()).getId());
 			dto.setMsgpic(getMsg(m.getMsgId()).getPicURL());
 		}	
+		dto.setEnabled(m.getLogicalDelete().isEnabled());
+		dto.setDeleted(m.getLogicalDelete().isDeleted());
+		dto.setCreationDate(m.getModification().getCreationDate());
+		dto.setLastModifiedDate(m.getModification().getLastModifiedDate());
 		return dto;
 	}
 	
