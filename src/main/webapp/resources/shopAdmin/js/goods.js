@@ -52,7 +52,7 @@ define(['uploadfile'],function(){
  	             }
              $.ajax({
                  type: "post",
-                 url: '/admin/product/search',
+                 url: '/shop/admin/product/search',
                  data:date,
                  success: function(data){
                      console.log(data);
@@ -79,7 +79,7 @@ define(['uploadfile'],function(){
 			var data=goodsController.goodsChg;    			
 			$.ajax({
 	      		  type: "post",
-	      		  url: '/admin/shop/search/',
+	      		  url: '/shop/admin/shop/search/',
 	      		  data:data,
 	      		  success: function(data){
 	      			  console.log(data);
@@ -160,7 +160,7 @@ define(['uploadfile'],function(){
     		                }
     		            $.ajax({
     		                type: "post",
-    		                url: '/admin/product/',
+    		                url: '/shop/admin/product/',
     		                data:date,
     		                success: function(data){
     		                    console.log(data);
@@ -257,7 +257,7 @@ define(['uploadfile'],function(){
             if(confirm("确认删除 ？")) {
                 $.ajax({
                     type: "put",
-                    url: '/admin/product/delete/' + id,
+                    url: '/shop/admin/product/delete/' + id,
                     success: function(data){
                         console.log(data);
                         goodsController.goods=true;
@@ -301,7 +301,7 @@ define(['uploadfile'],function(){
         uploadImg:function(){
 	    	  var formData = new FormData($("#uploadForm")[0]);  
      	     $.ajax({  
-     	          url: 'admin/upload/file' ,  
+     	          url: '/admin/upload/file' ,  
      	          type: 'POST',  
      	          data: formData,  
      	          async: false,  
@@ -379,7 +379,7 @@ define(['uploadfile'],function(){
  	    	 
              $.ajax({
                  type: "post",
-                 url: '/admin/product/search',
+                 url: '/shop/admin/product/search',
                  data:date,
                  success: function(data){
                      console.log(data);

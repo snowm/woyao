@@ -76,5 +76,7 @@ require(['/shopAdmin/resources/js/common.js','mmRouter',"domReady!"],function(mm
     avalon.history.start({
         basepath: "/avalon"
     });
-    avalon.scan()
+    
+    avalon.scan();
+    
 });

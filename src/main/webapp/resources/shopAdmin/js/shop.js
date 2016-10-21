@@ -1,8 +1,26 @@
 /**
  * Created by Luozhongdao  on 2016/9/19 0018.
  */
-define(['uploadfile'],function(){
-    $(function(){
+define(['uploadfile'],function(){	
+    $(function(){ 
+    	$.ajax({
+    		  type: "get",
+    		  url: '/shop/admin/detail/search',
+    		  success: function(data){
+    			  console.log(data);
+    			   shopController.formData.shopDetail = data;
+    			   shopController.imgViewSrc = data.picUrl;
+    			   shopController.formData.name = data.name,
+    			   shopController.formData.address = data.address,
+    			   shopController.formData.description = data.description,
+    			   shopController.formData.latitude=data.latitude,
+    			   shopController.formData.longitude = data.longitude,
+    			   shopController.formData.managerName = data.managerName,
+    			   shopController.formData.managerProfileId =data.managerProfileId,
+    			   shopController.formData.picId=data.picId
+    		  },
+    		  dataType: 'json'
+    		});
     	var shopController = avalon.define({
     	    $id: "shopController",
     	    formShow:true,
@@ -11,14 +29,16 @@ define(['uploadfile'],function(){
     	    nothing:false,
     	    disabled:true,
     	    imgViewSrc:'/admin/resources/images/photos/upload1.png',
+    	    shopDetail:{},
     	    shopList:[],
     	    queryCdt:{
     	    	name:'',
     	    	deleted:false,
     	    	pageNumber:1,
-    	    	pageSize:7,
+    	    	pageSize:7    	    	
     	    }, 
     	    formData:{
+    	    	id:"",
     	    	name:'',
     	    	address:'',
 //    	    	chatRoomName:'',
@@ -31,18 +51,7 @@ define(['uploadfile'],function(){
     	    	picId:'', 
     	    	managerPwd:''
     	    },
-    	    uploadbtn:true,    	   
-    	    save:function(){
-    	    	shopController.business=true;
-    	    	shopController.businessalter=false;
-    	    }, 
-    	    hideNewShop:function(){
-    	    	shopController.formShow = false;
-    	    	  shopController.formData.picId = '';
-	              shopController.uploadbtn = true;
-      	    	  shopController.imgViewSrc = '/admin/resources/images/photos/upload1.png';
-                  $("#uploadFileIpt").val('');
-    	    },
+    	    uploadbtn:true, 
     	    submitItem:function(){    	    	
     	    	//经度正则
     	    	var longitude =/^[\-\+]?(0?\d{1,2}\.\d{1,5}|1[0-7]?\d{1}\.\d{1,5}|180\.0{1,5})$/;
@@ -67,53 +76,28 @@ define(['uploadfile'],function(){
     	    	    	var data = {
     	    	    			name:shopController.formData.name,
     	    	    	    	address:shopController.formData.address,
-//    	    	    	    	chatRoomName:shopController.formData.chatRoomName,
     	    	    	    	description:shopController.formData.description,
     	    	    	    	latitude:shopController.formData.latitude,
     	    	    	    	longitude:shopController.formData.longitude,
     	    	    	    	managerName:shopController.formData.managerName,
     	    	    	    	managerProfileId:shopController.formData.managerProfileId,
     	    	    	    	description:shopController.formData.description,
-    	    	    	    	id:shopController.formData.id,
     	    	    	    	picId:shopController.formData.picId,
     	    	    	    	managerPwd:shopController.formData.managerPwd,
     	    	    	}
     	    	    	//性别 -------------------------------------------------------------------------------------------------
-//    	    	    	data.managerType = 1;
-    	    	    	if(shopController.formData.id){
-    	        	    	console.log(data);  	        	    	
-    	        	    	$.ajax({
-    	      	      		  type: "post",
-    	      	      		  url: '/admin/shop/',
-    	      	      		  data: data,
-    	      	      		  success: function(data){
-    	     	      			 alert('提交成功')
-    	     	      	    	  shopController.formShow = false;
-    		   	      	    	  shopController.formData.picId = '';
-    			      	    	  shopController.imgViewSrc = '/admin/resources/images/photos/upload1.png';    			      	    	  
-    			                  $("#uploadFileIpt").val('');
-    	      	      			  console.log(data);
-    	      	      			  queryData();
-    	      	      		  },
-    	      	      		  dataType: 'json',
-    	      	      		});
-    	    	    	}else{
-    	    	    		$.ajax({
+    	    	    	$.ajax({
     	        	      		  type: "post",
     	        	      		  url: '/admin/shop/',
     	        	      		  data: data,
     	        	      		  success: function(data){
-    	        	      			  alert('提交成功')
-    	        	      	    	  shopController.formShow = false;
-    	        	      	    	  shopController.formData.picId = '';
-    	        	      	    	  shopController.imgViewSrc = '/admin/resources/images/photos/upload1.png';
+    	        	      			  alert('提交成功')    	        	      	    	 
     	        	                  $("#uploadFileIpt").val('');
     	        	      			  console.log(data);
-    	        	      			  queryData();
     	        	      		  },
     	        	      		  dataType: 'json'
     	        	      		});
-    	    	    	}
+    	    	    
     				}   			
     	   
     	    },
@@ -129,7 +113,9 @@ define(['uploadfile'],function(){
             	          processData: false,  
             	          success: function (data) {  
             	        	  alert("提交成功");
-            	              shopController.formData.picId = data.result.id;
+            	        	  console.log(data);
+            	              shopController.imgViewSrc= data.result.url;
+            	              shopController.formData.picId= data.result.id;
             	              shopController.uploadbtn = false;
             	          },  
             	          error: function (data) {  
@@ -142,7 +128,7 @@ define(['uploadfile'],function(){
     	    }
     	});
     	
-    	avalon.scan();
+    	avalon.scan();    	
     	
     	$("#uploadFileIpt").live("change",function(){
     		if (!this.files.length) return;

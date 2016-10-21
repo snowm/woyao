@@ -60,7 +60,12 @@
 
 <div class="m-container">
     <div class="m-content" ms-include-src="content">
+    	<input type="hidden" id="pp" value="${shop}"/>
     </div>
+    <script type="text/javascript">
+    	/* var p=document.getElementById("pp").value;
+    	sessionStorage.setItem("p",p); */    	
+    </script>
 </div>
 </body>
 </html>

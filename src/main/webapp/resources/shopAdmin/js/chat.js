@@ -25,7 +25,7 @@ define(['jquery','datapicker','datapicker.cn'],function(){
     			}
     			$.ajax({
   	      		  type: "post",
-  	      		  url: '/admin/profileWX/search',
+  	      		  url: '/shop/admin/profileWX/search',
   	      		  data:date,
   	      		  success: function(data){
   	      			  	console.log(data);    	      			 
@@ -52,7 +52,7 @@ define(['jquery','datapicker','datapicker.cn'],function(){
 	    			}
 	    			$.ajax({
 	  	      		  type: "post",
-	  	      		  url: '/admin/chatMsg/search',
+	  	      		  url: '/shop/admin/chatMsg/search',
 	  	      		  data:date,
 	  	      		  success: function(data){
 	  	      			  console.log(data);
@@ -69,7 +69,7 @@ define(['jquery','datapicker','datapicker.cn'],function(){
     				if(confirm("确认删除 ？")) {
        	    		 $.ajax({
        	  	      		  type: "put",
-       	  	      		  url: '/admin/chatMsg/delete/' + id,
+       	  	      		  url: '/shop/admin/chatMsg/delete/' + id,
        	  	      		  success: function(data){       	  	      			 
        	  	      			  Seach();
        	  	      		  },
@@ -109,7 +109,7 @@ define(['jquery','datapicker','datapicker.cn'],function(){
 	    			}
 	    			$.ajax({
 	  	      		  type: "post",
-	  	      		  url: '/admin/chatMsg/search',
+	  	      		  url: '/shop/admin/chatMsg/search',
 	  	      		  data:date,
 	  	      		  success: function(data){
 	  	      			  console.log(data);

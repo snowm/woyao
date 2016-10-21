@@ -6,14 +6,15 @@ define(['jquery','datapicker','datapicker.cn'],function(){
        var orderController = avalon.define({
     	   	$id:"orderController",
     	   	orderList:[],
-    	   	nameList:[],
-    	   	pList:{},
+    	   	nameList:[],    	   
+    	   	shopDetail:{},
     	   	totlePage:0,
     	   	product:false,
     	   	list:true,
     	   	top:true,
+    	   	deailId:"",
     	   	ordername:{
-    	   		nickname:""
+    	   	nickname:""
     	   	},
     	   	orderData:{
     	   		from:"",
@@ -34,7 +35,7 @@ define(['jquery','datapicker','datapicker.cn'],function(){
     			}
     			$.ajax({
   	      		  type: "post",
-  	      		  url: '/admin/profileWX/search',
+  	      		  url: '/shop/admin/profileWX/search',
   	      		  data:date,
   	      		  success: function(data){
   	      			  	console.log(data);    	      			 
@@ -76,15 +77,30 @@ define(['jquery','datapicker','datapicker.cn'],function(){
     		page:function(page){
     			Seach(page);
     		},
-    		details:function(id){    			
+    		detail:function(id){
     			orderController.product=true;
     			orderController.list=false;
     			orderController.top=false;
-    			orderController.orderList.forEach(function(item){    				 
-    				if(item.id == id){    					
-    					orderController.pList = item;    					
-    	    		}
-    			});    			
+    				orderController.orderList.forEach(function(item){    				 
+        				if(item.id == id){ 		
+        					orderController.deailId = item.id; 
+        					console.log(orderController.deailId);
+        					var data={
+        							orderId:orderController.deailId
+        					}
+        					$.ajax({
+        		  	      		  type: "post",
+        		  	      		  url: '/shop/admin/order/detil',
+        		  	      		  data:data,
+        		  	      		  success: function(data){
+        		  	      			  console.log(data);
+        		  	      			orderController.shopDetail=data;
+        		  	      		  },
+        		  	      		  dataType: 'json'
+        		  	      		});
+        	    		}
+        			});    				
+    			
     		},
     		back:function(){    			
     			orderController.product=false;
@@ -96,7 +112,7 @@ define(['jquery','datapicker','datapicker.cn'],function(){
 	   	$(document).click(function(){    		
 	   		orderController.nameList=[];
 	   	});
-	   	function Seach(page){
+	   	function Seach(page){	   	
     		if(page == "upPage"){
 	  	    		if(orderController.orderData.pageNumber == 1){
 	  	    			alert("已是第一页");
@@ -108,9 +124,8 @@ define(['jquery','datapicker','datapicker.cn'],function(){
   	    			alert("已是最后一页");
   	    			return;
   	    		}
-  	    			orderController.orderData.pageNumber++;
+  	    		orderController.orderData.pageNumber++;
       			}
-    		
     		var date = {
     				statusId:orderController.orderData.statusId,
 					from:orderController.orderData.from,
@@ -122,9 +137,10 @@ define(['jquery','datapicker','datapicker.cn'],function(){
     				mintotalFee:orderController.orderData.mintotalFee,
     				maxtotalFee:orderController.orderData.maxtotalFee
     			}
+    	
     			$.ajax({
 	      		  type: "post",
-	      		  url: '/admin/order/search',
+	      		  url: '/shop/admin/order/search',
 	      		  data:date,
 	      		  success: function(data){
 	      			  console.log(data);	  	      			 
