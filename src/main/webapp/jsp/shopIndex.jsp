@@ -8,6 +8,7 @@
 </head>
 <link rel="stylesheet" href="/show/resources/show.css">
 <script src="/show/resources/jquery-1.9.1/jquery.min.js"></script>
+<script src="/show/resources/qqface/jquery.qqFace.js"></script>
 <body>
 <div class="wall-all-ctn">
     <div class="wall-all">
@@ -178,7 +179,7 @@
             allAdd();
         },2000);
         
-
+        
         var socket = undefined;
         // 创建一个Socket实例
         var isHttps = ('https:' == window.location.protocol);
@@ -211,17 +212,18 @@
             	 return;
             }
             if(!msg.privacy){
-            	allMsgList.push(msg);
-            	console.log(allMsgList);
-            	//msg.duration = 10;
             	if(msg.duration != 0){
                     if(sreenShow){
+                        msg.text = replace_em(msg.text);
                         sreenItem.push(msg);
                         return
                     }else{
-                        //msg.text = replace_em_null(msg.text);
+                        msg.text = replace_em(msg.text);
                         sreenPop(msg);
                     }
+                }else{
+                    msg.text = replace_em(msg.text);
+                	allMsgList.push(msg);
                 }
             }
         };
@@ -266,7 +268,27 @@
                     }
                 },1000)
             }
-       }
+        }
+        
+        
+        // compile QQ faceCode
+        function replace_em(str){
+            str = str.replace(/\</g,'&lt;');
+            str = str.replace(/\>/g,'&gt;');
+            str = str.replace(/\n/g,'<br/>');
+            str = str.replace(/\[em_([0-9]*)\]/g,"<img src='/show/resources/qqface/face/$1.gif'/>");
+            return str;
+        };
+        
+        function replace_em_null(str){
+            str = str.replace(/\</g,'&lt;');
+            str = str.replace(/\>/g,'&gt;');
+            str = str.replace(/\n/g,'<br/>');
+            str = str.replace(/\[em_([0-9]*)\]/g,"");
+            return str;
+        };
+
+        /* qqface */
     }
 </script>
 </html>

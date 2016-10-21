@@ -141,7 +141,7 @@
             <table>
                 <tr>
                     <td><span class="pop-wall-name" ms-text="showUser.nickname">奥特曼</span> <img class="pop-wall-sexy" ms-visible="showUser.sender == 'FEMALE'" src="/resources/static/img/weman.png" alt=""><img class="pop-wall-sexy" ms-visible="showUser.sender == 'MALE'" src="/resources/static/img/man.png" alt=""></td>
-                    <td width="70" ms-visible="showUser.id != userInfo.self.id"><div class="pop-wall-chat" ms-on-tap="forHer(showUser.id)">送 礼</div></td>
+                    <td width="70" ms-visible="showUser.id != userInfo.self.id"><div class="pop-wall-chat" ms-on-tap="forHer(showUser)">送 礼</div></td>
                     <td width="70" ms-visible="showUser.id != userInfo.self.id"><div class="pop-wall-chat" ms-on-tap="privateChat">搭 讪</div></td>
                 </tr>
             </table>
@@ -198,7 +198,7 @@
                             <img --src="/resources/static/img/delate/photo1.jpg" ms-attr-src="item.pic" alt="">
                         </div>
                         <!--<p class="msg-forhe" ms-on-tap="forHer()">给<span ms-visible="item.sexy == 'man'">他</span><span ms-visible="item.sexy == 'weman'">她</span>送礼物</p>-->
-                        <p class="msg-forhe" ms-on-tap="forHer(item.sender.id)" ms-visible="judgeBl(item.pic,item.sender.id)">送礼物</p>
+                        <p class="msg-forhe" ms-on-tap="forHer(item.sender)" ms-visible="judgeBl(item.pic,item.sender.id)">送礼物</p>
                         <img class="msg-icon-right" src="/resources/static/img/cgrt.png" ms-visible="item.sender.gender == 'MALE'" alt="">
                         <img class="msg-icon-right" src="/resources/static/img/lips.png" ms-visible="item.sender.gender == 'FEMALE'" alt="">
                     </div>

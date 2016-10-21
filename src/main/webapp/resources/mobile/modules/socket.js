@@ -44,7 +44,56 @@ define(['jquery','avalon','wxsdk',"domReady!"], function ($,avalon,wx,domReady) 
                     return
                 }
                 if(msg.command == 'selfInfo'){
+
                     avalon.vmodels.rootController._userInfo = msg;
+                    avalon.vmodels.mainController.userInfo = msg;
+                	
+                	$.ajax({
+                        url: "/m/chat/listMsg",
+                        dataType: "JSON",
+                        data: {
+                       	 withChatterId:'', 
+                         minId:'',
+                         maxId:-1,
+                         pageSize:8,
+                    },
+                        async: true,
+                        type: "post",
+                        success: function(data) {
+                            console.log("msg: _____");
+                            console.log(data);
+                            var msg = data;
+                            for(var i = 0;i < msg.length ; i++){
+                                msg[i].text = replace_em(msg[i].text);
+                                if(msg[i].privacy){
+                                	
+                                }else{
+                                	avalon.vmodels.rootController._publicMsg.unshift(msg[i]);
+                                	avalon.vmodels.mainController.msgList.unshift(msg[i]);
+                                    
+                                    if($(".msg-block-container").height() - $(".msg-block-contain").height() - $(".msg-block-contain").scrollTop() < 600){
+                                		$(".msg-block-contain").animate({scrollTop:$(".msg-block-container").height() -  $(".msg-block-contain").height() + 200},0,'swing');
+                                		avalon.vmodels.mainController.pageDownBtn = false;
+                                	}else{
+                                		avalon.vmodels.mainController.pageDownBtn = true;
+                                	}
+                                }
+                            };
+
+                            setTimeout(function(){
+                            	avalon.vmodels.mainController.queryHistoryIng = false;
+                            },800)
+
+                            avalon.scan();
+                        },
+                        complete: function() {
+                        	
+                        },
+                        error: function() {
+
+                        }
+                    });
+                	
                     return;
                 }
                 if(msg.command == 'roomInfo'){
@@ -133,9 +182,6 @@ define(['jquery','avalon','wxsdk',"domReady!"], function ($,avalon,wx,domReady) 
     }
 //    socket = new WebSocket(protocol + window.location.host + '/mobile/chat/socket');
 
-    
-    
-    
     // 霸屏排队
     function sreenPop(item){
    	 var seconds = item.duration;
@@ -166,7 +212,7 @@ define(['jquery','avalon','wxsdk',"domReady!"], function ($,avalon,wx,domReady) 
             },1000)
         }
    }
-
+    
 
     // compile QQ faceCode
     function replace_em(str){
@@ -184,7 +230,6 @@ define(['jquery','avalon','wxsdk',"domReady!"], function ($,avalon,wx,domReady) 
         str = str.replace(/\[em_([0-9]*)\]/g,"");
         return str;
     };
-
     /* qqface */
 
     return socket
