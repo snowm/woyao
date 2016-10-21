@@ -65,17 +65,19 @@ public class OrderItemServiceImpl extends AbstractAdminService<Order, OrderDTO> 
 			paramMap.put("modification.creationDate", queryRequest.getEndcreationDate());
 			sb.append(" and oi.order.modification.creationDate <= :totalFee");	
 		}
-		String hql=sb.toString();					
-		List<Order> ms =this.dao.query(hql, paramMap, queryRequest.getPageNumber(), queryRequest.getPageSize());
+		String hql=sb.toString();
+		Integer count=this.dao.query(hql, paramMap).size();
+		List<Order> ms =new ArrayList<>();
+		if(count!=null || count!=0){
+			ms=this.dao.query(hql, paramMap, queryRequest.getPageNumber(), queryRequest.getPageSize());
+		}
 		PaginationBean<OrderDTO> rs = new PaginationBean<>(queryRequest.getPageNumber(), queryRequest.getPageSize());
 		List<OrderDTO> results = new ArrayList<>();
 		for (Order m : ms) {			
 			OrderDTO dto = this.transferToFullDTO(m);
 			results.add(dto);
-		}
-		if(ms!=null){	
-			rs.setTotalCount(ms.size());
-		}
+		}	
+		rs.setTotalCount(count);	
 		rs.setResults(results);
 		return rs;
 	}
