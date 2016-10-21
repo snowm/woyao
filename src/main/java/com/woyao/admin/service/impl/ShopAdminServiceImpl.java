@@ -84,14 +84,14 @@ public class ShopAdminServiceImpl extends AbstractAdminService<Shop, ShopDTO> im
 			this.dao.save(room);
 		}
 		
-		ProfileDTO profileDTO = new ProfileDTO();
-		profileDTO.setId(managerProfileId);
 		if(dto.getManagerPwd()!=null || !dto.getManagerPwd().isEmpty()){			
+			ProfileDTO profileDTO = new ProfileDTO();
+			profileDTO.setId(managerProfileId);
 			profileDTO.setUsername(dto.getManagerName());
 			profileDTO.setPassword(dto.getManagerPwd());
+			profileDTO.setGender(Gender.FEMALE);
+			this.userAdminService.update(profileDTO);
 		}
-		profileDTO.setGender(Gender.FEMALE);
-		this.userAdminService.update(profileDTO);
 		return this.transferToFullDTO(m);
 	}
 
