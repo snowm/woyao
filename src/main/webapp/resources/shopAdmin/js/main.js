@@ -45,9 +45,23 @@ require.config({
 
 
 require(['/shopAdmin/resources/js/common.js','mmRouter',"domReady!"],function(mmRouter,domReady){
-    var model = avalon.define({
+    var root = avalon.define({
         $id: "root",
+        nav:"home",
         content: "/shopAdmin/resources/html/home.html",
+        navtab:function(tab){
+        	if(tab == 'home'){
+        		root.nav = 'home';
+        	}else if(tab == 'order'){
+        		root.nav = 'order';
+        	}else if(tab == 'chat'){
+        		root.nav = 'chat';
+        	}else if(tab == 'goods'){
+        		root.nav = 'goods';
+        	}else if(tab == 'shop'){
+        		root.nav = 'shop';
+        	}
+        }
     });
 
     //导航回调
@@ -72,6 +86,7 @@ require(['/shopAdmin/resources/js/common.js','mmRouter',"domReady!"],function(mm
     avalon.router.get("/demo", callback);
     avalon.router.get("/shop", callback);
     avalon.router.get("/goods", callback);
+    avalon.router.get("/home", callback);
 
     avalon.history.start({
         basepath: "/avalon"

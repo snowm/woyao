@@ -9,51 +9,67 @@
     <link rel="shortcut icon" href="/shopAdmin/resources/img/logo0.png" type="image/png">
     <title>我要酒吧后台管理系统</title>
     <link href="/shopAdmin/resources/css/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/shopAdmin/resources/css/flat-ui.min.css" rel="stylesheet">
+    <link href="/shopAdmin/resources/css/flat-ui.css" rel="stylesheet">
     <link href="/shopAdmin/resources/css/main.css" rel="stylesheet">
 </head>
 <script data-main="/shopAdmin/resources/js/main.js" src="/shopAdmin/resources/js/plugin/require.js"></script>
 <body ms-controller="root">
-<!-- <div class="m-header-ctn">
-
-</div> -->
+<div class="m-header-ctn">
+    <div class="col-xs-2">
+    	<img src="/shopAdmin/resources/img/luokeW.png" style="position:relative;display:block;height:30px;margin:10px" alt="">
+    </div>
+    <div class="col-xs-10 text-right">
+    	<img src="/shopAdmin/resources/img/touxiang.png" alt="" style="width:25px;height:25px;position:relative;top:-0px;right:20px;border-radius:50%;">
+    	<span>Administror</span>
+    	<form action="" method="" style="display:inline;cursor: pointer;">
+				<a style="color:white"> <span class="fui-power" style="font-size:20px;padding: 0 20px;position:relative;top:4px;"></span></a>				                   		
+		</form>
+       
+    </div>
+</div>
 <div class="m-nav-ctn">
     <div class="m-nav-logo">
-        <img src="/shopAdmin/resources/img/logo0.png" alt="">
     </div>
     <ul class="m-nav">
         <li>
-            <i class="fui-home"></i>
-            <a href="#!setting">首页</a>
+        	<a style="width:100%;height:100%;display:block" href="#!/home" ms-class-avtive="nav=='home'" ms-click="navtab('home')">
+	            <i class="fui-home"></i>
+	            <p>首页</p>
+            </a>
         </li>
         <li>
-            <i class="fui-search"></i>
-            <a href="#!/order">订单查询</a>
+        	<a style="width:100%;height:100%;display:block" href="#!/order" ms-class-avtive="nav=='order'" ms-click="navtab('order')">
+	            <i class="fui-search"></i>
+	            <p>订单查询</p>
+	        </a>
         </li>
         <li>
-            <i class="fui-bubble"></i>
-            <a href="#!/chat">消息查询</a>
+       		<a style="width:100%;height:100%;display:block" href="#!/chat" ms-class-avtive="nav=='chat'" ms-click="navtab('chat')">
+	            <i class="fui-bubble"></i>
+	            <p>消息查询</p>
+	        </a>
         </li>
         <li>
-            <i class="fui-calendar-solid"></i>
-            <a href="#!/goods">商品管理</a>
+        	<a style="width:100%;height:100%;display:block" href="#!/goods" ms-class-avtive="nav=='goods'" ms-click="navtab('goods')">
+	            <i class="fui-calendar-solid"></i>
+	            <p>商品管理</p>
+	        </a>
         </li>
         <li>
+       		<a style="width:100%;height:100%;display:block" href="#!/shop" ms-class-avtive="nav=='shop'" ms-click="navtab('shop')">
             <i class="fui-star-2"></i>
-            <a href="#!/shop">商店管理</a>
+	            <p>商店管理</p>
+	        </a>
         </li>
-        <li>
+        <!-- <li>
             <i class="fa fa-fire"></i>
             <a href="#!/demo">demo</a>
-        </li>
+        </li> -->
         <li>
-            <a href="/shop/admin/dapin">大屏</a>
-        </li>
-        <li>
-            <form action="" method="">
-				<i class="fui-exit"></i>
-				<a style="color:white">退出</a>				                   		
-			</form>
+        	<a class="btn btn-block btn-lg btn-info" style="color:white;width:96%" href="/shop/admin/dapin" target="view_window">
+            	<i class="fui-play"></i>
+	            <p style="margin:0">大屏入口</p>
+	        </a>
         </li>
     </ul>
 </div>

@@ -1,24 +1,23 @@
 <div class="panel-default" ms-controller="orderController">
     
     <div class="panel-body">
-        <div ms-if="top">
-        <div class="panel-heading">查询条件</div>
+        <div ms-if="top" class="panel-body m-query">
             <div class="col-xs-2">
                 <div class="form-group">
                 <label class="control-label">总价格（大于）</label>
-                    <input type="text" value="" placeholder="Inactive" class="form-control" ms-duplex="orderData.mintotalFee">
+                    <input type="text" value="" placeholder=" " class="form-control m-form-input" ms-duplex="orderData.mintotalFee">
                 </div>
             </div>
             <div class="col-xs-2">
                 <div class="form-group">
                 <label class="control-label">总价格（小于）</label>
-                    <input type="text" value="" placeholder="Inactive" class="form-control" ms-duplex="orderData.maxtotalFee">
+                    <input type="text" value="" placeholder=" " class="form-control m-form-input" ms-duplex="orderData.maxtotalFee">
                 </div>
             </div>
             <div class="col-xs-2">
                  <div class="form-group" style="position: relative;">
 			          <label class="control-label">消费者名称</label>
-			             <input type="text" name="firstname" placeholder="Inactive" class="form-control" ms-duplex="ordername.nickname" ms-keyup="chang">
+			             <input type="text" name="firstname" placeholder=" " class="form-control m-form-input" ms-duplex="ordername.nickname" ms-keyup="chang">
 			             <div style="position:absolute;top:80px;width:100%;max-height:160px;overflow-y: scroll;border:1px solid #8ab0fa; background-color: white;z-index: 1000000;" ms-if="nameList.length !=0">
 			             	 <table> 
 			             	 	<tr style="cursor: pointer;" ms-repeat-p="nameList" ms-hover="chooseShopItem">	             	                 
@@ -31,19 +30,19 @@
              <div class="col-xs-2">
                 <div class="form-group">
                 	<label class="control-label">创建开始时间</label>
-                    <input type="text" value="" placeholder="Inactive" class="form-control" id="date_picker1" ms-duplex="orderData.startcreationDate">
+                    <input type="text" value="" placeholder=" " class="form-control m-form-input" id="date_picker1" ms-duplex="orderData.startcreationDate">
                 </div>
             </div>
             <div class="col-xs-2">
                 <div class="form-group">
                 	<label class="control-label">创建结束时间</label>
-                    <input type="text" value="" placeholder="Inactive" class="form-control" id="date_picker2" ms-duplex="orderData.endcreationDate">
+                    <input type="text" value="" placeholder=" " class="form-control m-form-input" id="date_picker2" ms-duplex="orderData.endcreationDate">
                 </div>
             </div>   
             <div class="col-xs-2">
                 <div class="form-group">
                 <label class="control-label">订单状态</label>
-                   <select class="form-control" ms-duplex="orderData.statusId">
+                   <select class="form-control m-form-input" ms-duplex="orderData.statusId">
 		             	<option value=''>-- 请选择 --</option>	                  
 		                <option value='1'>已送达</option> 
 		                <option value='2'>成功</option>
@@ -56,8 +55,9 @@
 	        	<button class="btn btn btn-inverse" ms-click="btnOrder">查 询</button>	        	
 	     	</div>
         </div>
-        <div class="clearfix" ms-if="orderList !=0 && list">
-        		<table class="table table-striped table-hover text-center">
+        <div class="clearfix" ></div>
+        <div  class="panel-body m-panel" ms-if="orderList !=0 && list">
+        		<table class="table table-hover text-center m-table">
 			    <thead>
 				      <tr>
 				        <th class="text-center">订单号</th>

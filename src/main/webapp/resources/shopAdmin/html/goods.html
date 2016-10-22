@@ -1,6 +1,6 @@
-<div class="panel panel-default" ms-controller="goodsController" ms-click="clickOut">    
-    <div class="panel-body" ms-if="demand">
-        <div class="row">
+<div class="panel-body" ms-controller="goodsController" ms-click="clickOut">    
+    <div class="panel-body m-query" ms-if="demand">
+        <div>
             <div class="col-sm-6">
                 <div class="form-group">
                     <label class="control-label">商品名字</label>
@@ -8,8 +8,8 @@
                 </div>
             </div> 
             <div class="col-sm-12 text-right">
-                <button class="btn  btn btn-info" ms-click="btnGoods">查 询</button>                
-                <button class="btn btn btn-info" ms-click="add">新 增</button>
+                <button class="btn  btn btn-inverse" ms-click="btnGoods">查 询</button>                
+                <button class="btn btn btn-inverse" ms-click="add">新 增</button>
             </div>
             <!-- col-sm-6 -->
         </div><!-- row -->
@@ -17,9 +17,9 @@
 
 
     <!--修改管理  -->
-
-    <div class="tab-content mb30" ms-if="goodsShow">
-        <div class="tab-pane active" id="home">            
+ <div class="clearfix" ></div>
+    <div class="panel-body m-panel"  ms-if="goodsShow">
+        <div id="home">            
                 <!-- 选择图片 -->
                 <div class="row" ms-if="picture">
                     <div class="panel panel-stat col-sm-12">
@@ -87,8 +87,8 @@
     <!-- 新增商品 -->
 
 
-    <div class="table-responsive" style="border-top: 1px solid #dadada" ms-if="goods">
-        <table class="table table-striped table-hover text-center">
+    <div  class="panel-body m-panel" ms-if="goods">
+        <table class="table table-hover text-center m-table">
             <thead>
             <tr>
                 <th class="text-center">商品图片</th>

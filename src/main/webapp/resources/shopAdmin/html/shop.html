@@ -1,31 +1,24 @@
-﻿<div class="panel panel-default" ms-controller='shopController'>
-	  <div class="panel panel-default" ms-if="formShow">        
+﻿<div class="panel " ms-controller='shopController'>
+	  <div class="" ms-if="formShow">        
         <div class="panel-body">
             
 <!-- 商品管理 -->
 		
         <div class="tab-content mb30">
-          <div class="tab-pane active" id="msgsCtn">
+          <div class="panel-body m-query" id="msgsCtn">
           <div class="row">
          	<!-- 选择图片 -->
-	           <div class="row">
-                	<div class="panel panel-stat">
-                        <div class="panel-heading">
-                            <div class="row text-center">
-								
-								<form id="uploadForm">  
-									  <img class="media-object thumbnail center-block" ms-attr-src="imgViewSrc" style="max-width:200px;max-height:200px;min-height:100px;min-width:100px" alt="">
-								      <input type="file" id="uploadFileIpt" name="uploadFile" style="visibility: hidden"/>
-								      <div class="clearfix"></div>
-								</form>  
-                                <div ms-if="uploadbtn">
-							        <input class="btn btn-xs btn-default" type="button" value="选择图片" ms-click="chioseImgs"/>  
-							        <input class="btn btn-xs btn-success" type="button" value="上传" ms-click="uploadImg"/>  
-	                            </div>
-                            </div><!-- row -->
-                        </div><!-- panel-heading -->
-                   </div><!-- panel -->
-            	</div>
+	           <div class="text-center">	
+					<form id="uploadForm">  
+						  <img class="media-object thumbnail center-block" ms-attr-src="imgViewSrc" style="height:100px;width:100px;" alt="">
+					      <input type="file" id="uploadFileIpt" name="uploadFile" style="visibility: hidden"/>
+					      <div class="clearfix"></div>
+					</form>  
+                    <div ms-if="uploadbtn">
+					   <input class="btn btn-xs btn-default" type="button" value="选择图片" ms-click="chioseImgs"/>  
+					   <input class="btn btn-xs btn-success" type="button" value="上传" ms-click="uploadImg"/>  
+                 </div>
+                </div><!-- row -->
             <!-- 选择图片 -->
                 <div class="col-sm-6">
                     <div class="form-group">
@@ -70,13 +63,13 @@
                     </div>
                 </div><!-- col-sm-6 -->
             </div><!-- row -->
+            
+        <div class="text-right">
+            <button class="btn btn-success" ms-click="submitItem">提交</button>
+        </div>
           </div>          
      </div>
     </div>
-        
-        <div class="panel-footer text-right">
-            <button class="btn btn-success" ms-click="submitItem">提交</button>
-        </div>
     </div>   
 	
 </div>
