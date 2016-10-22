@@ -1,7 +1,9 @@
 package com.woyao.admin.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -22,6 +24,7 @@ import com.woyao.admin.dto.product.QueryProfileRequestDTO;
 import com.woyao.admin.dto.profile.ProfileDTO;
 import com.woyao.admin.service.IProfileAdminService;
 import com.woyao.admin.service.IUserAdminService;
+import com.woyao.admin.shop.controller.ShopRoot;
 import com.woyao.domain.Shop;
 @Service("profileAdminService")
 public class ProfileAdminServiceImpl extends AbstractAdminService<Profile, ProfileDTO> implements IProfileAdminService {
@@ -29,6 +32,12 @@ public class ProfileAdminServiceImpl extends AbstractAdminService<Profile, Profi
 	
 	@Resource(name = "userAdminService")
 	private IUserAdminService userAdminService;
+	
+	@Resource(name="shopRoot")
+	private ShopRoot shopRoot;
+	
+	@Resource(name = "woyaoPasswordEncoder")
+	private PasswordEncoder passwordEncoder;
 	
 	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED)
 	public ProfileDTO update(ProfileDTO dto) {
@@ -112,7 +121,7 @@ public class ProfileAdminServiceImpl extends AbstractAdminService<Profile, Profi
 		return this.transferToSimpleDTO(m);
 	}
 
-	@Override
+	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED)
 	public boolean resetProfilePwd(Long shopId) {
 		Shop shop=this.dao.get(Shop.class, shopId);
 		if(shop!=null){		
@@ -124,6 +133,34 @@ public class ProfileAdminServiceImpl extends AbstractAdminService<Profile, Profi
 				return true;		
 			}
 		}	
+		return false;
+	}
+
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true, isolation = Isolation.READ_UNCOMMITTED)
+	public boolean oldPassword(String oldPwd) {
+		Long shopId=shopRoot.getCurrentShop().getId();
+		Map<String, Object> paramMap=new HashMap<>();
+		paramMap.put("shopId", shopId);
+		String hql="from Profile as p where p.id in(select s.managerProfileId from Shop as s where s.id= :shopId)";
+		Profile profile=this.dao.queryUnique(hql, paramMap);
+		if(profile!=null){
+			return passwordEncoder.matches(oldPwd, profile.getPassword());
+		}
+		return false;
+	}
+
+	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED)
+	public boolean updatePassword(String newPwd, String againPwd) {
+		Long shopId=shopRoot.getCurrentShop().getId();
+		Shop shop=this.dao.get(Shop.class, shopId);
+		if(newPwd.equals(againPwd)){
+			Profile profile=this.dao.get(Profile.class, shop.getManagerProfileId());
+			ProfileDTO profileDTO=transferToSimpleDTO(profile);
+			profileDTO.setPassword(newPwd);
+			this.userAdminService.update(profileDTO);
+			return true;		
+		}
+		
 		return false;
 	}
 }
