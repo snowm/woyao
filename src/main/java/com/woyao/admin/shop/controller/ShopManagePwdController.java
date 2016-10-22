@@ -23,14 +23,14 @@ public class ShopManagePwdController extends AbstractBaseController<Profile, Pro
 	@Resource(name = "profileAdminService")
 	private IProfileAdminService service;
 	
-	@RequestMapping(value = { "", "/" }, method = { RequestMethod.PUT,
+	@RequestMapping(value = {""}, method = { RequestMethod.PUT,
 			RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
 	public boolean validatorPwd(String oldPwd) {	
 		return this.service.oldPassword(oldPwd);
 	}
 	
-	@RequestMapping(value = { "", "/" }, method = { RequestMethod.PUT,
+	@RequestMapping(value = {"/update"}, method = { RequestMethod.PUT,
 			RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
 	public boolean updatePwd(String newPwd,String againPwd) {
