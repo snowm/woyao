@@ -7,6 +7,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.snowm.security.profile.domain.Profile;
@@ -26,14 +27,14 @@ public class ShopManagePwdController extends AbstractBaseController<Profile, Pro
 	@RequestMapping(value = {""}, method = { RequestMethod.PUT,
 			RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
-	public boolean validatorPwd(String oldPwd) {	
+	public boolean validatorPwd(@RequestParam String oldPwd) {	
 		return this.service.oldPassword(oldPwd);
 	}
 	
 	@RequestMapping(value = {"/update"}, method = { RequestMethod.PUT,
 			RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
-	public boolean updatePwd(String newPwd,String againPwd) {
+	public boolean updatePwd(@RequestParam String newPwd,@RequestParam String againPwd) {
 		return this.service.updatePassword(newPwd, againPwd);
 	}
 	
