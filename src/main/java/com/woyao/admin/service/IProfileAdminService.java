@@ -15,12 +15,8 @@ public interface IProfileAdminService extends IAdminService<Profile, ProfileDTO>
 	boolean resetProfilePwd(Long shopId);
 	
 	/**
-	 * 酒吧后台修改管理员密码
+	 * 酒吧后台修改管理员密码,修改密码
 	 */
-	boolean oldPassword(String oldPwd);
-	
-	/**
-	 * 修改密码
-	 */
-	boolean updatePassword(String newPwd,String againPwd);
+	Integer updataProfilePwd(String oldPwd,String newPwd,String againPwd);
+
 }

@@ -24,18 +24,12 @@ public class ShopManagePwdController extends AbstractBaseController<Profile, Pro
 	@Resource(name = "profileAdminService")
 	private IProfileAdminService service;
 	
-	@RequestMapping(value = {""}, method = { RequestMethod.PUT,
+	@RequestMapping(value = {"","/"},method = { RequestMethod.PUT,
 			RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
-	public boolean validatorPwd(@RequestParam String oldPwd) {	
-		return this.service.oldPassword(oldPwd);
-	}
-	
-	@RequestMapping(value = {"/update"}, method = { RequestMethod.PUT,
-			RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	@ResponseBody
-	public boolean updatePwd(@RequestParam String newPwd,@RequestParam String againPwd) {
-		return this.service.updatePassword(newPwd, againPwd);
+	public Integer validatorPwd(@RequestParam String oldPwd,@RequestParam String newPwd,@RequestParam String againPwd) {	
+		System.out.println(oldPwd+"======"+newPwd+"-------------"+againPwd);
+		return this.service.updataProfilePwd(oldPwd,newPwd,againPwd);
 	}
 	
 	@Resource

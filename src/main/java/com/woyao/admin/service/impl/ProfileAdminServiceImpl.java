@@ -136,22 +136,38 @@ public class ProfileAdminServiceImpl extends AbstractAdminService<Profile, Profi
 		return false;
 	}
 
-	@Transactional(propagation = Propagation.REQUIRED, readOnly = true, isolation = Isolation.READ_UNCOMMITTED)
-	public boolean oldPassword(String oldPwd) {
+	/**
+	 * retrun param:0：修改成功
+	 * 				1：新旧密码不一致
+	 * 				2：密码和确认密码不一致
+	 */
+	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED)
+	public Integer updataProfilePwd(String oldPwd,String newPwd,String againPwd) {
+		Integer num=null;
 		Long shopId=shopRoot.getCurrentShop().getId();
 		Map<String, Object> paramMap=new HashMap<>();
 		paramMap.put("shopId", shopId);
 		String hql="from Profile as p where p.id in(select s.managerProfileId from Shop as s where s.id= :shopId)";
 		Profile profile=this.dao.queryUnique(hql, paramMap);
 		if(profile!=null){
-			return passwordEncoder.matches(oldPwd, profile.getPassword());
+			boolean flag=passwordEncoder.matches(oldPwd.trim(), profile.getPassword());	//旧密码和输入密码进行比较 验证是否相同
+			if (flag) {
+				if(newPwd.trim().isEmpty() && !againPwd.trim().isEmpty() && newPwd.equals(againPwd)){				
+					ProfileDTO profileDTO=transferToSimpleDTO(profile);
+					profileDTO.setPassword(newPwd);
+					this.userAdminService.update(profileDTO);//重置密码
+					num=0;
+					return num;
+				}else if(newPwd.trim().isEmpty() && !againPwd.trim().isEmpty()){//验证两次密码是否一致
+					num=2;
+					return num;
+				}
+			}else{//新旧密码不一致
+				num=1;
+				return num;
+			}		 
 		}
-		return false;
-	}
-
-	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED)
-	public boolean updatePassword(String newPwd, String againPwd) {
-		Long shopId=shopRoot.getCurrentShop().getId();
+		/*Long shopId=shopRoot.getCurrentShop().getId();
 		Shop shop=this.dao.get(Shop.class, shopId);
 		if(newPwd.equals(againPwd)){
 			Profile profile=this.dao.get(Profile.class, shop.getManagerProfileId());
@@ -159,8 +175,7 @@ public class ProfileAdminServiceImpl extends AbstractAdminService<Profile, Profi
 			profileDTO.setPassword(newPwd);
 			this.userAdminService.update(profileDTO);
 			return true;		
-		}
-		
-		return false;
+		}*/
+		return null;
 	}
 }
