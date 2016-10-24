@@ -84,7 +84,7 @@
                  <div class="col-sm-6"> 
                     <div class="form-group">
                         <label class="control-label">商家名称</label>
-                        <input type="text" name="latitude" class="form-control shopList" data-toggle="modal" placeholder="请选择商店"  data-target=".bs-example-modal-lg" ms-click="chooseShop" style="cursor: pointer;"readonly="readonly" ms-duplex="goodsChg.shopName">
+                        <input type="text" name="latitude" class="form-control shopList" data-toggle="modal"  data-target=".bs-example-modal-lg" ms-click="chooseShop" style="cursor: pointer;"readonly="readonly" ms-duplex="goodsChg.shopName">
                         <!--  <button class="btn btn-primary mr5" data-toggle="modal" data-target=".bs-example-modal-lg">Large Modal</button> -->
 
                         <div class="modal bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
@@ -124,6 +124,7 @@
                     <div class="form-group">
                         <label class="control-label">商品类型</label>
                         <select class="form-control shopType mp"  ms-duplex="goodsChg.typeId" ms-click="chooseType">
+                        	<option  value="">--请选择 --</option>
                             <option  value="1">MATERIA</option>
                             <option  value="2">MSG</option>
                         </select>
@@ -174,9 +175,9 @@
        <div class="">
         	<div class="col-sm-5"></div>
         	<ul class="pagination pagination-split">
-                <li  ms-click="btnGoods('upPage')" ><a href="#" style="background: #29406f;color:#fff;"><i class="glyphicon glyphicon-arrow-left"></i>上一页</a></li> 
+                <li  ms-click="page('upPage')" ><a href="#" style="background: #29406f;color:#fff;"><i class="glyphicon glyphicon-arrow-left"></i>上一页</a></li> 
                 
-                <li ms-click="btnGoods('nextPage')" ><a href="#" style="background: #29406f;color:#fff;">下一页 <i class="glyphicon glyphicon-arrow-right"></i></a></li>
+                <li ms-click="page('nextPage')" ><a href="#" style="background: #29406f;color:#fff;">下一页 <i class="glyphicon glyphicon-arrow-right"></i></a></li>
             </ul>
        </div>
     </div>

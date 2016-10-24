@@ -120,7 +120,7 @@ define(['uploadfile'],function(){
                         if(goodsController.goodsChg.typeId == "1"){
                         	 goodsController.picture=true;
                         	 goodsController.type=false;
-                        	 goodsController.uploadbtn=false;                        	 
+                        	 goodsController.uploadbtn=true;                        	 
                         	 console.log("type1");
                         	 goodsController.imgViewSrc = item.mainPic;
                         }else if(goodsController.goodsChg.typeId == "2"){
@@ -138,12 +138,12 @@ define(['uploadfile'],function(){
             var shopList = $(".shopList").val();
             var shopType = $(".shopType").val();           
             
-            if(goodsController.goodsChg.typeId == "1"){    	
-            	
-            	if(goodsController.imgViewSrc=="/admin/resources/images/photos/upload1.png"){
-    				alert("请选择图片");
+            if(goodsController.goodsChg.typeId == "1"){  
+            		console.log("000");
+            	if(goodsController.imgViewSrc=="/admin/resources/images/photos/upload1.png" && goodsController.goodsChg.id == ""){
+            		alert("请选择图片");
     				return;
-    			}else if(goodsController.uploadbtn == true){
+    			}else if(goodsController.goodsChg.mainPicId == ""){
     				alert("请提交图片")
     				return;
     			}else if(prdocut == ""){
@@ -154,9 +154,6 @@ define(['uploadfile'],function(){
     				return;
     			}else if(shopList ==""){
     				alert("请选择正确的商店名称");
-    				return;
-    			}else if(shopType ==""){
-    				alert("请选择正确的类型");
     				return;
     			}else{				
     				 var date={
@@ -190,7 +187,7 @@ define(['uploadfile'],function(){
     		            });
     				}           
             	}else if(goodsController.goodsChg.typeId == "2"){
-            		
+            		console.log(1111)
             		if(prdocut == ""){
         				alert("产品名称不能为空");
         				return;
@@ -199,9 +196,6 @@ define(['uploadfile'],function(){
         				return;
         			}else if(shopList ==""){
         				alert("请选择正确的商店名称");
-        				return;
-        			}else if(shopType ==""){
-        				alert("请选择正确的类型");
         				return;
         			}else{				
         				 var date={
@@ -252,6 +246,7 @@ define(['uploadfile'],function(){
             $("#uploadFileIpt").val('');  
     		goodsController.uploadbtn = true;
             goodsController.goodsChg = {
+            		id:"",
                 name:"",
                 code:"",
                 description:"",
@@ -353,6 +348,7 @@ define(['uploadfile'],function(){
                 var img = new Image();
                 img.src = result;
                 goodsController.imgViewSrc = result;
+                goodsController.goodsChg.mainPicId = '';
             };
 
             reader.readAsDataURL(file);

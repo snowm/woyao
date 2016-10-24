@@ -45,14 +45,33 @@ define(['uploadfile'],function(){
     	    	shopController.business=true;
     	    	shopController.businessalter=false;
     	    },
-    	    queryData:function(page){
-    	    	queryData(page);
+    	    queryData:function(){
+    	    	shopController.queryCdt.pageNumber=1;
+    	    	var data = shopController.queryCdt; 
+    	    	
+    	    	$.ajax({
+    	      		  type: "post",
+    	      		  url: '/admin/shop/search/',
+    	      		  data:data,
+    	      		  success: function(data){
+    	      			  shopController.totlePage = data.totalPageCount;
+    	      			  shopController.shopList = data.results;
+    	      			  console.log(shopController.shopList = data.results);
+    	      			if(shopController.shopList.length != 0){
+    	      				shopController.nothing=false;	   
+      	      			}else if(shopController.shopList.length == 0){  	      				
+      	      				shopController.nothing=true;
+      	      			}
+    	      		  },
+    	      		  dataType: 'json'
+    	      		});
     	    },
     	    newShop:function(){
     	    	shopController.managename = true;
     	    	shopController.reset = false;
     	    	shopController.formShow = true;
     	    	shopController.nothing=false;
+    	    	shopController.uploadbtn=true;
     	    	shopController.formData = {
     	    			name:'',
     	    	    	address:'',
@@ -103,6 +122,9 @@ define(['uploadfile'],function(){
     	    		}
     	    	})
     	    },
+    	    page:function(page){
+    	    	queryData(page);
+    	    },
     	    cPwd:function(){
     	    	var shopId=shopController.formData.id ;
    	    		 $.ajax({
@@ -126,6 +148,9 @@ define(['uploadfile'],function(){
     				var managerPwd = $(".managerPwd").val();
     				if(shopController.imgViewSrc=="/admin/resources/images/photos/upload1.png"){
     					alert("请选择图片");
+    					return;
+    				}else if(shopController.uploadbtn ==true){
+    					alert("请上传图片");
     					return;
     				}else if(shopName ==""){
     					alert("请输入正确商店名称");

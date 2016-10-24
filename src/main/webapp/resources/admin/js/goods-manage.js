@@ -38,23 +38,10 @@ define(['uploadfile'],function(){
             pageSize:12
         },
         //查询商品
-        btnGoods:function(page){          
+        btnGoods:function(){ 
+        	goodsController.goodsDate.pageNumber=1;
             goodsController.goodsAdd = false;
-            goodsController.goodsShow = false;         
-            if(page == "upPage"){
- 	    		if(goodsController.goodsDate.pageNumber == 1){
- 	    			alert("已是第一页");
- 	    			return;
- 	    		}
- 	    		goodsController.goodsDate.pageNumber--;
- 	    	}else if(page == "nextPage"){
- 	    		if(goodsController.goodsDate.pageNumber == goodsController.totlePage){
- 	    			alert("已是最后一页");
- 	    			return; 
- 	    		}
- 	    		goodsController.goodsDate.pageNumber++;
- 	    	} 	    	
- 	       
+            goodsController.goodsShow = false; 
  	    	 var date = { 	                
  	                 name:goodsController.goodsDate.name,
  	                 deleted:goodsController.goodsDate.deleted,                
@@ -62,8 +49,6 @@ define(['uploadfile'],function(){
  	                 pageSize:goodsController.goodsDate.pageSize,
  	                 shopId:goodsController.goodsChg.shopId
  	             } 
- 	    	 
- 	    	 
              $.ajax({
                  type: "post",
                  url: '/admin/product/search',
@@ -84,6 +69,9 @@ define(['uploadfile'],function(){
                  },
                  dataType: 'json'
              });
+        },
+        page:function(page){
+        	Submit(page);
         },
         change:function(){		
 			goodsController.goodsChg.shopId="";
@@ -137,10 +125,15 @@ define(['uploadfile'],function(){
             
             if(goodsController.goodsChg.typeId == "1"){    	
             	
-            	if(goodsController.imgViewSrc=="/admin/resources/images/photos/upload1.png"){
+            	if(goodsController.imgViewSrc=="/admin/resources/images/photos/upload1.png" && goodsController.goodsChg.id == ""){
     				alert("请选择图片");
     				return;
-    			}else if(prdocut == ""){
+    			}
+            	else if(goodsController.goodsChg.mainPicId == ""){
+    				alert("请提交图片");
+    				return;
+    			}
+            	else if(prdocut == ""){
     				alert("产品名称不能为空");
     				return;
     			}else if(unitPrice == ""){
@@ -148,9 +141,6 @@ define(['uploadfile'],function(){
     				return;
     			}else if(shopList ==""){
     				alert("请选择正确的商店名称");
-    				return;
-    			}else if(shopType ==""){
-    				alert("请选择正确的类型");
     				return;
     			}else{				
     				 var date={
@@ -232,7 +222,7 @@ define(['uploadfile'],function(){
         				} 
             	}
             
-           
+            $(".mp").val("");
         },
         //新增
         add:function(){        	
@@ -246,6 +236,7 @@ define(['uploadfile'],function(){
             $("#uploadFileIpt").val('');  
     		goodsController.uploadbtn = true;
             goodsController.goodsChg = {
+            		id:"",
                 name:"",
                 code:"",
                 description:"",
@@ -368,6 +359,7 @@ define(['uploadfile'],function(){
                 var img = new Image();
                 img.src = result;
                 goodsController.imgViewSrc = result;
+                goodsController.goodsChg.mainPicId = '';
             };
 
             reader.readAsDataURL(file);

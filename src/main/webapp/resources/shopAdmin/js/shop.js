@@ -128,7 +128,7 @@ define(['uploadfile'],function(){
   	      			 } else if(data == 2){
   	      				alert('两次输入的密码不一致');
   	      			 } 
-  	      			window.location="";
+  	      			window.location.reload();
   	      		  },
   	      		  dataType: 'json'
   	      		});

@@ -10,41 +10,25 @@ define(["datapicker"],function(){
     		nothing:false,
     		product:false,
     		order:false,
-    		totlePage:0,
+    		totlePage:"",
     		orderData:{ 
     			deleted:"",
     			pageNumber:1,
-    			pageSize:2,
+    			pageSize:8,
     			mintotalFee:"",
     			maxtotalFee:"",
     			statusId:"",
     			startcreationDate:"",
     			endcreationDate:""
     		},
-    		queryData:function(page){     			
+    		queryData:function(){  
+    			orderController.orderData.pageNumber=1;
     			var date = orderController.orderData;
-
-    	    	if(page == "upPage"){
-    	    		if(orderController.orderData.pageNumber == 1){
-    	    			alert("已是第一页");
-    	    			return;
-    	    		}
-    	    		orderController.orderData.pageNumber--;
-    	    	}else if(page == "nextPage"){
-    	    		if(orderController.orderData.pageNumber == orderController.totlePage){
-    	    			alert("已是最后一页");
-    	    			return; 
-    	    		}
-    	    		orderController.orderData.pageNumber++;
-    	    	}   
-    	    	
-    	    	 
              $.ajax({
                  type: "post",
                  url: '/admin/order/search',
                  data:date,
                  success: function(data){
-                     console.log(data);
                      orderController.orderList = data.results;
                      orderController.totlePage = data.totalPageCount;
                      if(orderController.orderList == ""){
@@ -52,6 +36,7 @@ define(["datapicker"],function(){
                     	 orderController.order=false;
                      }else if(orderController.orderList != ""){
                     	 orderController.order=true;
+                    	 orderController.nothing=false;
                      }
     	      			
                  },
@@ -72,17 +57,55 @@ define(["datapicker"],function(){
     			orderController.order=true;
     			orderController.product=false;
     			orderController.formShow=false;
+    		},
+    		page:function(page){
+    			Submit(page);
     		}
     		
     	});    	
-    
+    	 function Submit(page){ 
+    	    	
+    	    	if(page == "upPage"){
+    		    		if(orderController.orderData.pageNumber == 1){
+    		    			alert("已是第一页");
+    		    			return;
+    		    		}
+    		    		orderController.orderData.pageNumber--;
+    		    	}else if(page == "nextPage"){
+    		    		if(orderController.orderData.pageNumber == orderController.totlePage){
+    		    			alert("已是最后一页");
+    		    			return; 
+    		    		}
+    		    		orderController.orderData.pageNumber++;
+    		    	} 	
+    	    	var date = {
+    	    			pageNumber:orderController.orderData.pageNumber,
+    	    			pageSize:orderController.orderData.pageSize
+    	    	}
+    	    	 
+    	     $.ajax({
+    	         type: "post",
+    	         url: '/admin/order/search',
+    	         data:date,
+    	         success: function(data){
+    	             orderController.orderList = data.results;
+    	             orderController.totlePage = data.totalPageCount;
+    	             if(orderController.orderList == ""){
+    	            	 orderController.nothing=true;
+    	            	 orderController.order=false;
+    	             }else if(orderController.orderList != ""){
+    	            	 orderController.order=true;
+    	             }
+    	      			
+    	         },
+    	         dataType: 'json'
+    	     }); 	    	
+    	    }
     });
     console.log("order");
     avalon.scan();
     
-    function Submit(page){ 
-    	 
-    }
+   
     
    	function initData(){
    		setTimeout(function(){
