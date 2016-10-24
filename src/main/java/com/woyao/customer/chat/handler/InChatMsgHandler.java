@@ -12,11 +12,11 @@ import com.woyao.customer.chat.MessageCacheOperator;
 import com.woyao.customer.chat.MsgErrorConstants;
 import com.woyao.customer.chat.SessionUtils;
 import com.woyao.customer.dto.chat.in.EntireInMsg;
-import com.woyao.customer.dto.chat.in.InMsgDTO;
+import com.woyao.customer.dto.chat.in.ChatMsgDTO;
 import com.woyao.customer.service.IChatService;
 
 @Component("inChatMsgHandler")
-public class InChatMsgHandler implements MsgHandler<InMsgDTO> {
+public class InChatMsgHandler implements MsgHandler<ChatMsgDTO> {
 	
 	@Resource(name = "messageCacheOperator")
 	private MessageCacheOperator messageCacheOperator;
@@ -25,7 +25,7 @@ public class InChatMsgHandler implements MsgHandler<InMsgDTO> {
 	private IChatService chatService;
 
 	@Override
-	public void handle(WebSocketSession wsSession, InMsgDTO inbound) {
+	public void handle(WebSocketSession wsSession, ChatMsgDTO inbound) {
 		Long senderId = SessionUtils.getChatterId(wsSession);
 		if (senderId.equals(inbound.getTo())) {
 			this.chatService.sendErrorMsg(MsgErrorConstants.ERR_SEND_SELF, wsSession);

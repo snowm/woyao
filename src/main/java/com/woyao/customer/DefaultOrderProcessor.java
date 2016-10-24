@@ -50,15 +50,18 @@ public class DefaultOrderProcessor {
 	private GlobalConfig globalConfig;
 
 	public PrepayInfoDTO process(OrderDTO order) {
+		Long orderId = order.getId();
+		int version = order.getVersion();
+		this.orderService.updateOrderStatus(orderId, OrderStatus.DELIVERING, version);
+
 		UnifiedOrderResponse resp = wxPayService.unifiedOrder(order);
 		OrderPrepayInfo m = new OrderPrepayInfo();
 		BeanUtils.copyProperties(resp, m);
-		Long orderId = order.getId();
 		this.orderService.savePrepayInfo(m, orderId);
 
 		if (!this.validateUnifiedOrderResponse(resp)) {
 			logger.error("错误的响应信息!\n{}", resp);
-			this.orderService.updateOrderStatus(orderId, OrderStatus.FAIL);
+			this.orderService.updateOrderStatus(orderId, OrderStatus.FAIL, version);
 			OrderResultInfo info = new OrderResultInfo();
 			info.setTimeEnd(new Date());
 			info.setOpenId(order.getConsumer().getOpenId());
@@ -71,9 +74,10 @@ public class DefaultOrderProcessor {
 			this.chatService.sendPrivacyMsg(errMsg, order.getConsumer().getId(), null);
 			return null;
 		}
-		PrepayInfoDTO rs = generatePrepayInfo(resp);
 
-		this.orderService.updateOrderStatus(orderId, OrderStatus.DELIVERED);
+		this.orderService.updateOrderStatus(orderId, OrderStatus.DELIVERED, version);
+
+		PrepayInfoDTO rs = generatePrepayInfo(resp);
 		PrepayMsgDTO prepayMsg = new PrepayMsgDTO();
 		prepayMsg.setCreationDate(new Date());
 		prepayMsg.setPrepayInfo(rs);

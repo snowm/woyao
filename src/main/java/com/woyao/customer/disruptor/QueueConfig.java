@@ -1,4 +1,4 @@
-package com.woyao.customer.queue;
+package com.woyao.customer.disruptor;
 
 import java.util.concurrent.TimeUnit;
 
@@ -10,31 +10,9 @@ import org.springframework.context.annotation.Configuration;
 import com.lmax.disruptor.EventFactory;
 import com.lmax.disruptor.EventHandler;
 import com.lmax.disruptor.dsl.Disruptor;
-import com.woyao.customer.disruptor.DisruptorQueueFactory;
-import com.woyao.customer.disruptor.LongEvent;
-import com.woyao.customer.disruptor.LongEventFactory;
-import com.woyao.customer.disruptor.LongEventProducer;
-import com.woyao.customer.disruptor.SubmitOrderMessageHandler;
 
 @Configuration
 public class QueueConfig {
-
-	// @Bean(name = "submitOrderBlockingQueue")
-	// public LinkedBlockingDeque<Long>
-	// submitOrderBlockingQueue(@Value("${queue.submitOrder.capacity}") int
-	// capacity) {
-	// LinkedBlockingDeque<Long> queue = new LinkedBlockingDeque<>(capacity);
-	// return queue;
-	// }
-	//
-	// @Bean(name = "submitOrderQueueService")
-	// public IOrderProcessQueue submitOrderQueueService(
-	// @Qualifier("submitOrderBlockingQueue") LinkedBlockingDeque<Long>
-	// submitOrderBlockingQueue) {
-	// IOrderProcessQueue queue = new
-	// OrderProcessQueueImpl(submitOrderBlockingQueue, 5);
-	// return queue;
-	// }
 
 	@Bean(name = "longEventFactory")
 	public EventFactory<LongEvent> longEventFactory() {

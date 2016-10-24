@@ -144,21 +144,19 @@ public class ChatServiceImpl implements IChatService {
 			}
 
 			Long chatRoomId = SessionUtils.getChatRoomId(wsSession);
-
 			ChatMsg savedMsg = this.saveMsg(inMsg, sender.getId(), chatRoomId);
-			long msgId = savedMsg.getId();
+			
 			Long msgProductId = inMsg.getProductId();
-			Long orderId = null;
 			if (msgProductId != null) {
 				MsgProductDTO msgProductDTO = this.productService.getMsgProduct(msgProductId);
 				if (msgProductDTO != null) {
 					OrderDTO savedOrder = orderService.placeOrder(savedMsg);
-					orderId = savedOrder.getId();
+					Long orderId = savedOrder.getId();
 					this.submitOrderProducer.produce(orderId);
-//					this.submitOrderQueueService.putToQueue(orderId);
 					return;
 				}
 			}
+			long msgId = savedMsg.getId();
 
 			OutMsgDTO outbound = generateOutMsg(inMsg, sender, msgId);
 			if (inMsg.getTo() != null) {
@@ -197,6 +195,10 @@ public class ChatServiceImpl implements IChatService {
 		m.setFrom(senderId);
 		m.setProductId(msg.getProductId());
 		m.setClientMsgId(msg.getMsgId());
+		if (msg.getProductId() != null) {
+			m.setFree(false);
+			m.setPayed(false);
+		}
 		this.dao.save(m);
 		return m;
 	}
@@ -382,6 +384,13 @@ public class ChatServiceImpl implements IChatService {
 	public void sendErrorMsg(String reason, WebSocketSession wsSession) {
 		ErrorOutbound error = new ErrorOutbound(reason);
 		this.sendMsg(error, wsSession);
+	}
+
+	@Transactional
+	@Override
+	public void markMsgPayed(long id) {
+		ChatMsg msg = this.dao.get(ChatMsg.class, id);
+		msg.setPayed(true);
 	}
 
 }

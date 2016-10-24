@@ -11,8 +11,8 @@ import org.springframework.stereotype.Component;
 
 import com.woyao.customer.dto.chat.BlockDTO;
 import com.woyao.customer.dto.chat.in.EntireInMsg;
-import com.woyao.customer.dto.chat.in.InMsgBlockDTO;
-import com.woyao.customer.dto.chat.in.InMsgDTO;
+import com.woyao.customer.dto.chat.in.ChatMsgBlockDTO;
+import com.woyao.customer.dto.chat.in.ChatMsgDTO;
 import com.woyao.customer.dto.chat.in.Inbound;
 
 @Component("messageCacheOperator")
@@ -21,15 +21,15 @@ public class MessageCacheOperator {
 	private BlockComparator blockComparator = new BlockComparator();
 
 	public EntireInMsg receiveMsg(Lock lock, Map<Long, EntireInMsg> cache, Inbound inbound) {
-		if (inbound instanceof InMsgDTO) {
-			return this.processMessage(lock, cache, InMsgDTO.class.cast(inbound));
-		} else if (inbound instanceof InMsgBlockDTO) {
-			return this.processMessage(lock, cache, InMsgBlockDTO.class.cast(inbound));
+		if (inbound instanceof ChatMsgDTO) {
+			return this.processMessage(lock, cache, ChatMsgDTO.class.cast(inbound));
+		} else if (inbound instanceof ChatMsgBlockDTO) {
+			return this.processMessage(lock, cache, ChatMsgBlockDTO.class.cast(inbound));
 		}
 		return null;
 	}
 
-	private EntireInMsg processMessage(Lock lock, Map<Long, EntireInMsg> cache, InMsgDTO msg) {
+	private EntireInMsg processMessage(Lock lock, Map<Long, EntireInMsg> cache, ChatMsgDTO msg) {
 		try {
 			Long msgId = msg.getMsgId();
 			EntireInMsg rs = cache.computeIfAbsent(msgId, key->new EntireInMsg());
@@ -54,7 +54,7 @@ public class MessageCacheOperator {
 		}
 	}
 
-	private EntireInMsg processMessage(Lock lock, Map<Long, EntireInMsg> cache, InMsgBlockDTO block) {
+	private EntireInMsg processMessage(Lock lock, Map<Long, EntireInMsg> cache, ChatMsgBlockDTO block) {
 		try {
 			Long msgId = block.getMsgId();
 			EntireInMsg rs = cache.computeIfAbsent(msgId, key->new EntireInMsg());

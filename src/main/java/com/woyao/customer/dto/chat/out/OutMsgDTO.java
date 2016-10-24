@@ -16,6 +16,8 @@ public class OutMsgDTO extends Outbound {
 
 	private long duration = 0;
 
+	private String effectCode;
+
 	private boolean isPrivacy = false;
 
 	public Long getId() {
@@ -64,6 +66,14 @@ public class OutMsgDTO extends Outbound {
 
 	public void setPrivacy(boolean isPrivacy) {
 		this.isPrivacy = isPrivacy;
+	}
+
+	public String getEffectCode() {
+		return effectCode;
+	}
+
+	public void setEffectCode(String effectCode) {
+		this.effectCode = effectCode;
 	}
 
 	public Long getClientMsgId() {

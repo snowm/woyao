@@ -66,7 +66,7 @@
 	</cache>
 	<cache name="product" maxElementsInMemory="1000" eternal="true" overflowToDisk="true" maxElementsOnDisk="10000">
 	</cache>
-	<cache name="paidMsgProductConfig" maxElementsInMemory="10" eternal="true" overflowToDisk="false">
+	<cache name="msgProduct" maxElementsInMemory="10" eternal="true">
 	</cache>
 	<cache name="profileWX" maxElementsInMemory="1000" eternal="false" overflowToDisk="true" maxElementsOnDisk="10000"
 	 	timeToIdleSeconds="1800">

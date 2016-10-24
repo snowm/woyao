@@ -105,12 +105,16 @@ public class WxJerseyService {
 			resultInfo.setDesc(req.getReturnMsg());
 			String orderNo = req.getOutTradeNo();
 			OrderDTO orderDTO = this.orderService.getByOrderNo(orderNo);
+			if (orderDTO.getStatus() != OrderStatus.DELIVERED) {
+				return JaxbUtils.marshall(resp);
+			}
+			int version = orderDTO.getVersion();
 			long orderId = orderDTO.getId();
 			this.orderService.savePayResultInfo(resultInfo, orderId);
 
 			if (RESULT_CODE_SUCCESS.equals(req.getResultCode()) && !StringUtils.isBlank(req.getTransactionId())) {
 				logger.debug("订单:{}支付成功！", orderId);
-				this.orderService.updateOrderStatus(orderId, OrderStatus.SUCCESS);
+				this.orderService.updateOrderStatus(orderId, OrderStatus.SUCCESS, version);
 				OutMsgDTO outbound = new OutMsgDTO();
 				Long msgId = orderDTO.getMsgId();
 
@@ -127,12 +131,13 @@ public class WxJerseyService {
 					outbound.setSentDate(new Date());
 					outbound.setCreationDate(msg.getModification().getCreationDate());
 					MsgProductDTO msgProduct = productService.getMsgProduct(msg.getProductId());
+					outbound.setEffectCode(msgProduct.getEffectCode());
 					outbound.setDuration(msgProduct.getHoldTime());
 					Long chatRoomId = msg.getChatRoomId();
 					this.chatService.sendRoomMsg(outbound, chatRoomId, null);
 				}
 			} else {
-				this.orderService.updateOrderStatus(orderId, OrderStatus.FAIL);
+				this.orderService.updateOrderStatus(orderId, OrderStatus.FAIL, version);
 			}
 			return JaxbUtils.marshall(resp);
 		} catch (JAXBException e) {
