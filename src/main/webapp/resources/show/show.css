@@ -42,7 +42,7 @@ html,body{
     overflow: hidden;
 }
 body{
-    background: url("/show/resources/img/bg.jpg") center no-repeat;
+    background: url("/show/resources/img/bg2.jpg") center no-repeat;
     background-size: cover;
     color: #f9f9f9;
 }
@@ -62,14 +62,64 @@ body{
     width: 100%;
     font-size: 0.4rem;
     text-align: center;
-    height: 6%;
+    height: 11%;
+    margin-top: .4rem;
+    background: url("/show/resources/img/hd.png") center no-repeat;
+    background-size:100% 100%;
+}
+.m-top > div{
+    position: relative;
+}
+.m-top-l{
+	width:33.333333%;
+	height:100%;
+	float:left;
+}
+.m-top-c{
+	width:33.333333%;
+	height:100%;
+	float:left;
+}
+
+.m-top-l > img{
+	height: 100%;
+	position:absolute;
+	right:10%;
+}
+.m-top-c > img{
+	width: 3rem;
+	position: absolute;
+    left:0;
+    top:0;
+    bottom:0;
+    right:0;
+    margin:auto;
+}
+.m-top-r{
+	width:33.333333%;
+	height:100%;
+	float:left;
+}
+.m-top-r table{
+	width:100%;
+	height:100%;
+	color:rgba(250,119,176,.8);
+	text-shadow:0 0 10px #ce9dff;
+	font-size:.25rem;
+	font-weight:300;
+	text-align:left;
+	padding-left:10%;
 }
 .m-msg-ctn{
     width: 100%;
-    height: 90%;
-    margin-top: 5%;
-    position: relative;
+    height: 67%;
+    position: absolute;
     overflow: hidden;
+    left:0;
+    top:0;
+    bottom:0;
+    right:0;
+    margin:auto;
 }
 .m-msg-ctn > div{
     position: absolute;
@@ -77,8 +127,8 @@ body{
     top: 0;
     width: 100%;
     height:30.33333333%;
-    background: rgba(255, 255, 255, 0.27);
-    border-radius: 6px;
+    /*background: rgba(255, 255, 255, 0.27);*/
+    /*border-radius: 6px;*/
     margin: 1.5% 0;
 }
 .msg-h{
@@ -88,48 +138,58 @@ body{
     height: 100%;
 }
 .msg-hd{
-    position: absolute;
+    position: relative;
     display: block;
-    left:0;
-    top:0;
-    bottom:0;
-    right:0;
-    margin: auto;
-    width: 60%;
-    border-radius: 6px;
+    margin:.2rem auto 0 auto;
+    width: 1.2rem;
+    height: 1.2rem;
+    border-radius: 50%;
 }
 .msg-c{
-    float: right;
-    width: 80%;
+    float: left;
+    width: 70%;
     height:100%;
-    overflow: hidden;
     position: relative;
 }
 .msg-name{
+	position:absolute;
+	bottom:0px;
     width: 100%;
     height: 0.5rem;
     line-height: 0.5rem;
     font-size: .3rem;
+    text-align:center;
+}
+
+.msg-name > img{
+	position:relative;
+	top:-.17rem;
+	width:.1rem;
 }
 .msg-name-text{
-	float:left;
-	display:block;
-	max-width:2rem;
+	display:inline-block;
+	max-width:1rem;
     white-space:nowrap;
     overflow:hidden;
     text-overflow:ellipsis;
+    font-size:.20rem;
 }
 .msg-text{
-    height: 80%;
-    overflow: hidden;
+	margin-left:.1rem;
+    background: rgba(255, 255, 255, 0.27);
+    height: 86%;
     position: relative;
+    border-radius:10px;
+    border:4px solid rgba(122,49,136,0.9);
 }
 .msg-img-c{
     position: relative;
     float: left;
-    width: 1.2rem;
+    width: 1.5rem;
     height: 100%;
     margin-right: 0.1rem;
+    background: rgba(0, 0, 0, 0.27);
+    overflow:hidden;
 }
 .msg-img{
     position: absolute;
@@ -138,13 +198,16 @@ body{
     bottom:0;
     right:0;
     margin: auto;
-    width: 100%;
-    border-radius: 4px;
+    width: 85%;
+    border-radius: .1rem;
 }
 .msg-text-c{
-    width: 100%;
+    width: 96%;
+    padding: 0 2%;
     height: 100%;
-    font-size: .5rem;
+    font-size: .6rem;
+    overflow:hidden;
+    position:relative;
 }
 
 .l-code{
@@ -153,11 +216,14 @@ body{
     top:0;
     width: 15%;
     height:100%;
+    background: url("/show/resources/img/hd.png") no-repeat;
+    background-size: cover;
 }
-.l-code > img{
+.l-code > div{
     position: absolute;
     display:block;
     width:80%;
+    height:2rem;
     left:0;
     top:0;
     bottom:0;
@@ -165,6 +231,64 @@ body{
     margin: auto;
 }
 
+.l-code > div > img{
+	display:block;
+    width:80%;
+    border-radius:6px;
+    margin:0 auto;
+}
+
+.l-code > div > p{
+	padding: .2rem 0;
+	text-align:center;
+    font-size: .16rem;
+}
+.m-bottom-c{
+	position: absolute;
+	bottom:.5rem;
+	width:49%;
+	left:50%;
+	height:.5rem;
+	line-height:.5rem;
+	margin-left:-21%;
+	text-align:center;
+	font-size:.2rem;
+	color:#ffffff;
+	background: rgba(255,255,255,0.2);
+}
+.m-bottom-tip{
+	float:left;
+	margin: .075rem;
+	width:.35rem;
+}
+.msg-ba{
+	position:absolute;
+	right:-.3rem;
+	top:-.2rem;
+	width:1rem;
+	z-index:99;
+}
+
+.msg-table{
+	width:100%;
+	height:100%;
+	position:absolute;
+	left:0;
+	right:0;
+	top:0;
+	bottom:0;
+	margin:auto;
+}
+.msg-table-td{
+	vertical-align:middle;
+	height:100%;
+	width:100%;
+	padding:10px;
+	text-align:center;
+}
+.msg-sexy-man{
+	visibility:hidden;
+}
 /*   --   */
 /**/
 
@@ -191,7 +315,7 @@ body{
     overflow: hidden;
 }
 .wall-sexy{
-    width: 20px;
+    width: 16px;
 }
 .wall-all-left{
     width: 50%;
@@ -207,12 +331,15 @@ body{
     top:0;
     bottom:0;
     right:0;
-    width: 50%;
+    width: 3rem;
     height:300px;
     margin:auto;
 }
 .wall-all-left-img{
-    width: 40%;
+    width: 2rem;
+    height: 2rem;
+    border-radius: .1rem;
+    margin-bottom: .1rem;
 }
 .wall-p{
     color: #ccc;
@@ -239,7 +366,7 @@ body{
     right:0;
     margin: auto;
     width: 100%;
-    border-radius:6px;
+    border-radius: .1rem;
 }
 .wall-name-text{
 	max-width:2rem;
@@ -254,21 +381,67 @@ body{
 }
 @keyframes myfirst
 {
-    20%{transform: scale(1.5,1.5);}
+    20%{transform: scale(1.1,1.1);}
     80%{transform: rotateY(180deg);}
 }
 @-moz-keyframes myfirst /* Firefox */
 {
-    20%{transform: scale(1.5,1.5);}
+    20%{transform: scale(1.1,1.1);}
     80%{transform: rotateY(180deg);}
 }
 @-webkit-keyframes myfirst /* Safari and Chrome */
 {
-    20%{transform: scale(1.5,1.5);}
+    20%{transform: scale(1.1,1.1);}
     80%{transform: rotateY(180deg);}
 }
 @-o-keyframes myfirst /* Opera */
 {
-    20%{transform: scale(1.5,1.5);}
+    20%{transform: scale(1.1,1.1);}
     80%{transform: rotateY(180deg);}
+}
+
+.shop-msg-ctn{
+	width:90%;
+	overflow:hidden;
+	height:100%;
+	top:0;
+	right:0;
+	position:absolute;
+}
+.shop-msg{
+	position:absolute;
+	left:0;
+	top:0;
+	height:100%;
+	width:200%;
+	
+	-webkit-animation: marquee 10s linear infinite;
+  	-moz-animation: marquee 10s linear infinite;
+  	-ms-animation: marquee 10s linear infinite;
+  	-o-animation: marquee 10s linear infinite;
+  	animation: marquee 10s linear infinite;
+}
+
+
+
+
+@-webkit-keyframes marquee {
+    0% { left: 0; }
+    100% { left: -100%; }
+}
+@-moz-keyframes marquee {
+    0% { left: 0; }
+    100% { left: -100%; }
+}
+@-ms-keyframes marquee {
+    0% { left: 0; }
+    100% { left: -100%; }
+}
+@-o-keyframes marquee {
+    0% { left: 0; }
+    100% { left: -100%; }
+}
+@keyframes marquee {
+  0%{left:0}
+  100%{left: -100%}
 }
