@@ -49,7 +49,6 @@ public class ProfileAdminController extends AbstractBaseController<Profile, Prof
 	@RequestMapping(value = {"/reset/{shopId}"}, method = {RequestMethod.GET }, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
 	public boolean resetProfilePwd(@PathVariable("shopId") Long shopId) {
-			System.out.println(shopId);
 		return this.service.resetProfilePwd(shopId);
 	}
 	

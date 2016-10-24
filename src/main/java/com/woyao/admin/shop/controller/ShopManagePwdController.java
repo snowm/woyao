@@ -27,9 +27,11 @@ public class ShopManagePwdController extends AbstractBaseController<Profile, Pro
 	@RequestMapping(value = {"","/"},method = { RequestMethod.PUT,
 			RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
-	public Integer validatorPwd(@RequestParam String oldPwd,@RequestParam String newPwd,@RequestParam String againPwd) {	
-		System.out.println(oldPwd+"======"+newPwd+"-------------"+againPwd);
-		return this.service.updataProfilePwd(oldPwd,newPwd,againPwd);
+	public Integer validatorPwd(@RequestParam(value="oldPwd",required=true) String oldPwd,@RequestParam(value="newPwd",required=false) String newPwd,@RequestParam(value="againPwd",required=false) String againPwd) {
+		if(!newPwd.trim().isEmpty() && !againPwd.trim().isEmpty()){		
+			return this.service.updataProfilePwd(oldPwd,newPwd,againPwd);
+		}
+		return null;
 	}
 	
 	@Resource

@@ -152,13 +152,13 @@ public class ProfileAdminServiceImpl extends AbstractAdminService<Profile, Profi
 		if(profile!=null){
 			boolean flag=passwordEncoder.matches(oldPwd.trim(), profile.getPassword());	//旧密码和输入密码进行比较 验证是否相同
 			if (flag) {
-				if(newPwd.trim().isEmpty() && !againPwd.trim().isEmpty() && newPwd.equals(againPwd)){				
+				if(newPwd.equals(againPwd)){				
 					ProfileDTO profileDTO=transferToSimpleDTO(profile);
 					profileDTO.setPassword(newPwd);
 					this.userAdminService.update(profileDTO);//重置密码
 					num=0;
 					return num;
-				}else if(newPwd.trim().isEmpty() && !againPwd.trim().isEmpty()){//验证两次密码是否一致
+				}else{//验证两次密码是否一致
 					num=2;
 					return num;
 				}
