@@ -197,7 +197,10 @@ define(['uploadfile'],function(){
         			}else if(shopList ==""){
         				alert("请选择正确的商店名称");
         				return;
-        			}else{				
+        			}else{		
+        				if(goodsController.goodsChg.mainPicId == null){
+        					goodsController.goodsChg.mainPicId = '';
+        				}
         				 var date={
         		                    name:goodsController.goodsChg.name,
         		                    code:goodsController.goodsChg.code,
@@ -208,6 +211,7 @@ define(['uploadfile'],function(){
         		                    unitPrice:goodsController.goodsChg.unitPrice,
         		                    id:goodsController.goodsChg.id
         		                }
+        				 
         		            $.ajax({
         		                type: "post",
         		                url: '/shop/admin/product/',
@@ -401,6 +405,16 @@ define(['uploadfile'],function(){
                  dataType: 'json'
              });
     }
+    
+	function initData(){
+        console.log("load goods");
+	}
+	
+	initData();
+	
+	return goods = {
+			init:initData,
+	}
 
 });
 

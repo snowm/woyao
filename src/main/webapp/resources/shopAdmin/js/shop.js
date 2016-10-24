@@ -120,15 +120,16 @@ define(['uploadfile'],function(){
   	      		  success: function(data){
   	      			  console.log(data);
   	      			if(data == null){
-  	      				alert('输入的文本框为空');
+  	      				alert('修改失败');
   	      			} else if(data == 0){
   	      				alert('修改密码成功');
+  	      				$("#logoutForm").submit();
   	      			 }else if(data == 1){
   	      				alert('输入的原密码不匹配');
   	      			 } else if(data == 2){
   	      				alert('两次输入的密码不一致');
   	      			 } 
-  	      			window.location.reload();
+  	      			
   	      		  },
   	      		  dataType: 'json'
   	      		});
@@ -159,7 +160,6 @@ define(['uploadfile'],function(){
     	    	$("#uploadFileIpt").click();
     	    }
     	});
-    	
     	avalon.scan(); 
     	function ShopDetail(){
     		 
@@ -280,12 +280,12 @@ define(['uploadfile'],function(){
         
         
     	function initData(){
-            console.log("load business-manage");
+            console.log("load shop");
     	}
     	
-    	//initData();
+    	initData();
     	
-    	return business = {
+    	return shop = {
     			init:initData,
     	}
     	
