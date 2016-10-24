@@ -15,6 +15,11 @@ public class ChatRoomInfoDTO extends Outbound {
 		this();
 		this.statistics = statistics;
 	}
+	
+	@Override
+	public Outbound newObject() {
+		return new ChatRoomInfoDTO();
+	}
 
 	public ChatRoomStatistics getStatistics() {
 		return statistics;

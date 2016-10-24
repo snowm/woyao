@@ -4,14 +4,12 @@ import javax.annotation.Resource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 
 import com.woyao.customer.DefaultOrderProcessor;
 import com.woyao.customer.dto.OrderDTO;
 import com.woyao.customer.service.IOrderService;
 import com.woyao.domain.purchase.OrderStatus;
 
-@Component("submitOrderMessageHandler")
 public class SubmitOrderMessageHandler extends AbstractEventHandler<LongEvent> {
 
 	private Logger logger = LoggerFactory.getLogger(this.getClass());

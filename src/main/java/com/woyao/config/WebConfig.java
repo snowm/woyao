@@ -26,6 +26,7 @@ import org.springframework.web.servlet.view.JstlView;
 
 import com.snowm.security.web.exception.SnowmHandlerExceptionResolver;
 import com.woyao.interceptor.LogInterceptor;
+import com.woyao.utils.JsonUtils;
 
 @Configuration
 @EnableWebMvc
@@ -46,7 +47,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 
 	@Bean(name = "jackson2HttpMessageConverter")
 	public MappingJackson2HttpMessageConverter jackson2HttpMessageConverter() {
-		MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
+		MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter(JsonUtils.om);
 		return converter;
 	}
 

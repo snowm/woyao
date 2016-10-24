@@ -130,6 +130,8 @@ public class OrderServiceImpl implements IOrderService {
 
 	private void relateMsgOrder(long orderId, long msgId) {
 		ChatMsg m = this.commonDao.get(ChatMsg.class, msgId);
+		m.setFree(false);
+		m.setPayed(false);
 		m.setOrderId(orderId);
 		this.commonDao.update(m);
 	}

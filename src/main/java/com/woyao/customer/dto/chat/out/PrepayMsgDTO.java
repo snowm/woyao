@@ -18,6 +18,11 @@ public class PrepayMsgDTO extends Outbound {
 		this.command = OutboundCommand.PREPAY_MSG;
 	}
 
+	@Override
+	public Outbound newObject() {
+		return new PrepayMsgDTO();
+	}
+	
 	public Long getClientMsgId() {
 		return clientMsgId;
 	}

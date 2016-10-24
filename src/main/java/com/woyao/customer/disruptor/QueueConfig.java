@@ -20,7 +20,8 @@ public class QueueConfig {
 	}
 
 	@Bean(name = "submitOrderDisruptor")
-	public DisruptorQueueFactory<LongEvent> submitOrderDisruptor(@Qualifier("longEventFactory") EventFactory<LongEvent> eventFactory,
+	public DisruptorQueueFactory<LongEvent> submitOrderDisruptor(
+			@Qualifier("longEventFactory") EventFactory<LongEvent> eventFactory,
 			@Value("${submitOrder.disruptor.bufferSize}") int ringBufferSize,
 			@Qualifier("submitOrderMessageHandler") EventHandler<LongEvent> submitOrderMessageHandler) {
 		DisruptorQueueFactory<LongEvent> disruptorFactory = new DisruptorQueueFactory<>();
@@ -50,4 +51,46 @@ public class QueueConfig {
 		handler.setTaskTimeoutTimeUnit(taskTimeoutTimeUnit);
 		return handler;
 	}
+	
+	
+	
+
+	@Bean(name = "chatMsgEventFactory")
+	public EventFactory<ChatMsgEvent> roomMsgEventFactory() {
+		return new ChatMsgEventFactory();
+	}
+
+	@Bean(name = "chatMsgEventHandler")
+	public ChatMsgEventHandler chatMsgEventHandler(
+			@Value("${chatMsg.disruptor.handler.threads}") int threads,
+			@Value("${chatMsg.disruptor.handler.taskTimeout}") long taskTimeout,
+			@Value("${chatMsg.disruptor.handler.taskTimeoutTimeunit}") TimeUnit taskTimeoutTimeUnit) {
+		ChatMsgEventHandler handler = new ChatMsgEventHandler();
+		handler.setTaskTimeout(taskTimeout);
+		handler.setTaskTimeoutTimeUnit(taskTimeoutTimeUnit);
+		handler.setThreads(threads);
+		return handler;
+	}
+
+	@Bean(name = "chatMsgDisruptor")
+	public DisruptorQueueFactory<ChatMsgEvent> roomMsgDisruptor(
+			@Qualifier("chatMsgEventFactory") EventFactory<ChatMsgEvent> eventFactory,
+			@Value("${chatMsg.disruptor.bufferSize}") int ringBufferSize,
+			@Qualifier("chatMsgEventHandler") EventHandler<ChatMsgEvent> chatMsgHandler) {
+		DisruptorQueueFactory<ChatMsgEvent> disruptorFactory = new DisruptorQueueFactory<>();
+		@SuppressWarnings("unchecked")
+		EventHandler<? super ChatMsgEvent>[] eventHandlers = new EventHandler[] { chatMsgHandler };
+		disruptorFactory.setEventFactory(eventFactory);
+		disruptorFactory.setEventHandlers(eventHandlers);
+		disruptorFactory.setRingBufferSize(ringBufferSize);
+		disruptorFactory.setThreadName("disruptor-chatMsg");
+		return disruptorFactory;
+	}
+
+	@Bean(name = "chatMsgEventProducer")
+	public ChatMsgEventProducer chatMsgEventProducer(@Qualifier("chatMsgDisruptor") Disruptor<ChatMsgEvent> disruptor) {
+		ChatMsgEventProducer producer = new ChatMsgEventProducer(disruptor.getRingBuffer());
+		return producer;
+	}
+
 }

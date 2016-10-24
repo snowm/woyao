@@ -20,6 +20,11 @@ public class OutMsgDTO extends Outbound {
 
 	private boolean isPrivacy = false;
 
+	@Override
+	public Outbound newObject() {
+		return new OutMsgDTO();
+	}
+	
 	public Long getId() {
 		return id;
 	}

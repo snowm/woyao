@@ -4,6 +4,11 @@ public class OutDeleteMsgDTO extends Outbound {
 
 	private Long msgId;
 
+	@Override
+	public Outbound newObject() {
+		return new OutDeleteMsgDTO();
+	}
+	
 	public Long getMsgId() {
 		return msgId;
 	}

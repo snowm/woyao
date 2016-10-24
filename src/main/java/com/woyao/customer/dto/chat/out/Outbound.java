@@ -3,6 +3,7 @@ package com.woyao.customer.dto.chat.out;
 import java.io.IOException;
 import java.util.Date;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
@@ -12,7 +13,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.woyao.admin.dto.DTOConfig;
 import com.woyao.utils.JsonUtils;
 
-public abstract class Outbound {
+public abstract class Outbound implements Cloneable {
 
 	protected String command;
 
@@ -30,6 +31,8 @@ public abstract class Outbound {
 
 	protected Outbound() {
 	}
+	
+	public abstract Outbound newObject();
 
 	public void send(WebSocketSession session) throws IOException {
 		session.sendMessage(new TextMessage(this.getContent()));
@@ -40,6 +43,9 @@ public abstract class Outbound {
 			return this.content;
 		}
 		synchronized (this) {
+			if (this.contentGenerated) {
+				return this.content;
+			}
 			try {
 				this.content = JsonUtils.toString(this);
 				this.contentGenerated = true;
@@ -78,4 +84,10 @@ public abstract class Outbound {
 		this.sentDate = sentDate;
 	}
 
+	@Override
+	public Object clone(){
+		Outbound target = this.newObject();
+		BeanUtils.copyProperties(this, target);
+		return target;
+	}
 }
