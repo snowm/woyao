@@ -67,20 +67,53 @@ require(['/shopAdmin/resources/js/common.js','mmRouter',"domReady!"],function(mm
     });
     
     //导航回调
+    var _pagepathAry = [];
     function callback() {
+    	var loadedFlag = false;
         var controllerPath = "/shopAdmin/resources/js";
         var viewPath = "/shopAdmin/resources/html";
+        var pagepath = "";      //这个是网页的变量
 
         var paths = this.path.split("/");
         for (var i = 0; i < paths.length; i++) {
             if (paths[i] != "") {
                 controllerPath += "/" + paths[i] + '.js';
                 viewPath += "/" + paths[i];
+                pagepath = "_" + paths[i]
             }
         }
         require([controllerPath], function (page) {
             avalon.vmodels.root.content = viewPath + ".html";
         });
+        
+        
+        if(_pagepathAry){
+            for(var i = 0 ; i < _pagepathAry.length ;i++ ){
+                if(_pagepathAry[i] == pagepath){
+                    loadedFlag = true;
+                }
+            }
+        }
+
+       
+        
+        // 如果是第一次访问 记录下hush值
+        if(!loadedFlag){
+            _pagepathAry.push(pagepath);
+        }
+
+        // 如果是第二次进入页面 执行初始化方法（等封装 必须写判断调用）
+        if(pagepath == '_order' && loadedFlag){
+            order.init();
+        }else if(pagepath == '_chat' && loadedFlag){
+        	chat.init();
+        }else if(pagepath == '_shop' && loadedFlag){
+        	shop.init();
+        }else if(pagepath == '_goods' && loadedFlag){
+        	goods.init();
+        }else if(pagepath == '_home' && loadedFlag){
+        	home.init();
+        }
     }
  
     avalon.router.get("/order", callback);

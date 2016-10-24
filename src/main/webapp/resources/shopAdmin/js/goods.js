@@ -401,6 +401,16 @@ define(['uploadfile'],function(){
                  dataType: 'json'
              });
     }
+    
+	function initData(){
+        console.log("load goods");
+	}
+	
+	initData();
+	
+	return goods = {
+			init:initData,
+	}
 
 });
 

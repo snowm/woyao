@@ -280,12 +280,12 @@ define(['uploadfile'],function(){
         
         
     	function initData(){
-            console.log("load business-manage");
+            console.log("load shop");
     	}
     	
-    	//initData();
+    	initData();
     	
-    	return business = {
+    	return shop = {
     			init:initData,
     	}
     	
