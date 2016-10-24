@@ -15,9 +15,9 @@ public class QueryOrderItemRequestDTO extends PaginationQueryRequestDTO {
 	
 	private Integer statusId;// 成功或否
 
-	private Long mintotalFee;// 最小费用
+	private Integer mintotalFee;// 最小费用
 
-	private Long maxtotalFee;// 最大费用
+	private Integer maxtotalFee;// 最大费用
 
 	private Long shopId;// 商店Id
 
@@ -57,19 +57,19 @@ public class QueryOrderItemRequestDTO extends PaginationQueryRequestDTO {
 		this.statusId = statusId;
 	}
 
-	public Long getMintotalFee() {
+	public Integer getMintotalFee() {
 		return mintotalFee;
 	}
 
-	public void setMintotalFee(Long mintotalFee) {
+	public void setMintotalFee(Integer mintotalFee) {
 		this.mintotalFee = mintotalFee;
 	}
 
-	public Long getMaxtotalFee() {
+	public Integer getMaxtotalFee() {
 		return maxtotalFee;
 	}
 
-	public void setMaxtotalFee(Long maxtotalFee) {
+	public void setMaxtotalFee(Integer maxtotalFee) {
 		this.maxtotalFee = maxtotalFee;
 	}
 

@@ -23,6 +23,7 @@ import com.woyao.domain.chat.ChatMsg;
 import com.woyao.domain.product.Product;
 import com.woyao.domain.purchase.Order;
 import com.woyao.domain.purchase.OrderItem;
+import com.woyao.domain.purchase.OrderStatus;
 
 @Service("orderItemService")
 public class OrderItemServiceImpl extends AbstractAdminService<Order, OrderDTO> implements IOrderItemAdminService {
@@ -46,24 +47,28 @@ public class OrderItemServiceImpl extends AbstractAdminService<Order, OrderDTO> 
 		paramMap.put("shopId", shopId);
 		StringBuffer sb=new StringBuffer("select distinct oi.order from OrderItem as oi where oi.product.shop.id= :shopId ");
 		if(queryRequest.getMintotalFee()!=null){
-			paramMap.put("totalFee", queryRequest.getMintotalFee());
-			sb.append(" and oi.order.totalFee >= :totalFee");
+			paramMap.put("mintotalFee", queryRequest.getMintotalFee());
+			sb.append(" and oi.order.totalFee >= :mintotalFee");
 		}
 		if(queryRequest.getMaxtotalFee()!=null){
-			paramMap.put("totalFee", queryRequest.getMaxtotalFee());
-			sb.append(" and oi.order.totalFee <= :totalFee");			
+			paramMap.put("maxtotalFee", queryRequest.getMaxtotalFee());
+			sb.append(" and oi.order.totalFee <= :maxtotalFee");			
 		}
 		if(queryRequest.getStartcreationDate()!=null){
-			paramMap.put("modification.creationDate", queryRequest.getStartcreationDate());
-			sb.append(" and oi.order.modification.creationDate >= :totalFee");	
+			paramMap.put("startcreationDate", queryRequest.getStartcreationDate());
+			sb.append(" and oi.order.modification.creationDate >= :startcreationDate");	
+		}
+		if(queryRequest.getShopId()!=null){
+			paramMap.put("status", OrderStatus.getEnum(queryRequest.getStatusId()));
+			sb.append(" and oi.order.status= :status");	
 		}
 		if(queryRequest.getNicknameId()!=null){
 			paramMap.put("nicknameId", queryRequest.getNicknameId());
 			sb.append(" and oi.order.consumer.id= :nicknameId");	
 		}
 		if(queryRequest.getEndcreationDate()!=null){
-			paramMap.put("modification.creationDate", queryRequest.getEndcreationDate());
-			sb.append(" and oi.order.modification.creationDate <= :totalFee");	
+			paramMap.put("endcreationDate", queryRequest.getEndcreationDate());
+			sb.append(" and oi.order.modification.creationDate <= :endcreationDate");	
 		}
 		String hql=sb.toString();
 		Integer count=this.dao.query(hql, paramMap).size();
