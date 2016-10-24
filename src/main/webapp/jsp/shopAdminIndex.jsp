@@ -14,15 +14,18 @@
 </head>
 <script data-main="/shopAdmin/resources/js/main.js" src="/shopAdmin/resources/js/plugin/require.js"></script>
 <body ms-controller="root">
+	<c:set var="logout_url">
+		<c:url value="/admin/logout" />
+	</c:set>
 <div class="m-header-ctn">
     <div class="col-xs-2">
     	<img src="/shopAdmin/resources/img/luokeW.png" style="position:relative;display:block;height:30px;margin:10px" alt="">
     </div>
     <div class="col-xs-10 text-right">
-    	<img src="/shopAdmin/resources/img/touxiang.png" alt="" style="width:25px;height:25px;position:relative;top:-0px;right:20px;border-radius:50%;">
-    	<span>Administror</span>
-    	<form action="" method="" style="display:inline;cursor: pointer;">
-				<a style="color:white"> <span class="fui-power" style="font-size:20px;padding: 0 20px;position:relative;top:4px;"></span></a>				                   		
+    	<img ms-attr-src="shopDetail.picUrl" alt="" style="width:25px;height:25px;position:relative;top:-0px;right:20px;border-radius:50%;">
+    	<span ms-text="shopDetail.managerName">您好！</span><span>您好！</span>
+    	<form action="${logout_url}" method="POST" style="display:inline;cursor: pointer;">
+				<a style="color:white"> <span class="fui-power" style="font-size:20px;padding: 0 0 0 40px;position:relative;top:4px;"></span><input  style="text-align: left;background:rgba(0,0,0,0);border:0;outline:0;color:#94989d" type='submit' value="退出"></a>				                   		
 		</form>
        
     </div>
@@ -75,13 +78,7 @@
 </div>
 
 <div class="m-container">
-    <div class="m-content" ms-include-src="content">
-    	<input type="hidden" id="pp" value="${shop}"/>
-    </div>
-    <script type="text/javascript">
-    	/* var p=document.getElementById("pp").value;
-    	sessionStorage.setItem("p",p); */    	
-    </script>
+    <div class="m-content" ms-include-src="content"></div> 
 </div>
 </body>
 </html>

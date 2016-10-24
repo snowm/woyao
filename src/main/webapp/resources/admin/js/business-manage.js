@@ -10,6 +10,8 @@ define(['uploadfile'],function(){
     	    businessalter:false,
     	    nothing:false,
     	    disabled:true,
+    	    reset:false,
+    	    managename:true,
     	    imgViewSrc:'/admin/resources/images/photos/upload1.png',
     	    shopList:[],    	    
     	    totlePage:-1,
@@ -30,7 +32,8 @@ define(['uploadfile'],function(){
     	    	managerProfileId:'',
     	    	description:'',
     	    	picId:'', 
-    	    	managerPwd:''
+    	    	managerPwd:'',
+    	    	id:""	
     	    },
     	    uploadbtn:true,
     	    Alter:function(){
@@ -46,6 +49,8 @@ define(['uploadfile'],function(){
     	    	queryData(page);
     	    },
     	    newShop:function(){
+    	    	shopController.managename = true;
+    	    	shopController.reset = false;
     	    	shopController.formShow = true;
     	    	shopController.nothing=false;
     	    	shopController.formData = {
@@ -85,16 +90,29 @@ define(['uploadfile'],function(){
     	    },	    
     	 
     	    updateShop:function(id){
-    	    	$(".managerName").attr("readonly","readonly");
-    	    	$(".managerPwd").attr("readonly","readonly");
+//    	    	$(".managerName").attr("readonly","readonly");
+//    	    	$(".managerPwd").attr("readonly","readonly");
     	    	shopController.formShow = true;
 	            shopController.uploadbtn = true;
+	            shopController.managename = false;
+	            shopController.reset = true;
     	    	shopController.shopList.forEach(function(item){
     	    		if(item.id == id){
     	    			shopController.formData = item;
     	    			shopController.imgViewSrc = item.picUrl;
     	    		}
     	    	})
+    	    },
+    	    cPwd:function(){
+    	    	var shopId=shopController.formData.id ;
+   	    		 $.ajax({
+   	  	      		  type: "get",
+   	  	      		  url: '/admin/profile/reset/' + shopId,
+   	  	      		  success: function(data){
+   	  	      			  alert("密码已重置，默认为6个8");
+   	  	      		  },
+   	  	      		  dataType: 'json'
+   	  	      		});
     	    },
     	    submitItem:function(){    	    	
     	    	//经度正则

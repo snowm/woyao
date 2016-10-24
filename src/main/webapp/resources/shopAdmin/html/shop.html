@@ -1,10 +1,5 @@
 ﻿<div class="panel " ms-controller='shopController'>
-	  <div class="" ms-if="formShow">        
-        <div class="panel-body">
-            
-<!-- 商品管理 -->
-		
-        <div class="tab-content mb30">
+	      <div class="tab-content mb30" ms-if="reset">
           <div class="panel-body m-query" id="msgsCtn">
           <div class="row">
          	<!-- 选择图片 -->
@@ -19,7 +14,7 @@
 					   <input class="btn btn-xs btn-success" type="button" value="上传" ms-click="uploadImg"/>  
                  </div>
                 </div><!-- row -->
-            <!-- 选择图片 -->
+       <!--      选择图片 -->
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label class="control-label">商家名称</label>
@@ -66,10 +61,147 @@
             
         <div class="text-right">
             <button class="btn btn-success" ms-click="submitItem">提交</button>
+            <button class="btn btn-default"ms-click="back">返回</button>
         </div>
           </div>          
-     </div>
+     </div> 
+     
+     
+     
+     <!-- 修改密码 -->  
+     
+	<section id="main_container" style="margin-top: 100px;" ms-if="password">
+  
+	    <div class="signinpanel">
+	        
+	        <div class="row">
+	            
+	            <div class="col-md-4">
+	            
+	            </div><!-- col-sm-7 -->
+	            
+	            <div class="col-md-4">
+	                    <h4 class="nomargin text-center">修改密码</h4>
+						                   <div style="margin-top: 10px;"> 原密码：<input type="password" class="form-control uname" id="username" name="username" placeholder="原密码" ms-duplex="formData.oldPwd" autocomplete="off"/></div>
+						                    <div style="margin-top: 10px;">新密码：<input type="password" class="form-control pword" id="password" name="password" type="password" value="" placeholder="密 码" ms-duplex="formData.newPwd" autocomplete="off" /></div>	
+						                    <div style="margin-top: 10px;">确认密码：<input type="password" class="form-control pword" id="password" name="password" type="password" value="" placeholder="密 码" ms-duplex="formData.againPwd" autocomplete="off" /><div>                     
+	                    <button class="btn btn-success btn-block" ms-click="make" style="margin-top: 20px; font-size: 16px; !important;">确 认</button>
+	            </div><!-- col-sm-5 -->
+	        </div><!-- row -->
+	    </div><!-- signin -->
+	  
+	</section>
+        <!-- 
+    		 <div ms-if="password"> 
+     			<h4 class="panel-title m-line">密码修改</h4>
+		      <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label class="control-label">原密码</label>
+                        <input type="password" name="description" class="form-control" placeholder="原密码" ms-duplex="formData.oldPwd">
+                    </div>
+                </div>col-sm-6
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label class="control-label">新密码</label>
+                        <input type="password" name="latitude" class="form-control latitude" placeholder="新密码" ms-duplex="formData.newPwd">
+                    </div>
+                </div>col-sm-6
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label class="control-label">确认密码</label>
+                        <input type="password" name="latitude" class="form-control latitude" placeholder="确认密码" ms-duplex="formData.againPwd">
+                    </div>
+                </div>col-sm-6
+            	</div>row
+            <div class="text-right">	            
+	            <button class="btn btn-success"ms-click="make">确认</button>
+        	</div>
+			</div>  -->
+     
+	  <div class="" ms-if="formShow">        
+        <div class="panel-body">
+            <div class="panel panel-default">
+		        <div class="panel-body">
+		            <h4 class="panel-title m-line" style="border-bottom: 1px solid #dadada;padding-bottom: 10px;">基本信息</h4>
+		            <div class="form-group col-xs-12">
+		                <div class='col-xs-4'>
+		                    <label class="control-label col-xs-6 text-right">商店图片:</label>
+		                    <img class="media-object thumbnail center-block" ms-attr-src="imgViewSrc" style="height:50px;width:50px;" alt="">
+		                    <!-- <div class='col-xs-6 text-left'>
+		                        <p class="m-text" ms-text='shopDetail.orderNo'></p>
+		                    </div> -->
+		                </div>
+		                <div class='col-xs-4'>
+		                    <label class="control-label col-xs-6 text-right">商店名称:</label>
+		                    <div class='col-xs-6 text-left'>
+		                        <p class="m-text" ms-text='shopDetail.name'></p>
+		                    </div>
+		                </div>
+		                <div class='col-xs-4'>
+		                    <label class="control-label col-xs-6 text-right">描述信息：</label>
+		                    <div class='col-xs-6 text-left'>
+		                        <p class="m-text" ms-text='shopDetail.description'></p>
+		                    </div>
+		                </div>
+		            </div>
+					<h4 class="panel-title m-line" style="border-bottom: 1px solid #dadada;padding-bottom: 10px;">地理位置：</h4>
+		            <div class="form-group col-xs-12">
+		                <div class='col-xs-4'>
+		                    <label class="control-label col-xs-6 text-right">地址：：</label>
+		                    <div class='col-xs-6 text-left'>
+		                        <p class="m-text" ms-text='shopDetail.address'></p>
+		                    </div>
+		                </div>
+		                <div class='col-xs-4'>
+		                    <label class="control-label col-xs-6 text-right">经度：</label>
+		                    <div class='col-xs-6 text-left'>
+		                        <p class="m-text" ms-text='shopDetail.latitude'></p>
+		                    </div>
+		                </div>
+		                <div class='col-xs-4'>
+		                    <label class="control-label col-xs-6 text-right">纬度：</label>
+		                    <div class='col-xs-6 text-left'>
+		                        <p class="m-text" ms-text='shopDetail.longitude'></p>
+		                    </div>
+		                </div>
+		            </div>
+		
+		            <h4 class="panel-title m-line" style="border-bottom: 1px solid #dadada;padding-bottom: 10px;">时间信息</h4>
+		            <div class="form-group col-xs-12">
+		                <div class='col-xs-4'>
+		                    <label class="control-label col-xs-6 text-right">创建时间：</label>
+		                    <div class='col-xs-6 text-left'>
+		                        <p class="m-text" ms-text='shopDetail.creationDate'></p>
+		                    </div>
+		                </div>
+		                <div class='col-xs-4'>
+		                    <label class="control-label col-xs-6 text-right">最后操作时间：</label>
+		                    <div class='col-xs-6 text-left'>
+		                        <p class="m-text" ms-text='shopDetail.lastModifiedDate'></p>
+		                    </div>
+		                </div>
+		            </div>
+		
+		            <h4 class="panel-title m-line" style="border-bottom: 1px solid #dadada;padding-bottom: 10px;">管理员信息</h4>
+		            <div class="form-group col-xs-12">
+		                <div class='col-xs-4'>
+		                    <label class="control-label col-xs-6 text-right">管理员名称：</label>
+		                    <div class='col-xs-6 text-left'>
+		                        <p class="m-text" ms-text='shopDetail.managerName'></p>
+		                    </div>
+		                </div>
+		            </div>
+		        </div>		       
+		  </div>  
+         <div class="text-right">
+            	<button class="btn btn-success" ms-click="rested">修改基本信息</button>
+            	<button class="btn btn-info" ms-click="pwd">修改密码</button>
+       	 </div>
+<!-- 商品管理 -->		
+  
     </div>
+     
     </div>   
 	
 </div>

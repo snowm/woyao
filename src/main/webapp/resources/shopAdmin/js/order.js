@@ -3,6 +3,15 @@
  */
 define(['jquery','datapicker','datapicker.cn'],function(){
     $(function(){
+    	$.ajax({
+  		  type: "get",
+  		  url: '/shop/admin/detail/search',
+  		  success: function(data){
+  			  console.log(data);
+  			orderController.orderData.shopId=data.id;	
+  		  },
+  		  dataType: 'json'
+  		});
        var orderController = avalon.define({
     	   	$id:"orderController",
     	   	orderList:[],
@@ -12,12 +21,14 @@ define(['jquery','datapicker','datapicker.cn'],function(){
     	   	product:false,
     	   	list:true,
     	   	top:true,
+    	   	nothing: false,
     	   	deailId:"",
-    	   	ordername:{
+    	   	orderName:{
     	   	nickname:""
     	   	},
     	   	orderData:{
-    	   		from:"",
+    	   		shopId:"",
+    	   		nicknameId:"",
     	   		deleted:false,    	   		
     			pageNumber:1,
     			pageSize:8,
@@ -29,13 +40,13 @@ define(['jquery','datapicker','datapicker.cn'],function(){
     	   	},
     	   	chang:function(){
     			var date = {
-    				nickname:orderController.orderData.nickname,
+    				nickname:orderController.orderName.nickname,
     				pageNumber:orderController.orderData.pageNumber,
     				pageSize:orderController.orderData.pageSize
     			}
     			$.ajax({
   	      		  type: "post",
-  	      		  url: '/shop/admin/profileWX/search',
+  	      		  url: '/admin/profileWX/search',
   	      		  data:date,
   	      		  success: function(data){
   	      			  	console.log(data);    	      			 
@@ -45,15 +56,16 @@ define(['jquery','datapicker','datapicker.cn'],function(){
   			});
     		},
     		chooseName:function(id,name){
-    			orderController.orderData.from=id;
-    			orderController.ordername.nickname=name;
+    			orderController.orderData.nicknameId=1;
+    			orderController.orderName.nickname=name;
     			orderController.nameList=[];
     		},
     		btnOrder:function(){
     			orderController.orderData.pageNumber=1;
     			var date = {
+    					shopId:orderController.orderData.shopId,
     					statusId:orderController.orderData.statusId,
-    					from:orderController.orderData.from,
+    					nicknameId:orderController.orderData.nicknameId,
 	    				deleted:orderController.orderData.deleted,
 	    				pageNumber:orderController.orderData.pageNumber,
 	    				pageSize:orderController.orderData.pageSize,
@@ -69,6 +81,11 @@ define(['jquery','datapicker','datapicker.cn'],function(){
 	  	      		  success: function(data){
 	  	      			  console.log(data);	  	      			 
 	  	      			orderController.orderList = data.results;
+	  	      			if(orderController.orderList != ""){
+	  	      			orderController.nothing=false;
+	  	      			}else if(orderController.orderList == ""){
+	  	      			orderController.nothing=true;
+	  	      			}
 	  	      			
 	  	      		  },
 	  	      		  dataType: 'json'
@@ -99,8 +116,7 @@ define(['jquery','datapicker','datapicker.cn'],function(){
         		  	      		  dataType: 'json'
         		  	      		});
         	    		}
-        			});    				
-    			
+        			});  
     		},
     		back:function(){    			
     			orderController.product=false;
@@ -127,8 +143,9 @@ define(['jquery','datapicker','datapicker.cn'],function(){
   	    		orderController.orderData.pageNumber++;
       			}
     		var date = {
+    				shopId:orderController.orderData.shopId,
     				statusId:orderController.orderData.statusId,
-					from:orderController.orderData.from,
+    				nicknameId:orderController.orderData.nicknameId,
     				deleted:orderController.orderData.deleted,
     				pageNumber:orderController.orderData.pageNumber,
     				pageSize:orderController.orderData.pageSize,
@@ -146,6 +163,11 @@ define(['jquery','datapicker','datapicker.cn'],function(){
 	      			  console.log(data);	  	      			 
 	      			orderController.orderList = data.results;
 	      			orderController.totlePage = data.totalPageCount;
+	      			if(orderController.orderList != ""){
+	  	      			orderController.nothing=false;
+	  	      			}else if(orderController.orderList == ""){
+	  	      			orderController.nothing=true;
+	  	      			}
 	      			
 	      		  },
 	      		  dataType: 'json'

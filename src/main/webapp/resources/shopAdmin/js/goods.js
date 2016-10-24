@@ -2,9 +2,18 @@
  * Created by Administrator on 2016/10/6 0006.
  */
 define(['uploadfile'],function(){
+	$.ajax({
+		  type: "get",
+		  url: '/shop/admin/detail/search',
+		  success: function(data){
+			  console.log(data);
+			  goodsController.goodsDate.shopId=data.id;	
+		  },
+		  dataType: 'json'
+		});
 
 
-    var goodsController=avalon.define({
+    var goodsController = avalon.define({
         $id:"goodsController",
         goods:false,
         goodsShow:false,
@@ -15,11 +24,13 @@ define(['uploadfile'],function(){
         picture:false,
         shop:false,
         type:false,
+        nothing:false,
         totlePage:0,
         goodsList:[],
         shopList:[],
         imgViewSrc:'/admin/resources/images/photos/upload1.png',
         goodsDate:{
+        	shopId:"",
             name:"",
             deleted:false,
             pageNumber:1,
@@ -154,7 +165,7 @@ define(['uploadfile'],function(){
     		                    description:goodsController.goodsChg.description,
     		                    mainPicId:goodsController.goodsChg.mainPicId,
     		                    typeId:parseInt(goodsController.goodsChg.typeId),
-    		                    shopId:goodsController.goodsChg.shopId,
+    		                    shopId:goodsController.goodsDate.shopId,
     		                    unitPrice:goodsController.goodsChg.unitPrice,
     		                    id:goodsController.goodsChg.id
     		                }
@@ -167,8 +178,7 @@ define(['uploadfile'],function(){
     		                    alert('提交成功');
     		                    goodsController.goodsShow = false;
     		                    goodsController.goods = true;
-    		                    goodsController.goodsChg.mainPicId = '';                    
-    		                    goodsController.goodsChg.shopId="";
+    		                    goodsController.goodsChg.mainPicId = '';    
     		                    goodsController.goodsChg.name="";
     		                    goodsController.imgViewSrc = '/admin/resources/images/photos/upload1.png';
     		                    $("#uploadFileIpt").val('');
@@ -200,21 +210,20 @@ define(['uploadfile'],function(){
         		                    description:goodsController.goodsChg.description,
         		                    mainPicId:goodsController.goodsChg.mainPicId,
         		                    typeId:parseInt(goodsController.goodsChg.typeId),
-        		                    shopId:goodsController.goodsChg.shopId,
+        		                    shopId:goodsController.goodsDate.shopId,
         		                    unitPrice:goodsController.goodsChg.unitPrice,
         		                    id:goodsController.goodsChg.id
         		                }
         		            $.ajax({
         		                type: "post",
-        		                url: '/admin/product/',
+        		                url: '/shop/admin/product/',
         		                data:date,
         		                success: function(data){
         		                    console.log(data);
         		                    alert('提交成功');
         		                    goodsController.goodsShow = false;
         		                    goodsController.goods = true;
-        		                    goodsController.goodsChg.mainPicId = '';                    
-        		                    goodsController.goodsChg.shopId="";
+        		                    goodsController.goodsChg.mainPicId = '';    
         		                    goodsController.goodsChg.name="";
         		                    goodsController.imgViewSrc = '/admin/resources/images/photos/upload1.png';
         		                    $("#uploadFileIpt").val('');

@@ -1,14 +1,25 @@
 define(['jquery','datapicker','datapicker.cn'],function(){
 	$(function(){
+		$.ajax({
+			  type: "get",
+			  url: '/shop/admin/detail/search',
+			  success: function(data){
+				  console.log(data);
+				  chatController.chatDate.shopId=data.id;	
+			  },
+			  dataType: 'json'
+			});
     	var chatController=avalon.define({
     		$id:"chatController",    	
     		chatList:[],
     		nameList:[],
     		totlePage:"",
+    		nothing:false,
     		chatName:{
     			nickname:""
     		},
     		chatDate:{
+    			shopId:"",
     			from:"",
     			deleted:false,
     			pageNumber:1,
@@ -25,7 +36,7 @@ define(['jquery','datapicker','datapicker.cn'],function(){
     			}
     			$.ajax({
   	      		  type: "post",
-  	      		  url: '/shop/admin/profileWX/search',
+  	      		  url: '/admin/profileWX/search',
   	      		  data:date,
   	      		  success: function(data){
   	      			  	console.log(data);    	      			 
@@ -35,14 +46,15 @@ define(['jquery','datapicker','datapicker.cn'],function(){
   			});
     		},
     		chooseName:function(id,name){
-    			chatController.chatDate.from=id;
+    			chatController.chatDate.nicknameId=id;
     			chatController.chatName.nickname=name;
     			chatController.nameList=[];
     		},
     		btnChat:function(){
     			chatController.chatDate.pageNumber=1;
     			var date = {
-	    				from:chatController.chatDate.from,
+    					shopId:chatController.chatDate.shopId,
+    					nicknameId:chatController.chatDate.nicknameId,
 	    				deleted:chatController.chatDate.deleted,
 	    				pageNumber:chatController.chatDate.pageNumber,
 	    				pageSize:chatController.chatDate.pageSize,
@@ -55,9 +67,12 @@ define(['jquery','datapicker','datapicker.cn'],function(){
 	  	      		  url: '/shop/admin/chatMsg/search',
 	  	      		  data:date,
 	  	      		  success: function(data){
-	  	      			  console.log(data);
-	  	      			  chatController.totlePage = data.totalPageCount;
-	  	      			  chatController.chatList = data.results;	  	      			
+	  	      			  chatController.chatList = data.results;
+	  	      			  if(chatController.chatList != ""){
+	  	      					chatController.nothing=false;
+		  	      			}else if(chatController.chatList == ""){
+		  	      				chatController.nothing=true;
+		  	      			}
 	  	      		  },
 	  	      		  dataType: 'json'
 	  	      		});
@@ -99,7 +114,8 @@ define(['jquery','datapicker','datapicker.cn'],function(){
 	      			}
 	    		
 	    		var date = {
-	    				from:chatController.chatDate.from,
+	    				shopId:chatController.chatDate.shopId,
+	    				nicknameId:chatController.chatDate.nicknameId,
 	    				deleted:chatController.chatDate.deleted,
 	    				pageNumber:chatController.chatDate.pageNumber,
 	    				pageSize:chatController.chatDate.pageSize,

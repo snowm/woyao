@@ -2,32 +2,18 @@
  * Created by Luozhongdao  on 2016/9/19 0018.
  */
 define(['uploadfile'],function(){	
-    $(function(){ 
-    	$.ajax({
-    		  type: "get",
-    		  url: '/shop/admin/detail/search',
-    		  success: function(data){
-    			  console.log(data);
-    			   shopController.formData.shopDetail = data;
-    			   shopController.imgViewSrc = data.picUrl;
-    			   shopController.formData.name = data.name,
-    			   shopController.formData.address = data.address,
-    			   shopController.formData.description = data.description,
-    			   shopController.formData.latitude=data.latitude,
-    			   shopController.formData.longitude = data.longitude,
-    			   shopController.formData.managerName = data.managerName,
-    			   shopController.formData.managerProfileId =data.managerProfileId,
-    			   shopController.formData.picId=data.picId
-    		  },
-    		  dataType: 'json'
-    		});
+	$(function(){ 
+		ShopDetail();
     	var shopController = avalon.define({
     	    $id: "shopController",
     	    formShow:true,
+    	    product:true,
     	    business:true,
     	    businessalter:false,
     	    nothing:false,
     	    disabled:true,
+    	    reset:false,
+    	    password:false,
     	    imgViewSrc:'/admin/resources/images/photos/upload1.png',
     	    shopDetail:{},
     	    shopList:[],
@@ -38,6 +24,9 @@ define(['uploadfile'],function(){
     	    	pageSize:7    	    	
     	    }, 
     	    formData:{
+    	    	oldPwd:"",
+    	    	newPwd:"",
+    	    	againPwd:"",
     	    	id:"",
     	    	name:'',
     	    	address:'',
@@ -79,11 +68,11 @@ define(['uploadfile'],function(){
     	    	    	    	description:shopController.formData.description,
     	    	    	    	latitude:shopController.formData.latitude,
     	    	    	    	longitude:shopController.formData.longitude,
-    	    	    	    	managerName:shopController.formData.managerName,
+//    	    	    	    	managerName:shopController.formData.managerName,
     	    	    	    	managerProfileId:shopController.formData.managerProfileId,
     	    	    	    	description:shopController.formData.description,
     	    	    	    	picId:shopController.formData.picId,
-    	    	    	    	managerPwd:shopController.formData.managerPwd,
+//    	    	    	    	managerPwd:shopController.formData.managerPwd,
     	    	    	}
     	    	    	//性别 -------------------------------------------------------------------------------------------------
     	    	    	$.ajax({
@@ -94,12 +83,55 @@ define(['uploadfile'],function(){
     	        	      			  alert('提交成功')    	        	      	    	 
     	        	                  $("#uploadFileIpt").val('');
     	        	      			  console.log(data);
+    	        	      			  ShopDetail();
+    	        	      			shopController.formShow = true;
+    	        	    	    	shopController.reset = false;
+    	        	      			  
     	        	      		  },
     	        	      		  dataType: 'json'
     	        	      		});
     	    	    
     				}   			
     	   
+    	    },
+    	    rested:function(){
+    	    	shopController.formShow = false;
+    	    	shopController.reset = true;
+    	    },
+    	    back:function(){    	    	
+    	    	shopController.formShow = true;
+    	    	shopController.reset = false;
+    	    	
+    	    },
+    	    pwd:function(){
+    	    	shopController.formShow = false;
+    	    	shopController.password = true;
+    	    },
+    	    make:function(){
+    	    	var data={
+    	    			oldPwd:shopController.formData.oldPwd,
+    	    			newPwd:shopController.formData.newPwd,
+    	    			againPwd:shopController.formData.againPwd
+    	    	}
+    	    	$.ajax({
+  	      		  type: "post",
+  	      		  url: '/shop/admin/manager/',
+  	      		  data: data,
+  	      		  success: function(data){
+  	      			  console.log(data);
+  	      			if(data == null){
+  	      				alert('输入的文本框为空');
+  	      			} else if(data == 0){
+  	      				alert('修改密码成功');
+  	      			 }else if(data == 1){
+  	      				alert('输入的原密码不匹配');
+  	      			 } else if(data == 2){
+  	      				alert('两次输入的密码不一致');
+  	      			 } 
+  	      			window.location="";
+  	      		  },
+  	      		  dataType: 'json'
+  	      		});
     	    },
     	    uploadImg:function(){
     	    	  var formData = new FormData($("#uploadForm")[0]);  
@@ -128,7 +160,28 @@ define(['uploadfile'],function(){
     	    }
     	});
     	
-    	avalon.scan();    	
+    	avalon.scan(); 
+    	function ShopDetail(){
+    		 
+    		    	$.ajax({
+    		    		  type: "get",
+    		    		  url: '/shop/admin/detail/search',
+    		    		  success: function(data){
+    		    			  console.log(data);
+    		    			   shopController.shopDetail = data;
+    		    			   shopController.imgViewSrc = data.picUrl;
+    		    			   shopController.formData.name = data.name,
+    		    			   shopController.formData.address = data.address,
+    		    			   shopController.formData.description = data.description,
+    		    			   shopController.formData.latitude=data.latitude,
+    		    			   shopController.formData.longitude = data.longitude,
+    		    			   shopController.formData.managerName = data.managerName,
+    		    			   shopController.formData.managerProfileId =data.managerProfileId,
+    		    			   shopController.formData.picId=data.picId
+    		    		  },
+    		    		  dataType: 'json'
+    		    		});
+    	}
     	
     	$("#uploadFileIpt").live("change",function(){
     		if (!this.files.length) return;

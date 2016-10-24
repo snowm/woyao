@@ -45,9 +45,11 @@ require.config({
 
 
 require(['/shopAdmin/resources/js/common.js','mmRouter',"domReady!"],function(mmRouter,domReady){
+	ShopDetail();
     var root = avalon.define({
         $id: "root",
         nav:"home",
+        shopDetail:{},
         content: "/shopAdmin/resources/html/home.html",
         navtab:function(tab){
         	if(tab == 'home'){
@@ -63,7 +65,7 @@ require(['/shopAdmin/resources/js/common.js','mmRouter',"domReady!"],function(mm
         	}
         }
     });
-
+    
     //导航回调
     function callback() {
         var controllerPath = "/shopAdmin/resources/js";
@@ -93,5 +95,17 @@ require(['/shopAdmin/resources/js/common.js','mmRouter',"domReady!"],function(mm
     });
     
     avalon.scan();
+    function ShopDetail(){
+		 
+    	$.ajax({
+    		  type: "get",
+    		  url: '/shop/admin/detail/search',
+    		  success: function(data){
+    			  console.log(data);
+    			  root.shopDetail=data;
+    		  },
+    		  dataType: 'json'
+    		});
+}
     
 });

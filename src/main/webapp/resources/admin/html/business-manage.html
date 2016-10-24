@@ -71,14 +71,19 @@
                 </div><!-- col-sm-6 -->
             </div><!-- row -->
 
-            <div class="row">                
+            <div class="row" ms-if="managename">                
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label class="control-label">管理员密码</label>
                         <input type="text" name="managerPwd" class="form-control managerPwd" placeholder="请输入密码" ms-duplex="formData.managerPwd">
                     </div>
                 </div><!-- col-sm-6 -->
-            </div><!-- row -->            
+            </div><!-- row --> 
+             <div class="row" ms-if="reset">                
+                <div class="col-sm-6">
+                     <button class="btn btn-success btn-block" ms-click="cPwd">重置密码</button>
+                </div><!-- col-sm-6 -->
+            </div><!-- row -->          
           </div>          
      </div>
     </div>

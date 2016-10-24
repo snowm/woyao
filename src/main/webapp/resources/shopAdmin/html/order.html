@@ -1,4 +1,7 @@
 <div class="panel-default" ms-controller="orderController">
+
+
+   
     
     <div class="panel-body">
         <div ms-if="top" class="panel-body m-query">
@@ -17,7 +20,7 @@
             <div class="col-xs-2">
                  <div class="form-group" style="position: relative;">
 			          <label class="control-label">消费者名称</label>
-			             <input type="text" name="firstname" placeholder=" " class="form-control m-form-input" ms-duplex="ordername.nickname" ms-keyup="chang">
+			             <input type="text" name="firstname" placeholder=" " class="form-control m-form-input" ms-duplex="orderName.nickname" ms-keyup="chang">
 			             <div style="position:absolute;top:80px;width:100%;max-height:160px;overflow-y: scroll;border:1px solid #8ab0fa; background-color: white;z-index: 1000000;" ms-if="nameList.length !=0">
 			             	 <table> 
 			             	 	<tr style="cursor: pointer;" ms-repeat-p="nameList" ms-hover="chooseShopItem">	             	                 
@@ -39,17 +42,17 @@
                     <input type="text" value="" placeholder=" " class="form-control m-form-input" id="date_picker2" ms-duplex="orderData.endcreationDate">
                 </div>
             </div>   
-            <div class="col-xs-2">
+           <!--  <div class="col-xs-2">
                 <div class="form-group">
                 <label class="control-label">订单状态</label>
                    <select class="form-control m-form-input" ms-duplex="orderData.statusId">
-		             	<option value=''>-- 请选择 --</option>	                  
-		                <option value='1'>已送达</option> 
-		                <option value='2'>成功</option>
-		                <option value='3'>失败</option>
+		             	<option ms-value=''>-- 请选择 --</option>	                  
+		                <option ms-value='1'>已送达</option> 
+		                <option ms-value='2'>成功</option>
+		                <option ms-value='3'>失败</option>
 	             	</select>
                 </div>
-            </div>
+            </div> -->
             
              <div class="col-sm-12 text-right">
 	        	<button class="btn btn btn-inverse" ms-click="btnOrder">查 询</button>	        	
@@ -180,4 +183,14 @@
 		        </div>		
 		  </div>              
     </div>
+     <div class="table-responsive"  ms-if="nothing">
+        <table class="table table-striped table-hover text-center">
+            <thead>
+            <tr>              
+                <th class="text-center">亲！！！暂时没有数据哦</th>                
+            </tr>
+            </thead>            
+        </table>  
+    </div>
+    
 </div>
