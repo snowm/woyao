@@ -58,7 +58,7 @@ public class OrderItemServiceImpl extends AbstractAdminService<Order, OrderDTO> 
 			paramMap.put("startcreationDate", queryRequest.getStartcreationDate());
 			sb.append(" and oi.order.modification.creationDate >= :startcreationDate");	
 		}
-		if(queryRequest.getShopId()!=null){
+		if(queryRequest.getStatusId()!=null){
 			paramMap.put("status", OrderStatus.getEnum(queryRequest.getStatusId()));
 			sb.append(" and oi.order.status= :status");	
 		}
