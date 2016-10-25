@@ -27,7 +27,6 @@ import com.woyao.customer.service.IOrderService;
 import com.woyao.customer.translator.DefaultTranslator;
 import com.woyao.dao.CommonDao;
 import com.woyao.domain.chat.ChatMsg;
-import com.woyao.domain.product.Product;
 import com.woyao.domain.profile.ProfileWX;
 import com.woyao.domain.purchase.Order;
 import com.woyao.domain.purchase.OrderItem;
@@ -55,22 +54,57 @@ public class OrderServiceImpl implements IOrderService {
 
 	@Transactional
 	@Override
-	public OrderDTO placeOrder(long consumerId, long productId, int quantity, String spbillCreateIp, Long msgId) {
+	public OrderDTO placeOrder(long consumerId, Long toProfileId, long productId, int quantity, String spbillCreateIp, Long msgId) {
+		OrderItemDTO oiDTO = new OrderItemDTO();
+		oiDTO.setProductId(productId);
+		oiDTO.setQuantity(quantity);
+		
+		List<OrderItemDTO> orderItemDTOs = new ArrayList<>();
+		orderItemDTOs.add(oiDTO);
+		
+		OrderDTO orderDTO = this.placeOrder(consumerId, toProfileId, orderItemDTOs, spbillCreateIp, msgId);
+		return orderDTO;
+	}
+
+	@Override
+	public OrderDTO placeOrder(long consumerId, Long toProfileId, List<OrderItemDTO> orderItemDTOs, String spbillCreateIp) {
+		OrderDTO orderDTO = this.placeOrder(consumerId, toProfileId, orderItemDTOs, spbillCreateIp, null);
+		return orderDTO;
+	}
+
+	@Override
+	public OrderDTO placeOrder(long consumerId, Long toProfileId, List<OrderItemDTO> orderItemDTOs, String spbillCreateIp, Long msgId) {
+		if(CollectionUtils.isEmpty(orderItemDTOs)){
+			throw new IllegalArgumentException("订单是空的！");
+		}
 		ProfileWX consumer = this.commonDao.get(ProfileWX.class, consumerId);
-		Product product = this.commonDao.get(Product.class, productId);
-		int totalFee = product.getUnitPrice() * quantity;
-		OrderItem oi = new OrderItem();
-		oi.setProduct(product);
-		oi.setQuantity(quantity);
-		oi.setTotalFee(totalFee);
-		oi.setUnitPrice(product.getUnitPrice());
+		if (consumer == null) {
+			throw new IllegalArgumentException("消费用户不存在！");
+		}
+		ProfileWX toProfile = consumer;
+		if (toProfileId != null) {
+			toProfile = this.commonDao.get(ProfileWX.class, toProfileId);
+			if (toProfile == null) {
+				throw new IllegalArgumentException("对方用户不存在！");
+			}
+		}
 
 		Order order = new Order();
+		List<OrderItem> ois = new ArrayList<>();
+		int totalFee = 0;
+		for (OrderItemDTO oiDTO : orderItemDTOs) {
+			OrderItem oi = DefaultTranslator.translateToDomain(oiDTO);;
+			oi.calcTotalFee();
+			oi.setOrder(order);
+			ois.add(oi);
+			totalFee += oi.getTotalFee();
+		}
+		
 		String orderNo = DF.format(new Date()) + r.nextInt(1000);
 		order.setOrderNo(orderNo);
 		order.setConsumer(consumer);
 		order.setSpbillCreateIp(spbillCreateIp);
-		order.setToProfile(consumer);
+		order.setToProfile(toProfile);
 		order.setTotalFee(totalFee);
 		order.setStatus(OrderStatus.SAVED);
 		if (msgId != null) {
@@ -78,29 +112,33 @@ public class OrderServiceImpl implements IOrderService {
 		}
 		this.commonDao.save(order);
 
-		oi.setOrder(order);
-		this.commonDao.save(oi);
+		List<OrderItemDTO> oiDTOrs = new ArrayList<>();
+		for (OrderItem oi : ois) {
+			this.commonDao.save(oi);
+			oiDTOrs.add(DefaultTranslator.translateToDTO(oi));
+		}
 
 		if (msgId != null) {
-			ChatMsg m = this.commonDao.get(ChatMsg.class, msgId);
-			m.setOrderId(order.getId());
-			m.setFree(false);
-			m.setPayed(false);
-			this.commonDao.update(m);
+			this.relateMsgOrder(order.getId(), msgId);
 		}
 
 		OrderDTO orderDTO = DefaultTranslator.translateToDTO(order);
-		OrderItemDTO oiDTO = DefaultTranslator.translateToDTO(oi);
-		List<OrderItemDTO> ois = new ArrayList<>();
-		ois.add(oiDTO);
-		orderDTO.setItems(ois);
+		orderDTO.setItems(oiDTOrs);
 
 		return orderDTO;
 	}
 
+	private void relateMsgOrder(long orderId, long msgId) {
+		ChatMsg m = this.commonDao.get(ChatMsg.class, msgId);
+		m.setFree(false);
+		m.setPayed(false);
+		m.setOrderId(orderId);
+		this.commonDao.update(m);
+	}
+	
 	@Override
 	public OrderDTO placeOrder(ChatMsg chatMsg) {
-		return this.placeOrder(chatMsg.getFrom(), chatMsg.getProductId(), 1, chatMsg.getRemoteAddr(), chatMsg.getId());
+		return this.placeOrder(chatMsg.getFrom(), chatMsg.getTo(), chatMsg.getProductId(), 1, chatMsg.getRemoteAddr(), chatMsg.getId());
 	}
 	
 	@Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true)
@@ -141,8 +179,9 @@ public class OrderServiceImpl implements IOrderService {
 
 	@Transactional
 	@Override
-	public void updateOrderStatus(long id, OrderStatus status) {
+	public void updateOrderStatus(long id, OrderStatus status, int version) {
 		Order order = this.commonDao.get(Order.class, id);
+		order.setVersion(version);
 		order.setStatus(status);
 	}
 
@@ -205,5 +244,6 @@ public class OrderServiceImpl implements IOrderService {
 		}
 		return t;
 	}
+
 
 }

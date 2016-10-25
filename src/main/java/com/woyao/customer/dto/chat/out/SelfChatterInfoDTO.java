@@ -11,6 +11,11 @@ public class SelfChatterInfoDTO extends Outbound {
 		this.command = OutboundCommand.SELF_INFO_MSG;
 	}
 
+	@Override
+	public Outbound newObject() {
+		return new SelfChatterInfoDTO();
+	}
+	
 	public ProfileDTO getSelf() {
 		return self;
 	}

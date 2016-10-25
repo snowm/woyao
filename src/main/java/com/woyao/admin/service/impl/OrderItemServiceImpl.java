@@ -184,9 +184,9 @@ public class OrderItemServiceImpl extends AbstractAdminService<Order, OrderDTO> 
 		List<OrderItem> OrderItems=this.dao.query(hql,paramMap);
 		List<ProductDTO> prods=new ArrayList<>();
 		for (OrderItem orderItem : OrderItems) {
-			int num=orderItem.getQuantity();
-			Long totalFee=orderItem.getTotalFee();
-			Product product=orderItem.getProduct();
+			int num = orderItem.getQuantity();
+			Long totalFee = (long) orderItem.getTotalFee();
+			Product product = orderItem.getProduct();
 			ProductDTO prodto=transferToSimpleDTO(product);
 			prodto.setQuantity(num);
 			prodto.setTotalFee(totalFee);

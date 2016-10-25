@@ -11,6 +11,9 @@ public class OrderRequestDTO extends Inbound {
 
 	// 此订单请求谁付，若是不填，就是自己
 	private Long consumerId;
+	
+	// 此订单买给谁，若是不填，就是自己	
+	private Long toProfileId;
 
 	private List<OrderItemDTO> items;
 
@@ -24,6 +27,14 @@ public class OrderRequestDTO extends Inbound {
 		this.consumerId = consumerId;
 	}
 	
+	public Long getToProfileId() {
+		return toProfileId;
+	}
+
+	public void setToProfileId(Long toProfileId) {
+		this.toProfileId = toProfileId;
+	}
+
 	public List<OrderItemDTO> getItems() {
 		return items;
 	}

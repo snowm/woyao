@@ -36,9 +36,9 @@ public abstract class Inbound {
 		try {
 			switch (type) {
 			case "msg":
-				return JsonUtils.toObject(data, InMsgDTO.class);
+				return JsonUtils.toObject(data, ChatMsgDTO.class);
 			case "msgBlock":
-				return JsonUtils.toObject(data, InMsgBlockDTO.class);
+				return JsonUtils.toObject(data, ChatMsgBlockDTO.class);
 			case "ordReq":
 				return JsonUtils.toObject(data, OrderRequestDTO.class);
 			default:

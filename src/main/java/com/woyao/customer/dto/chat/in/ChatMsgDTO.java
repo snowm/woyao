@@ -1,15 +1,45 @@
 package com.woyao.customer.dto.chat.in;
 
-public class ChatMsgDTO extends Inbound {
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
-	private Long to;
+import com.woyao.customer.dto.chat.BlockDTO;
 
-	public Long getTo() {
-		return to;
+public class ChatMsgDTO extends BaseChatMsgDTO {
+
+	private BlockDTO block;
+
+	private int blockSize;
+
+	private Long productId;
+
+	public BlockDTO getBlock() {
+		return block;
 	}
 
-	public void setTo(Long to) {
-		this.to = to;
+	public void setBlock(BlockDTO block) {
+		this.block = block;
+	}
+
+	public int getBlockSize() {
+		return blockSize;
+	}
+
+	public void setBlockSize(int blockSize) {
+		this.blockSize = blockSize;
+	}
+
+	public Long getProductId() {
+		return productId;
+	}
+
+	public void setProductId(Long productId) {
+		this.productId = productId;
+	}
+
+	@Override
+	public String toString() {
+		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
 	}
 
 }

@@ -10,6 +10,8 @@ public class MsgProductDTO extends ProductDTO {
 	private static final long serialVersionUID = 2260608506954249912L;
 
 	private int holdTime;
+	
+	private String effectCode;
 
 	public int getHoldTime() {
 		return holdTime;
@@ -18,8 +20,16 @@ public class MsgProductDTO extends ProductDTO {
 	public void setHoldTime(int holdTime) {
 		this.holdTime = holdTime;
 	}
+	
+    public String getEffectCode() {
+		return effectCode;
+	}
 
-    @Override
+	public void setEffectCode(String effectCode) {
+		this.effectCode = effectCode;
+	}
+
+	@Override
     public int hashCode() {
         return HashCodeBuilder.reflectionHashCode(this);
     }

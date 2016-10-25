@@ -67,7 +67,9 @@ public interface IChatService {
 	 */
 	List<OutMsgDTO> listHistoryMsg(MsgQueryRequest request);
 
-	List<ChatPicDTO> getPicUrl(Long id,Long pageNumber,Integer pageSize);
+	List<ChatPicDTO> getPicUrl(Long id, Long pageNumber, Integer pageSize);
 	
 	void sendErrorMsg(String reason, WebSocketSession wsSession);
+	
+	void markMsgPayed(long id);
 }

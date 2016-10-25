@@ -8,7 +8,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 
 import com.woyao.customer.dto.chat.BlockDTO;
 
-public class EntireInMsg extends ChatMsgDTO {
+public class EntireInMsg extends BaseChatMsgDTO {
 
 	private Long productId;
 

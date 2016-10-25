@@ -28,6 +28,7 @@ import com.snowm.utils.query.PaginationBean;
 import com.woyao.customer.chat.MessageCacheOperator;
 import com.woyao.customer.chat.SessionUtils;
 import com.woyao.customer.chat.session.SessionContainer;
+import com.woyao.customer.disruptor.ChatMsgEventProducer;
 import com.woyao.customer.disruptor.LongEventProducer;
 import com.woyao.customer.dto.ChatPicDTO;
 import com.woyao.customer.dto.ChatRoomStatistics;
@@ -83,11 +84,14 @@ public class ChatServiceImpl implements IChatService {
 	@Resource(name = "submitOrderProducer")
 	private LongEventProducer submitOrderProducer;
 
+	@Resource(name = "chatMsgEventProducer")
+	private ChatMsgEventProducer chatMsgEventProducer;
+
 	@Resource(name = "profileWxService")
 	private IProfileWxService profileWxService;
-	
-//	@Resource(name = "submitOrderQueueService")
-//	private IOrderProcessQueue submitOrderQueueService;
+
+	// @Resource(name = "submitOrderQueueService")
+	// private IOrderProcessQueue submitOrderQueueService;
 
 	@Transactional(readOnly = true)
 	@Override
@@ -144,21 +148,19 @@ public class ChatServiceImpl implements IChatService {
 			}
 
 			Long chatRoomId = SessionUtils.getChatRoomId(wsSession);
-
 			ChatMsg savedMsg = this.saveMsg(inMsg, sender.getId(), chatRoomId);
-			long msgId = savedMsg.getId();
+
 			Long msgProductId = inMsg.getProductId();
-			Long orderId = null;
 			if (msgProductId != null) {
 				MsgProductDTO msgProductDTO = this.productService.getMsgProduct(msgProductId);
 				if (msgProductDTO != null) {
 					OrderDTO savedOrder = orderService.placeOrder(savedMsg);
-					orderId = savedOrder.getId();
+					Long orderId = savedOrder.getId();
 					this.submitOrderProducer.produce(orderId);
-//					this.submitOrderQueueService.putToQueue(orderId);
 					return;
 				}
 			}
+			long msgId = savedMsg.getId();
 
 			OutMsgDTO outbound = generateOutMsg(inMsg, sender, msgId);
 			if (inMsg.getTo() != null) {
@@ -197,44 +199,12 @@ public class ChatServiceImpl implements IChatService {
 		m.setFrom(senderId);
 		m.setProductId(msg.getProductId());
 		m.setClientMsgId(msg.getMsgId());
+		// if (msg.getProductId() != null) {
+		// m.setFree(false);
+		// m.setPayed(false);
+		// }
 		this.dao.save(m);
 		return m;
-	}
-
-	@Override
-	public void sendRoomMsg(Outbound outbound, Long chatRoomId, WebSocketSession wsSession) {
-		Set<WebSocketSession> targetSessions = this.getAllRoomChatterSessions(chatRoomId);
-		if (CollectionUtils.isEmpty(targetSessions)) {
-			// 很少出现，但是不排除本session也失效了，导致聊天室空，理论上自己的session和店铺的大屏端session会在
-			this.sendErrorMsg("聊天室是空的！", wsSession);
-			return;
-		}
-
-		this.sendOutMsg(outbound, targetSessions, wsSession);
-	}
-
-	@Override
-	public void sendPrivacyMsg(Outbound outbound, Long to, WebSocketSession wsSession) {
-		Set<WebSocketSession> targetSessions = this.getTargetChatterSessions(to);
-		if (CollectionUtils.isEmpty(targetSessions)) {
-			this.sendErrorMsg("对方已经下线！", wsSession);
-			return;
-		}
-		this.sendOutMsg(outbound, targetSessions, wsSession);
-	}
-
-	private void sendAckMsg(Outbound outbound, WebSocketSession wsSession) {
-		outbound.setCommand(OutboundCommand.SEND_MSG_ACK);
-		this.sendMsg(outbound, wsSession);
-	}
-
-	private void sendOutMsg(Outbound outbound, Set<WebSocketSession> targetSessions, WebSocketSession selfSession) {
-		for (WebSocketSession targetSession : targetSessions) {
-			if (!targetSession.equals(selfSession)) {
-				this.sendMsg(outbound, targetSession);
-			}
-		}
-		this.sendAckMsg(outbound, selfSession);
 	}
 
 	@Override
@@ -363,25 +333,61 @@ public class ChatServiceImpl implements IChatService {
 		return dtos;
 	}
 
-	private boolean sendMsg(Outbound outbound, WebSocketSession wsSession) {
-		if (wsSession == null) {
-			return false;
+	@Override
+	public void sendRoomMsg(Outbound outbound, Long chatRoomId, WebSocketSession wsSession) {
+		Set<WebSocketSession> targetSessions = this.getAllRoomChatterSessions(chatRoomId);
+		if (CollectionUtils.isEmpty(targetSessions)) {
+			// 很少出现，但是不排除本session也失效了，导致聊天室空，理论上自己的session和店铺的大屏端session会在
+			this.sendErrorMsg("聊天室是空的！", wsSession);
+			return;
 		}
-		try {
-			logger.debug("Send out: \n{}", outbound.getContent());
-			outbound.send(wsSession);
-			return true;
-		} catch (Exception e) {
-			String msg = String.format("Msg send to session: %s failure!\n%s", wsSession.getId(), outbound.getContent());
-			logger.error(msg, e);
+
+		this.sendOutMsg(outbound, targetSessions, wsSession);
+	}
+
+	@Override
+	public void sendPrivacyMsg(Outbound outbound, Long to, WebSocketSession wsSession) {
+		Set<WebSocketSession> targetSessions = this.getTargetChatterSessions(to);
+		if (CollectionUtils.isEmpty(targetSessions)) {
+			this.sendErrorMsg("对方已经下线！", wsSession);
+			return;
 		}
-		return false;
+		this.sendOutMsg(outbound, targetSessions, wsSession);
 	}
 
 	@Override
 	public void sendErrorMsg(String reason, WebSocketSession wsSession) {
 		ErrorOutbound error = new ErrorOutbound(reason);
 		this.sendMsg(error, wsSession);
+	}
+
+	@Transactional
+	@Override
+	public void markMsgPayed(long id) {
+		ChatMsg msg = this.dao.get(ChatMsg.class, id);
+		msg.setPayed(true);
+	}
+	
+	private void sendOutMsg(Outbound outbound, Set<WebSocketSession> targetSessions, WebSocketSession selfSession) {
+		for (WebSocketSession targetSession : targetSessions) {
+			if (!targetSession.equals(selfSession)) {
+				this.sendMsg(outbound, targetSession);
+			}
+		}
+		this.sendAckMsg(outbound, selfSession);
+	}
+
+	private void sendAckMsg(Outbound outbound, WebSocketSession wsSession) {
+		Outbound ackBound = (Outbound)outbound.clone();
+		ackBound.setCommand(OutboundCommand.SEND_MSG_ACK);
+		this.sendMsg(ackBound, wsSession);
+	}
+
+	private void sendMsg(Outbound outbound, WebSocketSession wsSession) {
+		if (wsSession == null) {
+			return;
+		}
+		this.chatMsgEventProducer.produce(wsSession.getId(), outbound);
 	}
 
 }

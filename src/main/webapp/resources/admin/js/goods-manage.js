@@ -221,8 +221,6 @@ define(['uploadfile'],function(){
         		            });
         				} 
             	}
-            
-            $(".mp").val("");
         },
         //新增
         add:function(){        	

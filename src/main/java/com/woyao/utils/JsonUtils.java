@@ -1,6 +1,7 @@
 package com.woyao.utils;
 
 import java.io.IOException;
+import java.util.TimeZone;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -14,6 +15,7 @@ public abstract class JsonUtils {
 	
 	static {
 		om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		om.setTimeZone(TimeZone.getDefault());
 	}
 
 	public static <T> String toString(T obj) throws JsonProcessingException {

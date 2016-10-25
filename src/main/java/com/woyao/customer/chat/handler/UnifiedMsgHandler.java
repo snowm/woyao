@@ -9,8 +9,8 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.WebSocketSession;
 
-import com.woyao.customer.dto.chat.in.InMsgBlockDTO;
-import com.woyao.customer.dto.chat.in.InMsgDTO;
+import com.woyao.customer.dto.chat.in.ChatMsgBlockDTO;
+import com.woyao.customer.dto.chat.in.ChatMsgDTO;
 import com.woyao.customer.dto.chat.in.Inbound;
 import com.woyao.customer.dto.chat.in.OrderRequestDTO;
 import com.woyao.customer.service.IChatService;
@@ -34,8 +34,8 @@ public class UnifiedMsgHandler implements MsgHandler<Inbound>, InitializingBean 
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		handlerMap.put(InMsgDTO.class, inChatMsgHandler);
-		handlerMap.put(InMsgBlockDTO.class, inChatMsgBlockHandler);
+		handlerMap.put(ChatMsgDTO.class, inChatMsgHandler);
+		handlerMap.put(ChatMsgBlockDTO.class, inChatMsgBlockHandler);
 		handlerMap.put(OrderRequestDTO.class, orderRequestMsgHandler);
 	}
 

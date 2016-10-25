@@ -17,14 +17,12 @@ import com.woyao.customer.dto.MsgProductDTO;
 import com.woyao.customer.dto.ProductDTO;
 import com.woyao.customer.service.IProductService;
 import com.woyao.dao.CommonDao;
-import com.woyao.domain.product.PaidMsgProductConfig;
+import com.woyao.domain.product.MsgProduct;
 import com.woyao.domain.product.Product;
 import com.woyao.domain.product.ProductType;
 
 @Component("productService")
 public class ProductServiceImpl implements IProductService {
-
-	private static final String HQL_GET_MSG_PROD_VIA_MSG_CONFIG_ID = "from PaidMsgProductConfig where product.id = :productId and logicalDelete.deleted = false";
 
 	private static final String HQL_LIST_PROD_SHOP = "from Product where shop.id = :shopId "
 			+ "and type = :type and logicalDelete.deleted = false";
@@ -37,24 +35,23 @@ public class ProductServiceImpl implements IProductService {
 	@Transactional(readOnly = true)
 	@Override
 	public MsgProductDTO getMsgProduct(long msgProductId) {
-		Map<String, Object> paramMap = new HashMap<>();
-		paramMap.put("productId", msgProductId);
-		PaidMsgProductConfig msgProductConfig = this.dao.queryUnique(HQL_GET_MSG_PROD_VIA_MSG_CONFIG_ID, paramMap);
-		if (msgProductConfig == null) {
+		MsgProduct prod = this.dao.get(MsgProduct.class, msgProductId);
+		if (prod == null) {
+			logger.debug("Can not find MsgProduct with ID:{}", msgProductId);
 			return null;
 		}
-		return transferToDTO(msgProductConfig);
+		return transferToDTO(prod);
 	}
 
 	@Transactional(readOnly = true)
 	@Override
 	public List<MsgProductDTO> listAllMsgProduct() {
-		List<PaidMsgProductConfig> ms = this.dao.query("from PaidMsgProductConfig where logicalDelete.deleted = false");
+		List<MsgProduct> mps = this.dao.query("from MsgProduct where logicalDelete.deleted = false");
 		List<MsgProductDTO> rs = new ArrayList<>();
-		if (ms == null || ms.isEmpty()) {
+		if (mps == null || mps.isEmpty()) {
 			return rs;
 		}
-		for (PaidMsgProductConfig mp : ms) {
+		for (MsgProduct mp : mps) {
 			rs.add(transferToDTO(mp));
 		}
 		return rs;
@@ -77,11 +74,10 @@ public class ProductServiceImpl implements IProductService {
 		return rs;
 	}
 
-	private MsgProductDTO transferToDTO(PaidMsgProductConfig msgProductConfig) {
+	private MsgProductDTO transferToDTO(MsgProduct msgProduct) {
 		MsgProductDTO dto = new MsgProductDTO();
-		BeanUtils.copyProperties(msgProductConfig.getProduct(), dto);
-		dto.setUnitPrice((float)msgProductConfig.getProduct().getUnitPrice() / 100);
-		dto.setHoldTime(msgProductConfig.getHoldTime());
+		BeanUtils.copyProperties(msgProduct, dto);
+		dto.setUnitPrice((float) msgProduct.getUnitPrice() / 100);
 		return dto;
 	}
 

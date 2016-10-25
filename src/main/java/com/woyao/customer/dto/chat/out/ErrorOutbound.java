@@ -8,6 +8,11 @@ public class ErrorOutbound extends Outbound {
 		super();
 		this.command = OutboundCommand.ERROR_MSG;
 	}
+
+	@Override
+	public Outbound newObject() {
+		return new ErrorOutbound();
+	}
 	
 	public ErrorOutbound(String reason) {
 		this();

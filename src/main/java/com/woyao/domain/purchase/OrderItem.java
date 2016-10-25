@@ -6,8 +6,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -17,7 +15,6 @@ import com.snowm.hibernate.ext.domain.DefaultModelImpl;
 import com.woyao.domain.product.Product;
 
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "ORDER_ITEM")
 @TableGenerator(name = "orderItemGenerator", table = "ID_GENERATOR", pkColumnName = "GEN_NAME", valueColumnName = "GEN_VALUE", pkColumnValue = "orderItem", allocationSize = 1, initialValue = 0)
 public class OrderItem extends DefaultModelImpl {
@@ -44,7 +41,7 @@ public class OrderItem extends DefaultModelImpl {
 	private int quantity = 1;
 
 	@Column(name = "TOTAL_FEE", nullable = false)
-	private long totalFee;
+	private int totalFee;
 
 	@Override
 	public Long getId() {
@@ -88,12 +85,16 @@ public class OrderItem extends DefaultModelImpl {
 		this.quantity = quantity;
 	}
 
-	public long getTotalFee() {
+	public int getTotalFee() {
 		return totalFee;
 	}
 
-	public void setTotalFee(long totalFee) {
+	public void setTotalFee(int totalFee) {
 		this.totalFee = totalFee;
+	}
+
+	public void calcTotalFee() {
+		this.totalFee = this.unitPrice * this.quantity;
 	}
 
 }

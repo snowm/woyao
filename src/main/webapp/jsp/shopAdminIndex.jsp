@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,7 +25,7 @@
     <div class="col-xs-10 text-right">
     	<img ms-attr-src="shopDetail.picUrl" alt="" style="width:25px;height:25px;position:relative;top:-0px;right:20px;border-radius:50%;">
     	<span ms-text="shopDetail.managerName">您好！</span><span>您好！</span>
-    	<form action="${logout_url}" method="POST" style="display:inline;cursor: pointer;">
+    	<form action="${logout_url}" id="logoutForm" method="POST" style="display:inline;cursor: pointer;">
 				<a style="color:white"> <span class="fui-power" style="font-size:20px;padding: 0 0 0 40px;position:relative;top:4px;"></span><input  style="text-align: left;background:rgba(0,0,0,0);border:0;outline:0;color:#94989d" type='submit' value="退出"></a>				                   		
 		</form>
        

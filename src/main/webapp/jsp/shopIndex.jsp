@@ -221,10 +221,10 @@
             	  changeBlock.find('.msg-table-td').html(allMsgList[allMsgIndex].text).attr('style','font-size:.4rem');
                   calc(changeBlock.find('.msg-table-td')[0]);
               }else if(textLength >= 40 && textLength <= 50){
-            	  changeBlock.find('.msg-table-td').html(allMsgList[allMsgIndex].text).attr('style','font-size:.18rem');
+            	  changeBlock.find('.msg-table-td').html(allMsgList[allMsgIndex].text).attr('style','font-size:.25rem');
                   calc(changeBlock.find('.msg-table-td')[0]);
               }else if(textLength < 5){
-            	  changeBlock.find('.msg-table-td').html(allMsgList[allMsgIndex].text).attr('style','font-size:15rem');
+            	  changeBlock.find('.msg-table-td').html(allMsgList[allMsgIndex].text).attr('style','font-size:.8rem');
                   calc(changeBlock.find('.msg-table-td')[0]);
               }
               changeBlock.find('.msg-name-text').html(allMsgList[allMsgIndex].sender.nickname);

@@ -19,7 +19,7 @@ public class OrderDTO implements Serializable {
 
 	private Long id;
 
-	private Long version;
+	private Integer version;
 
 	private String orderNo;
 
@@ -48,11 +48,11 @@ public class OrderDTO implements Serializable {
 		this.id = id;
 	}
 
-	public Long getVersion() {
+	public Integer getVersion() {
 		return version;
 	}
 
-	public void setVersion(Long version) {
+	public void setVersion(Integer version) {
 		this.version = version;
 	}
 

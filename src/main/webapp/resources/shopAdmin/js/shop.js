@@ -54,6 +54,9 @@ define(['uploadfile'],function(){
     				if(shopController.imgViewSrc=="/admin/resources/images/photos/upload1.png"){
     					alert("请选择图片");
     					return;
+    				}else if(shopController.formData.picId == ""){
+    					alert("请上传图片");
+    					return;
     				}else if(shopName ==""){
     					alert("请输入正确商店名称");
     					return;
@@ -120,15 +123,16 @@ define(['uploadfile'],function(){
   	      		  success: function(data){
   	      			  console.log(data);
   	      			if(data == null){
-  	      				alert('输入的文本框为空');
+  	      				alert('修改失败');
   	      			} else if(data == 0){
   	      				alert('修改密码成功');
+  	      				$("#logoutForm").submit();
   	      			 }else if(data == 1){
   	      				alert('输入的原密码不匹配');
   	      			 } else if(data == 2){
   	      				alert('两次输入的密码不一致');
   	      			 } 
-  	      			window.location.reload();
+  	      			
   	      		  },
   	      		  dataType: 'json'
   	      		});
@@ -159,7 +163,6 @@ define(['uploadfile'],function(){
     	    	$("#uploadFileIpt").click();
     	    }
     	});
-    	
     	avalon.scan(); 
     	function ShopDetail(){
     		 
@@ -205,6 +208,8 @@ define(['uploadfile'],function(){
                     var img = new Image();
                     img.src = result;
                     shopController.imgViewSrc = result;
+                    shopController.formData.picId="";
+                    
                 };
                 reader.readAsDataURL(file);
             });
@@ -280,12 +285,12 @@ define(['uploadfile'],function(){
         
         
     	function initData(){
-            console.log("load business-manage");
+            console.log("load shop");
     	}
     	
-    	//initData();
+    	initData();
     	
-    	return business = {
+    	return shop = {
     			init:initData,
     	}
     	

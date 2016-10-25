@@ -215,6 +215,10 @@ public class SessionContainer {
 			lock.readLock().unlock();
 		}
 	}
+	
+	public WebSocketSession getSession(String sessionId) {
+		return this.wsSessionMap.get(sessionId);
+	}
 
 	public Set<WebSocketSession> getWsSessionOfRoom(long chatRoomId) {
 		Set<WebSocketSession> rs = new HashSet<>();

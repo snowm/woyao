@@ -1,7 +1,11 @@
 package com.woyao.customer.disruptor;
 
-public class LongEvent {
+import java.io.Serializable;
 
+public class LongEvent implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+	
 	private long value;
 
 	public LongEvent() {
