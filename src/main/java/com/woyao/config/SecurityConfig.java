@@ -208,7 +208,7 @@ public class SecurityConfig {
 			http.authorizeRequests()
 				.antMatchers("/login.jsp**", "/login**").anonymous()
 				.antMatchers("/logout**").authenticated()
-				.antMatchers("/admin/**").hasAnyRole("SUPER", "ADMIN", "S_ADMIN")
+				.antMatchers("/admin/**").hasAnyRole("SUPER", "ADMIN")
 				.antMatchers("/shop/admin/**").hasAnyRole("S_ADMIN")
 				.anyRequest().denyAll();
 		}
