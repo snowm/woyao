@@ -1,12 +1,15 @@
 package com.woyao.admin.service.impl;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.hibernate.Session;
+import org.hibernate.transform.Transformers;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -18,6 +21,8 @@ import com.woyao.admin.dto.product.OrderDTO;
 import com.woyao.admin.dto.product.ProductDTO;
 import com.woyao.admin.dto.product.QueryOrderItemRequestDTO;
 import com.woyao.admin.service.IOrderItemAdminService;
+import com.woyao.admin.shop.dto.ShopOrder;
+import com.woyao.admin.shop.dto.ShopOrderDTO;
 import com.woyao.dao.CommonDao;
 import com.woyao.domain.chat.ChatMsg;
 import com.woyao.domain.product.Product;
@@ -191,9 +196,54 @@ public class OrderItemServiceImpl extends AbstractAdminService<Order, OrderDTO> 
 		return dto;
 	}
 
-	
-	
-	
+	/**
+	 * 
+	 * @param shopId
+	 * @return 年月日的统计金额数
+	 */
+	@SuppressWarnings("unchecked")
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true, isolation = Isolation.READ_UNCOMMITTED)	
+	public ShopOrderDTO getYearOrder(Long shopId){
+		Session session=this.dao.getSessionFactory().openSession();
+		Calendar cb=Calendar.getInstance();//获取系统当前时间
+		Integer year=cb.get(cb.YEAR);//获取年
+		Integer month=cb.get(cb.MONTH)+1;//获取月
+		Integer day=cb.get(cb.DATE);//获取日
+		String sql="select year(p.CREATION_DATE) yearOrder,month(p.CREATION_DATE) monthOrder,"
+				+ "day(p.CREATION_DATE) dayOrder,"
+				+ "sum(p.TOTAL_FEE) totalOrder "
+				+ "from purchase_order p where p.id in "
+				+ "(select DISTINCT t.ORDER_ID from order_item t where t.PRODUCT_ID "
+				+ "in(select id from product where shop_id=?)"
+				+ ") and year(p.CREATION_DATE)=? group by year(p.CREATION_DATE),month(p.CREATION_DATE),day(p.CREATION_DATE)";
+		List<ShopOrder> lists=session.createSQLQuery(sql).setLong(0, shopId).setInteger(1, year).setResultTransformer(Transformers.aliasToBean(ShopOrder.class)).list();
+		ShopOrderDTO dto=new ShopOrderDTO();
+		int ytotle=0;//年总金额
+		int mtotle=0;//月总金额
+		int dtotle=0;//日总金额
+		for (ShopOrder shopOrder : lists) {
+			if(year.equals(shopOrder.getYearOrder())){				
+				ytotle+=shopOrder.getTotalOrder().intValue();
+			}
+		}
+		for (ShopOrder shopOrder : lists) {	
+			if(month.equals(shopOrder.getMonthOrder())){
+				mtotle+=Integer.parseInt(shopOrder.getTotalOrder().toString());
+			}
+		}
+		for (ShopOrder shopOrder : lists) {	
+			if(day.equals(shopOrder.getDayOrder())){
+				dtotle+=Integer.parseInt(shopOrder.getTotalOrder().toString());
+			}
+		}
+		dto.setYearOrder(year);
+		dto.setMonthOrder(month);
+		dto.setDayOrder(day);
+		dto.setYearTotal(ytotle);
+		dto.setMonthTotal(mtotle);
+		dto.setDayTotal(dtotle);
+		return dto;
+	}
 	
 	
 	
