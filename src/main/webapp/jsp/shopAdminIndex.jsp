@@ -44,7 +44,7 @@
         <li>
         	<a style="width:100%;height:100%;display:block" href="#!/order" ms-class-avtive="nav=='order'" ms-click="navtab('order')">
 	            <i class="fui-search"></i>
-	            <p>订单查询</p>
+	            <p>订单查询</p> 
 	        </a>
         </li>
         <li>

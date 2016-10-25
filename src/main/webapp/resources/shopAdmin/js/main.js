@@ -112,7 +112,7 @@ require(['/shopAdmin/resources/js/common.js','mmRouter',"domReady!"],function(mm
         }else if(pagepath == '_goods' && loadedFlag){
         	goods.init();
         }
-//        else if(pagepath == '_home' && loadedFlag){
+//        else if(pagepath == '_home' && loadedFlag){ 
 //        	home.init();
 //        }
     }
