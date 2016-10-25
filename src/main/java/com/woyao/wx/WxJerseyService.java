@@ -28,6 +28,7 @@ import com.snowm.utils.encrypt.SHA1Encrypt;
 import com.woyao.GlobalConfig;
 import com.woyao.customer.dto.MsgProductDTO;
 import com.woyao.customer.dto.OrderDTO;
+import com.woyao.customer.dto.ProfileDTO;
 import com.woyao.customer.dto.chat.out.OutMsgDTO;
 import com.woyao.customer.dto.chat.out.OutboundCommand;
 import com.woyao.customer.service.IChatService;
@@ -128,6 +129,10 @@ public class WxJerseyService {
 					outbound.setText(msg.getText());
 					outbound.setPic(msg.getPicURL());
 					outbound.setSender(this.chatService.getChatter(orderDTO.getConsumer().getId()));
+					ProfileDTO toProfile = orderDTO.getToProfile();
+					if (toProfile != null) {
+						outbound.setTo(this.chatService.getChatter(toProfile.getId()));
+					}
 					outbound.setSentDate(new Date());
 					outbound.setCreationDate(msg.getModification().getCreationDate());
 					MsgProductDTO msgProduct = productService.getMsgProduct(msg.getProductId());

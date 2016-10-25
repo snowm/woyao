@@ -10,6 +10,8 @@ public class OutMsgDTO extends Outbound {
 
 	private ProfileDTO sender;
 
+	private ProfileDTO to;
+
 	private String text;
 
 	private String pic;
@@ -39,6 +41,14 @@ public class OutMsgDTO extends Outbound {
 
 	public void setSender(ProfileDTO sender) {
 		this.sender = sender;
+	}
+
+	public ProfileDTO getTo() {
+		return to;
+	}
+
+	public void setTo(ProfileDTO to) {
+		this.to = to;
 	}
 
 	public String getText() {

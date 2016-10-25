@@ -104,7 +104,7 @@ public class OrderServiceImpl implements IOrderService {
 		order.setOrderNo(orderNo);
 		order.setConsumer(consumer);
 		order.setSpbillCreateIp(spbillCreateIp);
-		order.setToProfile(consumer);
+		order.setToProfile(toProfile);
 		order.setTotalFee(totalFee);
 		order.setStatus(OrderStatus.SAVED);
 		if (msgId != null) {
