@@ -111,9 +111,10 @@ require(['/shopAdmin/resources/js/common.js','mmRouter',"domReady!"],function(mm
         	shop.init();
         }else if(pagepath == '_goods' && loadedFlag){
         	goods.init();
-        }else if(pagepath == '_home' && loadedFlag){
-        	home.init();
         }
+//        else if(pagepath == '_home' && loadedFlag){
+//        	home.init();
+//        }
     }
  
     avalon.router.get("/order", callback);

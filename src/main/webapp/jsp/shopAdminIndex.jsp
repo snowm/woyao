@@ -23,7 +23,7 @@
     	<img src="/shopAdmin/resources/img/luokeW.png" style="position:relative;display:block;height:30px;margin:10px" alt="">
     </div>
     <div class="col-xs-10 text-right">
-    	<img ms-attr-src="shopDetail.picUrl" alt="" style="width:25px;height:25px;position:relative;top:-0px;right:20px;border-radius:50%;">
+    	<img ms-attr-src="shopDetail.picUrl" alt="" style="width:25px;height:25px;position:relative;top:-5px;right:20px;border-radius:50%;">
     	<span ms-text="shopDetail.managerName">您好！</span><span>您好！</span>
     	<form action="${logout_url}" id="logoutForm" method="POST" style="display:inline;cursor: pointer;">
 				<a style="color:white"> <span class="fui-power" style="font-size:20px;padding: 0 0 0 40px;position:relative;top:4px;"></span><input  style="text-align: left;background:rgba(0,0,0,0);border:0;outline:0;color:#94989d" type='submit' value="退出"></a>				                   		
@@ -53,12 +53,12 @@
 	            <p>消息查询</p>
 	        </a>
         </li>
-        <li>
+       <!--  <li>
         	<a style="width:100%;height:100%;display:block" href="#!/goods" ms-class-avtive="nav=='goods'" ms-click="navtab('goods')">
 	            <i class="fui-calendar-solid"></i>
 	            <p>商品管理</p>
 	        </a>
-        </li>
+        </li> -->
         <li>
        		<a style="width:100%;height:100%;display:block" href="#!/shop" ms-class-avtive="nav=='shop'" ms-click="navtab('shop')">
             <i class="fui-star-2"></i>

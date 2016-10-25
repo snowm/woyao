@@ -150,7 +150,11 @@
         .chooseShopItem{
 		background-color: #8ab0fa;
 		color: white;
-		}       
+		}   
+		.m-text{
+			font-size:16px !important;
+			font-weight: 600 !important;			
+		}    
 
 
 .m-form-input{
