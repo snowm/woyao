@@ -17,6 +17,7 @@ import com.woyao.admin.dto.product.OrderDTO;
 import com.woyao.admin.dto.product.QueryOrderItemRequestDTO;
 import com.woyao.admin.service.IAdminService;
 import com.woyao.admin.service.IOrderItemAdminService;
+import com.woyao.admin.shop.dto.ShopOrderDTO;
 import com.woyao.domain.purchase.Order;
 
 @Controller
@@ -43,6 +44,13 @@ public class OrderItemController extends AbstractBaseController<Order, OrderDTO>
 	public OrderDTO queryitem(QueryOrderItemRequestDTO request) {
 		OrderDTO result = this.service.queryItem(request);
 		return result;
+	}
+	
+	@RequestMapping(value = { "/main" }, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@ResponseBody
+	public ShopOrderDTO queryitem() {
+		Long shopId=shopRoot.getCurrentShop().getId();	
+		return this.service.getYearOrder(shopId);
 	}
 
 	@RequestMapping(value = { "", "/" }, method = { RequestMethod.PUT,
