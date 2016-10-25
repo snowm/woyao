@@ -93,77 +93,48 @@
 	    </div><!-- signin -->
 	  
 	</section>
-	
-        <!-- 
-    		 <div ms-if="password"> 
-     			<h4 class="panel-title m-line">密码修改</h4>
-		      <div class="row">
-                <div class="col-sm-4">
-                    <div class="form-group">
-                        <label class="control-label">原密码</label>
-                        <input type="password" name="description" class="form-control" placeholder="原密码" ms-duplex="formData.oldPwd">
-                    </div>
-                </div>col-sm-6
-                <div class="col-sm-4">
-                    <div class="form-group">
-                        <label class="control-label">新密码</label>
-                        <input type="password" name="latitude" class="form-control latitude" placeholder="新密码" ms-duplex="formData.newPwd">
-                    </div>
-                </div>col-sm-6
-                <div class="col-sm-4">
-                    <div class="form-group">
-                        <label class="control-label">确认密码</label>
-                        <input type="password" name="latitude" class="form-control latitude" placeholder="确认密码" ms-duplex="formData.againPwd">
-                    </div>
-                </div>col-sm-6
-            	</div>row
-            <div class="text-right">	            
-	            <button class="btn btn-success"ms-click="make">确认</button>
-        	</div>
-			</div>  -->
-     
 	  <div class="" ms-if="formShow">        
         <div class="panel-body">
             <div class="panel panel-default">
 		        <div class="panel-body">
 		            <h4 class="panel-title m-line" style="border-bottom: 1px solid #dadada;padding-bottom: 10px;">基本信息</h4>
-		            <div class="form-group col-xs-12">
+		            <div class="form-group col-xs-12" style="padding: 25px 0 0 50px;">
 		                <div class='col-xs-4'>
-		                    <label class="control-label col-xs-6 text-right">商店图片:</label>
-		                    <img class="media-object thumbnail center-block" ms-attr-src="imgViewSrc" style="height:50px;width:50px;" alt="">
+		                    <label class="col-xs-6 text-left">商店图片:</label>
+		                    <img class="media-object thumbnail" ms-attr-src="imgViewSrc" style="height:50px;width:50px;" alt="">
 		                    <!-- <div class='col-xs-6 text-left'>
 		                        <p class="m-text" ms-text='shopDetail.orderNo'></p>
 		                    </div> -->
 		                </div>
 		                <div class='col-xs-4'>
-		                    <label class="control-label col-xs-6 text-right">商店名称:</label>
+		                    <label class="col-xs-6 text-left">商店名称:</label>
 		                    <div class='col-xs-6 text-left'>
 		                        <p class="m-text" ms-text='shopDetail.name'></p>
 		                    </div>
 		                </div>
 		                <div class='col-xs-4'>
-		                    <label class="control-label col-xs-6 text-right">描述信息：</label>
+		                    <label class="col-xs-6 text-left">描述信息:</label>
 		                    <div class='col-xs-6 text-left'>
 		                        <p class="m-text" ms-text='shopDetail.description'></p>
 		                    </div>
 		                </div>
 		            </div>
-					<h4 class="panel-title m-line" style="border-bottom: 1px solid #dadada;padding-bottom: 10px;">地理位置：</h4>
-		            <div class="form-group col-xs-12">
+					<h4 class="panel-title m-line" style="border-bottom: 1px solid #dadada;padding-bottom: 10px;">地理位置:</h4>
+		            <div class="form-group col-xs-12" style="padding: 25px 0 0 50px;">
 		                <div class='col-xs-4'>
-		                    <label class="control-label col-xs-6 text-right">地址：：</label>
+		                    <label class="col-xs-6 text-left">地址:</label>
 		                    <div class='col-xs-6 text-left'>
 		                        <p class="m-text" ms-text='shopDetail.address'></p>
 		                    </div>
 		                </div>
 		                <div class='col-xs-4'>
-		                    <label class="control-label col-xs-6 text-right">经度：</label>
+		                    <label class="col-xs-6 text-left">经度:</label>
 		                    <div class='col-xs-6 text-left'>
 		                        <p class="m-text" ms-text='shopDetail.latitude'></p>
 		                    </div>
 		                </div>
 		                <div class='col-xs-4'>
-		                    <label class="control-label col-xs-6 text-right">纬度：</label>
+		                    <label class="col-xs-6 text-left">纬度:</label>
 		                    <div class='col-xs-6 text-left'>
 		                        <p class="m-text" ms-text='shopDetail.longitude'></p>
 		                    </div>
@@ -171,25 +142,25 @@
 		            </div>
 		
 		            <h4 class="panel-title m-line" style="border-bottom: 1px solid #dadada;padding-bottom: 10px;">时间信息</h4>
-		            <div class="form-group col-xs-12">
+		            <div class="form-group col-xs-12" style="padding: 25px 0 0 50px;">
 		                <div class='col-xs-4'>
-		                    <label class="control-label col-xs-6 text-right">创建时间：</label>
+		                    <label class="col-xs-6 text-left">创建时间:</label>
 		                    <div class='col-xs-6 text-left'>
-		                        <p class="m-text" ms-text='shopDetail.creationDate'></p>
+		                        <p  ms-text='shopDetail.creationDate'></p>
 		                    </div>
 		                </div>
 		                <div class='col-xs-4'>
-		                    <label class="control-label col-xs-6 text-right">最后操作时间：</label>
+		                    <label class="col-xs-6 text-left">最后操作时间:</label>
 		                    <div class='col-xs-6 text-left'>
-		                        <p class="m-text" ms-text='shopDetail.lastModifiedDate'></p>
+		                        <p  ms-text='shopDetail.lastModifiedDate'></p>
 		                    </div>
 		                </div>
 		            </div>
 		
 		            <h4 class="panel-title m-line" style="border-bottom: 1px solid #dadada;padding-bottom: 10px;">管理员信息</h4>
-		            <div class="form-group col-xs-12">
+		            <div class="form-group col-xs-12" style="padding: 25px 0 0 50px;">
 		                <div class='col-xs-4'>
-		                    <label class="control-label col-xs-6 text-right">管理员名称：</label>
+		                    <label class="col-xs-6 text-left">管理员名称:</label>
 		                    <div class='col-xs-6 text-left'>
 		                        <p class="m-text" ms-text='shopDetail.managerName'></p>
 		                    </div>

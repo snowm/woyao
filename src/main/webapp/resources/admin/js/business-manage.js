@@ -149,7 +149,7 @@ define(['uploadfile'],function(){
     				if(shopController.imgViewSrc=="/admin/resources/images/photos/upload1.png"){
     					alert("请选择图片");
     					return;
-    				}else if(shopController.uploadbtn ==true){
+    				}else if(shopController.formData.picId == ''){
     					alert("请上传图片");
     					return;
     				}else if(shopName ==""){
@@ -262,6 +262,7 @@ define(['uploadfile'],function(){
                     var img = new Image();
                     img.src = result;
                     shopController.imgViewSrc = result;
+                    shopController.formData.picId = '';
                 };
                 reader.readAsDataURL(file);
             });
