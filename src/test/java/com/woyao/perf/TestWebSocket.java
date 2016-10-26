@@ -37,7 +37,7 @@ public class TestWebSocket {
 	private String testNode = "1";
 
 	public TestWebSocket() throws URISyntaxException {
-		uri = new URI("ws", null, "localhost", 8080, "/mobile/chat/socket", null, null);
+		uri = new URI("ws", null, "luoke30.com", 80, "/mobile/chat/socket", null, null);
 	}
 
 	public static void main(String[] args) throws URISyntaxException {
