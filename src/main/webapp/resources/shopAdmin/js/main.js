@@ -17,6 +17,9 @@ require.config({
         'datapicker.cn':['./js/plugin/datapicker.cn'],
         'bootstrap': ['./js/plugin/bootstrap.min'],
         'uploadfile': ['./js/plugin/uploadfile'],
+        'highcharts':['./js/plugin/highcharts'],
+        'exporting':['./js/plugin/exporting'],
+        'dark-unica':['./js/plugin/dark-unica']
 //        'jquery-ui': ['./js/plugin/jquery-ui-1.10.3.min'],
 //        'jquery-migrate': ['./js/plugin/jquery-migrate-1.2.1.min'],
         
@@ -38,6 +41,9 @@ require.config({
 //        "toggles":["jquery"],
         "bootstrap":["jquery"],
         "flatUI":["jquery"],
+        "highcharts":["jquery"],
+        "exporting":["jquery","highcharts"],
+        "dark-unica":["jquery","highcharts"],
 //        "application":["jquery"],
     },
     priority: ['text']
@@ -50,7 +56,6 @@ require(['/shopAdmin/resources/js/common.js','mmRouter',"domReady!"],function(mm
         $id: "root",
         nav:"home",
         shopDetail:{},
-        winMoney:{},
         content: "/shopAdmin/resources/html/home.html",
         navtab:function(tab){
         	if(tab == 'home'){
@@ -116,9 +121,9 @@ require(['/shopAdmin/resources/js/common.js','mmRouter',"domReady!"],function(mm
         }else if(pagepath == '_goods' && loadedFlag){
         	goods.init();
         }
-//        else if(pagepath == '_home' && loadedFlag){ 
-//        	home.init();
-//        }
+        else if(pagepath == '_home' && loadedFlag){ 
+        	home.init();
+        }
     }
  
     avalon.router.get("/order", callback);
@@ -127,7 +132,7 @@ require(['/shopAdmin/resources/js/common.js','mmRouter',"domReady!"],function(mm
     avalon.router.get("/shop", callback);
     avalon.router.get("/goods", callback);
     avalon.router.get("/home", callback);
-    avalon.router.get("/", callback);
+//    avalon.router.get("/", callback);
 
     avalon.history.start({
         basepath: "/avalon"
@@ -146,6 +151,6 @@ require(['/shopAdmin/resources/js/common.js','mmRouter',"domReady!"],function(mm
     		  },
     		  dataType: 'json'
     		});
-}
+    }
     
 });
