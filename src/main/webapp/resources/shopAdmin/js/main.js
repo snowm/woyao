@@ -50,6 +50,7 @@ require(['/shopAdmin/resources/js/common.js','mmRouter',"domReady!"],function(mm
         $id: "root",
         nav:"home",
         shopDetail:{},
+        winMoney:{},
         content: "/shopAdmin/resources/html/home.html",
         navtab:function(tab){
         	if(tab == 'home'){
@@ -129,6 +130,7 @@ require(['/shopAdmin/resources/js/common.js','mmRouter',"domReady!"],function(mm
     });
     
     avalon.scan();
+    
     function ShopDetail(){
 		 
     	$.ajax({
