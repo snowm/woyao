@@ -1,5 +1,8 @@
 package com.woyao.admin.shop.dto;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ShopOrderDTO {
 	private Integer yearOrder;//年
 	
@@ -12,6 +15,16 @@ public class ShopOrderDTO {
 	private Integer monthTotal;//月金额
 	
 	private Integer dayTotal;//日金额
+	
+	private List<ShopOrder> ShopOrders=new ArrayList<>();
+	
+	public List<ShopOrder> getShopOrders() {
+		return ShopOrders;
+	}
+
+	public void setShopOrders(List<ShopOrder> shopOrders) {
+		ShopOrders = shopOrders;
+	}
 
 	public Integer getYearOrder() {
 		return yearOrder;

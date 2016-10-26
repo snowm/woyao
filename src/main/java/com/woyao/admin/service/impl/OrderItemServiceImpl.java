@@ -215,7 +215,7 @@ public class OrderItemServiceImpl extends AbstractAdminService<Order, OrderDTO> 
 				+ "from purchase_order p where p.id in "
 				+ "(select DISTINCT t.ORDER_ID from order_item t where t.PRODUCT_ID "
 				+ "in(select id from product where shop_id=?)"
-				+ ") and year(p.CREATION_DATE)=? group by year(p.CREATION_DATE),month(p.CREATION_DATE),day(p.CREATION_DATE)";
+				+ ") and year(p.CREATION_DATE)=? and p.ORDER_STATUS!=400 group by year(p.CREATION_DATE),month(p.CREATION_DATE),day(p.CREATION_DATE)";
 		List<ShopOrder> lists=session.createSQLQuery(sql).setLong(0, shopId).setInteger(1, year).setResultTransformer(Transformers.aliasToBean(ShopOrder.class)).list();
 		ShopOrderDTO dto=new ShopOrderDTO();
 		int ytotle=0;//年总金额
@@ -225,13 +225,9 @@ public class OrderItemServiceImpl extends AbstractAdminService<Order, OrderDTO> 
 			if(year.equals(shopOrder.getYearOrder())){				
 				ytotle+=shopOrder.getTotalOrder().intValue();
 			}
-		}
-		for (ShopOrder shopOrder : lists) {	
 			if(month.equals(shopOrder.getMonthOrder())){
 				mtotle+=Integer.parseInt(shopOrder.getTotalOrder().toString());
 			}
-		}
-		for (ShopOrder shopOrder : lists) {	
 			if(day.equals(shopOrder.getDayOrder())){
 				dtotle+=Integer.parseInt(shopOrder.getTotalOrder().toString());
 			}
@@ -242,6 +238,7 @@ public class OrderItemServiceImpl extends AbstractAdminService<Order, OrderDTO> 
 		dto.setYearTotal(ytotle);
 		dto.setMonthTotal(mtotle);
 		dto.setDayTotal(dtotle);
+		dto.setShopOrders(lists);
 		return dto;
 	}
 	
