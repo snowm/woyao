@@ -6,20 +6,18 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.TableGenerator;
 
 import com.snowm.hibernate.ext.domain.DefaultModelImpl;
 
 @Entity
 @Table(name = "CHAT_MSG")
-@TableGenerator(name = "chatMsgGenerator", table = "ID_GENERATOR", pkColumnName = "GEN_NAME", valueColumnName = "GEN_VALUE", pkColumnValue = "chatMsg", allocationSize = 1, initialValue = 0)
 public class ChatMsg extends DefaultModelImpl {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@Column(name = "ID")
-	@GeneratedValue(strategy = GenerationType.TABLE, generator = "chatMsgGenerator")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@Column(name = "ROOM_ID")

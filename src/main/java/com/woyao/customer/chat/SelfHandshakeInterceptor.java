@@ -1,13 +1,18 @@
 package com.woyao.customer.chat;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.locks.ReentrantLock;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
@@ -15,18 +20,39 @@ import org.springframework.http.server.ServletServerHttpRequest;
 import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor;
 
+import com.snowm.security.profile.domain.Gender;
 import com.woyao.customer.chat.session.SessionContainer;
 import com.woyao.customer.dto.ProfileDTO;
 import com.woyao.customer.dto.chat.in.EntireInMsg;
+import com.woyao.customer.service.IProfileWxService;
+import com.woyao.wx.dto.GetUserInfoResponse;
 
 public class SelfHandshakeInterceptor extends HttpSessionHandshakeInterceptor {
 
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
+	private boolean perfTestMode = false;
+
+	@Resource(name = "profileWxService")
+	private IProfileWxService profileWxService;
+
 	public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler,
 			Map<String, Object> attributes) throws Exception {
 		HttpSession session = this.getSession(request);
 		if (session == null) {
+			if (this.perfTestMode) {
+				ProfileDTO dto = this.generateMockProfile();
+				attributes.put(SessionContainer.SESSION_ATTR_HTTPSESSION_ID, "testSession");
+				attributes.put(SessionContainer.SESSION_ATTR_ISDAPIN, false);
+				attributes.put(SessionContainer.SESSION_ATTR_CHATTER, dto);
+				long chatRoomId = this.getRoomId();
+				attributes.put(SessionContainer.SESSION_ATTR_CHATROOM_ID, chatRoomId);
+				attributes.put(SessionContainer.SESSION_ATTR_SHOP_ID, chatRoomId);
+				attributes.put(SessionContainer.SESSION_ATTR_REMOTE_IP, "127.0.0.1");
+				attributes.put(SessionContainer.SESSION_ATTR_MSG_CACHE_LOCK, new ReentrantLock());
+				attributes.put(SessionContainer.SESSION_ATTR_MSG_CACHE, new HashMap<Long, EntireInMsg>());
+				return true;
+			}
 			logger.error("While do the handShake for websocket, http session does not exist!");
 			return false;
 		}
@@ -140,4 +166,68 @@ public class SelfHandshakeInterceptor extends HttpSessionHandshakeInterceptor {
 		}
 	}
 
+	public void setPerfTestMode(boolean perfTestMode) {
+		this.perfTestMode = perfTestMode;
+	}
+
+	private ProfileDTO generateMockProfile() {
+		GetUserInfoResponse userInfoResponse = this.createMockResponse();
+		return this.saveChatterInfo(userInfoResponse);
+	}
+
+	private ProfileDTO saveChatterInfo(GetUserInfoResponse userInfoResponse) {
+		// 将用户信息入库
+		ProfileDTO dto = new ProfileDTO();
+		BeanUtils.copyProperties(userInfoResponse, dto);
+		dto.setGender(this.parseGender(userInfoResponse.getSex()));
+
+		dto = this.profileWxService.saveProfileInfo(dto);
+		dto.setLoginDate(new Date());
+		return dto;
+	}
+
+	private Gender parseGender(String sex) {
+		if (sex == null) {
+			return Gender.OTHER;
+		}
+		switch (sex) {
+		case "2":
+			return Gender.FEMALE;
+		case "1":
+			return Gender.MALE;
+		default:
+			return Gender.OTHER;
+		}
+	}
+
+	// mock code
+	private AtomicLong seqGenerator = new AtomicLong(0L);
+
+	public GetUserInfoResponse createMockResponse() {
+		long seq = seqGenerator.decrementAndGet();
+		GetUserInfoResponse resp = new GetUserInfoResponse();
+		String id = UUID.randomUUID().toString();
+		resp.setOpenId("openId[" + id + "]");
+		resp.setNickname("昵称[" + id + "]");
+		resp.setCity("城市[" + seq + "]");
+		resp.setCountry("国家[" + seq + "]");
+		resp.setHeadImg("/pic/head/" + ((Math.abs(seq) % 4) + 1) + ".jpg");
+		String gender = "2";
+		if ((seq % 2) == 0) {
+			gender = "1";
+		}
+		resp.setSex(gender);
+		return resp;
+	}
+
+	AtomicLong rIdGen = new AtomicLong(1L);
+
+	private long getRoomId() {
+		long id = rIdGen.getAndIncrement();
+		id = id % 20L;
+		if (id < 1L) {
+			return -20L;
+		}
+		return -id;
+	}
 }

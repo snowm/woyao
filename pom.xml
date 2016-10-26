@@ -257,6 +257,12 @@
 			<artifactId>jedis</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.eclipse.jetty.websocket</groupId>
+			<artifactId>websocket-client</artifactId>
+			<version>9.3.12.v20160915</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 	<build>
 		<resources>
@@ -342,7 +348,7 @@
 						</systemProperty>
 						<systemProperty>
 							<name>log.level</name>
-							<value>debug</value>
+							<value>DEBUG</value>
 						</systemProperty>
 						<systemProperty>
 							<name>file.encoding</name>

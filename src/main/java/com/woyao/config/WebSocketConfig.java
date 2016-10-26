@@ -19,11 +19,15 @@ public class WebSocketConfig implements WebSocketConfigurer {
 
 	@Value("${websocket.allowedOrigins}")
 	private String allowedOrigins;
+	
+	@Value("${ws.perf.mode}") 
+	private boolean perfTestMode;
 
 	@Bean
 	public SelfHandshakeInterceptor handshakeInterceptor() {
 		SelfHandshakeInterceptor handshake = new SelfHandshakeInterceptor();
 		handshake.setCreateSession(false);
+		handshake.setPerfTestMode(perfTestMode);
 		return handshake;
 	}
 

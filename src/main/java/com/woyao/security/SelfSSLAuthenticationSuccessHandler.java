@@ -42,6 +42,7 @@ public class SelfSSLAuthenticationSuccessHandler extends SSLAuthenticationSucces
 			ChatRoomDTO room = this.mobileService.getChatRoom(shopId);
 			long roomId = room.getId();
 			session.setAttribute(SessionContainer.SESSION_ATTR_CHATROOM_ID, roomId);
+			session.setAttribute(SessionContainer.SESSION_ATTR_SHOP_ID, shopId);
 
 			ProfileDTO adminProfile = new ProfileDTO();
 			adminProfile.setChatRoomId(roomId);

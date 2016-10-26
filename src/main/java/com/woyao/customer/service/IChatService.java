@@ -3,8 +3,6 @@ package com.woyao.customer.service;
 import java.util.List;
 import java.util.Set;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.web.socket.WebSocketSession;
 
 import com.snowm.security.profile.domain.Gender;
@@ -23,10 +21,8 @@ public interface IChatService {
 	 * 
 	 * @param wsSession
 	 *            websocket session
-	 * @param httpSession
-	 *            http session
 	 */
-	void newChatter(WebSocketSession wsSession, HttpSession httpSession);
+	void newChatter(WebSocketSession wsSession);
 
 	/**
 	 * 聊天者离开

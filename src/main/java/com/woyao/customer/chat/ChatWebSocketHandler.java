@@ -3,7 +3,6 @@ package com.woyao.customer.chat;
 import java.io.IOException;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -55,13 +54,13 @@ public class ChatWebSocketHandler extends AbstractWebSocketHandler {
 	@Override
 	public void afterConnectionEstablished(WebSocketSession wsSession) throws Exception {
 		try {
-			HttpSession httpSession = SessionUtils.getHttpSession(wsSession);
-			String httpSessionId = httpSession.getId();
-			logger.debug("WebSocket session: {} establishing, httpSessionId: {}, httpSession: {}", wsSession.getId(), httpSessionId,
-					httpSession);
-			chatService.newChatter(wsSession, httpSession);
+//			HttpSession httpSession = SessionUtils.getHttpSession(wsSession);
+//			String httpSessionId = httpSession.getId();
+//			logger.debug("WebSocket session: {} establishing, httpSessionId: {}, httpSession: {}", wsSession.getId(), httpSessionId,
+//					httpSession);
+			chatService.newChatter(wsSession);
 
-			logger.debug("WebSocket session: {} established, httpSessionId: {}", wsSession.getId(), httpSession.getId());
+			logger.debug("WebSocket session: {} established", wsSession.getId());
 		} catch (Exception ex) {
 			logger.error("WebSocket session establish error!", ex);
 			wsSession.close();

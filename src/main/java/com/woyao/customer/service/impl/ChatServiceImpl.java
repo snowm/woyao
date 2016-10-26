@@ -9,7 +9,6 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpSession;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -95,7 +94,7 @@ public class ChatServiceImpl implements IChatService {
 
 	@Transactional(readOnly = true)
 	@Override
-	public void newChatter(WebSocketSession wsSession, HttpSession httpSession) {
+	public void newChatter(WebSocketSession wsSession) {
 		this.sessionContainer.wsEnabled(wsSession);
 		sendSelfInfo(wsSession);
 		Long chatRoomId = SessionUtils.getChatRoomId(wsSession);

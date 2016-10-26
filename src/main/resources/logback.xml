@@ -84,10 +84,10 @@
 	</appender>
 
     <logger name="com.woyao">
-        <level value="${log.level:-DEBUG}"/>
+        <level value="${log.level:-INFO}"/>
     </logger>
     <logger name="com.snowm">
-        <level value="${log.level:-DEBUG}"/>
+        <level value="${log.level:-INFO}"/>
     </logger>
     <logger name="org.mortbay">
         <level value="ERROR"/>
@@ -118,10 +118,10 @@
     
     <!-- security -->
     <logger name="org.glassfish.jersey.logging.LoggingInterceptor">
-        <level value="${log.level:-DEBUG}"/>
+        <level value="${log.level:-INFO}"/>
     </logger>
     <logger name="com.woyao.security.Oauth2SecurityFilter">
-    	<level value="${log.level:-DEBUG}"/>
+    	<level value="${log.level:-INFO}"/>
     </logger>
 
     <!-- ======================= -->
@@ -129,7 +129,7 @@
     <!-- ======================= -->
 
     <root>
-        <level value="${log.level:-DEBUG}"/>
+        <level value="${log.level:-INFO}"/>
         
 		<appender-ref ref="STDOUT" />
 		<appender-ref ref="ERROR-OUT" />
