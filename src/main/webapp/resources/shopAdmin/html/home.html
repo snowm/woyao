@@ -1,5 +1,106 @@
-<div style="width:100%;text-align:center;margin-top:300px;color:black;font-size:40px;text-shadow:0 0 10px #999999;">
+<!-- <div style="width:100%;text-align:center;margin-top:300px;color:black;font-size:40px;text-shadow:0 0 10px #999999;">
 	<img src="/shopAdmin/resources/img/add.gif" >
 	<br>
 	统计功能即将上线。。敬请期待
-</div>
+</div> -->
+<div ms-controller="pageController">
+<div class="row" style="margin:15px 0 0 0 !important;">
+<div class="col-md-4">
+          <div class="panel panel-success panel-stat">
+            <div class="panel-heading">
+
+              <div class="stat">
+                <div class="row">
+                  <div class="col-xs-4">
+                    <img src="/shopAdmin/resources/img/is-money.png" alt="">
+                  </div>
+                  <div class="col-xs-8">
+                    <small class="stat-label" style="display:block">日收入</small>
+                    <h1 ms-text="income.dayTotal" style="display:inline-block"></h1><i>&yen;</i>
+                  </div>
+                </div><!-- row -->
+
+                <div class="mb15"></div>
+
+                <div class="row">
+                	<div class="col-xs-4"></div>
+                  <div class="col-xs-6">
+                    <small class="stat-label">时间：</small><span ms-text="income.yearOrder"></span>-<span  ms-text="income.monthOrder"></span>-<span  ms-text="income.dayOrder"></span>
+                  </div>
+
+                
+                </div><!-- row -->
+              </div><!-- stat -->
+
+            </div><!-- panel-heading -->
+          </div><!-- panel -->
+        </div>
+        
+        
+        <div class="col-md-4">
+          <div class="panel panel-danger panel-stat">
+            <div class="panel-heading">
+
+              <div class="stat">
+                <div class="row">
+                  <div class="col-xs-4">
+                    <img src="/shopAdmin/resources/img/is-money.png" alt="">
+                  </div>
+                  <div class="col-xs-8">
+                    <small class="stat-label" style="display:block">月收入</small>
+                    <h1 ms-text="income.monthTotal" style="display:inline-block"></h1><i>&yen;</i>
+                  </div>
+                </div><!-- row -->
+
+                <div class="mb15"></div>
+
+                <div class="row">
+                	<div class="col-xs-4"> </div>
+                  <div class="col-xs-6">
+                    <small class="stat-label">时间：</small><span ms-text="income.yearOrder"></span>-<span  ms-text="income.monthOrder"></span>
+                  </div>
+
+                
+                </div><!-- row -->
+
+              </div><!-- stat -->
+
+            </div><!-- panel-heading -->
+          </div><!-- panel -->
+        </div>
+        
+        
+        <div class="col-md-4">
+          <div class="panel panel-primary panel-stat">
+            <div class="panel-heading">
+
+              <div class="stat">
+                <div class="row">
+                  <div class="col-xs-4">
+                    <img src="/shopAdmin/resources/img/is-money.png" alt="">
+                  </div>
+                  <div class="col-xs-8">
+                    <small class="stat-label" style="display:block">年收入</small>
+                    <h1 ms-text="income.yearTotal" style="display:inline-block"></h1><i>&yen;</i>
+                  </div>
+                </div><!-- row -->
+
+                <div class="mb15"></div>
+
+                  <div class="row">
+                	<div class="col-xs-4"> </div>
+                  <div class="col-xs-6">
+                    <small class="stat-label">时间：</small><span ms-text="income.yearOrder"></span>
+                  </div>
+
+                
+                </div><!-- row -->
+
+
+              </div><!-- stat -->
+
+            </div><!-- panel-heading -->
+          </div><!-- panel -->
+        </div>
+ </div>
+ </div>
