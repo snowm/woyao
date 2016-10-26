@@ -76,6 +76,9 @@ require(['/shopAdmin/resources/js/common.js','mmRouter',"domReady!"],function(mm
         var pagepath = "";      //这个是网页的变量
 
         var paths = this.path.split("/");
+        if(paths[1] == ''){
+        	paths = ['','home']
+        }
         for (var i = 0; i < paths.length; i++) {
             if (paths[i] != "") {
                 controllerPath += "/" + paths[i] + '.js';
@@ -124,6 +127,7 @@ require(['/shopAdmin/resources/js/common.js','mmRouter',"domReady!"],function(mm
     avalon.router.get("/shop", callback);
     avalon.router.get("/goods", callback);
     avalon.router.get("/home", callback);
+    avalon.router.get("/", callback);
 
     avalon.history.start({
         basepath: "/avalon"
