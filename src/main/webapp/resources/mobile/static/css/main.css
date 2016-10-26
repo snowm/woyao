@@ -448,7 +448,7 @@ html,body{
 }
 .pop-forOther-ctn{
     position: absolute;
-    width: 250px;
+    width: 270px;
     height: 320px;
     left: 0;
     right: 0;
@@ -471,6 +471,26 @@ html,body{
     z-index: 99;
     text-align: center;
 }
+.pop-sreen-foricon{
+	width:30px;
+	height:100%;
+	position:absolute;
+	left:50%;
+	top:0;
+	margin-left:-15px;
+	text-align:center;
+}
+
+.pop-sreen-foricon img{
+	width:30px;
+	position:absolute;
+	display:block;
+	top:0;
+	right:0;
+	left:0;
+	bottom:0;
+	margin:auto;
+}
 .baseSelect{
     width: 88%;
     margin: 0 auto;
@@ -487,6 +507,7 @@ html,body{
     height:50px;
     line-height: 50px;
     color: #858585;
+    overflow:hidden;
 }
 /* pop-forother */
 /*  pop  */
@@ -510,8 +531,9 @@ html,body{
 }
 .pop-send-ctn{
     position: absolute;
-    width: 250px;
-    height:320px;
+    width: 90%;
+    max-width: 260px;
+    height:315px;
     left: 0;
     right:0;
     top:0;
@@ -531,6 +553,9 @@ html,body{
     opacity: 0;
     border-radius: 5px;
     z-index:99;
+}
+.is-for-gift{
+    height:390px !important;
 }
 .pop-send-show{
     -webkit-transform: scale(1,1);
@@ -566,7 +591,13 @@ html,body{
 .pop-gift-ctn{
     width: 90%;
     margin: 0 auto;
-    margin-top: 30px;
+    margin-top: 0px;
+}
+.pop-chatter-ctn{
+    margin-top: 10px;
+}
+.pop-chatter-ctn > .gift-ctn{
+    height: 60px;
 }
 .gift-ctn{
     width: 100%;
@@ -581,12 +612,12 @@ html,body{
 .tab-bp-ctn{
     width: 90%;
     margin: 0 auto;
-    margin-top: 30px;
+    margin-top: 10px;
 }
 .bp-text{
     padding: 4px;
     width: 65%;
-    height:110px;
+    height:50px;
     border-radius: 5px;
     border: 1px solid #d8d8d8;
     background: white;
@@ -607,7 +638,7 @@ html,body{
 .bp-img-ctn > img{
     position: relative;
     display: block;
-    width: 100%;
+    width: 60px;
     max-height: 60px;
     margin: 0 auto;
     border-radius: 5px;
@@ -664,15 +695,19 @@ html,body{
     width: 30px;
 }
 .gift-msg{
-    /*width: 80px;*/
+    width: 100px;
     float: left;
+    overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
 }
 .gift-name{
     padding: 5px 0 0 0;
     /*width: 50px;*/
 }
 .gift-transilate{
-    width: 50px;
+    width: auto;
+    overflow:hidden;
     font-size: 10px;
     line-height: 10px;
 }
@@ -684,7 +719,8 @@ html,body{
 }
 .gift-cost{
     float: left;
-    width: 60px;
+    width: 35px;
+    height:100%;
     text-align: right;
     line-height: 40px;
 }

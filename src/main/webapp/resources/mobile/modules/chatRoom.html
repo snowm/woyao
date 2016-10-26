@@ -11,24 +11,35 @@
 	           <img class="header-sexy" ms-visible="sreenGender == 'MALE'" src="/resources/static/img/man.png" alt="">
             </p>
         </div>
-        <!-- <div class="pop-sreen-block">
-            <img class="pop-sreen-head" src="/resources/static/img/head.jpg" alt="">
-            <p class="pop-sreen-name">隔壁老王 <span><img class="header-sexy" src="/resources/static/img/weman.png" alt=""></span></p>
-        </div> -->
+        <div class="pop-sreen-foricon" ms-if='sreenIsToOther'>
+        	<img class="" src="/resources/static/img/love.png" alt="">
+        </div>
+        <div class="pop-sreen-block" ms-if='sreenIsToOther'>
+            <img class="pop-sreen-head" --src="/resources/static/img/head.jpg" ms-attr-src='sreenIsToOtherMsg.headImg' alt="">
+            <p class="pop-sreen-name">
+            	<span ms-text="sreenIsToOtherMsg.nickname"></span>
+            	<span>
+		           <img class="header-sexy" ms-visible="sreenIsToOtherMsg.gender == 'FEMALE'"  src="/resources/static/img/weman.png" alt="">
+		           <img class="header-sexy" ms-visible="sreenIsToOtherMsg.gender == 'MALE'" src="/resources/static/img/man.png" alt="">
+				</span>
+			</p>
+        </div>
+        <!-- 普通霸屏     -->
         <div class="pop-sreen-msg">
             <span class="text-org">我要霸屏<span ms-text="sreenTime"></span>秒</span> <span ms-visible="sreenMsg">{{sreenMsg}}</span>
         </div>
+         <!-- 普通霸屏     -->
         <span class="sreen-timer">倒计时：<span ms-text="sreenShowSeconds"></span></span>
     </div>
 </div>
 <div class="pop-forOther" ms-class="pop-show:forHerShow">
     <div class="pop-forOther-close" ms-on-tap="hideForOther"></div>
-    <div class="pop-forOther-ctn" style="height:273px">
+    <div class="pop-forOther-ctn" style="height:330px">
         <div class="pop-forOther-title">为 <span class="text-blue" ms-text="showUser.nickname"></span> 送礼物</div>
         <div class="pop-gift-ctn" style="margin-top: 10px">
             <div class="gift-ctn">
                 <ul class="gift-list">
-                        <li ms-repeat-g="payGoodsTypes">
+                        <li ms-repeat-g="payGoodsTypes" ms-on-tap="choiceGoods(g.id)">
                             <img class="gift-img" --src="/resources/static/img/num.png" ms-attr-src="g.picURL" alt="">
                             <div class="gift-msg">
                                 <p class="gift-name" ms-text="g.name"></p>
@@ -36,40 +47,116 @@
                             </div>
                             <div class="radio-ctn" style="float:right">
                                 <div class="radio-back">
-                                    <span class="radio-checked"></span>
+                                    <span class="radio-checked" ms-visible='msgType.id == g.id'></span>
                                 </div>
                             </div>
                             <div class="gift-cost" style="float:right">
-                              	￥{{g.unitPrice}}
+                              	￥<span ms-text="g.unitPrice"></span>
                             </div>
                         	<div class="clearfix"></div>
                         </li>
                     </ul>
             </div>
         </div>
+        <div class="tab-bp-ctn clearfix">
+                <textarea class="bp-text" name="" id="" cols="" rows="" ms-duplex="msgText"></textarea>
+                <div class="bp-img">
+                    <div class="bp-img-ctn">
+                        <input type="file" value='' ms-change="fileChange(this)" style="width: 60px;height: 60px;position: absolute;left: 0;top: 0;z-index: 9;opacity:0;">
+                        <img src="/resources/static/img/photo.png" ms-attr-src="imgViewSrc" alt="" style="border-radius: 5px;">
+                    </div>
+                </div>
+            </div>
         <div class="price-ctn" style="text-align: left;padding-top:5px">
             <p>需微信支付</p>
             <p>￥{{payCount}}</p>
         </div>
         <div class="pop-bottom">
-            <div class="bp-sub" ms-on-tap="hideForOther">确 认</div>
+            <div class="bp-sub" ms-on-tap="sendMsg">确 认</div>
             <div class="bp-cancel" ms-on-tap="hideForOther">取 消</div>
         </div>
     </div>
 </div>
 <div class="pop-container" ms-class="pop-show:popshow">
     <div class="pop-forclose" ms-on-tap="closeAllPop"></div>
-    <div class="pop-send-ctn" ms-class="pop-send-show:popSendCtnShow">
-        <div class="pop-tab-nav">
-            <div ms-class-pop-tab-active="!tabShowFlag" ms-on-tap="tabChange(1)">霸屏</div>
-            <div ms-class-pop-tab-active="tabShowFlag" ms-on-tap="tabChange(2)">送礼物</div>
+    <div class="pop-send-ctn" ms-class-pop-send-show="popSendCtnShow" ms-class-is-for-gift='showToChatter'>
+        <div class="pop-tab-nav" style="text-align:center;">
+       		 我要
+            <!-- <div ms-class-pop-tab-active="!tabShowFlag" ms-on-tap="tabChange(1)">霸屏</div>
+            <div ms-class-pop-tab-active="tabShowFlag" ms-on-tap="tabChange(2)">送礼物</div> -->
         </div>
         <div class="pop-tab-temp" ms-visible="!tabShowFlag">
-            <select class="tab-select" ms-duplex="msgType" style="margin: auto 6%">
+      <!--       <select class="tab-select" ms-duplex="msgType" style="margin: auto 6%">
                 <option value="">请输入霸屏时间</option>
                 <option value="0">免费消息</option>
                 <option ms-repeat-m="payMsgTypes" ms-attr-value="m.id">霸屏{{m.holdTime}}秒  {{m.unitPrice}}元</option>
-            </select>
+            </select> -->
+            
+            
+            
+            <!-- 修改    -->
+            <div class="pop-gift-ctn">
+                <div class="gift-ctn">
+                    <ul class="gift-list">
+                   		 <li ms-on-tap="choiceGoods()">
+                            <img class="gift-img" src="/resources/static/img/free.png" alt="">
+                            <div class="gift-msg">
+                                <p class="gift-name">免费消息</p>
+                                <p class="gift-transilate">免费消息无法霸屏</p>
+                            </div>
+                            <div class="radio-ctn" style="float:right">
+                                <div class="radio-back">
+                                    <span class="radio-checked" ms-visible="msgType == 0"></span>
+                                </div>
+                            </div>
+                            <div class="gift-cost" style="float:right">
+                              	￥<span>0</span>
+                            </div>
+                        	<div class="clearfix"></div>
+                        </li>
+                        <li ms-repeat-g="payMsgTypes" ms-on-tap="choiceGoods(g.id)">
+                            <img class="gift-img" --src="/resources/static/img/num.png" ms-attr-src="g.picURL" alt="">
+                            <div class="gift-msg">
+                                <p class="gift-name" ms-text="g.name"></p>
+                                <p class="gift-transilate" ms-text="g.description"></p>
+                            </div>
+                            <div class="radio-ctn" style="float:right">
+                                <div class="radio-back">
+                                    <span class="radio-checked" ms-visible='msgType.id == g.id'></span>
+                                </div>
+                            </div>
+                            <div class="gift-cost" style="float:right">
+                              	￥<span ms-text="g.unitPrice"></span>
+                            </div>
+                        	<div class="clearfix"></div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="pop-gift-ctn pop-chatter-ctn" ms-visible="showToChatter">
+                <div class="gift-ctn">
+                    <ul class="gift-list">
+                        <li ms-repeat-c="chatterList" ms-on-tap="choiceChatter(c.id)">
+                            <img class="gift-img" --src="/resources/static/img/num.png" ms-attr-src="c.headImg" alt="">
+                            <div class="gift-msg" style='width:60%;overflow:hidden;'>
+                                <p class="gift-name" ms-text="c.nickname"></p>
+                            </div>
+                            <div class="radio-ctn" style="float:right">
+                                <div class="radio-back">
+                                    <span class="radio-checked" ms-visible='toChatter == c.id'></span>
+                                </div>
+                            </div>
+                        	<div class="clearfix"></div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- 修改    -->
+            
+            
+            
             <div class="tab-bp-ctn clearfix">
                 <textarea class="bp-text" name="" id="" cols="" rows="" ms-duplex="msgText"></textarea>
                 <div class="bp-img">
@@ -84,11 +171,11 @@
                 <p>￥{{payCount}}</p>
             </div>
             <div class="pop-bottom">
-                <div class="bp-sub" ms-on-tap="sendMsg">霸 屏</div>
+                <div class="bp-sub" ms-on-tap="sendMsg">发 送</div>
                 <div class="bp-cancel" ms-on-tap="hidePopSend">取 消</div>
             </div>
         </div>
-        <div class="pop-tab-temp" ms-visible="tabShowFlag">
+<!--         <div class="pop-tab-temp" ms-visible="tabShowFlag">
              <select class="tab-select" ms-duplex="toChatter" style="margin: auto 6%">
                 <option value="">请选择送礼对象</option>
                 <option value="0">全场观众</option>
@@ -125,7 +212,7 @@
                 <div class="bp-sub" ms-on-tap="sendMsg">确 认</div>
                 <div class="bp-cancel" ms-on-tap="hidePopSend">取 消</div>
             </div>
-        </div>
+        </div> -->
     </div>
     <div class="pop-photoWall" ms-class="pop-phone-show:isShowPhoto">
         <div class="swiper-container pop-photoWall-ctn" ms-click="showPhotoWall">

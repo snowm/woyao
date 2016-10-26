@@ -124,6 +124,35 @@ define(['jquery','avalon','wxsdk',"domReady!"], function ($,avalon,wx,domReady) 
                             avalon.vmodels.mainController.imgUrl = '';
                             avalon.vmodels.mainController.imgViewSrc = '/resources/static/img/photo.png';
                             $("#photoInput").val('');
+                        },
+                        cancel: function(){
+                        	avalon.vmodels.rootController._loading = false;
+                            avalon.vmodels.mainController.hidePopSend();
+                            if(avalon.vmodels.mainController.emojiShow){
+                                avalon.vmodels.mainController.pluginShow = false;
+                                avalon.vmodels.mainController.emojiShow = false;
+                            }
+                            avalon.vmodels.mainController.payCount = 0;
+                            avalon.vmodels.mainController.msgText = '';
+                            avalon.vmodels.mainController.pluginShow = false;
+                            avalon.vmodels.mainController.imgUrl = '';
+                            avalon.vmodels.mainController.imgViewSrc = '/resources/static/img/photo.png';
+                            $("#photoInput").val('');
+                        },
+                        error:function(msg){
+                        	alert("支付失败");
+                        	avalon.vmodels.rootController._loading = false;
+                            avalon.vmodels.mainController.hidePopSend();
+                            if(avalon.vmodels.mainController.emojiShow){
+                                avalon.vmodels.mainController.pluginShow = false;
+                                avalon.vmodels.mainController.emojiShow = false;
+                            }
+                            avalon.vmodels.mainController.payCount = 0;
+                            avalon.vmodels.mainController.msgText = '';
+                            avalon.vmodels.mainController.pluginShow = false;
+                            avalon.vmodels.mainController.imgUrl = '';
+                            avalon.vmodels.mainController.imgViewSrc = '/resources/static/img/photo.png';
+                            $("#photoInput").val('');
                         }
                     });
                 }
@@ -194,6 +223,10 @@ define(['jquery','avalon','wxsdk',"domReady!"], function ($,avalon,wx,domReady) 
             avalon.vmodels.mainController.sreenName = item.sender.nickname;
             avalon.vmodels.mainController.sreenGender = item.sender.gender;
             avalon.vmodels.mainController.sreenShowSeconds = item.duration;
+            
+            avalon.vmodels.mainController.sreenIsToOther = true;
+            avalon.vmodels.mainController.sreenIsToOtherMsg = item.to;
+            
             var fl = '';
             fl = setInterval(function(){
                 avalon.vmodels. mainController.sreenShowSeconds--;
@@ -203,6 +236,11 @@ define(['jquery','avalon','wxsdk',"domReady!"], function ($,avalon,wx,domReady) 
                     avalon.vmodels. mainController.sreenMsg = '';
                     avalon.vmodels. mainController.sreenTime = '';
                     avalon.vmodels.mainController.sreenShow = false;
+                    
+
+                    avalon.vmodels.mainController.sreenIsToOther = false;
+                    avalon.vmodels.mainController.sreenIsToOtherMsg = {};
+                    
                     if(avalon.vmodels.mainController.sreenItem.length != 0){
                    	 sreenPop(avalon.vmodels.mainController.sreenItem[0]);
                    	 avalon.vmodels.mainController.sreenItem.splice(0,1);

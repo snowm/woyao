@@ -38,8 +38,11 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"wxsdk","dom
         tipsShow:false, // tip show
         tipsMsg:'', // tip
         chatterList:[], // 在线用户列表
-        toChatter:'', //赠送对象id
         topRicher:{}, // 今日土豪
+        toChatter:'',//主页面给谁送礼id
+        showToChatter:false,//主页面展示用户列表 送礼
+        sreenIsToOther: true, //toOther SHOW
+        sreenIsToOtherMsg:{}, // toOther 
         togglePlugin : function(){ // 显示功能区 按钮
             mainController.emojiShow = false;
             mainController.pluginShow = !mainController.pluginShow;
@@ -118,19 +121,29 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"wxsdk","dom
             window.location.hash='#!/privacyChat'
         },
         forHer:function(showUser){
-        	
-        	if(showUser){
-            	mainController.showUser = showUser;
-        	}
+        	console.log(showUser)
+        	mainController.showUser = showUser;
+            mainController.toChatter = showUser.id;
         	
             if(mainController.isShowPhoto){
                 mainController.showPhotoWall();
             }
+           
+           
+            var item = mainController.payGoodsTypes[0];//默认选中第一个礼品
+            mainController.msgType = item;
+            mainController.payCount = item.unitPrice;
+            
+            
             mainController.forHerShow = true;
+            
         },
         hideForOther:function(){
         	mainController.showUser = {};
             avalon.vmodels.rootController.toWho = {};
+            mainController.msgType = '0';
+            mainController.payCount = 0;
+            mainController.toChatter = '';
             mainController.forHerShow = false;
         },
         msgType: '0',//霸屏消息类型
@@ -139,28 +152,40 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"wxsdk","dom
         pageDownBtn: false,
         sendMsg:function(){
             var productsId = '';
+            var giftToChatterId = '';
             if(!mainController.tabShowFlag){
                 if(mainController.msgType == ''){
-                    alert('请选择霸屏时间');
+                    alert('请选择霸屏时间或者礼物');
                     return;
                 }
-                if(mainController.msgText == '' && mainController.imgUrl == ''){
+                if(mainController.msgType != '0'){ // 这里是发送付费消息的情况
+                	if(mainController.showToChatter || mainController.forHerShow){
+                		if(mainController.toChatter == ''){
+                			alert("请选择送礼对象");
+                			return;
+                		}else{
+                            giftToChatterId = mainController.toChatter;
+                		}
+                	}
+                }
+
+                if(mainController.msgText == '' && mainController.imgUrl == '' && !mainController.showToChatter && !mainController.forHerShow){
                     alert('请输入文字或者添加图片')
                     return;
                 }
-                productsId = mainController.msgType;
+                productsId = mainController.msgType.id || '';
             }else{
-                if(isEmptyObject(mainController.goodsType.$model)){
-                    alert('请选择礼物');
-                    return;
-                }
-                if(mainController.toChatter == ''){
-                    alert('请选择赠送对象');
-                    return;
-                }
-                mainController.msgText = '';
-                mainController.imgUrl = '';
-                productsId = mainController.goodsType.id;
+//                if(isEmptyObject(mainController.goodsType.$model)){
+//                    alert('请选择礼物');
+//                    return;
+//                }
+//                if(mainController.toChatter == ''){
+//                    alert('请选择赠送对象');
+//                    return;
+//                }
+//                mainController.msgText = '';
+//                mainController.imgUrl = '';
+//                productsId = mainController.goodsType.id;
             }
 
             var content = {
@@ -192,7 +217,7 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"wxsdk","dom
                     type = 'msg';
                     msg = {
                         msgId:msgId,
-                        to:'',
+                        to:giftToChatterId,
                         blockSize:blocks.length,
                         productId:productsId,
                         block:blocks[0],
@@ -264,10 +289,30 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"wxsdk","dom
         }
         ,
         choiceGoods:function(id){
-            mainController.payGoodsTypes.forEach(function(item){
+        	if(!isEmptyObject(id)){
+        		mainController.msgType = '0';
+                mainController.toChatter = '';
+        		mainController.showToChatter = false;
+        	}else{
+        		mainController.payMsgTypes.forEach(function(item){
+                    if(item.id == id){
+                    	if(item.effectCode != null || item.effectCode != ''){
+                    		mainController.showToChatter = true;
+                    	}
+                    	if(item.effectCode == null || item.effectCode == ''){
+                            mainController.toChatter = '';
+                    		mainController.showToChatter = false;
+                    	}
+                        mainController.msgType = item;
+                        mainController.payCount = item.unitPrice;
+                    }
+                })
+        	}
+        },
+        choiceChatter:function(id){
+        	mainController.chatterList.forEach(function(item){
                 if(item.id == id){
-                    mainController.goodsType = item;
-                    mainController.payCount = item.unitPrice;
+                    mainController.toChatter = item.id;
                 }
             })
         },
@@ -489,7 +534,24 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"wxsdk","dom
             async: true,
             type: "get",
             success: function(data) {
+            	var pList = [];
+            	for(var i = 0; i < data.length; i++){
+            		if(data[i].effectCode == '' || data[i].effectCode == null){
+            			data[i].picURL = "/resources/static/img/ba.png";
+            		}else if(data[i].effectCode == 'e1'){
+            			data[i].picURL = "/resources/static/img/num.png";
+            			pList.push(data[i]);
+            		}else if(data[i].effectCode == 'e2'){
+            			data[i].picURL = "/resources/static/img/plane.png";
+            			pList.push(data[i]);
+            		}else if(data[i].effectCode == 'e3'){
+            			data[i].picURL = "/resources/static/img/mac.png";
+            			pList.push(data[i]);
+            		}
+            	}
+            
                 mainController.payMsgTypes = data;
+                mainController.payGoodsTypes = pList;
             },
             complete: function() {
             },
@@ -502,23 +564,23 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"wxsdk","dom
     queryMsgGoodsData();
 
     // 查询商品
-    function queryGoodsData(){
-        $.ajax({
-            url: "/m/chat/productList",
-            dataType: "JSON",
-            async: true,
-            type: "get",
-            success: function(data) {
-                mainController.payGoodsTypes = data;
-            },
-            complete: function() {
-            },
-            error: function() {
-                alert("获取商品类型失败");
-            }
-        });
-    }
-    queryGoodsData();
+//    function queryGoodsData(){
+//        $.ajax({
+//            url: "/m/chat/productList",
+//            dataType: "JSON",
+//            async: true,
+//            type: "get",
+//            success: function(data) {
+//                mainController.payGoodsTypes = data;
+//            },
+//            complete: function() {
+//            },
+//            error: function() {
+//                alert("获取商品类型失败");
+//            }
+//        });
+//    }
+//    queryGoodsData();
 
     
     function queryHistoryMsg(){
