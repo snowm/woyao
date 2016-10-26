@@ -238,8 +238,12 @@ public class OrderItemServiceImpl extends AbstractAdminService<Order, OrderDTO> 
 		dto.setYearTotal(ytotle);
 		dto.setMonthTotal(mtotle);
 		dto.setDayTotal(dtotle);
-		lists.lastIndexOf(4);
-		dto.setShopOrders(lists);
+		List<ShopOrder> ShopOrders=dto.getShopOrders();
+		for (int i = 0; i < 30; i++) {			
+			ShopOrder s=lists.get(i);
+			ShopOrders.add(s);
+		}
+		dto.setShopOrders(ShopOrders);
 		return dto;
 	}
 	
