@@ -503,15 +503,21 @@
                     $('.senderCtn').find('.wall-name-text').html(item.to.nickname);
                     $('.senderCtn').find('.senderHead').attr('src',item.to.headImg);
                 	
-                	
+
+                    $('.wall-sender').html(item.sender.nickname);
+                    $('.wall-to').html(item.to.nickname);
+                    
                     if(item.effectCode == 'e1'){ // 聚光灯
                     	$('.giftImg').attr('src','/show/resources/img/show/p1.png');
+                        $('.wall-giftName').html("纸飞机");
                     	show1.start();
                     }else if(item.effectCode == 'e2'){
                     	$('.giftImg').attr('src','/show/resources/img/show/num.png');
+                        $('.wall-giftName').html("啤酒");
                     	show2.start();
                     }else if(item.effectCode == 'e3'){
                     	$('.giftImg').attr('src','/show/resources/img/show/mac.png');
+                        $('。wall-giftName').html("麦克风");
                     	show3.start();
                     }
                 }else{
