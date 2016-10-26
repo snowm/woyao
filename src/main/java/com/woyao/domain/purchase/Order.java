@@ -56,7 +56,7 @@ public class Order extends DefaultModelImpl {
 	@JoinColumn(referencedColumnName = "id", name = "RESULT_INFO_ID", nullable = true)
 	private OrderResultInfo resultInfo;
 
-	@Column(name = "ORDER_STATUS", length = 2)
+	@Column(name = "ORDER_STATUS")
 	@Type(type = ExtEnumType.CLASS_NAME, parameters = { @Parameter(name = ExtEnumType.PARA_ENUMCLASS, value = OrderStatus.CLASS_NAME) })
 	private OrderStatus status;
 

@@ -27,6 +27,7 @@ import com.woyao.customer.service.IOrderService;
 import com.woyao.customer.translator.DefaultTranslator;
 import com.woyao.dao.CommonDao;
 import com.woyao.domain.chat.ChatMsg;
+import com.woyao.domain.product.Product;
 import com.woyao.domain.profile.ProfileWX;
 import com.woyao.domain.purchase.Order;
 import com.woyao.domain.purchase.OrderItem;
@@ -66,12 +67,14 @@ public class OrderServiceImpl implements IOrderService {
 		return orderDTO;
 	}
 
+	@Transactional
 	@Override
 	public OrderDTO placeOrder(long consumerId, Long toProfileId, List<OrderItemDTO> orderItemDTOs, String spbillCreateIp) {
 		OrderDTO orderDTO = this.placeOrder(consumerId, toProfileId, orderItemDTOs, spbillCreateIp, null);
 		return orderDTO;
 	}
 
+	@Transactional
 	@Override
 	public OrderDTO placeOrder(long consumerId, Long toProfileId, List<OrderItemDTO> orderItemDTOs, String spbillCreateIp, Long msgId) {
 		if(CollectionUtils.isEmpty(orderItemDTOs)){
@@ -94,6 +97,8 @@ public class OrderServiceImpl implements IOrderService {
 		int totalFee = 0;
 		for (OrderItemDTO oiDTO : orderItemDTOs) {
 			OrderItem oi = DefaultTranslator.translateToDomain(oiDTO);;
+			Product product = this.commonDao.get(Product.class, oi.getProduct().getId());
+			oi.setUnitPrice(product.getUnitPrice());
 			oi.calcTotalFee();
 			oi.setOrder(order);
 			ois.add(oi);

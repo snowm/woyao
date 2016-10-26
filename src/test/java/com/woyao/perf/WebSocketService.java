@@ -49,10 +49,10 @@ public class WebSocketService {
 	@OnWebSocketClose
 	public void onClose(int statusCode, String reason) {
 		if (statusCode != 1000) {
-			log.debug("Disconnect " + statusCode + ": " + reason);
+			log.info("Disconnect " + statusCode + ": " + reason);
 			error = statusCode;
 		} else {
-			log.debug("Disconnect " + statusCode + ": " + reason);
+			log.info("Disconnect " + statusCode + ": " + reason);
 		}
 
 		// Notify connection opening and closing latches of the closed
@@ -104,9 +104,9 @@ public class WebSocketService {
 		// Stoping WebSocket client; thanks m0ro
 		try {
 			client.stop();
-			log.debug(" - WebSocket client closed by the client");
+			log.info(" - WebSocket client closed by the client");
 		} catch (Exception e) {
-			log.error(" - WebSocket client wasn't started (...that's odd", e);
+			log.info(" - WebSocket client wasn't started (...that's odd", e);
 		}
 	}
 

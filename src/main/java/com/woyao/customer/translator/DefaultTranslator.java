@@ -28,7 +28,7 @@ public class DefaultTranslator {
 
 	public static OrderItem translateToDomain(OrderItemDTO dto) {
 		OrderItem m = new OrderItem();
-		BeanUtils.copyProperties(dto, m, "id");
+		BeanUtils.copyProperties(dto, m, "id", "totalFee", "unitPrice");
 		Product product = new Product();
 		product.setId(dto.getProductId());
 		m.setProduct(product);

@@ -9,6 +9,7 @@ import java.util.UUID;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -36,6 +37,7 @@ public class TestWebSocket {
 	private ExecutorService executor = Executors.newFixedThreadPool(totalProfiles);
 
 	private int connectionTimeout = 3;
+	
 	private URI uri = null;
 
 	private String testNode = "1";
@@ -61,11 +63,12 @@ public class TestWebSocket {
 			services.add(this.createService());
 		}
 		logger.info("Create connections spent: {}", tl.end().spent());
+		List<Future<Void>> futures = new ArrayList<>();
 		for (int i = 0; i < totalProfiles; i++) {
 			TestTask task = new TestTask(services.get(i), i, idg, this.testNode);
 			task.successLog = successLog;
 			task.failLog = failLog;
-			this.executor.submit(task);
+			futures.add(this.executor.submit(task));
 		}
 		this.executor.shutdown();
 		try {
@@ -73,14 +76,12 @@ public class TestWebSocket {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+		for (Future<Void> f : futures) {
+			f.cancel(true);
+		}
 		long recievedMsgCount = 0;
 		for (WebSocketService s : services) {
 			recievedMsgCount += s.getRecMsgCount();
-		}
-		try {
-			Thread.sleep(10 * 1000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
 		}
 		logger.info("总共{}用户，{}毫秒, 共发送{}消息:成功{}, 失败{}; 共接收{}消息", totalProfiles, tl_a.end().spent(), idg.get(), successLog.get(),
 				failLog.get(), recievedMsgCount);
