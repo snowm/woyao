@@ -25,9 +25,13 @@ import com.woyao.utils.TimeLogger;
 
 public class TestWebSocket {
 
-	private Logger logger = LoggerFactory.getLogger(this.getClass());
+	private static final int totalProfiles = 500;
 
-	private int totalProfiles = 20;
+	private static final int durationTime = 60;
+
+	private static final int msgInterval = 10 * 1000;
+
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	private ExecutorService executor = Executors.newFixedThreadPool(totalProfiles);
 
@@ -37,7 +41,7 @@ public class TestWebSocket {
 	private String testNode = "1";
 
 	public TestWebSocket() throws URISyntaxException {
-		uri = new URI("ws", null, "luoke30.com", 80, "/mobile/chat/socket", null, null);
+		uri = new URI("ws", null, "www.luoke30.com", 80, "/mobile/chat/socket", null, null);
 	}
 
 	public static void main(String[] args) throws URISyntaxException {
@@ -64,9 +68,8 @@ public class TestWebSocket {
 			this.executor.submit(task);
 		}
 		this.executor.shutdown();
-		int timeout = 60;
 		try {
-			this.executor.awaitTermination(timeout, TimeUnit.SECONDS);
+			this.executor.awaitTermination(durationTime, TimeUnit.SECONDS);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -128,7 +131,7 @@ public class TestWebSocket {
 						this.run = false;
 						continue;
 					}
-					Thread.sleep(10000);
+					Thread.sleep(msgInterval);
 				}
 			} finally {
 				sv.close();
