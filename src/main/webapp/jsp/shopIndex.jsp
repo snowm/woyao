@@ -409,7 +409,6 @@
                         return;
                     }
                     if(!msg.privacy){
-                        msg.duration = 10;
                         if(msg.duration != 0){
                             if(sreenShow){
                                 msg.text = replace_em(msg.text);
@@ -632,6 +631,7 @@
         		$(".show0").show();
         	}
         }
+        
 		show1.stop();
         show2.stop();
         show3.stop();
