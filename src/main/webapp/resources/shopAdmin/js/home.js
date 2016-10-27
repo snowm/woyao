@@ -39,6 +39,15 @@ define(["highcharts","exporting","dark-unica"],function(){
  	  		  dataType: 'json'
 	  	  	});
 		function initCharts(){
+			Highcharts.setOptions({
+			    lang:{
+			        contextButtonTitle:"图表导出菜单",
+			        downloadJPEG:"下载JPEG图片",
+			        downloadPDF:"下载PDF文件",
+			        downloadPNG:"下载PNG文件",
+			        downloadSVG:"下载SVG文件"
+			    }
+			});
      		$('#chart1').highcharts({
     	        title: {
     	            text:  pageController.name + "收入走势图",
