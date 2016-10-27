@@ -26,9 +26,9 @@ import com.woyao.utils.TimeLogger;
 
 public class TestWebSocket {
 
-	private static final int totalProfiles = 500;
+	private static final int totalProfiles = 300;
 
-	private static final int durationTime = 60;
+	private static final int durationTime = 60 * 60 * 12;
 
 	private static final int msgInterval = 10 * 1000;
 
