@@ -132,7 +132,7 @@ require(['/shopAdmin/resources/js/common.js','mmRouter',"domReady!"],function(mm
     avalon.router.get("/shop", callback);
     avalon.router.get("/goods", callback);
     avalon.router.get("/home", callback);
-//    avalon.router.get("/", callback);
+    avalon.router.get("/", callback);
 
     avalon.history.start({
         basepath: "/avalon"
