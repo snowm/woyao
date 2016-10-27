@@ -110,6 +110,10 @@ define(['uploadfile'],function(){
     	    	shopController.formShow = false;
     	    	shopController.password = true;
     	    },
+    	    hidew:function(){
+    	    	shopController.password = false;
+    	    	shopController.formShow = true;
+    	    },
     	    make:function(){
     	    	var data={
     	    			oldPwd:shopController.formData.oldPwd,

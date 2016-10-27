@@ -58,7 +58,7 @@ define(["highcharts","exporting","dark-unica"],function(){
 //    	            x: -20
 //    	        },
     	        xAxis: {
-    	            categories:date,
+    	            categories:date.reverse()
     	        },
     	        yAxis: {
     	            title: {
@@ -84,7 +84,7 @@ define(["highcharts","exporting","dark-unica"],function(){
     	       },
     	        series: [{
     	            name: pageController.name,
-    	            data: price
+    	            data:price.reverse()
     	        }]
     	    });
      	}
