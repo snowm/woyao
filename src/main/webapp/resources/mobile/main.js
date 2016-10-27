@@ -76,13 +76,17 @@ require(['mmRouter',"domReady!",'socket','wxsdk'],function(mmRouter,domReady,soc
         timestamp: wxadt.timestamp, // 必填，生成签名的时间戳
         nonceStr: wxadt.nonceStr, // 必填，生成签名的随机串
         signature: wxadt.signature,// 必填，签名，见附录1
-        jsApiList: ['previewImage','getLocation','chooseWXPay'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+        jsApiList: ['previewImage','getLocation','chooseWXPay','onMenuShareAppMessage'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
     });
     //========================  配置微信js-sdk许可  ========================
     
     
-//    wx.ready(function(){
-//    });
+    wx.ready(function(){
+    	wx.hideAllNonBaseMenuItem();
+    	wx.hideMenuItems({
+    	    menuList: ['menuItem:share:timeline','menuItem:share:qq','menuItem:share:QZone','menuItem:share:weiboApp','menuItem:share:facebook','menuItem:share:QZone','menuItem:readMode'] // 要隐藏的菜单项，所有menu项见附录3
+    	});
+    });
 //    
 //    wx.error(function(res){
 //    });

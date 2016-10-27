@@ -98,6 +98,44 @@ define(['jquery','avalon','wxsdk',"domReady!"], function ($,avalon,wx,domReady) 
                 }
                 if(msg.command == 'roomInfo'){
                     avalon.vmodels.rootController._roomInfo = msg;
+                    if(window.location.hash == '#!/'){
+                    	
+                    
+                    	wx.onMenuShareAppMessage({
+                    	    title: '点击进入-我要聊天室', // 分享标题
+                    	    desc: '欢迎来到我要酒吧聊天室，聊天、晒照、交友。', // 分享描述
+                    	    link: 'http://www.luoke30.com/m/chatRoom/' + msg.statistics.id + '#!/', // 分享链接
+                    	    imgUrl: 'http://www.luoke30.com/show/resources/img/logo.png', // 分享图标
+                    	    type: '', // 分享类型,music、video或link，不填默认为link
+                    	    dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+                    	    success: function () {
+                    	        alert("谢谢您的分享。")
+                    	    },
+                    	    cancel: function () {
+                    	        // 用户取消分享后执行的回调函数
+                    	    }
+                    	});
+                    	
+                    	
+                    	
+                    	 var data = {
+                                 pageNumber:1,
+                                 pageSize:300,
+                                 gender:'',
+                             }
+                             $.ajax({
+                                 type: "post",
+                                 url: '/m/chat/chatterList',
+                                 data: data,
+                                 success: function(data){
+                                 	avalon.vmodels.mainController.chatterList = data.results;
+                                 },
+                                 dataType: 'json',
+                                 error: function() {
+                                     alert("获取用户列表失败失败");
+                                 }
+                             });
+                    }
                     return;
                 }
                 if(msg.command == 'prePay'){
@@ -213,6 +251,7 @@ define(['jquery','avalon','wxsdk',"domReady!"], function ($,avalon,wx,domReady) 
 
     // 霸屏排队
     function sreenPop(item){
+    	
    	 var seconds = item.duration;
         if(seconds != 0){
             avalon.vmodels.mainController.sreenShow = true;
@@ -224,8 +263,13 @@ define(['jquery','avalon','wxsdk',"domReady!"], function ($,avalon,wx,domReady) 
             avalon.vmodels.mainController.sreenGender = item.sender.gender;
             avalon.vmodels.mainController.sreenShowSeconds = item.duration;
             
-            avalon.vmodels.mainController.sreenIsToOther = true;
-            avalon.vmodels.mainController.sreenIsToOtherMsg = item.to;
+            if(item.to == item.sender){
+        		item.to = '';
+        	}else{
+        		 avalon.vmodels.mainController.sreenIsToOther = true;
+                 avalon.vmodels.mainController.sreenIsToOtherMsg = item.to;
+        	}
+           
             
             var fl = '';
             fl = setInterval(function(){
