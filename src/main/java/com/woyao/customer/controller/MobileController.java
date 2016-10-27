@@ -128,9 +128,11 @@ public class MobileController {
 	public PaginationBean<ShopDTO> findShop(ShopPaginationQueryRequest request, HttpServletRequest httpRequest) {
 		HttpSession session = httpRequest.getSession();
 		ProfileDTO chatter = SessionUtils.getChatter(session);
-		chatter.setLatitude(request.getLatitude());
-		chatter.setLongitude(request.getLongitude());
-		return this.mobileService.findShop(request.getLatitude(), request.getLongitude(), request.getPageNumber(), request.getPageSize());
+		if (request.getLatitude() != null && request.getLongitude() != null) {
+			chatter.setLatitude(request.getLatitude());
+			chatter.setLongitude(request.getLongitude());
+		}
+		return this.mobileService.findShop(chatter.getLatitude(), chatter.getLongitude(), request.getPageNumber(), request.getPageSize());
 	}
 
 	@RequestMapping(value = { "/chat/chatterList" }, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)

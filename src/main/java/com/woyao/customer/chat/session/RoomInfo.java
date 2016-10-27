@@ -15,6 +15,7 @@ public class RoomInfo {
 	private ChatRoomStatistics statistics = new ChatRoomStatistics();
 	private Set<String> chatterWsSessionIds = new HashSet<>();
 	private Set<String> dapingWsSessionIds = new HashSet<>();
+	private Set<String> allWsSessionIds = new HashSet<>();
 
 	public long getId() {
 		return id;
@@ -45,30 +46,31 @@ public class RoomInfo {
 	}
 
 	public boolean isEmpty() {
-		return CollectionUtils.isEmpty(this.chatterWsSessionIds) && CollectionUtils.isEmpty(this.dapingWsSessionIds);
+		return CollectionUtils.isEmpty(allWsSessionIds);
 	}
 
 	public void addChatter(String wsSessionId) {
 		this.chatterWsSessionIds.add(wsSessionId);
+		this.allWsSessionIds.add(wsSessionId);
 	}
 
 	public void removeChatter(String wsSessionId) {
 		this.chatterWsSessionIds.remove(wsSessionId);
+		this.allWsSessionIds.remove(wsSessionId);
 	}
 
 	public void addDapin(String wsSessionId) {
 		this.dapingWsSessionIds.add(wsSessionId);
+		this.allWsSessionIds.add(wsSessionId);
 	}
 
 	public void removeDapin(String wsSessionId) {
 		this.dapingWsSessionIds.remove(wsSessionId);
+		this.allWsSessionIds.remove(wsSessionId);
 	}
 
 	public Set<String> getAllSessionIds() {
-		Set<String> sessionIds = new HashSet<>();
-		sessionIds.addAll(this.getChatterWsSessionIds());
-		sessionIds.addAll(this.getDapingWsSessionIds());
-		return sessionIds;
+		return Collections.unmodifiableSet(this.allWsSessionIds);
 	}
 
 	public void calcStatistics() {

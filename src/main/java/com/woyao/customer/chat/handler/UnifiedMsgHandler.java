@@ -11,6 +11,7 @@ import org.springframework.web.socket.WebSocketSession;
 
 import com.woyao.customer.dto.chat.in.ChatMsgBlockDTO;
 import com.woyao.customer.dto.chat.in.ChatMsgDTO;
+import com.woyao.customer.dto.chat.in.GPSMsgDTO;
 import com.woyao.customer.dto.chat.in.Inbound;
 import com.woyao.customer.dto.chat.in.OrderRequestDTO;
 import com.woyao.customer.service.IChatService;
@@ -29,6 +30,9 @@ public class UnifiedMsgHandler implements MsgHandler<Inbound>, InitializingBean 
 	@Resource(name = "orderRequestMsgHandler")
 	private MsgHandler<Inbound> orderRequestMsgHandler;
 
+	@Resource(name = "gpsMsgHandler")
+	private MsgHandler<Inbound> gpsMsgHandler;
+
 	@Resource(name = "chatService")
 	private IChatService chatService;
 
@@ -37,6 +41,7 @@ public class UnifiedMsgHandler implements MsgHandler<Inbound>, InitializingBean 
 		handlerMap.put(ChatMsgDTO.class, inChatMsgHandler);
 		handlerMap.put(ChatMsgBlockDTO.class, inChatMsgBlockHandler);
 		handlerMap.put(OrderRequestDTO.class, orderRequestMsgHandler);
+		handlerMap.put(GPSMsgDTO.class, gpsMsgHandler);
 	}
 
 	@Override

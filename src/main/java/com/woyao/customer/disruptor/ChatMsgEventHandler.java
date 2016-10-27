@@ -28,6 +28,11 @@ public class ChatMsgEventHandler extends AbstractEventHandler<ChatMsgEvent> {
 
 	private boolean sendMsg(Outbound outbound, WebSocketSession wsSession) {
 		if (wsSession == null) {
+			logger.error(" Failed to send msg! Target WebSocketSession is null!");
+			return false;
+		}
+		if (!wsSession.isOpen()) {
+			logger.error(" Failed to send msg! Target WebSocketSession is closed!");
 			return false;
 		}
 		try {

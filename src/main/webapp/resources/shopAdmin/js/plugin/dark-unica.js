@@ -49,7 +49,9 @@
                     ]
                 },
                 style: {
-                    fontFamily: '\'Unica One\', sans-serif'
+                    fontFamily: '\'Unica One\', sans-serif',
+                    borderRadius:'10px'
+                	
                 },
                 plotBorderColor: '#606063'
             },

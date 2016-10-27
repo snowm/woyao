@@ -3,7 +3,6 @@
  */
 define(["highcharts","exporting","dark-unica"],function(){
 		
-    $(function(){
     	$.ajax({
 			  type: "get",
 			  url: '/shop/admin/detail/search',
@@ -34,13 +33,22 @@ define(["highcharts","exporting","dark-unica"],function(){
 	  	  			 pageController.shopOrderList.forEach(function(items){
 	  	  				 date.push(items.yearOrder +"/"+ items.monthOrder +"/"+ items.dayOrder);
 	  	  				 price.push(items.totalOrder);
-	  	  				 initCharts();
 	  	  			 });
+  	  				 initCharts();
  	  		  },
  	  		  dataType: 'json'
 	  	  	});
 		function initCharts(){
-     		$('#container').highcharts({
+			Highcharts.setOptions({
+			    lang:{
+			        contextButtonTitle:"图表导出菜单",
+			        downloadJPEG:"下载JPEG图片",
+			        downloadPDF:"下载PDF文件",
+			        downloadPNG:"下载PNG文件",
+			        downloadSVG:"下载SVG文件"
+			    }
+			});
+     		$('#chart1').highcharts({
     	        title: {
     	            text:  pageController.name + "收入走势图",
     	            x: -20 //center
@@ -50,7 +58,7 @@ define(["highcharts","exporting","dark-unica"],function(){
 //    	            x: -20
 //    	        },
     	        xAxis: {
-    	            categories:date,
+    	            categories:date.reverse()
     	        },
     	        yAxis: {
     	            title: {
@@ -76,33 +84,40 @@ define(["highcharts","exporting","dark-unica"],function(){
     	       },
     	        series: [{
     	            name: pageController.name,
-    	            data: price
+    	            data:price.reverse()
     	        }]
     	    });
      	}
-     	
-    	 
-    	
-    });
+		
+		
+		function win(){
+		    date = [];
+			price = [];
+			 $.ajax({
+	 	  		  type: "post",
+	 	  		  url: "/shop/admin/order/main",
+	 	  		  success: function(data){   
+	 	  			  console.log(data);
+	 	  			  pageController.income=data;
+	 	  			  pageController.shopOrderList=data.shopOrders;
+		  	  			 pageController.shopOrderList.forEach(function(items){
+		  	  				 date.push(items.yearOrder +"/"+ items.monthOrder +"/"+ items.dayOrder);
+		  	  				 price.push(items.totalOrder);
+		  	  			 });
+	  	  				 initCharts();
+	 	  		  },
+	 	  		  dataType: 'json'
+		  	  	});
+		
+	    }
     
-   function win(){
-    	$.ajax({
-	  		  type: "post",
-	  		  url: "/shop/admin/order/main",
-	  		  success: function(data){   
-	  			  console.log(data);
-	  			  pageController.income=data;
-	  		  },
-	  		  dataType: 'json'
-	  	});
-    }
-	win();
+   
 	
 	return home = {
 	    init:function(){
 	    	console.log("home init");
 	    	win();
 	    },
-	   }
+	}
    
 });

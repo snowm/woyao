@@ -42,6 +42,9 @@ public class ChatWebSocketHandler extends AbstractWebSocketHandler {
 			return;
 		}
 		Inbound inbound = Inbound.parse(payload);
+		if (inbound == null) {
+			return;
+		}
 		inbound.setRemoteAddress(remoteAddress);
 		try {
 			this.msgHandler.handle(wsSession, inbound);

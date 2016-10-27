@@ -78,6 +78,8 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"wxsdk","dom
         },
         hidePopSend:function(){
             mainController.popSendCtnShow = false;
+            mainController.toChatter = '';
+            mainController.showToChatter = false;
             setTimeout(function(){
                 mainController.popshow = false;
             },300);
@@ -131,7 +133,7 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"wxsdk","dom
            
            
             var item = mainController.payGoodsTypes[0];//默认选中第一个礼品
-            mainController.msgType = item;
+            mainController.msgType = item.id;
             mainController.payCount = item.unitPrice;
             
             
@@ -173,7 +175,7 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"wxsdk","dom
                     alert('请输入文字或者添加图片')
                     return;
                 }
-                productsId = mainController.msgType.id || '';
+                productsId = mainController.msgType || '';
             }else{
 //                if(isEmptyObject(mainController.goodsType.$model)){
 //                    alert('请选择礼物');
@@ -240,6 +242,9 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"wxsdk","dom
             	avalon.vmodels.rootController._loading = true;
             }else{
             	initView();
+            	mainController.msgType = '';
+                mainController.toChatter = '';
+                mainController.showToChatter = false;
             }
         }
         ,
@@ -303,7 +308,7 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"wxsdk","dom
                             mainController.toChatter = '';
                     		mainController.showToChatter = false;
                     	}
-                        mainController.msgType = item;
+                        mainController.msgType = item.id;
                         mainController.payCount = item.unitPrice;
                     }
                 })
@@ -504,27 +509,7 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"wxsdk","dom
     
     init();
 
-    function queryChatter(){
-        var data = {
-            pageNumber:1,
-            pageSize:100,
-            gender:'',
-        }
-        $.ajax({
-            type: "post",
-            url: '/m/chat/chatterList',
-            data: data,
-            success: function(data){
-                mainController.chatterList = data.results;
-            },
-            dataType: 'json',
-            error: function() {
-                alert("获取信息失败");
-            }
-        });
-    }
-    
-    queryChatter();
+
 
     // 查询消息商品
     function queryMsgGoodsData(){
@@ -550,8 +535,8 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"wxsdk","dom
             		}
             	}
             
-                mainController.payMsgTypes = data;
-                mainController.payGoodsTypes = pList;
+                mainController.payMsgTypes = data.reverse();
+                mainController.payGoodsTypes = pList.reverse();
             },
             complete: function() {
             },

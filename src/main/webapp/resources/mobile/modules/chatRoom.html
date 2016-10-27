@@ -39,23 +39,23 @@
         <div class="pop-gift-ctn" style="margin-top: 10px">
             <div class="gift-ctn">
                 <ul class="gift-list">
-                        <li ms-repeat-g="payGoodsTypes" ms-on-tap="choiceGoods(g.id)">
-                            <img class="gift-img" --src="/resources/static/img/num.png" ms-attr-src="g.picURL" alt="">
-                            <div class="gift-msg">
-                                <p class="gift-name" ms-text="g.name"></p>
-                                <p class="gift-transilate" ms-text="g.description"></p>
-                            </div>
-                            <div class="radio-ctn" style="float:right">
-                                <div class="radio-back">
-                                    <span class="radio-checked" ms-visible='msgType.id == g.id'></span>
-                                </div>
-                            </div>
-                            <div class="gift-cost" style="float:right">
-                              	￥<span ms-text="g.unitPrice"></span>
-                            </div>
-                        	<div class="clearfix"></div>
-                        </li>
-                    </ul>
+                     <li ms-repeat-g="payGoodsTypes" ms-on-tap="choiceGoods(g.id)">
+                         <img class="gift-img" --src="/resources/static/img/num.png" ms-attr-src="g.picURL" alt="">
+                         <div class="gift-msg">
+                             <p class="gift-name" ms-text="g.name"></p>
+                             <p class="gift-transilate" ms-text="g.description"></p>
+                         </div>
+                         <div class="radio-ctn" style="float:right">
+                             <div class="radio-back">
+                                 <span class="radio-checked" ms-visible='msgType == g.id'></span>
+                             </div>
+                         </div>
+                         <div class="gift-cost" style="float:right">
+                           	￥<span ms-text="g.unitPrice"></span>
+                         </div>
+                     	<div class="clearfix"></div>
+                     </li>
+                 </ul>
             </div>
         </div>
         <div class="tab-bp-ctn clearfix">
@@ -122,7 +122,7 @@
                             </div>
                             <div class="radio-ctn" style="float:right">
                                 <div class="radio-back">
-                                    <span class="radio-checked" ms-visible='msgType.id == g.id'></span>
+                                    <span class="radio-checked" ms-visible='msgType == g.id'></span>
                                 </div>
                             </div>
                             <div class="gift-cost" style="float:right">
@@ -137,7 +137,7 @@
             <div class="pop-gift-ctn pop-chatter-ctn" ms-visible="showToChatter">
                 <div class="gift-ctn">
                     <ul class="gift-list">
-                        <li ms-repeat-c="chatterList" ms-on-tap="choiceChatter(c.id)">
+                        <li ms-repeat-c="chatterList" ms-on-tap="choiceChatter(c.id)" ms-visible='c.id != userInfo.self.id'>
                             <img class="gift-img" --src="/resources/static/img/num.png" ms-attr-src="c.headImg" alt="">
                             <div class="gift-msg" style='width:60%;overflow:hidden;'>
                                 <p class="gift-name" ms-text="c.nickname"></p>
@@ -280,7 +280,10 @@
                         <img class="msg-arr" src="/resources/static/img/arblue.png" ms-visible="item.sender.gender == 'MALE'" alt="">
                         <img class="msg-arr" src="/resources/static/img/arred.png" ms-visible="item.sender.gender == 'FEMALE'" alt="">
 
-                        <div class="msg-smgs"><span class="text-org" ms-visible="item.duration">霸屏<span ms-text="item.duration"></span>秒：</span><span ms-html="item.text"></span></div>
+                        <div class="msg-smgs">
+                        	<span ms-visible="!item.effectCode && item.duration"><span class="text-org ">霸屏<span ms-text="item.duration"></span>秒：</span><span ms-html="item.text"></span></span>
+                        	<span ms-visible="item.effectCode && item.duration"><span class="text-org">为<span ms-html="item.to.nikename"></span>送来礼物</span><span ms-html="item.text"></span></span>
+                        </div>
                         <div class="msg-img" ms-visible="item.pic" ms-on-tap="showPics(item.sender.nickname,item.pic)">
                             <img --src="/resources/static/img/delate/photo1.jpg" ms-attr-src="item.pic" alt="">
                         </div>

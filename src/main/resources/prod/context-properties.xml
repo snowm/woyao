@@ -13,9 +13,7 @@
 	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="locations">
 			<list>
-				<value>classpath:prod/datasource.properties</value>
 				<value>classpath:prod/server.properties</value>
-				<value>classpath:hibernate.properties</value>
 				<value>classpath:config.properties</value>
 				<value>classpath:wx.properties</value>
 			</list>

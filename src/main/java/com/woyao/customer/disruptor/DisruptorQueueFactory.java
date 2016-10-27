@@ -43,7 +43,7 @@ public class DisruptorQueueFactory<T> implements FactoryBean<Disruptor<T>>, Init
 				.uncaughtExceptionHandler(handler).build();
 		this.disruptor = new Disruptor<>(eventFactory, ringBufferSize, threadFactory, producerType, waitStrategy);
 		this.disruptor.handleEventsWith(eventHandlers);
-		java.util.logging.Logger logger = new com.woyao.log.Slf4jLogger("hello", null);
+		java.util.logging.Logger logger = new com.woyao.log.Slf4jLogger("Disruptor-Handler", null);
 		ExceptionHandler<Object> exceptionHandler = new IgnoreExceptionHandler(logger);
 		this.disruptor.setDefaultExceptionHandler(exceptionHandler);
 		

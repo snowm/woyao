@@ -65,7 +65,7 @@ public abstract class AbstractEventHandler<T> implements EventHandler<T>, Lifecy
 	protected abstract void doTask(T event, long sequence, boolean endOfBatch);
 
 	private Callable<?> createTask(T event, long sequence, boolean endOfBatch) {
-		return new SubmitOrderTask(this, event, sequence, endOfBatch);
+		return new HandleEventTask(this, event, sequence, endOfBatch);
 	}
 
 	public int getThreads() {
@@ -92,14 +92,14 @@ public abstract class AbstractEventHandler<T> implements EventHandler<T>, Lifecy
 		this.taskTimeoutTimeUnit = taskTimeoutTimeUnit;
 	}
 
-	private class SubmitOrderTask implements Callable<Boolean> {
+	private class HandleEventTask implements Callable<Boolean> {
 
 		private AbstractEventHandler<T> handler;
 		private T event;
 		private long sequence;
 		private boolean endOfBatch;
 
-		private SubmitOrderTask(AbstractEventHandler<T> handler, T event, long sequence, boolean endOfBatch) {
+		private HandleEventTask(AbstractEventHandler<T> handler, T event, long sequence, boolean endOfBatch) {
 			super();
 			this.handler = handler;
 			this.event = event;

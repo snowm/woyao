@@ -75,6 +75,7 @@ public class TestWebSocket {
 			}
 			futures.add(this.executor.submit(task));
 		}
+		logger.info("{} chatters presented!", totalProfiles);
 		this.executor.shutdown();
 		try {
 			this.executor.awaitTermination(durationTime, TimeUnit.SECONDS);

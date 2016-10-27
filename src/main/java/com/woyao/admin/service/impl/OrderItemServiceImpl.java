@@ -31,8 +31,7 @@ import com.woyao.domain.purchase.OrderItem;
 import com.woyao.domain.purchase.OrderStatus;
 
 @Service("orderItemService")
-public class OrderItemServiceImpl extends AbstractAdminService<Order, OrderDTO>
-		implements IOrderItemAdminService {
+public class OrderItemServiceImpl extends AbstractAdminService<Order, OrderDTO> implements IOrderItemAdminService {
 
 	@Resource(name = "commonDao")
 	private CommonDao dao;
@@ -51,8 +50,7 @@ public class OrderItemServiceImpl extends AbstractAdminService<Order, OrderDTO>
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		Long shopId = queryRequest.getShopId();
 		paramMap.put("shopId", shopId);
-		StringBuffer sb = new StringBuffer(
-				"select distinct oi.order from OrderItem as oi where oi.product.shop.id= :shopId ");
+		StringBuffer sb = new StringBuffer("select distinct oi.order from OrderItem as oi where oi.product.shop.id= :shopId ");
 		if (queryRequest.getMintotalFee() != null) {
 			paramMap.put("mintotalFee", queryRequest.getMintotalFee());
 			sb.append(" and oi.order.totalFee >= :mintotalFee");
@@ -62,13 +60,11 @@ public class OrderItemServiceImpl extends AbstractAdminService<Order, OrderDTO>
 			sb.append(" and oi.order.totalFee <= :maxtotalFee");
 		}
 		if (queryRequest.getStartcreationDate() != null) {
-			paramMap.put("startcreationDate",
-					queryRequest.getStartcreationDate());
+			paramMap.put("startcreationDate", queryRequest.getStartcreationDate());
 			sb.append(" and oi.order.modification.creationDate >= :startcreationDate");
 		}
 		if (queryRequest.getStatusId() != null) {
-			paramMap.put("status",
-					OrderStatus.getEnum(queryRequest.getStatusId()));
+			paramMap.put("status", OrderStatus.getEnum(queryRequest.getStatusId()));
 			sb.append(" and oi.order.status= :status");
 		}
 		if (queryRequest.getNicknameId() != null) {
@@ -83,11 +79,9 @@ public class OrderItemServiceImpl extends AbstractAdminService<Order, OrderDTO>
 		Integer count = this.dao.query(hql, paramMap).size();
 		List<Order> ms = new ArrayList<>();
 		if (count != null || count != 0) {
-			ms = this.dao.query(hql, paramMap, queryRequest.getPageNumber(),
-					queryRequest.getPageSize());
+			ms = this.dao.query(hql, paramMap, queryRequest.getPageNumber(), queryRequest.getPageSize());
 		}
-		PaginationBean<OrderDTO> rs = new PaginationBean<>(
-				queryRequest.getPageNumber(), queryRequest.getPageSize());
+		PaginationBean<OrderDTO> rs = new PaginationBean<>(queryRequest.getPageNumber(), queryRequest.getPageSize());
 		List<OrderDTO> results = new ArrayList<>();
 		for (Order m : ms) {
 			OrderDTO dto = this.transferToFullDTO(m);
@@ -218,37 +212,30 @@ public class OrderItemServiceImpl extends AbstractAdminService<Order, OrderDTO>
 		Integer day = cb.get(cb.DATE);// 获取日
 		String sql = "select * from "
 				+ "(select year(p.CREATION_DATE) yearOrder,month(p.CREATION_DATE) monthOrder,day(p.CREATION_DATE) dayOrder, "
-				+ "sum(p.TOTAL_FEE) totalOrder "
-				+ "from purchase_order p where p.id in "
-				+ "(select DISTINCT t.ORDER_ID from order_item t where t.PRODUCT_ID "
-				+ "in(select id from product where shop_id=?) "
-				+ ") "
+				+ "sum(p.TOTAL_FEE) totalOrder " + "from purchase_order p where p.id in "
+				+ "(select DISTINCT t.ORDER_ID from order_item t where t.PRODUCT_ID " + "in(select id from product where shop_id=?) " + ") "
 				+ "and year(p.CREATION_DATE)=? and p.ORDER_STATUS!=400 "
-				+ "group by year(p.CREATION_DATE),month(p.CREATION_DATE),day(p.CREATION_DATE) "
-				+ ") s "
+				+ "group by year(p.CREATION_DATE),month(p.CREATION_DATE),day(p.CREATION_DATE) " + ") s "
 				+ "order by s.yearOrder desc, s.monthOrder desc, s.dayOrder desc";
 
-		List<ShopOrder> lists = session
-				.createSQLQuery(sql)
-				.setLong(0, shopId)
-				.setInteger(1, year)
-				.setResultTransformer(Transformers.aliasToBean(ShopOrder.class))
-				.list();
+		List<ShopOrder> lists = session.createSQLQuery(sql).setLong(0, shopId).setInteger(1, year)
+				.setResultTransformer(Transformers.aliasToBean(ShopOrder.class)).list();
 		ShopOrderDTO dto = new ShopOrderDTO();
 		int ytotle = 0;// 年总金额
 		int mtotle = 0;// 月总金额
 		int dtotle = 0;// 日总金额
+		if(lists.isEmpty() || lists.size()==0){
+			return null;
+		}
 		for (ShopOrder shopOrder : lists) {
 			if (year.equals(shopOrder.getYearOrder())) {
 				ytotle += shopOrder.getTotalOrder().intValue();
 			}
 			if (month.equals(shopOrder.getMonthOrder())) {
-				mtotle += Integer
-						.parseInt(shopOrder.getTotalOrder().toString());
+				mtotle += Integer.parseInt(shopOrder.getTotalOrder().toString());
 			}
 			if (day.equals(shopOrder.getDayOrder())) {
-				dtotle += Integer
-						.parseInt(shopOrder.getTotalOrder().toString());
+				dtotle += Integer.parseInt(shopOrder.getTotalOrder().toString());
 			}
 		}
 		dto.setYearOrder(year);

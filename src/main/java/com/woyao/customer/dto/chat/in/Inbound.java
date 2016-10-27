@@ -41,6 +41,10 @@ public abstract class Inbound {
 				return JsonUtils.toObject(data, ChatMsgBlockDTO.class);
 			case "ordReq":
 				return JsonUtils.toObject(data, OrderRequestDTO.class);
+			case "hb":
+				return null;
+			case "gps":
+				return JsonUtils.toObject(data, GPSMsgDTO.class);
 			default:
 				return null;
 			}

@@ -231,10 +231,11 @@ define(['uploadfile'],function(){
             goodsController.picture=false;
             goodsController.shop=false;
             goodsController.imgViewSrc = '/admin/resources/images/photos/upload1.png';
-            $("#uploadFileIpt").val('');  
+            $("#uploadFileIpt").val(''); 
+            $(".mp").val("");
     		goodsController.uploadbtn = true;
             goodsController.goodsChg = {
-            		id:"",
+            	id:"",
                 name:"",
                 code:"",
                 description:"",
@@ -291,15 +292,38 @@ define(['uploadfile'],function(){
             
         },
         hideNewShop:function(){
-        	goodsController.goodsShow = false;
-        	goodsController.demand = true;
-        	goodsController.goods = false;
-        	goodsController.nothing = false;
-        	goodsController.goodsChg.mainPicId = '';
-        	goodsController.goodsChg.name="";
-        	goodsController.goodsChg.shopId="";
-            goodsController.imgViewSrc = '/admin/resources/images/photos/upload1.png';
-            $("#uploadFileIpt").val('');           
+        	if(goodsController.goodsChg.typeId == "2"){
+        		goodsController.goodsShow = false;
+            	goodsController.demand = true;
+            	goodsController.goods = false;
+            	goodsController.nothing = false;
+            	goodsController.goodsChg.mainPicId = '';
+            	goodsController.goodsChg.name="";
+            	goodsController.goodsChg.shopId="";
+                goodsController.imgViewSrc = '/admin/resources/images/photos/upload1.png';
+                $("#uploadFileIpt").val('');
+        	}else if(goodsController.goodsChg.typeId == "1"){        		
+        		goodsController.goodsShow = false;
+            	goodsController.demand = true;
+            	goodsController.goods = false;
+            	goodsController.nothing = false;
+            	goodsController.goodsChg.mainPicId = '';
+            	goodsController.goodsChg.name="";
+            	goodsController.goodsChg.shopId="";
+                goodsController.imgViewSrc = '/admin/resources/images/photos/upload1.png';
+                $("#uploadFileIpt").val('');
+        	}else{
+        		goodsController.goodsShow = false;
+            	goodsController.demand = true;
+            	goodsController.goods = false;
+            	goodsController.nothing = false;
+            	goodsController.goodsChg.mainPicId = '';
+            	goodsController.goodsChg.name="";
+            	goodsController.goodsChg.shopId="";
+                goodsController.imgViewSrc = '/admin/resources/images/photos/upload1.png';
+                $("#uploadFileIpt").val('');
+                $(".mp").val("");
+        	}
             
 	    },
         chooseShopItem:function(data){
