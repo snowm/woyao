@@ -218,7 +218,7 @@ public class ChatServiceImpl implements IChatService {
 	@Override
 	public PaginationBean<ProfileDTO> listOnlineChatters(Long selfChatterId, long chatRoomId, Gender gender, long pageNumber,
 			int pageSize) {
-		Set<WebSocketSession> wsSessions = this.sessionContainer.getWsSessionOfRoom(chatRoomId);
+		Set<WebSocketSession> wsSessions = this.sessionContainer.getChatterWsSessionOfRoom(chatRoomId);
 		List<ProfileDTO> dtos = new ArrayList<>();
 		if (wsSessions != null && !wsSessions.isEmpty()) {
 			for (WebSocketSession wsSession : wsSessions) {

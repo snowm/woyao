@@ -241,6 +241,27 @@ public class SessionContainer {
 		}
 	}
 
+	public Set<WebSocketSession> getChatterWsSessionOfRoom(long chatRoomId) {
+		Set<WebSocketSession> rs = new HashSet<>();
+		RoomInfo roomInfo = this.roomInfoMap.get(chatRoomId);
+		if (roomInfo == null || roomInfo.isEmpty()) {
+			return rs;
+		}
+		Set<String> sessionIds = roomInfo.getChatterWsSessionIds();
+		ReentrantReadWriteLock lock = this.getChatRoomLock(chatRoomId);
+		try {
+			lock.readLock().lock();
+			if (sessionIds != null && !sessionIds.isEmpty()) {
+				for (String sessionId : sessionIds) {
+					rs.add(this.wsSessionMap.get(sessionId));
+				}
+			}
+			return rs;
+		} finally {
+			lock.readLock().unlock();
+		}
+	}
+
 	public ChatRoomStatistics getRoomStatistics(long chatRoomId) {
 		RoomInfo roomInfo = this.roomInfoMap.get(chatRoomId);
 		if (roomInfo == null) {

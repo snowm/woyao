@@ -26,7 +26,7 @@ import com.woyao.utils.TimeLogger;
 
 public class TestWebSocket {
 
-	private static final int totalProfiles = 500;
+	private static final int totalProfiles = 200;
 
 	private static final int durationTime = 60;
 
@@ -68,6 +68,11 @@ public class TestWebSocket {
 			TestTask task = new TestTask(services.get(i), i, idg, this.testNode);
 			task.successLog = successLog;
 			task.failLog = failLog;
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 			futures.add(this.executor.submit(task));
 		}
 		this.executor.shutdown();
