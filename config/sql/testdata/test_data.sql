@@ -1,5 +1,56 @@
+INSERT INTO PRODUCT
+	(id, deleted, enabled, creation_date, last_modified_date, description, name, product_type, unit_price)
+	values(-1, 0, 1, now(), now(), '付费消息，霸屏10秒', '消息-霸屏10秒', 1, 1);
+    
+INSERT INTO PRODUCT
+	(id, deleted, enabled, creation_date, last_modified_date, description, name, product_type, unit_price)
+	values(-2, 0, 1, now(), now(), '付费消息，霸屏20秒', '消息-霸屏20秒', 1, 2);
+    
+INSERT INTO PRODUCT
+	(id, deleted, enabled, creation_date, last_modified_date, description, name, product_type, unit_price)
+	values(-3, 0, 1, now(), now(), '付费消息，霸屏30秒', '消息-霸屏30秒', 1, 3);
+
+INSERT INTO PRODUCT
+	(id, deleted, enabled, creation_date, last_modified_date, description, name, product_type, unit_price)
+	values(-4, 0, 1, now(), now(), '礼物1 描述', '礼物1', 1, 1);
+    
+INSERT INTO PRODUCT
+	(id, deleted, enabled, creation_date, last_modified_date, description, name, product_type, unit_price)
+	values(-5, 0, 1, now(), now(), '礼物2 描述', '礼物2', 1, 2);
+    
+INSERT INTO PRODUCT
+	(id, deleted, enabled, creation_date, last_modified_date, description, name, product_type, unit_price)
+	values(-6, 0, 1, now(), now(), '礼物3 描述', '礼物3', 1, 3);
+
+	
+insert into MSG_PRODUCT
+	(id, hold_time)
+    values(-1, 10);
+    
+insert into MSG_PRODUCT
+	(id, hold_time)
+    values(-2, 20);
+    
+insert into MSG_PRODUCT
+	(id, hold_time)
+    values(-3, 30);
+
+insert into MSG_PRODUCT
+	(id, code, hold_time)
+    values(-4, 'e1', 10);
+    
+insert into MSG_PRODUCT
+	(id, code, hold_time)
+    values(-5, 'e2', 20);
+    
+insert into MSG_PRODUCT
+	(id, code, hold_time)
+    values(-6, 'e3', 30);
+    
 INSERT INTO `woyao`.PROFILE (id, username, type, gender, password, enabled, expired, credentials_expired, locked, creation_date, last_modified_date, deleted)
 	VALUES (-201, 'admin1', 1, 1, '44ea86d26563cd7ae457366c63a93567685c4272c608367aaa026a4f6f3313c4ec472fe37f85d884', 1, 0, 0, 0, now(), now(), 0);
+
+INSERT INTO PROFILE_ROLE (id, profile_id, role_id) VALUES (-201, -201, -103);
 
 INSERT INTO `woyao`.PICTURE (`ID`,`DELETED`,`ENABLED`,`CREATION_DATE`,`LAST_MODIFIED_DATE`,PATH, URL)
 	VALUES (-201, 0,1,now(),now(),'..', '/pic/asf-feather.png');
@@ -16,6 +67,8 @@ INSERT INTO `woyao`.`CHAT_ROOM`
 
 INSERT INTO `woyao`.PROFILE (id, username, type, gender, password, enabled, expired, credentials_expired, locked, creation_date, last_modified_date, deleted)
 	VALUES (-202, 'admin2', 1, 1, '44ea86d26563cd7ae457366c63a93567685c4272c608367aaa026a4f6f3313c4ec472fe37f85d884', 1, 0, 0, 0, now(), now(), 0);
+
+INSERT INTO PROFILE_ROLE (id, profile_id, role_id) VALUES (-202, -202, -103);
 
 INSERT INTO `woyao`.PICTURE (`ID`,`DELETED`,`ENABLED`,`CREATION_DATE`,`LAST_MODIFIED_DATE`,PATH, URL)
 	VALUES (-202, 0,1,now(),now(),'..', '/pic/asf-feather.png');
@@ -34,6 +87,8 @@ INSERT INTO `woyao`.`CHAT_ROOM`
 INSERT INTO `woyao`.PROFILE (id, username, type, gender, password, enabled, expired, credentials_expired, locked, creation_date, last_modified_date, deleted)
 	VALUES (-203, 'admin3', 1, 1, '44ea86d26563cd7ae457366c63a93567685c4272c608367aaa026a4f6f3313c4ec472fe37f85d884', 1, 0, 0, 0, now(), now(), 0);
 
+INSERT INTO PROFILE_ROLE (id, profile_id, role_id) VALUES (-203, -203, -103);
+
 INSERT INTO `woyao`.PICTURE (`ID`,`DELETED`,`ENABLED`,`CREATION_DATE`,`LAST_MODIFIED_DATE`,PATH, URL)
 	VALUES (-203, 0,1,now(),now(),'..', '/pic/asf-feather.png');
 	
@@ -50,6 +105,8 @@ INSERT INTO `woyao`.`CHAT_ROOM`
 
 INSERT INTO `woyao`.PROFILE (id, username, type, gender, password, enabled, expired, credentials_expired, locked, creation_date, last_modified_date, deleted)
 	VALUES (-204, 'admin4', 1, 1, '44ea86d26563cd7ae457366c63a93567685c4272c608367aaa026a4f6f3313c4ec472fe37f85d884', 1, 0, 0, 0, now(), now(), 0);
+
+INSERT INTO PROFILE_ROLE (id, profile_id, role_id) VALUES (-204, -204, -103);
 
 INSERT INTO `woyao`.PICTURE (`ID`,`DELETED`,`ENABLED`,`CREATION_DATE`,`LAST_MODIFIED_DATE`,PATH, URL)
 	VALUES (-204, 0,1,now(),now(),'..', '/pic/asf-feather.png');
@@ -68,6 +125,8 @@ INSERT INTO `woyao`.`CHAT_ROOM`
 INSERT INTO `woyao`.PROFILE (id, username, type, gender, password, enabled, expired, credentials_expired, locked, creation_date, last_modified_date, deleted)
 	VALUES (-205, 'admin5', 1, 1, '44ea86d26563cd7ae457366c63a93567685c4272c608367aaa026a4f6f3313c4ec472fe37f85d884', 1, 0, 0, 0, now(), now(), 0);
 
+INSERT INTO PROFILE_ROLE (id, profile_id, role_id) VALUES (-205, -205, -103);
+
 INSERT INTO `woyao`.PICTURE (`ID`,`DELETED`,`ENABLED`,`CREATION_DATE`,`LAST_MODIFIED_DATE`,PATH, URL)
 	VALUES (-205, 0,1,now(),now(),'..', '/pic/asf-feather.png');
 	
@@ -84,6 +143,8 @@ INSERT INTO `woyao`.`CHAT_ROOM`
 
 INSERT INTO `woyao`.PROFILE (id, username, type, gender, password, enabled, expired, credentials_expired, locked, creation_date, last_modified_date, deleted)
 	VALUES (-206, 'admin6', 1, 1, '44ea86d26563cd7ae457366c63a93567685c4272c608367aaa026a4f6f3313c4ec472fe37f85d884', 1, 0, 0, 0, now(), now(), 0);
+
+INSERT INTO PROFILE_ROLE (id, profile_id, role_id) VALUES (-206, -206, -103);
 
 INSERT INTO `woyao`.PICTURE (`ID`,`DELETED`,`ENABLED`,`CREATION_DATE`,`LAST_MODIFIED_DATE`,PATH, URL)
 	VALUES (-206, 0,1,now(),now(),'..', '/pic/asf-feather.png');
@@ -102,6 +163,8 @@ INSERT INTO `woyao`.`CHAT_ROOM`
 INSERT INTO `woyao`.PROFILE (id, username, type, gender, password, enabled, expired, credentials_expired, locked, creation_date, last_modified_date, deleted)
 	VALUES (-207, 'admin7', 1, 1, '44ea86d26563cd7ae457366c63a93567685c4272c608367aaa026a4f6f3313c4ec472fe37f85d884', 1, 0, 0, 0, now(), now(), 0);
 
+INSERT INTO PROFILE_ROLE (id, profile_id, role_id) VALUES (-207, -207, -103);
+
 INSERT INTO `woyao`.PICTURE (`ID`,`DELETED`,`ENABLED`,`CREATION_DATE`,`LAST_MODIFIED_DATE`,PATH, URL)
 	VALUES (-207, 0,1,now(),now(),'..', '/pic/asf-feather.png');
 	
@@ -114,12 +177,12 @@ INSERT INTO `woyao`.`CHAT_ROOM`
 	(`ID`,`DELETED`,`ENABLED`,`CREATION_DATE`,`LAST_MODIFIED_DATE`,`NAME`,`SHOP_ID`)
 	VALUES (-7,0,1,now(),now(),'test_room7',-7);
 	
-	
 
-	
 
 INSERT INTO `woyao`.PROFILE (id, username, type, gender, password, enabled, expired, credentials_expired, locked, creation_date, last_modified_date, deleted)
 	VALUES (-208, 'admin8', 1, 1, '44ea86d26563cd7ae457366c63a93567685c4272c608367aaa026a4f6f3313c4ec472fe37f85d884', 1, 0, 0, 0, now(), now(), 0);
+
+INSERT INTO PROFILE_ROLE (id, profile_id, role_id) VALUES (-208, -208, -103);
 
 INSERT INTO `woyao`.PICTURE (`ID`,`DELETED`,`ENABLED`,`CREATION_DATE`,`LAST_MODIFIED_DATE`,PATH, URL)
 	VALUES (-208, 0,1,now(),now(),'..', '/pic/asf-feather.png');
@@ -133,12 +196,12 @@ INSERT INTO `woyao`.`CHAT_ROOM`
 	(`ID`,`DELETED`,`ENABLED`,`CREATION_DATE`,`LAST_MODIFIED_DATE`,`NAME`,`SHOP_ID`)
 	VALUES (-8,0,1,now(),now(),'test_room8',-8);
 	
-
-
 	
 
 INSERT INTO `woyao`.PROFILE (id, username, type, gender, password, enabled, expired, credentials_expired, locked, creation_date, last_modified_date, deleted)
 	VALUES (-209, 'admin9', 1, 1, '44ea86d26563cd7ae457366c63a93567685c4272c608367aaa026a4f6f3313c4ec472fe37f85d884', 1, 0, 0, 0, now(), now(), 0);
+
+INSERT INTO PROFILE_ROLE (id, profile_id, role_id) VALUES (-209, -209, -103);
 
 INSERT INTO `woyao`.PICTURE (`ID`,`DELETED`,`ENABLED`,`CREATION_DATE`,`LAST_MODIFIED_DATE`,PATH, URL)
 	VALUES (-209, 0,1,now(),now(),'..', '/pic/asf-feather.png');
@@ -153,11 +216,10 @@ INSERT INTO `woyao`.`CHAT_ROOM`
 	VALUES (-9,0,1,now(),now(),'test_room9',-9);
 	
 	
-
-	
-
 INSERT INTO `woyao`.PROFILE (id, username, type, gender, password, enabled, expired, credentials_expired, locked, creation_date, last_modified_date, deleted)
 	VALUES (-210, 'admin10', 1, 1, '44ea86d26563cd7ae457366c63a93567685c4272c608367aaa026a4f6f3313c4ec472fe37f85d884', 1, 0, 0, 0, now(), now(), 0);
+
+INSERT INTO PROFILE_ROLE (id, profile_id, role_id) VALUES (-210, -210, -103);
 
 INSERT INTO `woyao`.PICTURE (`ID`,`DELETED`,`ENABLED`,`CREATION_DATE`,`LAST_MODIFIED_DATE`,PATH, URL)
 	VALUES (-210, 0,1,now(),now(),'..', '/pic/asf-feather.png');
