@@ -247,7 +247,7 @@ body{
 .m-bottom-c{
 	position: absolute;
 	bottom:.5rem;
-	width:49%;
+	width:45.5%;
 	left:50%;
 	height:.5rem;
 	line-height:.5rem;
@@ -287,7 +287,7 @@ body{
 	padding:10px;
 	text-align:center;
 	font-size:.4rem;
-	color:#c9c9c9;
+	color:#dddddd;
 }
 .msg-sexy-man{
 	visibility:hidden;

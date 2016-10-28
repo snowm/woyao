@@ -7,7 +7,8 @@
     <title>WOYAO</title>
 </head>
 <link rel="stylesheet" href="/show/resources/show.css">
-<script src="/show/resources/jquery-1.9.1/jquery.min.js"></script>
+<!-- <script src="/show/resources/jquery-1.9.1/jquery.min.js"></script> -->
+<script src="http://apps.bdimg.com/libs/jquery/1.9.1/jquery.min.js"></script>
 <script src="/show/resources/qqface/jquery.qqFace.js"></script>
 <body>
 
@@ -86,13 +87,6 @@
                     <p class="" style="line-height:1.5rem;"><span class="wall-sender">老万</span>为<span class="wall-to">老万</span>送来了<span class="wall-giftName">纸飞机</span></p>
                 </div>
                 <!-- 飞机      -->
-                <!-- 普通霸屏     -->
-                <!-- 普通霸屏     -->
-                <!-- 普通霸屏     -->
-                <!-- 普通霸屏     -->
-                <!-- 普通霸屏     -->
-                <!-- 普通霸屏     -->
-
 
                 <p style="padding:20px;"><span class="wall-texts">欢迎光临</span></p>
             </div>

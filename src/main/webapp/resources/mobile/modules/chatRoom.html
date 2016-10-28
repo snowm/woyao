@@ -86,13 +86,6 @@
             <div ms-class-pop-tab-active="tabShowFlag" ms-on-tap="tabChange(2)">送礼物</div> -->
         </div>
         <div class="pop-tab-temp" ms-visible="!tabShowFlag">
-      <!--       <select class="tab-select" ms-duplex="msgType" style="margin: auto 6%">
-                <option value="">请输入霸屏时间</option>
-                <option value="0">免费消息</option>
-                <option ms-repeat-m="payMsgTypes" ms-attr-value="m.id">霸屏{{m.holdTime}}秒  {{m.unitPrice}}元</option>
-            </select> -->
-            
-            
             
             <!-- 修改    -->
             <div class="pop-gift-ctn">
@@ -175,44 +168,6 @@
                 <div class="bp-cancel" ms-on-tap="hidePopSend">取 消</div>
             </div>
         </div>
-<!--         <div class="pop-tab-temp" ms-visible="tabShowFlag">
-             <select class="tab-select" ms-duplex="toChatter" style="margin: auto 6%">
-                <option value="">请选择送礼对象</option>
-                <option value="0">全场观众</option>
-                <option ms-repeat-c="chatterList" ms-attr-value="c.id">{{c.nickname}}</option>
-            </select>
-            
-            <div class="pop-gift-ctn">
-                <div class="gift-ctn">
-                    <ul class="gift-list">
-                        <li ms-repeat-g="payGoodsTypes" ms-on-tap="choiceGoods(g.id)">
-                            <img class="gift-img" --src="/resources/static/img/num.png" ms-attr-src="g.picURL" alt="">
-                            <div class="gift-msg">
-                                <p class="gift-name" ms-text="g.name"></p>
-                                <p class="gift-transilate" ms-text="g.description"></p>
-                            </div>
-                            <div class="radio-ctn" style="float:right">
-                                <div class="radio-back">
-                                    <span class="radio-checked" ms-visible='goodsType.id == g.id'></span>
-                                </div>
-                            </div>
-                            <div class="gift-cost" style="float:right">
-                              	￥<span ms-text="g.unitPrice"></span>
-                            </div>
-                        	<div class="clearfix"></div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="price-ctn">
-                <p>需微信支付</p>
-                <p>￥{{payCount}}</p>
-            </div>
-            <div class="pop-bottom">
-                <div class="bp-sub" ms-on-tap="sendMsg">确 认</div>
-                <div class="bp-cancel" ms-on-tap="hidePopSend">取 消</div>
-            </div>
-        </div> -->
     </div>
     <div class="pop-photoWall" ms-class="pop-phone-show:isShowPhoto">
         <div class="swiper-container pop-photoWall-ctn" ms-click="showPhotoWall">

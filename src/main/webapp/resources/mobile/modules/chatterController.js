@@ -2,10 +2,11 @@
  * Created by lzd on 2016/10/7 0007.
  */
 
-define(['jquery','avalon', 'text!./chatter.html',"domReady!"], function ($,avalon,_chatter,domReady) {
+define(['jquery','avalon', 'text!./chatter.html',"domReady!",'socket'], function ($,avalon,_chatter,domReady,socket) {
     avalon.templateCache._chatter = _chatter;
 
     var _userList = [];
+    
     
     var chatterController=avalon.define({
             $id:"chatterController",
@@ -42,7 +43,7 @@ define(['jquery','avalon', 'text!./chatter.html',"domReady!"], function ($,avalo
     function init(){
         console.log('聊天列表初始化');
         
-        chatterController.userInfo = avalon.vmodels.rootController._userInfo;
+     
         
         
         var msgs = avalon.vmodels.rootController._privacyMsg.$model;
@@ -65,6 +66,8 @@ define(['jquery','avalon', 'text!./chatter.html',"domReady!"], function ($,avalo
         console.log(senderList);
         
         chatterController.senderList = senderList;
+        
+        chatterController.userInfo = avalon.vmodels.rootController._userInfo;
         
         getUserList();
     }
@@ -113,7 +116,6 @@ define(['jquery','avalon', 'text!./chatter.html',"domReady!"], function ($,avalo
 			  dataType: 'json'
 		});
     }
-    getUserList();
 
     return chatter = {
         'init':function(){

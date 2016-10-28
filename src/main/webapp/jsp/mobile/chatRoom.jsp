@@ -13,7 +13,8 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <link rel="stylesheet" href="/resources/static/css/main.css"/>
     <link rel="SHORTCUT ICON" href=""/>
-    <script src="/resources/js/require/require.js" data-main="/resources/main"></script>
+    <!--<script src="/resources/js/require/require.js" data-main="/resources/main"></script>  -->
+    <script src="http://apps.bdimg.com/libs/require.js/2.1.9/require.min.js" data-main="/resources/main"></script>
 </head>
 <body ms-controller="rootController">
 	<input id="appId" type="hidden" value="${appId}"/>

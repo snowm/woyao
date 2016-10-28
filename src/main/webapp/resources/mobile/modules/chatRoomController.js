@@ -526,7 +526,7 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"wxsdk","dom
             		if(data[i].effectCode == '' || data[i].effectCode == null){
             			data[i].picURL = "/resources/static/img/ba.png";
             		}else if(data[i].effectCode == 'e1'){
-            			data[i].picURL = "/resources/static/img/num.png";
+            			data[i].picURL = "/resources/static/img/s1.png";
             			pList.push(data[i]);
             		}else if(data[i].effectCode == 'e2'){
             			data[i].picURL = "/resources/static/img/plane.png";

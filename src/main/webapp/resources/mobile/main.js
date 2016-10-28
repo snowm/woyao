@@ -6,16 +6,16 @@ require.config({//第一块，配置
     baseUrl: '/resources/',
     paths: {
         avalon: ["js/avalon/avalon.mobile"],
-        mmHistory: 'js/avalon/mmHistory',
-        mmRouter: 'js/avalon/mmRouter',
-        text: ['js/require/text'],
-        domReady: 'js/require/domReady',
-        jquery: ['js/jquery-1.9.1/jquery'],
+        mmHistory: ['js/avalon/mmHistory'],
+        mmRouter: ['js/avalon/mmRouter'],
+        text: ['http://cdn.bootcss.com/require-text/2.0.12/text.min','js/require/text'],
+        domReady: ['js/require/domReady'],
+        jquery: ['http://apps.bdimg.com/libs/jquery/1.9.1/jquery.min','js/jquery-1.9.1/jquery'],
         qqface:'js/qqface/jquery.qqFace',
-        swiper:['js/swiper-master/swiper.min'],
-        'async': ['js/require/async'],
-        socket:'modules/socket',
-        wxsdk:['js/wxsdk'],
+        swiper:['http://cdn.bootcss.com/Swiper/3.3.1/js/swiper.min','js/swiper-master/swiper.min'],
+        async: ['js/require/async'],
+        socket:['modules/socket'],
+        wxsdk:['http://res.wx.qq.com/open/js/jweixin-1.1.0','js/wxsdk'],
     },
     shim: {
         'qqface': {deps: ['jquery']},
@@ -47,21 +47,6 @@ require(['mmRouter',"domReady!",'socket','wxsdk'],function(mmRouter,domReady,soc
 
     avalon.scan();
     
-    
-
-    
-//   监控数据长度 超过 x 删掉第一个
-//    rootController._publicMsg.$watch('length', function(a, b) {
-//    	if(a >80){
-//    		rootController._publicMsg.splice(0,1)
-//    	}
-//    })
-//    
-//    rootController._privacyMsg.$watch('length', function(a, b) {
-//    	if(a > 80){
-//    		rootController._privacyMsg.splice(0,1)
-//    	}
-//    })
     
     var wxadt = {
     		appId: document.getElementById('appId').value, 
