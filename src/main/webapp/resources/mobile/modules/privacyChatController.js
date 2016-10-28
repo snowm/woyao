@@ -3,7 +3,7 @@
  * Created by lzd on 2016.
  */
 
-define(['jquery','avalon', 'text!./privacyChat.html','socket','swiper',"domReady!",'qqface'], function ($,avalon,_privacyChat,socket,swiper,domReady) {
+define(['jquery','avalon', 'text!./privacyChat.html','socket','swiper','wxsdk',"domReady!",'qqface'], function ($,avalon,_privacyChat,socket,swiper,wx,domReady) {
     avalon.templateCache._privacyChat = _privacyChat;
 
     socket.init();
@@ -26,8 +26,9 @@ define(['jquery','avalon', 'text!./privacyChat.html','socket','swiper',"domReady
             sreenMsg:'', // 霸屏文字
             sreenTime:'', // 霸屏时间
             pMsgList:[],
+            photoLists:[],
             userInfo:{
-            	id:1
+            	id:''
             },
             togglePlugin : function(){ // 显示功能区 按钮
                 pChatController.emojiShow = false;
@@ -71,25 +72,32 @@ define(['jquery','avalon', 'text!./privacyChat.html','socket','swiper',"domReady
                     pChatController.tabShowFlag = true;
                 }
             },
-            showPhotoWall:function(){
-                if(pChatController.isShowPhoto){
+            showPhotoWall:function(user){
+            	if(pChatController.isShowPhoto){
                     $(".pop-photoWall").css('display','none');
+                    pChatController.photoLists = [];
                     pChatController.isShowPhoto = false;
                     setTimeout(function(){
-                        pChatController.popshow = false;
+                    	pChatController.popshow = false;
                     },300)
                 }else{
-                    pChatController.popshow = true;
+                	pChatController.showUser = user.$model; // 记录点击用户信息
+                	pChatController.popshow = true;
                     $(".pop-photoWall").css('display','block');
                     setTimeout(function(){
-                        pChatController.isShowPhoto = true;
-                        showPhoto();
-                    },10)
+                        showPhoto(user.$model.headImg,user.$model.id);
+                    },100)
                 }
             },
             msgText:'', //文字内容
             imgUrl:'', //发送图片 base64
             sendMsg:function(){
+            	
+            	if(pChatController.msgText == '' && pChatController.imgUrl == ''){
+                    alert('请输入文字或者添加图片')
+                    return;
+                }
+            	
             	var content = {
                         text:pChatController.msgText,
                         pic:pChatController.imgUrl,
@@ -112,7 +120,6 @@ define(['jquery','avalon', 'text!./privacyChat.html','socket','swiper',"domReady
 
                     var blocks = sliceContent(content)
                     var msgId = ++avalon.vmodels.rootController._msgIndex;
-                    console.log(msgId);
                     for(var i = 0;i<blocks.length;i++){
                         var msg = undefined;
                         var type = 'msgBlock';
@@ -200,11 +207,15 @@ define(['jquery','avalon', 'text!./privacyChat.html','socket','swiper',"domReady
                 pageSize:20,
            },
            queryHistoryIng:false,
+           showPics:function(msg,url){
+	           	wx.previewImage({
+	           	    current: msg, // 当前显示图片的http链接
+	           	    urls: ['http://www.luoke30.com' + url], // 需要预览的图片http链接列表
+	           	});
+           },
         });
 
         avalon.scan();
-        
-        
 
         function queryHistoryMsg(){
             
@@ -298,16 +309,48 @@ define(['jquery','avalon', 'text!./privacyChat.html','socket','swiper',"domReady
         });
 
 
-        // init Swiper
-        function showPhoto(){
-            var swiper = new Swiper('.swiper-container',{
-                preventClicks : false,
-                preventLinksPropagation : false,
-                touchRatio : 1,
-                lazyLoading : true,
-            });
-        }
 
+
+        // init Swiper
+        function showPhoto(pic,id){
+        	pChatController.photoLists = [];
+        	$.ajax({
+                url: "/m/chat/chatPicList/" + id + "/1/50",
+                dataType: "JSON",
+                async: true,
+                type: "get",
+                success: function(data) {
+                	data.unshift({picUrl:pic})
+                	pChatController.photoLists = data;
+
+                	pChatController.isShowPhoto = true;
+                	setTimeout(function(){
+                		var swiper = new Swiper('.swiper-container',{
+                			preventClicks : false,
+                            preventLinksPropagation : false,
+                            touchRatio : 1,
+                            lazyLoading : true,
+                            observer:true,
+                            pagination: '.swiper-pagination',
+                            paginationType: 'fraction'
+                        });
+                	},500)
+                	
+                	
+                },
+                complete: function() {
+                },
+                error: function() {
+
+                }
+            });
+        	
+            
+        }
+        
+        
+        
+        
         
         /*  图片压缩 上传 */
         //    用于压缩图片的canvas
@@ -367,7 +410,6 @@ define(['jquery','avalon', 'text!./privacyChat.html','socket','swiper',"domReady
             //进行最小压缩
             var ndata = canvas.toDataURL('image/jpeg', 0.1);
 
-            alert("图片大于200KB 进行压缩 压缩前：" + initSize + '压缩后：' + ndata.length);
 
             tCanvas.width = tCanvas.height = canvas.width = canvas.height = 0;
 

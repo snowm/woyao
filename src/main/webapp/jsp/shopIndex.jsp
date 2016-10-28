@@ -20,33 +20,23 @@
 </div>
 
 <div class="showContainer show2">
-    <img src="/show/resources/img/show/n1.png" class="n-1" alt="">
-    <img src="/show/resources/img/show/n2.png" class="n-2" alt="">
-    <img src="/show/resources/img/show/n3.png" class="n-3" alt="">
-    <img src="/show/resources/img/show/n4.png" class="n-4" alt="">
-    <img src="/show/resources/img/show/n5.png" class="n-5" alt="">
-    <img src="/show/resources/img/show/n3.png" class="n-3" alt="">
-    <img src="/show/resources/img/show/n4.png" class="n-4" alt="">
-    <img src="/show/resources/img/show/n5.png" class="n-5" alt="">
-    <img src="/show/resources/img/show/n6.png" class="n-6" alt="">
-    <img src="/show/resources/img/show/n6.png" class="n-6" alt="">
-    <img src="/show/resources/img/show/n7.png" class="n-7" alt="">
-    <img src="/show/resources/img/show/n8.png" class="n-8" alt="">
-    <img src="/show/resources/img/show/n4.png" class="n-4" alt="">
-    <img src="/show/resources/img/show/n5.png" class="n-5" alt="">
-    <img src="/show/resources/img/show/n6.png" class="n-6" alt="">
-    <img src="/show/resources/img/show/n6.png" class="n-6" alt="">
-    <img src="/show/resources/img/show/n7.png" class="n-7" alt="">
-    <img src="/show/resources/img/show/n8.png" class="n-8" alt="">
-    <img src="/show/resources/img/show/n4.png" class="n-4" alt="">
-    <img src="/show/resources/img/show/n5.png" class="n-5" alt="">
-    <img src="/show/resources/img/show/n6.png" class="n-6" alt="">
-    <img src="/show/resources/img/show/n6.png" class="n-6" alt="">
-    <img src="/show/resources/img/show/n7.png" class="n-7" alt="">
-    <img src="/show/resources/img/show/n8.png" class="n-8" alt="">
-    <img src="/show/resources/img/show/n9.png" class="n-9" alt="">
-    <img src="/show/resources/img/show/n10.png" class="n-10" alt="">
-    <img src="/show/resources/img/show/n11.png" class="n-11" alt="">
+    <img src="/show/resources/img/show/s01.png" alt="">
+    <img src="/show/resources/img/show/s02.png" alt="">
+    <img src="/show/resources/img/show/s03.png" alt="">
+    <img src="/show/resources/img/show/s04.png" alt="">
+    <img src="/show/resources/img/show/s05.png" alt="">
+    <img src="/show/resources/img/show/s06.png" alt="">
+    <img src="/show/resources/img/show/s07.png" alt="">
+    <img src="/show/resources/img/show/s08.png" alt="">
+    <img src="/show/resources/img/show/s09.png" alt="">
+    <img src="/show/resources/img/show/s07.png" alt="">
+    <img src="/show/resources/img/show/s08.png" alt="">
+    <img src="/show/resources/img/show/s09.png" alt="">
+    <img src="/show/resources/img/show/s07.png" alt="">
+    <img src="/show/resources/img/show/s08.png" alt="">
+    <img src="/show/resources/img/show/s09.png" alt="">
+    <img src="/show/resources/img/show/s10.png" alt="">
+    <img src="/show/resources/img/show/s11.png" alt="">
 </div>
 <div class="showContainer show3">
     <img src="/show/resources/img/show/msf1.png" class="show3-1" alt="">
@@ -60,7 +50,7 @@
             <div>
                 <div style="width:50%;float:left;" class="senderCtn">
                     <img class="wall-all-left-img senderHead" src="/show/resources/img/man.png"  alt="">
-                    <div class="pop-sreen-name"><span class="wall-name-text"></span><img src="/show/resources/img/woman.png" class="wall-sexy wall-sexy-woman" alt=""><img src="/show/resources/img/male.png" class="wall-sexy wall-sexy-man" alt=""></div>
+                    <div class="pop-sreen-name"><p style="text-align:center;"><span class="wall-name-text"></span><img src="/show/resources/img/woman.png" class="wall-sexy wall-sexy-woman" alt=""><img src="/show/resources/img/male.png" class="wall-sexy wall-sexy-man" alt=""></p></div>
                     <p class="wall-p"></p>
                 </div>
 
@@ -386,10 +376,8 @@
                     }
                     if(!msg.privacy){
                     	
-                    	
-                   /*  	
-                         msg.duration = 20;
-                         msg.effectCode = 'e3'; */
+                    /*     msg.duration = 50;
+                         msg.effectCode = 'e1';   */
                          
                          
                         if(msg.duration != 0){
@@ -497,8 +485,8 @@
                         $('.wall-giftName').html("雪花儿");
                         show1.start();
                     }else if(item.effectCode == 'e2'){
-                        $('.giftImg').attr('src','/show/resources/img/show/p1.png');
-                        $('.wall-giftName').html("飞机");
+                        $('.giftImg').attr('src','/show/resources/img/show/s02.png');
+                        $('.wall-giftName').html("圣诞礼物");
                         show2.start();
                     }else if(item.effectCode == 'e3'){
                         $('.giftImg').attr('src','/show/resources/img/show/mac.png');
@@ -609,21 +597,23 @@
             start:function(){
                 $(".show2").show();
                 $(".show0").hide();
-
-                var item = $(".show2").find('img');
-                for(var i = 0; i < item.length; i++){
-                    $(item[i]).css('left', Math.floor(Math.random()*100+1)　+ '%');
-                    $(item[i]).css('top', Math.floor(Math.random()*100+1)　+ '%');
-                }
+				setTimeout(function(){
+					var item = $(".show2").find('img');
+	                for(var i = 0; i < item.length; i++){
+	                    $(item[i]).css('left', Math.floor(Math.random()*100+1)　+ '%');
+	                    $(item[i]).css('top', Math.floor(Math.random()*90+1)　+ '%');
+	                }
+				},300)
+                
             },
             stop:function(){
+                $(".show2").hide();
+                $(".show0").show();
                 var item = $(".show2").find('img');
                 for(var i = 0; i < item.length; i++){
                     $(item[i]).css('left','50%');
-                    $(item[i]).css('top','50%');
+                    $(item[i]).css('top','-50%');
                 }
-                $(".show2").hide();
-                $(".show0").show();
             }
         }
 

@@ -318,7 +318,8 @@ body{
     overflow: hidden;
 }
 .wall-sexy{
-    width: 16px;
+    width: .15rem;
+    padding-left:.2rem;
 }
 .wall-all-left{
     width: 60%;
@@ -374,8 +375,7 @@ body{
 }
 .wall-name-text{
 	max-width:2rem;
-	display:block;
-	float:left;
+	display:inline-block;
     white-space:nowrap;
     overflow:hidden;
     text-overflow:ellipsis;
@@ -480,7 +480,7 @@ body{
 	margin:auto;
 }
 .giftImg{
-	width: 2rem;
+	width: 1rem;
 }
 .pop-sreen-name{
 	display:block;
@@ -743,14 +743,14 @@ body{
 	z-index:999999999;
 }
 .show2 > img{
-	transition: all 3s;
-	-moz-transition: all 3s;	/* Firefox 4 */
-	-webkit-transition: all 3s;	/* Safari 和 Chrome */
-	-o-transition: all 3s;	/* Opera */
+	transition: all 5s;
+	-moz-transition: all 5s;	/* Firefox 4 */
+	-webkit-transition: all 5s;	/* Safari 和 Chrome */
+	-o-transition: all 5s;	/* Opera */
 	position:absolute;
 	left:50%;
-	top:50%;
-	
+	top:-50%;
+	width:.4rem;
 	-webkit-animation:pulse 1s .1s ease both infinite;
 	-moz-animation:pulse 1s .1s ease both infinite;
 }
@@ -758,22 +758,22 @@ body{
 
 @-webkit-keyframes pulse{
 		0%{-webkit-transform:scale(1)}
-		50%{-webkit-transform:scale(2)}
+		50%{-webkit-transform:scale(1.2)}
 		100%{-webkit-transform:scale(1)}
 }
 @-moz-keyframes pulse{
 		0%{-moz-transform:scale(1)}
-		50%{-moz-transform:scale(2)}
+		50%{-moz-transform:scale(1.2)}
 		100%{-moz-transform:scale(1)}
 }
 @-webkit-keyframes pulseshow1{
 		0%{-webkit-transform:scale(1)}
-		50%{-webkit-transform:scale(2)}
+		50%{-webkit-transform:scale(1.2)}
 		100%{-webkit-transform:scale(1)}
 }
 @-moz-keyframes pulseshow1{
 		0%{-moz-transform:scale(1)}
-		50%{-moz-transform:scale(2)}
+		50%{-moz-transform:scale(1.2)}
 		100%{-moz-transform:scale(1)}
 }
 

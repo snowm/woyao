@@ -43,8 +43,6 @@ define(['jquery','avalon', 'text!./chatter.html',"domReady!",'socket'], function
     function init(){
         console.log('聊天列表初始化');
         
-     
-        
         
         var msgs = avalon.vmodels.rootController._privacyMsg.$model;
         var senderList = [];

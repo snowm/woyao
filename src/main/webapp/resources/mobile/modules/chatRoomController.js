@@ -2,7 +2,7 @@
  * Created by lzd on 2016.
  */
 
-define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"wxsdk","domReady!",'qqface'], function ($,avalon,_chatRoom,socket,swiper,wx,domReady) {
+define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper','wxsdk',"domReady!",'qqface'], function ($,avalon,_chatRoom,socket,swiper,wx,domReady) {
     avalon.templateCache._chatRoom = _chatRoom;
 
     socket.init();
@@ -526,10 +526,10 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"wxsdk","dom
             		if(data[i].effectCode == '' || data[i].effectCode == null){
             			data[i].picURL = "/resources/static/img/ba.png";
             		}else if(data[i].effectCode == 'e1'){
-            			data[i].picURL = "/resources/static/img/s1.png";
+            			data[i].picURL = "/resources/static/img/ps1.png";
             			pList.push(data[i]);
             		}else if(data[i].effectCode == 'e2'){
-            			data[i].picURL = "/resources/static/img/plane.png";
+            			data[i].picURL = "/resources/static/img/ps2.png";
             			pList.push(data[i]);
             		}else if(data[i].effectCode == 'e3'){
             			data[i].picURL = "/resources/static/img/mac.png";
@@ -665,7 +665,7 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"wxsdk","dom
                 mainController.isShowPhoto = true;
             	setTimeout(function(){
             		var swiper = new Swiper('.swiper-container',{
-                        preventClicks : false,
+            			preventClicks : false,
                         preventLinksPropagation : false,
                         touchRatio : 1,
                         lazyLoading : true,
