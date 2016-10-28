@@ -147,7 +147,7 @@ body{
 }
 .msg-c{
     float: left;
-    width: 70%;
+    width: 65%;
     height:100%;
     position: relative;
 }
@@ -180,7 +180,8 @@ body{
     height: 86%;
     position: relative;
     border-radius:10px;
-    border:4px solid rgba(122,49,136,0.9);
+    border:4px solid rgba(117, 52, 152, 0.74);
+    box-shadow:0px 0px 6px rgba(117, 52, 152, 0.74);
 }
 .msg-img-c{
     position: relative;
@@ -286,6 +287,7 @@ body{
 	padding:10px;
 	text-align:center;
 	font-size:.4rem;
+	color:#c9c9c9;
 }
 .msg-sexy-man{
 	visibility:hidden;
@@ -506,12 +508,12 @@ body{
 .g-light1{
     width: 5rem;
     position: absolute;
-    top: 0px;
-    left: 0px;
-    -moz-transform-origin: 0% 50%;
-    -webkit-transform-origin: 0% 50%;
-    -o-transform-origin: 0% 50%;
-    transform-origin: 11% 29%;
+    top: -26px;
+    left: -24px;
+    -moz-transform-origin:11% 50%;
+    -webkit-transform-origin: 11% 50%;
+    -o-transform-origin: 11% 50%;
+    transform-origin: 11% 50%;
     -webkit-transform: rotate(0deg);
     -moz-transform: rotate(0deg);
     -ms-transform: rotate(0deg);
@@ -526,12 +528,12 @@ body{
 .g-light2{
     width: 6rem;
     position: absolute;
-    top: 0px;
-    left: 0px;
-    -moz-transform-origin: 0% 50%;
-    -webkit-transform-origin: 0% 50%;
-    -o-transform-origin: 0% 50%;
-    transform-origin: 11% 29%;
+    top: -26px;
+    left: -24px;
+    -moz-transform-origin: 11% 50%;
+    -webkit-transform-origin:11% 50%;
+    -o-transform-origin: 11% 50%;
+    transform-origin: 11% 50%;
     -webkit-transform: rotate(0deg);
     -moz-transform: rotate(0deg);
     -ms-transform: rotate(0deg);
@@ -567,7 +569,7 @@ body{
 .g-light4{
     width: 5rem;
     position: absolute;
-    top: -30px;
+    top: -15px;
     right: -21px;
     -moz-transform-origin: 90% 50%;
     -webkit-transform-origin: 90% 50%;
@@ -791,6 +793,11 @@ body{
 }
 
 
+.shakes{
+	-webkit-animation:shake 0.2s infinite;
+    animation:shake 0.2s infinite;
+}
+
 .show3 > img{
 	border-radius:50%;
 	position:absolute;
@@ -834,4 +841,40 @@ body{
 }
 
 /* texiao */
+
+
+@-webkit-keyframes shake {
+    0%{
+        -webkit-transform:translate(2px, 2px);
+    }
+    25%{
+        -webkit-transform:translate(-2px, -2px);
+    }
+    50%{
+        -webkit-transform:translate(0px, 0px);
+    }
+    75%{
+        -webkit-transform:translate(2px, -2px);
+    }
+    100%{
+        -webkit-transform:translate(-2px, 2px);
+    }
+}
+@keyframes shake {
+    0%{
+        transform:translate(2px, 2px);
+    }
+    25%{
+        transform:translate(-2px, -2px);
+    }
+    50%{
+        transform:translate(0px, 0px);
+    }
+    75%{
+        transform:translate(2px, -2px);
+    }
+    100%{
+        transform:translate(-2px, 2px);
+    }
+}
 

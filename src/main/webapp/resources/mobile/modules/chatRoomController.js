@@ -476,7 +476,6 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"wxsdk","dom
 
         main_socket = socket.ws;
 
-    	$(".msg-block-contain").animate({scrollTop:$(".msg-block-container").height() - $(".msg-block-contain").height() + 100},300,'swing');
     	
         setTimeout(function(){
             $('.emoji-btn').qqFace({
@@ -504,6 +503,9 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper',"wxsdk","dom
                     }
                 }
             });
+            
+
+        	$(".msg-block-contain").animate({scrollTop:$(".msg-block-container").height() - $(".msg-block-contain").height() + 100},300,'swing');
         },300);
     }
     

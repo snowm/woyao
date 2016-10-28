@@ -281,8 +281,8 @@
                         <img class="msg-arr" src="/resources/static/img/arred.png" ms-visible="item.sender.gender == 'FEMALE'" alt="">
 
                         <div class="msg-smgs">
-                        	<span ms-visible="!item.effectCode && item.duration"><span class="text-org ">霸屏<span ms-text="item.duration"></span>秒：</span><span ms-html="item.text"></span></span>
-                        	<span ms-visible="item.effectCode && item.duration"><span class="text-org">为<span ms-html="item.to.nikename"></span>送来礼物</span><span ms-html="item.text"></span></span>
+                        	<span><span class="text-org" ms-if="item.effectCode && item.duration">为<span ms-text="item.to.nickname"></span>送来礼物</span><span class="text-org" ms-if="item.effectCode == null && item.duration">霸屏<span ms-text="item.duration"></span>秒：</span><span ms-html="item.text"></span></span>
+                        	
                         </div>
                         <div class="msg-img" ms-visible="item.pic" ms-on-tap="showPics(item.sender.nickname,item.pic)">
                             <img --src="/resources/static/img/delate/photo1.jpg" ms-attr-src="item.pic" alt="">

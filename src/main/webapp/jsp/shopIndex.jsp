@@ -391,10 +391,13 @@
                         return;
                     }
                     if(!msg.privacy){
-                        /*
+                    	
+                    	
+                   /*  	
                          msg.duration = 20;
-                         msg.effectCode = 'e3';
-                         */
+                         msg.effectCode = 'e3'; */
+                         
+                         
                         if(msg.duration != 0){
                             if(sreenShow){
                                 msg.text = replace_em(msg.text);
@@ -471,7 +474,13 @@
                     $('.toWhoCtn').attr('style','display:block');
                     $('.senderCtn').attr('style','display:block;width:50%');
                     $('.giftCtn').attr('style','display:block;');
-
+                    
+                    if(item.to == null){
+                        item.to = {
+                            nickname:'woyao',
+                            headImg:'/show/resources/img/head.jpg'
+                        }
+                    }
 
                     if(item.to.gender == 'MALE'){
                         $('.toWhoCtn').find('.wall-sexy-man').attr("style",'visibility:visible');
@@ -481,12 +490,7 @@
                         $('.toWhoCtn').find('.wall-sexy-woman').attr("style",'visibility:visible');
                     }
 
-                    if(item.to == null){
-                        item.to = {
-                            nickname:'woyao',
-                            headImg:'/show/resources/img/head.jpg'
-                        }
-                    }
+                   
                     $('.senderCtn').find('.wall-name-text').html(item.to.nickname);
                     $('.senderCtn').find('.senderHead').attr('src',item.to.headImg);
 
@@ -495,16 +499,19 @@
                     $('.wall-to').html(item.to.nickname);
 
                     if(item.effectCode == 'e1'){ // 聚光灯
-                        $('.giftImg').attr('src','/show/resources/img/show/p1.png');
-                        $('.wall-giftName').html("纸飞机");
+                        $('.giftImg').attr('src','/show/resources/img/show/s1.png');
+                        $('.wall-giftName').html("雪花儿");
                         show1.start();
                     }else if(item.effectCode == 'e2'){
-                        $('.giftImg').attr('src','/show/resources/img/show/num.png');
-                        $('.wall-giftName').html("啤酒");
+                        $('.giftImg').attr('src','/show/resources/img/show/p1.png');
+                        $('.wall-giftName').html("飞机");
                         show2.start();
                     }else if(item.effectCode == 'e3'){
                         $('.giftImg').attr('src','/show/resources/img/show/mac.png');
                         $('。wall-giftName').html("麦克风");
+                        
+                        
+                        $(".wall-all-ctn").addClass('shakes');
                         show3.start();
                     }
                 }else{
@@ -523,7 +530,8 @@
                         show1.stop();
                         show2.stop();
                         show3.stop();
-
+                        $(".wall-all-ctn").removeClass('shakes');
+                        
                         clearTimeout(fl);
                         $(".wall-all-ctn").hide();
                         $('.wall-all-right-img').attr('src','');
