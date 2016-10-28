@@ -492,7 +492,6 @@
                         $('.giftImg').attr('src','/show/resources/img/show/mac.png');
                         $('。wall-giftName').html("麦克风");
                         
-                        
                         $(".wall-all-ctn").addClass('shakes');
                         show3.start();
                     }
@@ -556,6 +555,7 @@
                 interval:null,
                 option:{minSize: 50,maxSize:200,newOn:1000},
                 start:function(option){
+                    $(".show0").hide();
                     var $flake = $('<div id="snowbox" />').css({'position': 'absolute','z-index':'9999', 'top': '-50px'}).html('&#10052;'),
                             documentHeight 	= $(document).height(),
                             documentWidth	= $(document).width(),
@@ -589,6 +589,7 @@
                 },
                 stop:function(){
                 	clearInterval(show1.interval)
+                    $(".show0").show();
                 }
             }
 
