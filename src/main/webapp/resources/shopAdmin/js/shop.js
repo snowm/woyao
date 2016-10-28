@@ -113,6 +113,9 @@ define(['uploadfile'],function(){
     	    hidew:function(){
     	    	shopController.password = false;
     	    	shopController.formShow = true;
+    	    	shopController.formData.oldPwd = '';
+    	    	shopController.formData.newPwd = '';
+    	    	shopController.formData.againPwd = '';
     	    },
     	    make:function(){
     	    	var data={

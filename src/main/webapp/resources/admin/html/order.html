@@ -32,9 +32,9 @@
                         <label class="control-label">订单状态</label>
                         <select class="form-control" ms-duplex="orderData.statusId">
                             <option value="">-- 请选择  --</option>
-                            <option value="1">已送达</option>
-                            <option value="2">成功</option>
-                            <option value="3">失败</option>
+                            <option value="50">已送达</option>
+                            <option value="200">成功</option>
+                            <option value="400">失败</option>
                         </select>
                     </div>
                 </div>
@@ -151,14 +151,14 @@
                 <th class="text-center">创建时间</th>
                 <th class="text-center">订单状态</th>
                 <th class="text-center">总价</th>
-                <th class="text-center text-right" width="200">操作</th>
+                <th class="text-center" width="200">操作</th>
             </tr>
             </thead>
             <tbody>
             <tr ms-repeat-p="orderList">
                 <td ms-text="p.consumerName"></td>
                 <td ms-text="p.creationDate"></td>
-                <td><i ms-if="p.statusId == 1">已送达</i><i ms-if="p.statusId == 2">成功</i><i ms-if="p.statusId == 3">失败</i></td>
+                <td><i ms-if="p.statusId == 50">已送达</i><i ms-if="p.statusId == 200">成功</i><i ms-if="p.statusId == 400">失败</i></td>
                 <td ms-text="p.totalFee"></td>
                 <td class="table-action">
                     <button class="btn btn-xs btn-info" ms-click="details(p.id)"><i class="fa fa-pencil"></i> 详情</button>
