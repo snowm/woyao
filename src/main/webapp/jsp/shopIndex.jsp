@@ -339,16 +339,23 @@
                 this.ws = new WebSocket(protocol + window.location.host + this.path);
 
                 // 打开Socket
+                
+                var that = this;
+                var fl = null;
                 this.ws.onopen = function(event) {
                     console.log("聊天室连接成功");
+                    fl = setInterval(function(){
+                    	that.ws.send('hb');
+                    },1000 * 60 * 3)
                 };
 
                 this.ws.onclose = function(event) {
+                	clearInterval(fl);
                     console.log("断开链接 开始重连.连接次数:" + socket.connectIndex);
-                    if(socket.connectIndex < 10){
-                        socket.connectIndex++;
+                    if(that.connectIndex < 10){
+                    	that.connectIndex++;
                         setTimeout(function(){
-                            socket.init();
+                        	that.init();
                         },10000)
                     }else{
                         console.log("超出最大连接次数" + socket.connectIndex + "，停止尝试重连,请刷新页面");
@@ -376,9 +383,9 @@
                     }
                     if(!msg.privacy){
                     	
-                         msg.duration = 50;
+                      /*    msg.duration = 50;
                          msg.effectCode = 'e1';   
-                         
+                          */
                          
                         if(msg.duration != 0){
                             if(sreenShow){

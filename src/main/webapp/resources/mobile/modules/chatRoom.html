@@ -190,6 +190,9 @@
         </div>
     </div>
 </div>
+
+
+
 <div class="contain">
     <div class="richer-list-btn" ms-on-tap="richerList">
         <img src="/resources/static/img/diamond.png" alt="">
@@ -204,7 +207,7 @@
         <table class="header-ctn">
             <tr>
                 <td width="102">
-                    <span class="header-rich-title">今日土豪</span>
+                    <span class="header-rich-title" ms-on-tap="testImg()">今日土豪</span>
                 </td>
                 <td>
                     <img class="header-richer" src="/resources/static/img/head.jpg" ms-attr-src="topRicher.headImg" alt="">
@@ -279,7 +282,7 @@
                 <td class="plug-btn">
                     <div class="plug-photo">
                         <img class="delete-img" ms-on-tap='clearImg' src="/resources/static/img/delete.png" ms-visible="imgViewSrc != '/resources/static/img/photo.png'">
-                        <input type="file" value='' id='photoInput' ms-change="fileChange(this)" style="width: 60px;height: 60px;position: absolute;left: 0;top: 0;z-index: 9;opacity:0;">
+                        <input type="file" value='' accept="image/*" capture="camera" id='photoInput' ms-change="fileChange(this)" style="width: 60px;height: 60px;position: absolute;left: 0;top: 0;z-index: 9;opacity:0;">
                         <img class="plug-photo-view" src="/resources/static/img/photo.png" ms-attr-src="imgViewSrc" alt="" style="border-radius: 5px;">
                     </div>
                 </td>
