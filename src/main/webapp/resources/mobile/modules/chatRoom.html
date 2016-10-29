@@ -282,7 +282,7 @@
                 <td class="plug-btn">
                     <div class="plug-photo">
                         <img class="delete-img" ms-on-tap='clearImg' src="/resources/static/img/delete.png" ms-visible="imgViewSrc != '/resources/static/img/photo.png'">
-                        <input type="file" value='' capture="camera" id='photoInput' ms-change="fileChange(this)" style="width: 60px;height: 60px;position: absolute;left: 0;top: 0;z-index: 9;opacity:0;">
+                        <input type="file" value='' accept="image/*" capture="camera" id='photoInput' ms-change="fileChange(this)" style="width: 60px;height: 60px;position: absolute;left: 0;top: 0;z-index: 9;opacity:0;">
                         <img class="plug-photo-view" src="/resources/static/img/photo.png" ms-attr-src="imgViewSrc" alt="" style="border-radius: 5px;">
                     </div>
                 </td>
