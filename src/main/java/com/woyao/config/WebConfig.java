@@ -115,10 +115,13 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 		registry.addResourceHandler("/MP_verify_uxa7tD8pJYJJCFjm.txt").addResourceLocations("/resources/MP_verify_uxa7tD8pJYJJCFjm.txt");
 		registry.addResourceHandler("/favicon.ico").addResourceLocations("/resources/favicon.ico");
 
-		registry.addResourceHandler("/resources/modules/**").addResourceLocations("/resources/mobile/modules/").setCachePeriod(devCachePeriod);
-		registry.addResourceHandler("/resources/static/**").addResourceLocations("/resources/mobile/static/").setCachePeriod(devCachePeriod);
-		registry.addResourceHandler("/resources/main.js").addResourceLocations("/resources/mobile/main.js").setCachePeriod(devCachePeriod);
-		registry.addResourceHandler("/resources/**").addResourceLocations("/resources/mobile/").setCachePeriod(cachePeriod);
+		registry.addResourceHandler("/resources/**").addResourceLocations("/resources/mobile/").setCachePeriod(devCachePeriod);
+//		registry.addResourceHandler("/main.js").addResourceLocations("/resources/mobile/main.js").setCachePeriod(devCachePeriod);
+//		registry.addResourceHandler("/resources/main.js").addResourceLocations("/resources/mobile/main.js").setCachePeriod(devCachePeriod);
+//		registry.addResourceHandler("/resources/modules/**").addResourceLocations("/resources/mobile/modules/").setCachePeriod(devCachePeriod);
+//		registry.addResourceHandler("/resources/static/**").addResourceLocations("/resources/mobile/static/").setCachePeriod(devCachePeriod);
+//		registry.addResourceHandler("/resources/js/**").addResourceLocations("/resources/mobile/js/").setCachePeriod(cachePeriod);
+//		registry.addResourceHandler("/resources/plugin/**").addResourceLocations("/resources/mobile/plugin/").setCachePeriod(cachePeriod);
 
 		registry.addResourceHandler("/pic/**").addResourceLocations("/upload/").setCachePeriod(cachePeriod);
 
