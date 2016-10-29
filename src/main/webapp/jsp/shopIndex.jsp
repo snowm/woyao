@@ -376,8 +376,8 @@
                     }
                     if(!msg.privacy){
                     	
-                    /*     msg.duration = 50;
-                         msg.effectCode = 'e1';   */
+                         msg.duration = 50;
+                         msg.effectCode = 'e1';   
                          
                          
                         if(msg.duration != 0){
@@ -457,12 +457,12 @@
                     $('.senderCtn').attr('style','display:block;width:50%');
                     $('.giftCtn').attr('style','display:block;');
                     
-                    if(item.to == null){
+                    /* if(item.to == null){
                         item.to = {
                             nickname:'woyao',
                             headImg:'/show/resources/img/head.jpg'
                         }
-                    }
+                    } */
 
                     if(item.to.gender == 'MALE'){
                         $('.toWhoCtn').find('.wall-sexy-man').attr("style",'visibility:visible');

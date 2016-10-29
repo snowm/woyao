@@ -318,7 +318,9 @@ body{
     overflow: hidden;
 }
 .wall-sexy{
-    width: .15rem;
+	position:relative;
+	top:-.1rem;
+	width: .15rem;
     padding-left:.2rem;
 }
 .wall-all-left{
