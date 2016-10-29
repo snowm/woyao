@@ -288,6 +288,7 @@ public class ChatServiceImpl implements IChatService {
 			dto.setId(e.getId());
 			dto.setPic(e.getPicURL());
 			dto.setText(e.getText());
+			dto.setSentDate(e.getModification().getLastModifiedDate());
 			ProfileDTO sender = this.getChatter(e.getFrom());
 			// 如果没找到sender，忽略此条消息
 			if (sender == null) {
