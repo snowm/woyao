@@ -110,19 +110,23 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		int cachePeriod = 3600 * 24 * 365;
+		int devCachePeriod = 600;
 		registry.addResourceHandler("/MP_verify_ExuzNoCNVM22thc+.txt").addResourceLocations("/resources/MP_verify_ExuzNoCNVM22thc+.txt");
 		registry.addResourceHandler("/MP_verify_uxa7tD8pJYJJCFjm.txt").addResourceLocations("/resources/MP_verify_uxa7tD8pJYJJCFjm.txt");
 		registry.addResourceHandler("/favicon.ico").addResourceLocations("/resources/favicon.ico");
 
+		registry.addResourceHandler("/resources/modules/**").addResourceLocations("/resources/mobile/modules/").setCachePeriod(devCachePeriod);
+		registry.addResourceHandler("/resources/static/**").addResourceLocations("/resources/mobile/static/").setCachePeriod(devCachePeriod);
+		registry.addResourceHandler("/resources/main.js").addResourceLocations("/resources/mobile/main.js").setCachePeriod(devCachePeriod);
 		registry.addResourceHandler("/resources/**").addResourceLocations("/resources/mobile/").setCachePeriod(cachePeriod);
 
 		registry.addResourceHandler("/pic/**").addResourceLocations("/upload/").setCachePeriod(cachePeriod);
 
-		registry.addResourceHandler("/show/resources/**").addResourceLocations("/resources/show/").setCachePeriod(cachePeriod);
+		registry.addResourceHandler("/show/resources/**").addResourceLocations("/resources/show/").setCachePeriod(devCachePeriod);
 
 		registry.addResourceHandler("/admin/resources/**").addResourceLocations("/resources/admin/").setCachePeriod(cachePeriod);
 
-		registry.addResourceHandler("/shopAdmin/resources/**").addResourceLocations("/resources/shopAdmin/").setCachePeriod(cachePeriod);
+		registry.addResourceHandler("/shopAdmin/resources/**").addResourceLocations("/resources/shopAdmin/").setCachePeriod(devCachePeriod);
 
 	}
 }
