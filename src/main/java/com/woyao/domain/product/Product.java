@@ -16,10 +16,14 @@ import javax.persistence.TableGenerator;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Parameter;
+import org.hibernate.annotations.Type;
 
 import com.snowm.hibernate.ext.domain.DefaultModelImpl;
+import com.snowm.hibernate.ext.usertype.ExtEnumType;
 import com.woyao.domain.Pic;
 import com.woyao.domain.Shop;
+import com.woyao.domain.purchase.OrderStatus;
 
 @Entity
 @Table(name = "PRODUCT")
@@ -37,6 +41,7 @@ public class Product extends DefaultModelImpl {
 	private Long id;
 
 	@Column(name = "PRODUCT_TYPE", nullable = false)
+	@Type(type = ExtEnumType.CLASS_NAME, parameters = { @Parameter(name = ExtEnumType.PARA_ENUMCLASS, value = ProductType.CLASS_NAME) })
 	private ProductType type;
 
 	@ManyToOne(optional = true, fetch = FetchType.LAZY)
