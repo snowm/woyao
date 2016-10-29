@@ -60,7 +60,8 @@ public class OrderAdminServiceImpl extends AbstractAdminService<Order, OrderDTO>
 		rs.setTotalCount(count);
 		List<OrderDTO> results = new ArrayList<>();
 		for (Order m : ms) {
-			OrderDTO dto = this.transferToDTO(m, true);
+			OrderDTO dto = this.transferToDTO(m, true);	
+			dto.setTotalFee(m.getTotalFee()/100);
 			results.add(dto);
 		}
 		rs.setResults(results);
