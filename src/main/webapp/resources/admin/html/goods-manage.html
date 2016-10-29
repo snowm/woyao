@@ -81,6 +81,21 @@
                         <input type="number" name="description" class="form-control unitPrice" placeholder="请输入产品价格" ms-duplex="goodsChg.unitPrice">
                     </div>
                 </div><!-- col-sm-6 -->
+                <div ms-if="goodsChg.typeId == 2">
+                 <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="control-label">霸屏时间</label>
+                        <input type="number" name="description" class="form-control unitPrice" placeholder="请输入霸屏时间 (s)" ms-duplex="goodsChg.holdTime">
+                    </div>
+                </div><!-- col-sm-6 -->
+                 <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="control-label">特效编码</label>
+                        <input type="text" name="description" class="form-control unitPrice" placeholder="请输入特效编码" ms-duplex="goodsChg.effectCode">
+                    </div>
+                </div><!-- col-sm-6 -->
+                </div>
+                <div ms-if="goodsChg.typeId == 1">
                  <div class="col-sm-6"> 
                     <div class="form-group">
                         <label class="control-label">商家名称</label>
@@ -118,6 +133,7 @@
                         </div>
                     </div>
                 </div><!-- col-sm-6 -->
+                </div>
             </div><!-- row -->
             <div class="row">               
                 <div class="col-sm-6">

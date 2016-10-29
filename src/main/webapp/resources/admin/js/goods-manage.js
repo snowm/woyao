@@ -13,7 +13,7 @@ define(['uploadfile'],function(){
         demand:true,
         nothing:false,
         picture:false,
-        shop:false,
+        shop:false,        
         totlePage:0,
         goodsList:[],
         shopList:[],
@@ -34,6 +34,8 @@ define(['uploadfile'],function(){
             shopId:"",
             shopName:"",
             unitPrice:"",
+            effectCode:"",
+            holdTime:"",
             pageNumber:1,
             pageSize:12
         },
@@ -110,40 +112,35 @@ define(['uploadfile'],function(){
                         	 goodsController.picture=true;
                         	 goodsController.imgViewSrc = item.mainPic;                        	
                         }else if(goodsController.goodsChg.typeId == "2"){
-	                        goodsController.picture=false;
+	                        goodsController.picture=true;
+	                        $(".mp").attr("disabled","disabled");
                         }
                     }
                 })
         },        
         //修改并保存
         Sava:function(){            
-            var prdocut = $(".prdocut").val();
-            var description = $(".description").val();
-            var unitPrice = $(".unitPrice").val();
-            var shopList = $(".shopList").val();
-            var shopType = $(".shopType").val();           
+        	if(goodsController.goodsChg.name == ""){
+				alert("产品名称不能为空");
+				return;
+			}else if(goodsController.goodsChg.unitPrice == "" || goodsController.goodsChg.unitPrice < 0){
+				alert("产品单价不能为空或是低于0");
+				return;
+			}
             
             if(goodsController.goodsChg.typeId == "1"){    	
             	
             	if(goodsController.imgViewSrc=="/admin/resources/images/photos/upload1.png" && goodsController.goodsChg.id == ""){
     				alert("请选择图片");
     				return;
-    			}
-            	else if(goodsController.goodsChg.mainPicId == ""){
+    			}else if(goodsController.goodsChg.mainPicId == ""){
     				alert("请提交图片");
     				return;
-    			}
-            	else if(prdocut == ""){
-    				alert("产品名称不能为空");
-    				return;
-    			}else if(unitPrice == ""){
-    				alert("产品单价不能为空");
-    				return;
-    			}else if(shopList ==""){
+    	        }else if(goodsController.goodsChg.shopId ==""){
     				alert("请选择正确的商店名称");
     				return;
-    			}else{				
-    				 var date={
+    			}			
+    			var data={
     		                    name:goodsController.goodsChg.name,
     		                    code:goodsController.goodsChg.code,
     		                    description:goodsController.goodsChg.description,
@@ -156,7 +153,7 @@ define(['uploadfile'],function(){
     		            $.ajax({
     		                type: "post",
     		                url: '/admin/product/',
-    		                data:date,
+    		                data:data,
     		                success: function(data){
     		                    console.log(data);
     		                    alert('提交成功');
@@ -173,36 +170,26 @@ define(['uploadfile'],function(){
     		                },
     		                dataType: 'json',
     		            });
-    				}           
             	}else if(goodsController.goodsChg.typeId == "2"){
-            		
-            		if(prdocut == ""){
-        				alert("产品名称不能为空");
+            		if(goodsController.goodsChg.holdTime =="" || goodsController.goodsChg.holdTime <= 0){
+        				alert("霸屏时间不能为空或是小于等于0秒");
         				return;
-        			}else if(unitPrice == ""){
-        				alert("产品单价不能为空");
-        				return;
-        			}else if(shopList ==""){
-        				alert("请选择正确的商店名称");
-        				return;
-        			}else if(shopType ==""){
-        				alert("请选择正确的类型");
-        				return;
-        			}else{				
-        				 var date={
+        			}
+            		var data={
         		                    name:goodsController.goodsChg.name,
         		                    code:goodsController.goodsChg.code,
         		                    description:goodsController.goodsChg.description,
         		                    mainPicId:goodsController.goodsChg.mainPicId,
         		                    typeId:parseInt(goodsController.goodsChg.typeId),
-        		                    shopId:goodsController.goodsChg.shopId,
         		                    unitPrice:goodsController.goodsChg.unitPrice,
+        		                    holdTime:goodsController.goodsChg.holdTime,
+        		                    effectCode:goodsController.goodsChg.effectCode,
         		                    id:goodsController.goodsChg.id
         		                }
         		            $.ajax({
         		                type: "post",
         		                url: '/admin/product/',
-        		                data:date,
+        		                data:data,
         		                success: function(data){
         		                    console.log(data);
         		                    alert('提交成功');
@@ -213,14 +200,13 @@ define(['uploadfile'],function(){
         		                    goodsController.goodsChg.name="";
         		                    goodsController.imgViewSrc = '/admin/resources/images/photos/upload1.png';
         		                    $("#uploadFileIpt").val('');
-        		                    goodsController.goodsShow=false;
         		    	            goodsController.demand=true;
         		                    Submit();
         		                },
         		                dataType: 'json',
         		            });
-        				} 
-            	}
+        		} 
+
         },
         //新增
         add:function(){        	
@@ -248,8 +234,9 @@ define(['uploadfile'],function(){
         },
         chooseType:function(){
         	if(goodsController.goodsChg.typeId == "2"){
-        		goodsController.picture=false;
         		goodsController.shop=true;
+//        		goodsController.shopHide=false;
+        		goodsController.picture=true;
         	}else if(goodsController.goodsChg.typeId == "1"){        		
         		goodsController.shop=true;
         		goodsController.picture=true;
