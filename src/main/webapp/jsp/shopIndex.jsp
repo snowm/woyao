@@ -483,7 +483,7 @@
 
                    
                     $('.toWhoCtn').find('.wall-name-text').html(item.to.nickname);
-                    $('.toWhoCtn').find('.senderHead').attr('src',item.to.headImg);
+                    $('.toWhoCtn').find('.toHeader').attr('src',item.to.headImg);
 
                     $('.wall-sender').html(item.sender.nickname);
                     $('.wall-to').html(item.to.nickname);

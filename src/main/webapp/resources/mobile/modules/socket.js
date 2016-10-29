@@ -262,22 +262,22 @@ define(['jquery','avalon','wxsdk',"domReady!"], function ($,avalon,wx,domReady) 
             avalon.vmodels.mainController.sreenName = item.sender.nickname;
             avalon.vmodels.mainController.sreenGender = item.sender.gender;
             avalon.vmodels.mainController.sreenShowSeconds = item.duration;
-            
-            if(item.to == item.sender){
-            	if(item.effectCode == null){
-            		item.to = '';
-            	}else{
+            if(item.effectCode == null){
+            	item.to = '';
+        	}else{
+            	if(item.to.id == item.sender.id){
             		item.to = {
                 			gender:'',
                 			nickname:'全场观众',
                 			headImg:'/resources/static/img/head.jpg',
                 	}
-            	}
-        	}else{
-        		 avalon.vmodels.mainController.sreenIsToOther = true;
-                 avalon.vmodels.mainController.sreenIsToOtherMsg = item.to;
+            		avalon.vmodels.mainController.sreenIsToOther = true;
+                    avalon.vmodels.mainController.sreenIsToOtherMsg = item.to;
+            	}        		
         	}
-           
+            
+            
+            
             
             var fl = '';
             fl = setInterval(function(){
