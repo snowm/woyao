@@ -1,7 +1,6 @@
 package com.woyao.admin.service.impl;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -16,7 +15,6 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.snowm.hibernate.ext.domain.Modification;
 import com.snowm.utils.query.PaginationBean;
 import com.woyao.admin.dto.product.ProductDTO;
 import com.woyao.admin.dto.product.QueryProductsRequestDTO;
@@ -24,6 +22,7 @@ import com.woyao.admin.service.IProductAdminService;
 import com.woyao.dao.CommonDao;
 import com.woyao.domain.Pic;
 import com.woyao.domain.Shop;
+import com.woyao.domain.product.MsgProduct;
 import com.woyao.domain.product.Product;
 import com.woyao.domain.product.ProductType;
 
@@ -35,20 +34,19 @@ public class ProductAdminServiceImpl extends AbstractAdminService<Product, Produ
 
 	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED)
 	public ProductDTO update(ProductDTO dto) {
-		Product m=this.transferToDomain(dto);
-		Modification md=new Modification();
-		md.setLastModifiedDate(new Date());
-		m.setModification(md);
+		Product m = this.transferToDomain(dto);
 		dao.saveOrUpdate(m);
+
 		return dto;
 	}
+
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true, isolation = Isolation.READ_UNCOMMITTED)
 	public PaginationBean<ProductDTO> query(QueryProductsRequestDTO request) {
 		List<Criterion> criterions = new ArrayList<Criterion>();
 		if (!StringUtils.isEmpty(request.getName())) {
 			criterions.add(Restrictions.like("name", "%" + request.getName() + "%"));
 		}
-		if (request.getShopId()!=null) {
+		if (request.getShopId() != null) {
 			criterions.add(Restrictions.eq("shop.id", request.getShopId()));
 		}
 		if (request.getDeleted() != null) {
@@ -75,8 +73,12 @@ public class ProductAdminServiceImpl extends AbstractAdminService<Product, Produ
 
 	@Override
 	public Product transferToDomain(ProductDTO dto) {
-		System.out.println(dto);
-		Product m=new Product();
+		Product m = null;
+		if (dto.getTypeId() == ProductType.MSG.getTypeValue()) {
+			m = new MsgProduct();
+		} else {
+			m = new Product();
+		}
 		BeanUtils.copyProperties(dto, m);
 		m.setType(ProductType.getEnum(dto.getTypeId()));
 		m.getLogicalDelete().setEnabled(dto.isEnabled());
@@ -96,7 +98,7 @@ public class ProductAdminServiceImpl extends AbstractAdminService<Product, Produ
 
 	@Override
 	public ProductDTO transferToSimpleDTO(Product m) {
-		ProductDTO dto=new ProductDTO();
+		ProductDTO dto = new ProductDTO();
 		BeanUtils.copyProperties(m, dto);
 
 		if (m.getShop() != null) {

@@ -27,6 +27,10 @@ public class ProductDTO extends BasePKDTO {
 	private int quantity;
 	
 	private long totalFee;
+	
+	private String effectCode;
+	
+	private Integer holdTime;
 
 	public long getTotalFee() {
 		return totalFee;
@@ -114,6 +118,22 @@ public class ProductDTO extends BasePKDTO {
 
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
+	}
+	
+	public String getEffectCode() {
+		return effectCode;
+	}
+
+	public void setEffectCode(String effectCode) {
+		this.effectCode = effectCode;
+	}
+
+	public Integer getHoldTime() {
+		return holdTime;
+	}
+
+	public void setHoldTime(Integer holdTime) {
+		this.holdTime = holdTime;
 	}
 
 	@Override
