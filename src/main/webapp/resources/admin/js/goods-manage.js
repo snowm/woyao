@@ -219,6 +219,7 @@ define(['uploadfile'],function(){
             goodsController.imgViewSrc = '/admin/resources/images/photos/upload1.png';
             $("#uploadFileIpt").val(''); 
             $(".mp").val("");
+            $(".mp").removeAttr("disabled");
     		goodsController.uploadbtn = true;
             goodsController.goodsChg = {
             	id:"",
@@ -234,12 +235,14 @@ define(['uploadfile'],function(){
         },
         chooseType:function(){
         	if(goodsController.goodsChg.typeId == "2"){
+        		 $(".mp").attr("disabled","disabled");
         		goodsController.shop=true;
 //        		goodsController.shopHide=false;
         		goodsController.picture=true;
         	}else if(goodsController.goodsChg.typeId == "1"){        		
         		goodsController.shop=true;
         		goodsController.picture=true;
+        		 $(".mp").attr("disabled","disabled");
         	}
         },
         deletedGoods:function(id){
@@ -279,10 +282,11 @@ define(['uploadfile'],function(){
             
         },
         hideNewShop:function(){
+        	
         	if(goodsController.goodsChg.typeId == "2"){
         		goodsController.goodsShow = false;
             	goodsController.demand = true;
-            	goodsController.goods = false;
+            	goodsController.goods = true;
             	goodsController.nothing = false;
             	goodsController.goodsChg.mainPicId = '';
             	goodsController.goodsChg.name="";
@@ -292,7 +296,7 @@ define(['uploadfile'],function(){
         	}else if(goodsController.goodsChg.typeId == "1"){        		
         		goodsController.goodsShow = false;
             	goodsController.demand = true;
-            	goodsController.goods = false;
+            	goodsController.goods = true;
             	goodsController.nothing = false;
             	goodsController.goodsChg.mainPicId = '';
             	goodsController.goodsChg.name="";
@@ -301,8 +305,7 @@ define(['uploadfile'],function(){
                 $("#uploadFileIpt").val('');
         	}else{
         		goodsController.goodsShow = false;
-            	goodsController.demand = true;
-            	goodsController.goods = false;
+            	goodsController.demand = true;            	
             	goodsController.nothing = false;
             	goodsController.goodsChg.mainPicId = '';
             	goodsController.goodsChg.name="";
@@ -311,6 +314,8 @@ define(['uploadfile'],function(){
                 $("#uploadFileIpt").val('');
                 $(".mp").val("");
         	}
+        	
+        	
             
 	    },
         chooseShopItem:function(data){
