@@ -264,7 +264,15 @@ define(['jquery','avalon','wxsdk',"domReady!"], function ($,avalon,wx,domReady) 
             avalon.vmodels.mainController.sreenShowSeconds = item.duration;
             
             if(item.to == item.sender){
-        		item.to = '';
+            	if(item.effectCode == null){
+            		item.to = '';
+            	}else{
+            		item.to = {
+                			gender:'',
+                			nickname:'全场观众',
+                			headImg:'/resources/static/img/head.jpg',
+                	}
+            	}
         	}else{
         		 avalon.vmodels.mainController.sreenIsToOther = true;
                  avalon.vmodels.mainController.sreenIsToOtherMsg = item.to;

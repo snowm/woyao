@@ -464,30 +464,31 @@
                     $('.senderCtn').attr('style','display:block;width:50%');
                     $('.giftCtn').attr('style','display:block;');
                     
-                    /* if(item.to == null){
+                    if(item.to.id == item.sender.id){
                         item.to = {
-                            nickname:'woyao',
-                            headImg:'/show/resources/img/head.jpg'
+                        	nickname:'全场观众',
+                            headImg:'/show/resources/img/all.png'
                         }
-                    } */
-
-                    if(item.to.gender == 'MALE'){
-                        $('.toWhoCtn').find('.wall-sexy-man').attr("style",'visibility:visible');
-                        $('.toWhoCtn').find('.wall-sexy-woman').attr("style",'visibility:hidden');
-                    }else{
                         $('.toWhoCtn').find('.wall-sexy-man').attr("style",'visibility:hidden');
-                        $('.toWhoCtn').find('.wall-sexy-woman').attr("style",'visibility:visible');
+                        $('.toWhoCtn').find('.wall-sexy-woman').attr("style",'visibility:hidden');
+                    } else{
+                    	if(item.to.gender == 'MALE'){
+                            $('.toWhoCtn').find('.wall-sexy-man').attr("style",'visibility:visible');
+                            $('.toWhoCtn').find('.wall-sexy-woman').attr("style",'visibility:hidden');
+                        }else{
+                            $('.toWhoCtn').find('.wall-sexy-man').attr("style",'visibility:hidden');
+                            $('.toWhoCtn').find('.wall-sexy-woman').attr("style",'visibility:visible');
+                        }
                     }
 
                    
-                    $('.senderCtn').find('.wall-name-text').html(item.to.nickname);
-                    $('.senderCtn').find('.senderHead').attr('src',item.to.headImg);
-
+                    $('.toWhoCtn').find('.wall-name-text').html(item.to.nickname);
+                    $('.toWhoCtn').find('.senderHead').attr('src',item.to.headImg);
 
                     $('.wall-sender').html(item.sender.nickname);
                     $('.wall-to').html(item.to.nickname);
 
-                    if(item.effectCode == 'e1'){ // 聚光灯
+                    if(item.effectCode == 'e1'){ 
                         $('.giftImg').attr('src','/show/resources/img/show/s1.png');
                         $('.wall-giftName').html("雪花儿");
                         show1.start();

@@ -162,12 +162,7 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper','wxsdk',"dom
                 }
                 if(mainController.msgType != '0'){ // 这里是发送付费消息的情况
                 	if(mainController.showToChatter || mainController.forHerShow){
-                		if(mainController.toChatter == ''){
-                			alert("请选择送礼对象");
-                			return;
-                		}else{
-                            giftToChatterId = mainController.toChatter;
-                		}
+                		giftToChatterId = mainController.toChatter;
                 	}
                 }
 
@@ -245,6 +240,7 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper','wxsdk',"dom
             	mainController.msgType = '';
                 mainController.toChatter = '';
                 mainController.showToChatter = false;
+                mainController.forHerShow = false;
             }
         }
         ,
@@ -327,11 +323,15 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper','wxsdk',"dom
         	}
         },
         choiceChatter:function(id){
-        	mainController.chatterList.forEach(function(item){
-                if(item.id == id){
-                    mainController.toChatter = item.id;
-                }
-            })
+        	if(id == ''){
+        		mainController.toChatter = '';
+        	}else{
+        		mainController.chatterList.forEach(function(item){
+                    if(item.id == id){
+                        mainController.toChatter = item.id;
+                    }
+                })
+        	}
         },
         pageDown:function(){
         	$(".msg-block-contain").animate({scrollTop:$(".msg-block-container").height() - $(".msg-block-contain").height() + 100},600,'swing');

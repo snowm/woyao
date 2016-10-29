@@ -62,7 +62,7 @@
                 <textarea class="bp-text" name="" id="" cols="" rows="" ms-duplex="msgText"></textarea>
                 <div class="bp-img">
                     <div class="bp-img-ctn">
-                        <input type="file" accept="image/*" capture="camera" value='' ms-change="fileChange(this)" style="width: 60px;height: 60px;position: absolute;left: 0;top: 0;z-index: 9;opacity:0;">
+                        <input type="file" value='' accept="image/*" capture="camera" ms-change="fileChange(this)" style="width: 60px;height: 60px;position: absolute;left: 0;top: 0;z-index: 9;opacity:0;">
                         <img src="/resources/static/img/photo.png" ms-attr-src="imgViewSrc" alt="" style="border-radius: 5px;">
                     </div>
                 </div>
@@ -130,6 +130,18 @@
             <div class="pop-gift-ctn pop-chatter-ctn" ms-visible="showToChatter">
                 <div class="gift-ctn">
                     <ul class="gift-list">
+                   		<li ms-on-tap="choiceChatter('')">
+                            <img class="gift-img" src="/resources/static/img/all.png" alt="">
+                            <div class="gift-msg" style='width:60%;overflow:hidden;'>
+                                <p class="gift-name">全场观众</p>
+                            </div>
+                            <div class="radio-ctn" style="float:right">
+                                <div class="radio-back">
+                                    <span class="radio-checked" ms-visible="toChatter == ''"></span>
+                                </div>
+                            </div>
+                        	<div class="clearfix"></div>
+                        </li>
                         <li ms-repeat-c="chatterList" ms-on-tap="choiceChatter(c.id)" ms-visible='c.id != userInfo.self.id'>
                             <img class="gift-img" --src="/resources/static/img/num.png" ms-attr-src="c.headImg" alt="">
                             <div class="gift-msg" style='width:60%;overflow:hidden;'>
@@ -154,7 +166,7 @@
                 <textarea class="bp-text" name="" id="" cols="" rows="" ms-duplex="msgText"></textarea>
                 <div class="bp-img">
                     <div class="bp-img-ctn">
-                        <input type="file" value='' ms-change="fileChange(this)" style="width: 60px;height: 60px;position: absolute;left: 0;top: 0;z-index: 9;opacity:0;">
+                        <input type="file" value='' accept="image/*" capture="camera" ms-change="fileChange(this)" style="width: 60px;height: 60px;position: absolute;left: 0;top: 0;z-index: 9;opacity:0;">
                         <img src="/resources/static/img/photo.png" ms-attr-src="imgViewSrc" alt="" style="border-radius: 5px;">
                     </div>
                 </div>
