@@ -110,7 +110,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		int cachePeriod = 3600 * 24 * 365;
-		int devCachePeriod = 600;
+		int devCachePeriod = 0;
 		registry.addResourceHandler("/MP_verify_ExuzNoCNVM22thc+.txt").addResourceLocations("/resources/MP_verify_ExuzNoCNVM22thc+.txt");
 		registry.addResourceHandler("/MP_verify_uxa7tD8pJYJJCFjm.txt").addResourceLocations("/resources/MP_verify_uxa7tD8pJYJJCFjm.txt");
 		registry.addResourceHandler("/favicon.ico").addResourceLocations("/resources/favicon.ico");

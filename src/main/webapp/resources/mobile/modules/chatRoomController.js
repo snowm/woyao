@@ -258,29 +258,41 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper','wxsdk',"dom
             }
             files.forEach(function(file, i) {
                 if (!/\/(?:jpeg|png|gif)/i.test(file.type)) return;
+                var orien = 6;
+                EXIF.getData(file, function() {
+                  orien = EXIF.getTag(this, "Orientation"); 
+//                  alert(orien);
+                });
                 var reader = new FileReader();
-                var li = document.createElement("li");
                 var size = file.size / 1024 > 1024 ? (~~(10 * file.size / 1024 / 1024)) / 10 + "MB" : ~~(file.size / 1024) + "KB";
                 reader.onload = function() {
                     var result = this.result;
                     var img = new Image();
                     img.src = result;
-                    mainController.imgViewSrc = result;
+//                    mainController.imgViewSrc = result;
                     //如果图片大小小于200kb，则直接上传
-                    if (result.length <= 200 * 1024) {
-                        img = null;
-                        mainController.imgUrl = result;
-                        return;
-                    }
+//                    if (result.length <= 200 * 1024) {
+//                        img = null;
+//                        mainController.imgUrl = result;
+//                        return;
+//                    }
 //                  图片加载完毕之后进行压缩，然后上传
-                    if (img.complete) {
-                        callback();
-                    } else {
+//                    if (img.complete) {
+//                        callback();
+//                    } else {
                         img.onload = callback;
-                    }
+//                    }
                     function callback() {
-                        var data = compress(img);
-                        mainController.imgUrl = data;
+                        var data = compress(img, orien);
+                        
+                        var img2 = new Image();
+                        img2.src = data;
+                        img2.onload = callback2;
+                        function callback2() {
+                          var result = rotate(img2, orien);
+                          mainController.imgViewSrc = result;
+                          mainController.imgUrl = result;
+                        }
                         img = null;
                     }
                 };
@@ -407,8 +419,7 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper','wxsdk',"dom
     var tctx = tCanvas.getContext("2d");
 
     //    使用canvas对大图片进行压缩
-    function compress(img) {
-        var initSize = img.src.length;
+    function compress(img, orien) {
         var width = img.width;
         var height = img.height;
 
@@ -444,22 +455,58 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper','wxsdk',"dom
             for (var i = 0; i < count; i++) {
                 for (var j = 0; j < count; j++) {
                     tctx.drawImage(img, i * nw * ratio, j * nh * ratio, nw * ratio, nh * ratio, 0, 0, nw, nh);
-
                     ctx.drawImage(tCanvas, i * nw, j * nh, nw, nh);
                 }
             }
         } else {
             ctx.drawImage(img, 0, 0, width, height);
         }
-
-        //进行最小压缩
-        var ndata = canvas.toDataURL('image/jpeg', 0.1);
-
-        //alert("图片大于200KB 进行压缩 压缩前：" + initSize + '压缩后：' + ndata.length);
-
+        ndata = canvas.toDataURL('image/jpeg', 0.1);
+        //压缩之后的src
         tCanvas.width = tCanvas.height = canvas.width = canvas.height = 0;
-
+        
         return ndata;
+    }
+    
+    function rotate(img, orien) {
+      var width = img.width;
+      var height = img.height;
+      canvas.width = width;
+      canvas.height = height;
+      var ag = 0;
+      if (orien == 6) {
+        ag = 90;
+        canvas.width = height;
+        canvas.height = width;
+      } else if (orien == 3) {
+        ag = 180;
+        canvas.width = width;
+        canvas.height = height;
+      } else if (orien == 8) {
+        ag = 270;
+        canvas.width = height;
+        canvas.height = width;
+      } 
+//      ag = 90;
+//      alert('angle: '+ag);
+//      alert('width: '+ canvas.width+', height: '+canvas.height)
+      //进行最小压缩
+      var ndata = null;
+      var xpos = canvas.width/2;
+      var ypos = canvas.height/2;
+
+      if (ag!=0) {
+        ctx.translate(xpos, ypos);
+        ctx.rotate(ag*Math.PI/180);
+        ctx.translate(-xpos, -ypos);
+//        alert("sx:"+(xpos - width / 2)+" sy:"+ (ypos - height / 2));
+        ctx.drawImage(img, xpos - width / 2, ypos - height / 2);
+      } else {
+        ctx.drawImage(img, 0, 0, width, height);
+      }
+      ndata = canvas.toDataURL('image/jpeg', 0.1);
+      tCanvas.width = tCanvas.height = canvas.width = canvas.height = 0;
+      return ndata;
     }
 
     /*  图片压缩 上传  */
