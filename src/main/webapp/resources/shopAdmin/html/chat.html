@@ -51,7 +51,8 @@
 				        <th class="text-center">用户名称</th>
 				        <th class="text-center">聊天内容</th>
 				        <th class="text-center">时间</th>
-				        <th class="text-center">是否付费</th>
+				        <th class="text-center">是否是免费消息</th>
+				        <th class="text-center">是否支付</th>
 				        <!-- <th class="text-center">是否删除</th> -->
 				        <th class="text-center text-right" width="200">操作</th>
 				      </tr>
@@ -60,9 +61,10 @@
 				      <tr ms-repeat-p="chatList">
 				        <td ms-text="p.chatRoomName"></td>				       	
 				        <td ms-text="p.fromName"></td>
-				        <td ms-text="p.content"></td>
+				        <td ms-text="p.text"></td>
 				        <td ms-text="p.creationDate"></td>
-				        <td><span ms-if="p.free">是</span><span ms-if="!p.free">否</span></td>					        
+				        <td><span ms-if="p.free">是</span><span ms-if="!p.free">否</span></td>	
+				         <td><span ms-if="!p.payed">未支付</span><span ms-if="p.payed">已支付</span></td>				        
 				        <td class="table-action">					        
 					        <i  ms-click="deletedMsg(p.id)" class="fui-cross text-danger" style="cursor: pointer;"></i>
 				        </td>

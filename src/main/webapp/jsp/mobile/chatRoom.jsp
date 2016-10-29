@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="/resources/static/css/main.css"/>
     <link rel="SHORTCUT ICON" href=""/>
     <!--<script src="/resources/js/require/require.js" data-main="/resources/main"></script>  -->
+    <script src="/resources/js/exif.js" > </script>
     <script src="http://apps.bdimg.com/libs/require.js/2.1.9/require.min.js" data-main="/resources/main"></script>
 </head>
 <body ms-controller="rootController">
