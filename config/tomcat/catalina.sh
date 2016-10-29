@@ -154,12 +154,15 @@ assembl_java_opts()
 
 assembl_java_opts
 
-_OPTS="-Xms${JVM_Xms} -Xmx${JVM_Xmx} -XX:NewSize=${JVM_NewSize} -XX:MaxNewSize=${JVM_MaxNewSize} -ea -XX:+UseConcMarkSweepGC\
+_OPTS="-d64 -Xms${JVM_Xms} -Xmx${JVM_Xmx} -XX:NewSize=${JVM_NewSize} -XX:MaxNewSize=${JVM_MaxNewSize} -ea\
+ -XX:+UseConcMarkSweepGC\
+ -XX:+DisableExplicitGC\
  -Djava.security.egd=file:/dev/./urandom\
  -Dlog.level=${LOG_LEVEL}\
  -Dlog.dir=${LOG_DIR}\
  -Dfile.encoding=${FILE_ENCODING}\
- -Dspring.profiles.active=${SPRING_PROFILE}"
+ -Dspring.profiles.active=${SPRING_PROFILE}\
+ -Duser.timezone=GMT+8"
 
 JAVA_OPTS="$JAVA_OPTS $_OPTS"
 echo "JAVA_OPTS=$JAVA_OPTS"

@@ -211,7 +211,7 @@ public class MobileController {
 	}
 
 	private void generateJsapiToken(HttpServletRequest httpRequest) {
-		JsapiTicket ticket = this.jsapiTicketService.getToken();
+		JsapiTicket ticket = this.jsapiTicketService.getTicket();
 		List<NameValuePair> nvs = new ArrayList<>();
 		String timestamp = WxUtils.generateTimestamp();
 		String nonceStr = WxUtils.generateNonce(32);

@@ -37,6 +37,9 @@ public class SelfSSLAuthenticationSuccessHandler extends SSLAuthenticationSucces
 		HttpSession session = request.getSession();
 		if (SelfSecurityUtils.hasAuthority(AuthorityConstants.SHOP_ADMIN)) {
 			ShopDTO shop = this.getCurrentShop();
+			if (shop == null) {
+				return;
+			}
 			long shopId = shop.getId();
 
 			ChatRoomDTO room = this.mobileService.getChatRoom(shopId);
@@ -65,7 +68,7 @@ public class SelfSSLAuthenticationSuccessHandler extends SSLAuthenticationSucces
 		paramMap.put("profileId", profileId);
 		Shop currentShop = this.commonDao.queryUnique("from Shop where managerProfileId = :profileId", paramMap);
 		if (currentShop == null) {
-			throw new IllegalStateException();
+			return null;
 		}
 		ShopDTO dto = shopAdminService.get(currentShop.getId(), true);
 		dto.setManagerPwd(null);

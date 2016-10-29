@@ -81,7 +81,7 @@ public class Oauth2SecurityFilter implements Filter, InitializingBean {
 			pass = this.authorize(request, response);
 		} catch (Exception ex) {
 			logger.error("Authorize error", ex);
-			response.sendError(HttpStatus.SC_INTERNAL_SERVER_ERROR, "服务器出错啦！");
+			response.sendError(HttpStatus.SC_INTERNAL_SERVER_ERROR, "服务器出错啦！请稍后重试。");
 			return;
 		}
 		if (pass) {
@@ -168,14 +168,17 @@ public class Oauth2SecurityFilter implements Filter, InitializingBean {
 			// mock模式，并且使用了测试code激活
 			userInfoResponse = this.createMockResponse();
 		} else {
-			//
+			// 先根据OpenID尝试从数据库中获取
 			if (!StringUtils.isBlank(openId)) {
 				dto = this.profileWxService.getByOpenId(openId);
-				if (dto != null) {
+				if (dto != null && !dto.isExpired()) {
 					return dto;
 				}
-				logger.debug("根据openId[{}]在数据库中查询用户，不存在!", openId);
-				return null;
+				if (dto == null) {
+					logger.debug("根据openId:{}在数据库中查询用户，不存在!", openId);
+				} else {
+					logger.debug("用户openId:{}在数据库中的信息已经过期，需要刷新!", openId);
+				}
 			}
 			userInfoResponse = this.getUserInfoFromWx(openId, code);
 		}

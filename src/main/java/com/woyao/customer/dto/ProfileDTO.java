@@ -9,6 +9,7 @@ import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.snowm.security.profile.domain.Gender;
 import com.woyao.admin.dto.DTOConfig;
 
@@ -48,6 +49,9 @@ public class ProfileDTO implements Serializable {
 
 	@JsonFormat(pattern = DTOConfig.DATE_TIME_FULL_FMT)
 	private Date loginDate;
+	
+	@JsonIgnore
+	private Date lastModifiedDate;
 
 	public Long getId() {
 		return id;
@@ -152,7 +156,27 @@ public class ProfileDTO implements Serializable {
 	public void setLoginDate(Date loginDate) {
 		this.loginDate = loginDate;
 	}
+	
+	public Date getLastModifiedDate() {
+		return lastModifiedDate;
+	}
 
+	public void setLastModifiedDate(Date lastModifiedDate) {
+		this.lastModifiedDate = lastModifiedDate;
+	}
+
+	@JsonIgnore
+	public boolean isExpired() {
+		long existedTime = this.getExistedTime();
+		return existedTime >= 3600;
+	}
+
+	@JsonIgnore
+	public long getExistedTime() {
+		long existedTime = (System.currentTimeMillis() - this.lastModifiedDate.getTime()) / 1000L;
+		return existedTime;
+	}
+	
 	@Override
 	public int hashCode() {
 		return HashCodeBuilder.reflectionHashCode(this);

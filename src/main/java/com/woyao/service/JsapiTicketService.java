@@ -15,14 +15,14 @@ public class JsapiTicketService {
 	private CommonDao dao;
 
 	@Transactional
-	public JsapiTicket getToken() {
+	public JsapiTicket getTicket() {
 		JsapiTicket token = this.dao.queryUnique("from JsapiTicket order by id desc");
 		return token;
 	}
 
 	@Transactional
-	public void saveOrUpdate(JsapiTicket token) {
-		this.dao.saveOrUpdate(token);
+	public void saveOrUpdate(JsapiTicket ticket) {
+		this.dao.saveOrUpdate(ticket);
 	}
 
 }

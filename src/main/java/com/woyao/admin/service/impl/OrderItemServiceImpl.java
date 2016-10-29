@@ -212,8 +212,8 @@ public class OrderItemServiceImpl extends AbstractAdminService<Order, OrderDTO> 
 		Integer day = cb.get(cb.DATE);// 获取日
 		String sql = "select * from "
 				+ "(select year(p.CREATION_DATE) yearOrder,month(p.CREATION_DATE) monthOrder,day(p.CREATION_DATE) dayOrder, "
-				+ "sum(p.TOTAL_FEE) totalOrder " + "from purchase_order p where p.id in "
-				+ "(select DISTINCT t.ORDER_ID from order_item t where t.PRODUCT_ID " + "in(select id from product where shop_id=?) " + ") "
+				+ "sum(p.TOTAL_FEE) totalOrder " + "from PURCHASE_ORDER p where p.ID in "
+				+ "(select DISTINCT t.ORDER_ID from ORDER_ITEM t where t.PRODUCT_ID " + "in(select id from PRODUCT where SHOP_ID=?) " + ") "
 				+ "and year(p.CREATION_DATE)=? and p.ORDER_STATUS!=400 "
 				+ "group by year(p.CREATION_DATE),month(p.CREATION_DATE),day(p.CREATION_DATE) " + ") s "
 				+ "order by s.yearOrder desc, s.monthOrder desc, s.dayOrder desc";

@@ -42,15 +42,11 @@ public class WxServiceImpl implements IWxService {
 				logger.debug("UserAccessToken需要刷新！");
 				GetAccessTokenResponse tokenResponse = this.wxEndpoint.refreshAccessToken(appId, tokenDomain.getRefreshToken(),
 						"refresh_token");
-				if (tokenResponse == null) {
+				if (tokenResponse == null || StringUtils.isBlank(tokenResponse.getAccessToken())) {
 					logger.debug("UserAccessToken刷新失败，没取到新的token！");
 					return null;
 				}
 				accessToken = tokenResponse.getAccessToken();
-				if (StringUtils.isBlank(accessToken)) {
-					logger.debug("UserAccessToken刷新失败，没取到新的token！");
-					return null;
-				}
 
 				tokenDomain.setAccessToken(accessToken);
 				tokenDomain.setExpiresIn(tokenResponse.getExpiresIn());
@@ -63,6 +59,7 @@ public class WxServiceImpl implements IWxService {
 			GetUserInfoResponse userInfoResponse = this.wxEndpoint.getUserInfo(accessToken, openId, "zh_CN");
 			return userInfoResponse;
 		}
+		logger.debug("不能获取到UserAccessToken，因此不能获取用户信息！");
 		return null;
 	}
 

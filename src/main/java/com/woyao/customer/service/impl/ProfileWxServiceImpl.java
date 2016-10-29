@@ -31,12 +31,13 @@ public class ProfileWxServiceImpl implements IProfileWxService {
 	public ProfileDTO getByOpenId(String openId) {
 		Map<String, Object> paramMap = new HashMap<>();
 		paramMap.put("openId", openId);
-		ProfileWX profile = this.dao.queryUnique(HQL_GET_BY_OPENID, paramMap);
-		if (profile == null) {
+		ProfileWX m = this.dao.queryUnique(HQL_GET_BY_OPENID, paramMap);
+		if (m == null) {
 			return null;
 		}
 		ProfileDTO dto = new ProfileDTO();
-		BeanUtils.copyProperties(profile, dto);
+		BeanUtils.copyProperties(m, dto);
+		dto.setLastModifiedDate(m.getModification().getLastModifiedDate());
 		return dto;
 	}
 
@@ -49,6 +50,7 @@ public class ProfileWxServiceImpl implements IProfileWxService {
 		}
 		ProfileDTO dto = new ProfileDTO();
 		BeanUtils.copyProperties(m, dto);
+		dto.setLastModifiedDate(m.getModification().getLastModifiedDate());
 		return dto;
 	}
 

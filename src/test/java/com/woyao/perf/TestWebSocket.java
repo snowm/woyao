@@ -26,18 +26,18 @@ import com.woyao.utils.TimeLogger;
 
 public class TestWebSocket {
 
-	private static final int totalProfiles = 200;
+	private static final int totalProfiles = 10;
 
-	private static final int durationTime = 60;
+	private static final int durationTime = 10;
 
-	private static final int msgInterval = 10 * 1000;
+	private static final int msgInterval = 2 * 1000;
 
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
-	
+
 	private ExecutorService executor = Executors.newFixedThreadPool(totalProfiles);
 
-	private int connectionTimeout = 3;
-	
+	private int connectionTimeout = 5;
+
 	private URI uri = null;
 
 	private String testNode = "1";
@@ -60,7 +60,10 @@ public class TestWebSocket {
 		TimeLogger tl_a = TimeLogger.newLogger().start();
 		TimeLogger tl = TimeLogger.newLogger().start();
 		for (int i = 0; i < totalProfiles; i++) {
-			services.add(this.createService());
+			WebSocketService s = this.createService();
+//			if (s.isConnected()) {
+				services.add(s);
+//			}
 		}
 		logger.info("Create connections spent: {}", tl.end().spent());
 		List<Future<Void>> futures = new ArrayList<>();

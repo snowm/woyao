@@ -38,9 +38,9 @@ public class GetGlobalAccessTokenJob {
 	private boolean enabled = true;
 
 	/**
-	 * 延迟20s，固定等待2m
+	 * 延迟10s，固定等待1m
 	 */
-	@Scheduled(fixedDelay = 120000, initialDelay = 20000)
+	@Scheduled(fixedDelay = 60000, initialDelay = 10000)
 	public void executeInternal() {
 		if (!this.enabled) {
 			logger.debug("GetGlobalAccessTokenJob is disabled...");
@@ -55,24 +55,25 @@ public class GetGlobalAccessTokenJob {
 		long start = System.currentTimeMillis();
 		try {
 			GlobalAccessToken token = this.globalTokenService.getToken();
-			if (token == null || !token.isEffective() || token.isExpired() || token.getRemainExpiringTime() <= 600) {
-				if (token == null) {
-					token = new GlobalAccessToken();
-				}
-				GetGlobalAccessTokenResponse resp = wxEndpoint.getGlobalAccessToken(globalConfig.getAppId(), globalConfig.getAppSecret(),
-						"client_credential");
-				token.setAccessToken(resp.getAccessToken());
-				token.setExpiresIn(resp.getExpiresIn());
-				token.setEffective(true);
-				this.globalTokenService.saveOrUpdate(token);
+			if (token != null && token.isEffective() && !token.isExpired()) {
+				logger.debug("现有token有效，没必要重新获取GlobalAccessToken!");
+				return;
 			}
-			logger.debug("现有token有效，没必要重新获取GlobalAccessToken!");
+			if (token == null) {
+				token = new GlobalAccessToken();
+			}
+			GetGlobalAccessTokenResponse resp = wxEndpoint.getGlobalAccessToken(globalConfig.getAppId(), globalConfig.getAppSecret(),
+					"client_credential");
+			token.setAccessToken(resp.getAccessToken());
+			token.setExpiresIn(resp.getExpiresIn());
+			token.setEffective(true);
+			this.globalTokenService.saveOrUpdate(token);
 		} catch (Exception ex) {
 			logger.error("Get global access token error!", ex);
 		} finally {
 			if (logger.isDebugEnabled()) {
 				long spent = System.currentTimeMillis() - start;
-				logger.debug("Global access token got! Spent time:{} ms", spent);
+				logger.debug("Global access token got! Spent time:{} ms.", spent);
 			}
 		}
 	}
@@ -81,25 +82,26 @@ public class GetGlobalAccessTokenJob {
 		logger.debug("Starting to get jsapi ticket...");
 		long start = System.currentTimeMillis();
 		try {
-			JsapiTicket ticket = this.jsapiTicketservice.getToken();
-			if (ticket == null || !ticket.isEffective() || ticket.isExpired() || ticket.getRemainExpiringTime() <= 600) {
-				if (ticket == null) {
-					ticket = new JsapiTicket();
-				}
-				GlobalAccessToken globalAccessToken = this.globalTokenService.getToken();
-				GetJsapiTicketResponse resp = wxEndpoint.getJsapiTicket(globalAccessToken.getAccessToken());
-				ticket.setTicket(resp.getTicket());
-				ticket.setExpiresIn(resp.getExpiresIn());
-				ticket.setEffective(true);
-				this.jsapiTicketservice.saveOrUpdate(ticket);
+			JsapiTicket ticket = this.jsapiTicketservice.getTicket();
+			if (ticket != null && ticket.isEffective() && !ticket.isExpired()) {
+				logger.debug("现有ticket有效，没必要重新获取JsapiTicket!");
+				return;
 			}
-			logger.debug("现有ticket有效，没必要重新获取JsapiTicket!");
+			if (ticket == null) {
+				ticket = new JsapiTicket();
+			}
+			GlobalAccessToken globalAccessToken = this.globalTokenService.getToken();
+			GetJsapiTicketResponse resp = wxEndpoint.getJsapiTicket(globalAccessToken.getAccessToken());
+			ticket.setTicket(resp.getTicket());
+			ticket.setExpiresIn(resp.getExpiresIn());
+			ticket.setEffective(true);
+			this.jsapiTicketservice.saveOrUpdate(ticket);
 		} catch (Exception ex) {
 			logger.error("Get jsapi ticket error!", ex);
 		} finally {
 			if (logger.isDebugEnabled()) {
 				long spent = System.currentTimeMillis() - start;
-				logger.debug("Jsapi ticket got! Spent time:" + spent + " ms");
+				logger.debug("Jsapi ticket got! Spent time:{} ms.", spent);
 			}
 		}
 	}
