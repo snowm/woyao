@@ -1,5 +1,6 @@
 package com.woyao.admin.service.impl;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -83,8 +84,9 @@ public class OrderItemServiceImpl extends AbstractAdminService<Order, OrderDTO> 
 		}
 		PaginationBean<OrderDTO> rs = new PaginationBean<>(queryRequest.getPageNumber(), queryRequest.getPageSize());
 		List<OrderDTO> results = new ArrayList<>();
-		for (Order m : ms) {
+		for (Order m : ms) {			
 			OrderDTO dto = this.transferToFullDTO(m);
+			dto.setTotalFee(m.getTotalFee()/100);
 			results.add(dto);
 		}
 		rs.setTotalCount(count);
@@ -132,6 +134,7 @@ public class OrderItemServiceImpl extends AbstractAdminService<Order, OrderDTO> 
 	public OrderDTO transferToSimpleDTO(Order m) {
 		OrderDTO dto = new OrderDTO();
 		BeanUtils.copyProperties(m, dto);
+		dto.setTotalFee(m.getTotalFee());
 		dto.setConsumerId(m.getConsumer().getId());
 		dto.setConsumerName(m.getConsumer().getNickname());
 		dto.setToProfileId(m.getToProfile().getId());
@@ -241,15 +244,16 @@ public class OrderItemServiceImpl extends AbstractAdminService<Order, OrderDTO> 
 		dto.setYearOrder(year);
 		dto.setMonthOrder(month);
 		dto.setDayOrder(day);
-		dto.setYearTotal(ytotle);
-		dto.setMonthTotal(mtotle);
-		dto.setDayTotal(dtotle);
+		dto.setYearTotal(ytotle/100);
+		dto.setMonthTotal(mtotle/100);
+		dto.setDayTotal(dtotle/100);
 		List<ShopOrder> ShopOrders = dto.getShopOrders();
 		for (int i = 0; i < 30; i++) {
 			if (i + 1 == lists.size()) {
 				break;
 			}
 			ShopOrder s = lists.get(i);
+			lists.get(i).setTotalOrder(new BigDecimal(lists.get(i).getTotalOrder().intValue()/100));
 			ShopOrders.add(s);
 		}
 		dto.setShopOrders(ShopOrders);
