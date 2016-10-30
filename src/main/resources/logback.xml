@@ -48,10 +48,12 @@
 
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 			<!-- daily rollover -->
-			<fileNamePattern>${log.dir:-logs}/error.%d{yyyy-MM-dd, GMT+8}.log.zip</fileNamePattern>
+			<fileNamePattern>${log.dir:-logs}/error-%d{yyyy-MM-dd, GMT+8}.%i.log</fileNamePattern>
 
 			<!-- keep 30 days' worth of history -->
-			<maxHistory>10</maxHistory>
+			<!-- <maxHistory>30</maxHistory> -->
+			<!-- or whenever the file size reaches 100MB -->
+			<maxFileSize>100MB</maxFileSize>
 		</rollingPolicy>
 	</appender>
 
@@ -77,7 +79,7 @@
 			<timeBasedFileNamingAndTriggeringPolicy
 				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
 				<!-- or whenever the file size reaches 100MB -->
-				<maxFileSize>50MB</maxFileSize>
+				<maxFileSize>100MB</maxFileSize>
 			</timeBasedFileNamingAndTriggeringPolicy>
 
 		</rollingPolicy>

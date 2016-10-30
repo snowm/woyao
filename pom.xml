@@ -251,6 +251,7 @@
 			<artifactId>commons-collections4</artifactId>
 			<version>4.1</version>
 		</dependency>
+		
 		<!-- Main.Redis -->
 		<dependency>
 			<groupId>redis.clients</groupId>
@@ -261,6 +262,24 @@
 			<groupId>org.eclipse.jetty.websocket</groupId>
 			<artifactId>websocket-client</artifactId>
 			<version>9.3.12.v20160915</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.tools.btrace</groupId>
+			<artifactId>btrace-agent</artifactId>
+			<version>1.2.3</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.tools.btrace</groupId>
+			<artifactId>btrace-boot</artifactId>
+			<version>1.2.3</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.tools.btrace</groupId>
+			<artifactId>btrace-client</artifactId>
+			<version>1.2.3</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
