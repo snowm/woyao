@@ -56,6 +56,12 @@ public class Oauth2SecurityFilter implements Filter, InitializingBean {
 	@Resource(name = "wxService")
 	private IWxService wxService;
 
+	@Resource(name = "desCodec")
+	private DESCodec desCodec;
+
+	@Resource(name = "cookieUtils")
+	private CookieUtils cookieUtils;
+
 	@Value("${wx.authority.mock}")
 	private boolean wxMock = true;
 
@@ -117,24 +123,34 @@ public class Oauth2SecurityFilter implements Filter, InitializingBean {
 
 	private boolean authorize(HttpServletRequest request, HttpServletResponse response) {
 		ProfileDTO dto = this.getUserInfo(request);
-		if (dto == null) {
-			CookieUtils.deleteCookie(response, CookieUtils.COOKIE_OPEN_ID);
+		if (dto == null || StringUtils.isBlank(dto.getOpenId())) {
+			this.cookieUtils.deleteCookie(response, CookieConstants.OPEN_ID);
 			return false;
 		}
-		if (dto.getOpenId() == null) {
-			return false;
-		}
-		HttpSession session = request.getSession();
 
-		// 获取到信息后，将chatter放进session，将chatterId和openId放入cookie
+		// 获取到信息后，将chatter放进session，将openId放入cookie
+		String encryptedOpenId = dto.getOpenId();
+		try {
+			encryptedOpenId = this.desCodec.encrypt(dto.getOpenId());
+		} catch (Exception ex) {
+			logger.warn("Encrypt openId error!", ex);
+		}
+		this.cookieUtils.setCookie(response, CookieConstants.OPEN_ID, encryptedOpenId);
+		
+		HttpSession session = request.getSession();
 		session.setAttribute(SessionContainer.SESSION_ATTR_CHATTER, dto);
 		session.setAttribute(SessionContainer.SESSION_ATTR_ISDAPIN, false);
-		CookieUtils.setCookie(response, CookieUtils.COOKIE_OPEN_ID, dto.getOpenId());
-
 		return true;
 	}
+	
 
 	private ProfileDTO getUserInfo(HttpServletRequest request) {
+		String code = request.getParameter(PARA_OAUTH_CODE);
+		if (this.wxMock && "woyao".equals(code)) {
+			//mock模式，并且使用了测试code激活，可以在url里面直接带openId参数
+			return this.mockProfile(request);
+		}
+		
 		// 先尝试从session里面获取chatter信息
 		HttpSession session = request.getSession();
 		ProfileDTO dto = (ProfileDTO) session.getAttribute(SessionContainer.SESSION_ATTR_CHATTER);
@@ -143,46 +159,37 @@ public class Oauth2SecurityFilter implements Filter, InitializingBean {
 		}
 		logger.debug("从session里面没有获取到用户信息!");
 
-		// 最后尝试根据openId或oauth code，从微信服务器获取chatter信息
-		String openId = CookieUtils.getCookie(request, CookieUtils.COOKIE_OPEN_ID);
-		if (this.wxMock) {
-			String mockOpenId = request.getParameter("openId");
-			if (!StringUtils.isBlank(mockOpenId)) {
-				openId = mockOpenId;
-				logger.warn("测试模式: url指定openId[{}],此opendId必须已经存在,仅用于浏览器调试!", openId);
-				dto = this.profileWxService.getByOpenId(openId);
-				if (dto == null) {
-					logger.error("测试模式: url指定openId[{}]不存在!", openId);
-				}
-				return dto;
+		// 尝试根据openId或oauth code，从微信服务器获取chatter信息
+		String openId = this.cookieUtils.getCookie(request, CookieConstants.OPEN_ID);
+		if (!StringUtils.isBlank(openId)) {
+			try {
+				openId = this.desCodec.decrypt(openId);
+			} catch (Exception ex) {
+				logger.error("Decrypt openId error!", ex);
+				return null;
 			}
 		}
-		String code = request.getParameter(PARA_OAUTH_CODE);
+
 		if (StringUtils.isBlank(openId) && StringUtils.isBlank(code)) {
 			logger.debug("Authorize failure, openId 和 code 都没有！");
 			return null;
 		}
-
-		GetUserInfoResponse userInfoResponse = null;
-		if (this.wxMock && "woyao".equals(code)) {
-			// mock模式，并且使用了测试code激活
-			userInfoResponse = this.createMockResponse();
-		} else {
-			// 先根据OpenID尝试从数据库中获取
-			if (!StringUtils.isBlank(openId)) {
-				dto = this.profileWxService.getByOpenId(openId);
-				if (dto != null && !dto.isExpired()) {
-					return dto;
-				}
-				if (dto == null) {
-					logger.debug("根据openId:{}在数据库中查询用户，不存在!", openId);
-				} else {
-					logger.debug("用户openId:{}在数据库中的信息已经过期，需要刷新!", openId);
-				}
+		
+		// 先根据OpenID尝试从数据库中获取
+		if (!StringUtils.isBlank(openId)) {
+			dto = this.profileWxService.getByOpenId(openId);
+			if (dto != null && !dto.isExpired()) {
+				return dto;
 			}
-			userInfoResponse = this.getUserInfoFromWx(openId, code);
+			if (dto == null) {
+				logger.debug("根据openId:{}在数据库中查询用户，不存在!", openId);
+			} else {
+				logger.debug("用户openId:{}在数据库中的信息已经过期，需要刷新!", openId);
+			}
 		}
+		GetUserInfoResponse userInfoResponse = this.getUserInfoFromWx(openId, code);
 		if (userInfoResponse == null) {
+			logger.debug("从微信没有获取到用户信息!");
 			return null;
 		}
 
@@ -238,6 +245,31 @@ public class Oauth2SecurityFilter implements Filter, InitializingBean {
 	// mock code
 	private AtomicLong seqGenerator = new AtomicLong(0L);
 
+	private ProfileDTO mockProfile(HttpServletRequest request){
+		String mockOpenId = request.getParameter("openId");
+		//mock模式，并且使用了测试code激活，可以在url里面直接带openId参数
+		if (!StringUtils.isBlank(mockOpenId)) {
+			String openId = mockOpenId;
+			logger.debug("测试模式: url指定openId[{}],此opendId必须已经存在,仅用于调试!", openId);
+			ProfileDTO dto = this.profileWxService.getByOpenId(openId);
+			if (dto == null) {
+				logger.error("测试模式: url指定openId[{}]的用户不存在!", openId);
+			}
+			return dto;
+		}
+		//如果url里面没有带openId参数，那么mock一个用户信息
+		GetUserInfoResponse userInfoResponse = this.createMockResponse();
+
+		// 将用户信息入库
+		ProfileDTO profileDTO = new ProfileDTO();
+		BeanUtils.copyProperties(userInfoResponse, profileDTO);
+		profileDTO.setGender(this.parseGender(userInfoResponse.getSex()));
+
+		profileDTO = this.profileWxService.saveProfileInfo(profileDTO);
+		profileDTO.setLoginDate(new Date());
+		return profileDTO;
+	}
+	
 	public GetUserInfoResponse createMockResponse() {
 		long seq = seqGenerator.decrementAndGet();
 		GetUserInfoResponse resp = new GetUserInfoResponse();

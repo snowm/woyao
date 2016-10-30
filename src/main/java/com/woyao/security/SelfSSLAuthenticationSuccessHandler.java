@@ -57,7 +57,6 @@ public class SelfSSLAuthenticationSuccessHandler extends SSLAuthenticationSucces
 			adminProfile.setNickname(shop.getName());
 
 			session.setAttribute(SessionContainer.SESSION_ATTR_CHATTER, adminProfile);
-			session.setAttribute(SessionContainer.SESSION_ATTR_CHATROOM_ID, roomId);
 			session.setAttribute(SessionContainer.SESSION_ATTR_ISDAPIN, true);
 		}
 	}

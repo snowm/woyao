@@ -46,6 +46,7 @@ import com.snowm.security.web.matcher.CsrfRequestMatcher;
 import com.woyao.admin.service.IShopAdminService;
 import com.woyao.customer.service.IMobileService;
 import com.woyao.dao.CommonDao;
+import com.woyao.security.DESCodec;
 import com.woyao.security.SelfSSLAuthenticationSuccessHandler;
 
 @Configuration
@@ -59,6 +60,12 @@ public class SecurityConfig {
 
 	@Resource(name = "defaultPermissionService")
 	private PermissionService permissionService;
+
+	@Bean(name = "desCodec")
+	public DESCodec desCodec(@Value("${cookie.des.key}") String keyStr) throws Exception {
+		DESCodec codec = new DESCodec(keyStr);
+		return codec;
+	}
 
 	@Bean(name = "woyaoPasswordEncoder")
 	public PasswordEncoder myPasswordEncoder(@Value("${passwordEncoder.secret}") String secret) {

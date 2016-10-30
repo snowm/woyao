@@ -60,6 +60,9 @@ public class GlobalConfig implements InitializingBean {
 	@Value("${shop.available.distance}")
 	private double shopAvailableDistance;
 
+	@Value("${env}")
+	private String env;
+
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		this.generateAuthorizeFormat();
@@ -135,6 +138,10 @@ public class GlobalConfig implements InitializingBean {
 
 	private void generateAuthorizeFormat() {
 		this.authorizeFormat = this.authorizeUrl + "?" + this.authorizeParamFormat;
+	}
+
+	public String getEnv() {
+		return env;
 	}
 
 }

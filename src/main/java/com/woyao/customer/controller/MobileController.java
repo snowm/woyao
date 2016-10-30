@@ -38,6 +38,7 @@ import com.woyao.customer.service.IChatService;
 import com.woyao.customer.service.IMobileService;
 import com.woyao.customer.service.IProductService;
 import com.woyao.domain.wx.JsapiTicket;
+import com.woyao.security.CookieConstants;
 import com.woyao.service.JsapiTicketService;
 import com.woyao.utils.CookieUtils;
 import com.woyao.utils.UrlUtils;
@@ -64,6 +65,9 @@ public class MobileController {
 	@Resource(name = "globalConfig")
 	private GlobalConfig globalConfig;
 
+	@Resource(name = "cookieUtils")
+	private CookieUtils cookieUtils;
+
 	@RequestMapping(value = { "/", "" })
 	public String index(HttpServletRequest httpRequest) {
 		generateJsapiToken(httpRequest);
@@ -72,7 +76,7 @@ public class MobileController {
 
 	@RequestMapping(value = { "/chatRoom/{shopId}" }, method = RequestMethod.GET)
 	public String chatRoomPortal(@PathVariable("shopId") long shopId, HttpServletRequest httpRequest, HttpServletResponse response) {
-		CookieUtils.setCookie(response, CookieUtils.COOKIE_SHOP_ID, shopId + "");
+		this.cookieUtils.setCookie(response, CookieConstants.SHOP_ID, shopId + "");
 		HttpSession session = httpRequest.getSession();
 		session.setAttribute(SessionContainer.SESSION_ATTR_SHOP_ID, shopId);
 
@@ -95,7 +99,7 @@ public class MobileController {
 		HttpSession session = httpRequest.getSession();
 		Long shopId = (Long) session.getAttribute(SessionContainer.SESSION_ATTR_SHOP_ID);
 		if (shopId == null) {
-			String shopIdCookieStr = CookieUtils.getCookie(httpRequest, CookieUtils.COOKIE_SHOP_ID);
+			String shopIdCookieStr = this.cookieUtils.getCookie(httpRequest, CookieConstants.SHOP_ID);
 			if (!StringUtils.isBlank(shopIdCookieStr)) {
 				try {
 					shopId = Long.parseLong(shopIdCookieStr);
