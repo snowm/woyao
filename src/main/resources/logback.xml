@@ -34,7 +34,7 @@
 	<!-- 按日期区分的滚动日志 -->
 	<appender name="ERROR-OUT"
 		class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<file>${log.dir:-logs}/error.log</file>
+		<file>${log.dir:-logs}/woyao-error.log</file>
 
 		<encoder>
 			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS, GMT+8} [%thread] [%class:%line] - %m%n</pattern>
@@ -48,19 +48,20 @@
 
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 			<!-- daily rollover -->
-			<fileNamePattern>${log.dir:-logs}/error-%d{yyyy-MM-dd, GMT+8}.%i.log</fileNamePattern>
+			<fileNamePattern>${log.dir:-logs}/woyao-error-%d{yyyy-MM-dd, GMT+8}.%i.log</fileNamePattern>
 
 			<!-- keep 30 days' worth of history -->
-			<!-- <maxHistory>30</maxHistory> -->
-			<!-- or whenever the file size reaches 100MB -->
-			<maxFileSize>100MB</maxFileSize>
+			<maxHistory>30</maxHistory>
+			<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>50MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
 		</rollingPolicy>
 	</appender>
 
 	<!-- 按日期和大小区分的滚动日志 -->
 	<appender name="DEBUG-OUT"
 		class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<file>${log.dir:-logs}/all.log</file>
+		<file>${log.dir:-logs}/woyao-all.log</file>
 
 		<encoder>
 			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS, GMT+8} [%-5level] [%thread] [%class:%line] - %m%n</pattern>
@@ -74,12 +75,12 @@
 
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 			<!-- rollover daily -->
-			<fileNamePattern>${log.dir:-logs}/all-%d{yyyy-MM-dd, GMT+8}.%i.log</fileNamePattern>
+			<fileNamePattern>${log.dir:-logs}/woyao-all-%d{yyyy-MM-dd, GMT+8}.%i.log</fileNamePattern>
 
-			<timeBasedFileNamingAndTriggeringPolicy
-				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+			<maxHistory>30</maxHistory>
+			<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
 				<!-- or whenever the file size reaches 100MB -->
-				<maxFileSize>100MB</maxFileSize>
+				<maxFileSize>50MB</maxFileSize>
 			</timeBasedFileNamingAndTriggeringPolicy>
 
 		</rollingPolicy>
