@@ -1103,7 +1103,7 @@ html,body{
 #chatters .fist img{
     width: 50px;
     float: left;
-    padding: 10px 0 0 30px;
+    padding: 10px 0 0 15px;
 }
 #chatters .number-one{
     color: white;
@@ -1138,6 +1138,7 @@ html,body{
     display: inline-block;
     float: left;
     color: #333333;
+    max-width:90%;
 }
 #chatters .rank-number{
     font-size: 14px;

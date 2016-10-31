@@ -212,6 +212,17 @@ define(['jquery','avalon','wxsdk',"domReady!"], function ($,avalon,wx,domReady) 
                         }
                     });
                 }else{
+                	
+//                	if(msg.effectCode != null){
+//                		if(msg.to.id == msg.sender.id){
+//                    		msg.to = {
+//                    			gender:'',
+//                    			nickname:'全场观众',
+//                    			headImg:'/resources/static/img/all.png',
+//                        	}
+//                    	}  
+//                	}
+                	
                     avalon.vmodels.rootController._publicMsg.push(msg);
                     avalon.vmodels.mainController.msgList.push(msg);
 
@@ -269,7 +280,7 @@ define(['jquery','avalon','wxsdk',"domReady!"], function ($,avalon,wx,domReady) 
             		item.to = {
                 			gender:'',
                 			nickname:'全场观众',
-                			headImg:'/resources/static/img/head.jpg',
+                			headImg:'/resources/static/img/all.png',
                 	}
             		avalon.vmodels.mainController.sreenIsToOther = true;
                     avalon.vmodels.mainController.sreenIsToOtherMsg = item.to;
