@@ -154,9 +154,9 @@ assembl_java_opts()
 
 assembl_java_opts
 
+# -XX:+DisableExplicitGC
 _OPTS="-d64 -Xms${JVM_Xms} -Xmx${JVM_Xmx} -XX:NewSize=${JVM_NewSize} -XX:MaxNewSize=${JVM_MaxNewSize} -ea\
  -XX:+UseConcMarkSweepGC\
- -XX:+DisableExplicitGC\
  -Djava.security.egd=file:/dev/./urandom\
  -Dlog.level=${LOG_LEVEL}\
  -Dlog.dir=${LOG_DIR}\

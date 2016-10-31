@@ -20,6 +20,10 @@ public class SubmitOrderMessageHandler extends AbstractEventHandler<LongEvent> {
 	@Resource(name = "defaultOrderProcessor")
 	private DefaultOrderProcessor orderProcessor;
 
+	public SubmitOrderMessageHandler() {
+		this.name = "submitOrderMessageHandler";
+	}
+
 	public void doTask(LongEvent event, long sequence, boolean endOfBatch) {
 		long orderId = event.getValue();
 		try {

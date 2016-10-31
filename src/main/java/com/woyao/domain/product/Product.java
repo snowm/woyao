@@ -23,7 +23,6 @@ import com.snowm.hibernate.ext.domain.DefaultModelImpl;
 import com.snowm.hibernate.ext.usertype.ExtEnumType;
 import com.woyao.domain.Pic;
 import com.woyao.domain.Shop;
-import com.woyao.domain.purchase.OrderStatus;
 
 @Entity
 @Table(name = "PRODUCT")

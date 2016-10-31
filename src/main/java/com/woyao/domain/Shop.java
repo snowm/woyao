@@ -60,6 +60,9 @@ public class Shop extends DefaultModelImpl {
 	@ManyToOne(optional = true, fetch = FetchType.LAZY)
 	@JoinColumn(referencedColumnName = "id", name = "PIC_ID", nullable = true)
 	private Pic pic;
+	
+	@Column(name = "MOBILES", columnDefinition = "TEXT")
+	private String mobiles;
 
 	@Override
 	public Long getId() {
@@ -134,4 +137,13 @@ public class Shop extends DefaultModelImpl {
 	public void setPic(Pic pic) {
 		this.pic = pic;
 	}
+
+	public String getMobiles() {
+		return mobiles;
+	}
+
+	public void setMobiles(String mobiles) {
+		this.mobiles = mobiles;
+	}
+	
 }

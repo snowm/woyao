@@ -2,7 +2,6 @@ package com.woyao.customer.disruptor;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.annotation.Resource;
 
@@ -24,6 +23,10 @@ public class ChatMsgEventHandler extends AbstractEventHandler<ChatMsgEvent> {
 	@Resource(name = "sessionContainer")
 	private SessionContainer sessionContainer;
 
+	public ChatMsgEventHandler() {
+		this.name = "chatMsgEventHandler";
+	}
+	
 	@Override
 	protected void doTask(ChatMsgEvent event, long sequence, boolean endOfBatch) {
 		WebSocketSession wsSession = sessionContainer.getSession(event.getToSessionId());

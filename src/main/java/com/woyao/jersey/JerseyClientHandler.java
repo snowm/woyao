@@ -33,14 +33,14 @@ import jersey.repackaged.com.google.common.util.concurrent.SettableFuture;
  */
 class JerseyClientHandler extends SimpleChannelInboundHandler<HttpObject> {
 
-    private final NettyConnector connector;
+    private final SnowmNettyConnector connector;
     private final LinkedBlockingDeque<InputStream> isList = new LinkedBlockingDeque<>();
 
     private final AsyncConnectorCallback asyncConnectorCallback;
     private final ClientRequest jerseyRequest;
     private final SettableFuture future;
 
-    JerseyClientHandler(NettyConnector nettyConnector, ClientRequest request,
+    JerseyClientHandler(SnowmNettyConnector nettyConnector, ClientRequest request,
                         AsyncConnectorCallback callback, SettableFuture future) {
         this.connector = nettyConnector;
         this.asyncConnectorCallback = callback;

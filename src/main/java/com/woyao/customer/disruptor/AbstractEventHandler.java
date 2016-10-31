@@ -8,14 +8,15 @@ import java.util.concurrent.TimeUnit;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.InitializingBean;
 
 import com.lmax.disruptor.EventHandler;
 import com.lmax.disruptor.LifecycleAware;
 
-public abstract class AbstractEventHandler<T> implements EventHandler<T>, LifecycleAware, InitializingBean {
+public abstract class AbstractEventHandler<T> implements EventHandler<T>, LifecycleAware {
 
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
+
+	protected String name;
 
 	private int threads = 10;
 
@@ -26,15 +27,10 @@ public abstract class AbstractEventHandler<T> implements EventHandler<T>, Lifecy
 	private long taskTimeout = 10L;
 
 	private TimeUnit taskTimeoutTimeUnit = TimeUnit.SECONDS;
-
-	@Override
-	public void afterPropertiesSet() throws Exception {
-		this.es = Executors.newFixedThreadPool(threads);
-	}
-
+	
 	@Override
 	public void onStart() {
-
+		this.es = Executors.newFixedThreadPool(threads);
 	}
 
 	@Override
@@ -49,7 +45,7 @@ public abstract class AbstractEventHandler<T> implements EventHandler<T>, Lifecy
 
 	@Override
 	public void onShutdown() {
-		logger.debug("Shut down handler!");
+		logger.debug("Shutdown EventHandler:{}!", this.name);
 		this.destroyed = true;
 		if (!this.es.isShutdown()) {
 			this.es.shutdown();
@@ -57,9 +53,10 @@ public abstract class AbstractEventHandler<T> implements EventHandler<T>, Lifecy
 		try {
 			this.es.awaitTermination(10, TimeUnit.MINUTES);
 		} catch (InterruptedException ex) {
-			logger.error("Shut down is interrupted!", ex);
+			String msg = String.format("Shutdown EventHandler: %s is interrupted!", this.name);
+			logger.error(msg, ex);
 		}
-		logger.debug("Handler is down!");
+		logger.debug("EventHandler:{} is down!", this.name);
 	}
 
 	protected abstract void doTask(T event, long sequence, boolean endOfBatch);

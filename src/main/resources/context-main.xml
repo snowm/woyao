@@ -13,7 +13,7 @@
     <context:annotation-config />
     <import resource="default-context-properties.xml" />
     <import resource="dev/context-properties.xml" />
-    <import resource="st/context-properties.xml" />
+    <import resource="stage/context-properties.xml" />
     <import resource="prod/context-properties.xml" />
     
     <import resource="context-datasource.xml" />

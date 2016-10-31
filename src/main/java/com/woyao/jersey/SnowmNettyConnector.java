@@ -7,6 +7,8 @@ import java.net.URI;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
@@ -20,15 +22,20 @@ import org.glassfish.jersey.client.ClientProperties;
 import org.glassfish.jersey.client.ClientRequest;
 import org.glassfish.jersey.client.ClientResponse;
 import org.glassfish.jersey.client.spi.AsyncConnectorCallback;
+import org.glassfish.jersey.client.spi.Connector;
 import org.glassfish.jersey.message.internal.OutboundMessageContext;
 import org.glassfish.jersey.netty.connector.LocalizationMessages;
 import org.glassfish.jersey.netty.connector.internal.JerseyChunkedInput;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.ChannelPipeline;
+import io.netty.channel.EventLoopGroup;
+import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.http.DefaultFullHttpRequest;
@@ -53,10 +60,24 @@ import jersey.repackaged.com.google.common.util.concurrent.SettableFuture;
  *
  * @author jade.young
  */
-class SnowmNettyConnector extends NettyConnector {
+class SnowmNettyConnector implements Connector {
+
+	final Logger logger = LoggerFactory.getLogger(this.getClass());
+	final ExecutorService executorService;
+	final EventLoopGroup group;
+	final Client client;
 
 	SnowmNettyConnector(Client client) {
-		super(client);
+		final Object threadPoolSize = client.getConfiguration().getProperties().get(ClientProperties.ASYNC_THREADPOOL_SIZE);
+
+		if (threadPoolSize != null && threadPoolSize instanceof Integer && (Integer) threadPoolSize > 0) {
+			executorService = Executors.newFixedThreadPool((Integer) threadPoolSize);
+		} else {
+			executorService = Executors.newCachedThreadPool();
+		}
+
+		this.group = new NioEventLoopGroup();
+		this.client = client;
 	}
 
 	@Override
@@ -253,8 +274,22 @@ class SnowmNettyConnector extends NettyConnector {
 
 	@Override
 	public void close() {
+		logger.info("Start to shutdown netty EventLoopGroup...");
 		group.shutdownGracefully();
+		try {
+			group.awaitTermination(1, TimeUnit.MINUTES);
+			logger.info("Finish to shutdown netty EventLoopGroup!");
+		} catch (InterruptedException e) {
+			logger.warn("shutdown netty EventLoopGroup error!", e);
+		}
+		logger.info("Start to shutdown netty ExecutorService...");
 		executorService.shutdown();
+		try {
+			executorService.awaitTermination(1, TimeUnit.MINUTES);
+			logger.info("Finish to shutdown netty ExecutorService");
+		} catch (InterruptedException e) {
+			logger.warn("shutdown netty ExecutorService error!", e);
+		}
 	}
 
 	@SuppressWarnings("ChainOfInstanceofChecks")

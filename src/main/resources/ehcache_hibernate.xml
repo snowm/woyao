@@ -56,7 +56,7 @@
 	</cache>
 	<cache name="userAccessToken" maxElementsInMemory="500" eternal="false" overflowToDisk="true" maxElementsOnDisk="10000"
 	 	timeToIdleSeconds="300"
-		timeToLiveSeconds="7000">
+		timeToLiveSeconds="7100">
 	</cache>
 	
 	<!-- business -->
@@ -64,15 +64,17 @@
 	</cache>
 	<cache name="chatRoom" maxElementsInMemory="200" eternal="true" overflowToDisk="false">
 	</cache>
-	<cache name="product" maxElementsInMemory="1000" eternal="true" overflowToDisk="true" maxElementsOnDisk="10000">
+	<cache name="product" maxElementsInMemory="2000" eternal="true" overflowToDisk="true" maxElementsOnDisk="10000">
 	</cache>
 	<cache name="msgProduct" maxElementsInMemory="10" eternal="true">
 	</cache>
-	<cache name="profileWX" maxElementsInMemory="1000" eternal="false" overflowToDisk="true" maxElementsOnDisk="10000"
-	 	timeToIdleSeconds="1800">
+	<cache name="refProduct" maxElementsInMemory="2000" eternal="true" overflowToDisk="true" maxElementsOnDisk="10000">
 	</cache>
-	<cache name="picture" maxElementsInMemory="1000" eternal="false" overflowToDisk="true" maxElementsOnDisk="10000"
-	 	timeToIdleSeconds="300">
+	<cache name="profileWX" maxElementsInMemory="1000" eternal="false" overflowToDisk="true" maxElementsOnDisk="10000"
+	 	timeToIdleSeconds="3600">
+	</cache>
+	<cache name="picture" maxElementsInMemory="3000" eternal="false" overflowToDisk="true" maxElementsOnDisk="20000"
+	 	timeToIdleSeconds="1800">
 	</cache>
 	
 </ehcache>
