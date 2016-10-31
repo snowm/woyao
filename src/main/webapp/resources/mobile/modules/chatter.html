@@ -16,12 +16,12 @@
 	    	</div>
 	        <div class="rank-list" ms-repeat-u="senderList">
 	            <div class="fist" ms-on-tap="chat(u.$model)" ms-if="u.id != userInfo.self.id">
-	                <img src="/resources/static/img/head.jpg" style='width:60px;height:60px' ms-attr-src="u.imgUrl" alt="">
+	                <img src="/resources/static/img/head.jpg" ms-attr-src="u.imgUrl" alt="">
 	                <div class="rank-name">
 	                    <div>
 	                    	<span class="text" ms-text="u.nickname"></span>
-		                    <img src="/resources/static/img/weman1.png" ms-if="u.gender == 'FAMALE'" alt="">
-		                    <img src="/resources/static/img/man.png" ms-if="u.gender == 'MALE'" alt="">
+		                    <img src="/resources/static/img/weman1.png" style="width:8px;height:auto;float:left;margin-top:-8px;" ms-if="u.gender == 'FEMALE'" alt="">
+		                    <img src="/resources/static/img/man.png" style="width:8px;height:auto;float:left;margin-top:-8px;" ms-if="u.gender == 'MALE'" alt="">
 	                    </div>
 	                    <div class="rank-number" ms-text="u.lastMsg"></div>
 	                </div>

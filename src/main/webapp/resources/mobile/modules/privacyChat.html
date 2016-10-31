@@ -20,10 +20,6 @@
        </div> -->
     <div class="msg-block-contain">
         <div class="msg-block-container">
-        	<!-- <div class="msg-block clearfix" style="text-align:center">
-        		<span ms-if="!queryHistoryIng" style="font-size:10px;color:#428BF7">下拉加载更多 <br><br><img src="/resources/static/img/adddown.png" width=20 alt=""></span>
-        		<span ms-if="queryHistoryIng"><img src="/resources/static/img/loadsimg.gif" width=20 alt=""></span>
-        	</div> -->
             <div class="msg-block clearfix" ms-repeat-item="pMsgList" ms-class="msg-block-self:item.command == 'smACK'">
                 <div class="msg-header">
                     <img src="/resources/static/img/head.jpg" alt="" ms-attr-src="item.sender.headImg" ms-on-tap="showPhotoWall(item.sender)">
@@ -34,15 +30,10 @@
                         <img class="msg-arr" src="/resources/static/img/arblue.png" ms-if="item.sender.gender == 'MALE'" alt="">
                         <img class="msg-arr" src="/resources/static/img/arred.png" ms-if="item.sender.gender == 'FEMALE'" alt="">
 
-                        <!--<div class="msg-smgs"><span class="text-org">为 sreen 霸屏30秒：</span><span ms-text="item.msg">xxx</span></div>-->
                         <div class="msg-smgs"><span ms-html="item.text"></span></div>
                         <div class="msg-img" ms-if="item.pic" ms-on-tap="showPics(item.sender.nickname,item.pic)">
                             <img --src="/resources/static/img/delate/photo1.jpg" ms-attr-src="item.pic" alt="">
                         </div>
-                        <!--<p class="msg-forhe" ms-on-tap="forHer()">给<span ms-if="item.sexy == 'man'">他</span><span ms-if="item.sexy == 'weman'">她</span>送礼物</p>
-                        <p class="msg-forhe" ms-on-tap="forHer()" ms-if="item.pic">送礼物</p>
-                        <img class="msg-icon-right" src="/resources/static/img/cgrt.png" ms-if="item.sender.gender == 'MALE'" alt="">
-                        <img class="msg-icon-right" src="/resources/static/img/lips.png" ms-if="item.sender.gender == 'FEMALE'" alt=""> -->
                     </div>
                 </div>
                 <p class="msg-time">{{ item.sentDate | date("HH:mm")}}</p>
