@@ -265,15 +265,11 @@ define(['jquery','avalon', 'text!./privacyChat.html','socket','swiper','wxsdk',"
                     path:'/resources/js/qqface/face/',	//表情存放的路径
                     container:'faceCtn'
                 });
-               
             },300);
             queryHistoryMsg();
         }
         
         init();
-
-       
-
 
         // compile QQ faceCode
         function replace_em(str){
@@ -285,14 +281,8 @@ define(['jquery','avalon', 'text!./privacyChat.html','socket','swiper','wxsdk',"
         };
         /* qqface */
         
-        
-        
-
         var textContain = $(".msg-block-contain");
         var textcontainer = $(".msg-block-container");
-
-
-
 
         $(".msg-block-contain").scroll(function(e){
             var $this =$(this),
@@ -306,9 +296,6 @@ define(['jquery','avalon', 'text!./privacyChat.html','socket','swiper','wxsdk',"
                 $(this).scrollTop(1);
             }
         });
-
-
-
 
         // init Swiper
         function showPhoto(pic,id){
@@ -334,8 +321,6 @@ define(['jquery','avalon', 'text!./privacyChat.html','socket','swiper','wxsdk',"
                             paginationType: 'fraction'
                         });
                 	},500)
-                	
-                	
                 },
                 complete: function() {
                 },
@@ -346,9 +331,6 @@ define(['jquery','avalon', 'text!./privacyChat.html','socket','swiper','wxsdk',"
         	
             
         }
-        
-        
-        
         
         
         /*  图片压缩 上传 */

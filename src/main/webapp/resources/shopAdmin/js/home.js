@@ -3,14 +3,14 @@
  */
 define(["highcharts","exporting","dark-unica"],function(){
 		
-    	$.ajax({
+  /*  	$.ajax({
 			  type: "get",
 			  url: '/shop/admin/detail/search',
 			  success: function(data){
 				  pageController.name=data.name;
 			  },
 			  dataType: 'json'
-			});
+			});*/
     	
     	var pageController=avalon.define({
     		$id:"pageController",    	
@@ -28,6 +28,9 @@ define(["highcharts","exporting","dark-unica"],function(){
  	  		  url: "/shop/admin/order/main",
  	  		  success: function(data){   
  	  			  console.log(data);
+ 	  			  if(data == null){
+ 	  				  return;
+ 	  			  }
  	  			  pageController.income=data;
  	  			  pageController.shopOrderList=data.shopOrders;
 	  	  			 pageController.shopOrderList.forEach(function(items){
@@ -91,15 +94,18 @@ define(["highcharts","exporting","dark-unica"],function(){
 		
 		
 		function win(){
-		    date = [];
-			price = [];
+			 var date = [];
+			 var price = [];
 			 $.ajax({
 	 	  		  type: "post",
 	 	  		  url: "/shop/admin/order/main",
 	 	  		  success: function(data){   
 	 	  			  console.log(data);
-	 	  			  pageController.income=data;
-	 	  			  pageController.shopOrderList=data.shopOrders;
+	 	  			  if(data == null){
+	 	  				  return;
+	 	  			  }
+	 	  			  pageController.income = data;
+	 	  			  pageController.shopOrderList = data.shopOrders;
 		  	  			 pageController.shopOrderList.forEach(function(items){
 		  	  				 date.push(items.yearOrder +"/"+ items.monthOrder +"/"+ items.dayOrder);
 		  	  				 price.push(items.totalOrder);
@@ -107,8 +113,7 @@ define(["highcharts","exporting","dark-unica"],function(){
 	  	  				 initCharts();
 	 	  		  },
 	 	  		  dataType: 'json'
-		  	  	});
-		
+		  	 });
 	    }
     
    

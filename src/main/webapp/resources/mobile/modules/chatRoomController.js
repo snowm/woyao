@@ -51,6 +51,10 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper','wxsdk',"dom
             mainController.pluginShow = false;
             mainController.emojiShow = !mainController.emojiShow;
         },
+        hideAllPlugin:function(){
+        	 mainController.emojiShow = false;
+             mainController.pluginShow = false;
+        },
         showPopSend:function(){ // 显示发送提交面板
             mainController.goodsType = {};
             mainController.msgType = '0';
@@ -299,8 +303,7 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper','wxsdk',"dom
             mainController.imgUrl = '';
             mainController.imgViewSrc = '/resources/static/img/photo.png';
             $("#photoInput").val('');
-        }
-        ,
+        },
         choiceGoods:function(id){
         	if(!isEmptyObject(id)){
         		mainController.msgType = '0';
@@ -309,8 +312,11 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper','wxsdk',"dom
         	}else{
         		mainController.payMsgTypes.forEach(function(item){
                     if(item.id == id){
-                    	if(item.effectCode != null || item.effectCode != ''){
+                    	if(item.effectCode != null && item.effectCode != ''){
                     		mainController.showToChatter = true;
+                            mainController.imgUrl = '';
+                            mainController.imgViewSrc = '/resources/static/img/photo.png';
+                            $("#photoInput").val('');
                     	}
                     	if(item.effectCode == null || item.effectCode == ''){
                             mainController.toChatter = '';
@@ -518,12 +524,9 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper','wxsdk',"dom
     function init(){
     	
     	mainController.userInfo = avalon.vmodels.rootController._userInfo.$model;
-    	console.log(mainController.userInfo)
         mainController.msgList = avalon.vmodels.rootController._publicMsg;
-
         main_socket = socket.ws;
 
-    	
         setTimeout(function(){
             $('.emoji-btn').qqFace({
                 id : 'facebox', //表情容器的ID
@@ -625,7 +628,7 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper','wxsdk',"dom
             async: true,
             type: "post",
             success: function(data) {
-                console.log("msg: _____");
+                console.log("get history msg:");
                 console.log(data);
                 var msg = data;
                 for(var i = 0;i < msg.length ; i++){

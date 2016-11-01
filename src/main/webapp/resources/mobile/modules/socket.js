@@ -2,11 +2,15 @@
 define(['jquery','avalon','wxsdk',"domReady!"], function ($,avalon,wx,domReady) {
     var socket = undefined;
     
+   
+    
     var socket = {
         ws: undefined,
         initilized : false,
         path:'/mobile/chat/socket',
+        initShareFlag:false,
         init: function(){
+        
           if (!this.initilized) {
             this.initilized = true;
 
@@ -17,6 +21,7 @@ define(['jquery','avalon','wxsdk',"domReady!"], function ($,avalon,wx,domReady) 
                 protocol = 'wss://';
             }
             this.ws = new WebSocket(protocol + window.location.host + '/mobile/chat/socket');
+            var that = this.ws;
          // 打开Socket 
             this.ws.onopen = function(event) {
                 if(window.location.hash == '#!/'){
@@ -29,6 +34,48 @@ define(['jquery','avalon','wxsdk',"domReady!"], function ($,avalon,wx,domReady) 
                             avalon.vmodels.mainController.tipsShow = false;
                         },3000)
                     },300)
+                    
+                    /*send head msg*/
+                    
+                    function sendGPS(ws){
+                    	wx.getLocation({
+                    	    type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
+                    	    success: function (res) {
+                    	        var latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
+                    	        var longitude = res.longitude ; // 经度，浮点数，范围为180 ~ -180。
+                    	        var speed = res.speed; // 速度，以米/每秒计
+                    	        var accuracy = res.accuracy; // 位置精度
+                    	        var urls = "http://api.map.baidu.com/geoconv/v1/?coords=" +　longitude + "," + latitude + "&from=1&to=5&ak=mZm3GQOvw7AFyZIKrkeomWMbhMbpP2Cc";
+                    	        $.ajax({
+                    	            url: urls,   
+                    	            dataType: "JSONP",  
+                    	            async: true, 
+                    	            type: "get",
+                    	            success: function(data) {
+                    	            	console.log("send head msg:");
+                    	            	var text = 'gps\n';
+                    	            	text += JSON.stringify({longitude:data.result[0].x,latitude:data.result[0].y})
+                    	            	console.log(text);
+                                    	ws.send(text);
+                    	            },
+                    	            complete: function() {
+                    	            },
+                    	            error: function() {
+                    	            	alert("GPS坐标转换百度坐标失败");
+                    	            }
+                    	        });
+                    	    },
+                    	    error : function(){
+                    	    },
+                            fail : function(){
+                            },
+                            failure : function(){
+                            }
+                    	});
+                    }
+                    
+                    setInterval(sendGPS(that),1000 * 60 * 3);//三分钟发一次 地理位置
+                    /*send head msg*/
                 };
             };
 
@@ -47,7 +94,7 @@ define(['jquery','avalon','wxsdk',"domReady!"], function ($,avalon,wx,domReady) 
 
                     avalon.vmodels.rootController._userInfo = msg;
                     avalon.vmodels.mainController.userInfo = msg;
-                	
+                    
                 	$.ajax({
                         url: "/m/chat/listMsg",
                         dataType: "JSON",
@@ -100,23 +147,27 @@ define(['jquery','avalon','wxsdk',"domReady!"], function ($,avalon,wx,domReady) 
                     avalon.vmodels.rootController._roomInfo = msg;
                     if(window.location.hash == '#!/'){
                     	
-                    
-                    	wx.onMenuShareAppMessage({
-                    	    title: '点击进入-我要聊天室', // 分享标题
-                    	    desc: '欢迎来到我要酒吧聊天室，聊天、晒照、交友。', // 分享描述
-                    	    link: 'http://www.luoke30.com/m/chatRoom/' + msg.statistics.id + '#!/', // 分享链接
-                    	    imgUrl: 'http://www.luoke30.com/show/resources/img/logo.png', // 分享图标
-                    	    type: '', // 分享类型,music、video或link，不填默认为link
-                    	    dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
-                    	    success: function () {
-                    	        alert("谢谢您的分享。")
-                    	    },
-                    	    cancel: function () {
-                    	        // 用户取消分享后执行的回调函数
-                    	    }
-                    	});
-                    	
-                    	
+                    	if(!this.initShareFlag){
+                    		wx.hideAllNonBaseMenuItem();
+                        	wx.hideMenuItems({
+                        	    menuList: ['menuItem:share:timeline','menuItem:share:qq','menuItem:share:QZone','menuItem:share:weiboApp','menuItem:share:facebook','menuItem:share:QZone','menuItem:readMode'] // 要隐藏的菜单项，所有menu项见附录3
+                        	});
+                    		wx.onMenuShareAppMessage({
+                        	    title: '点击进入-我要聊天室', // 分享标题
+                        	    desc: '欢迎来到我要酒吧聊天室，聊天、晒照、交友。', // 分享描述
+                        	    link: 'http://www.luoke30.com/m/chatRoom/' + msg.statistics.id + '#!/', // 分享链接
+                        	    imgUrl: 'http://www.luoke30.com/show/resources/img/logo.png', // 分享图标
+                        	    type: '', // 分享类型,music、video或link，不填默认为link
+                        	    dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+                        	    success: function () {
+                        	        alert("谢谢您的分享。")
+                        	    },
+                        	    cancel: function () {
+                        	        // 用户取消分享后执行的回调函数
+                        	    }
+                        	});
+                    		this.initShareFlag = true;
+                    	}
                     	
                     	 var data = {
                                  pageNumber:1,
@@ -131,11 +182,11 @@ define(['jquery','avalon','wxsdk',"domReady!"], function ($,avalon,wx,domReady) 
                                  	avalon.vmodels.mainController.chatterList = data.results;
                                  },
                                  dataType: 'json',
-                                 error: function() {
+                                 error: function(){
                                      alert("获取用户列表失败失败");
                                  }
                              });
-                    }
+                    	}
                     return;
                 }
                 if(msg.command == 'prePay'){
@@ -212,16 +263,15 @@ define(['jquery','avalon','wxsdk',"domReady!"], function ($,avalon,wx,domReady) 
                         }
                     });
                 }else{
-                	
-//                	if(msg.effectCode != null){
-//                		if(msg.to.id == msg.sender.id){
-//                    		msg.to = {
-//                    			gender:'',
-//                    			nickname:'全场观众',
-//                    			headImg:'/resources/static/img/all.png',
-//                        	}
-//                    	}  
-//                	}
+                	if(msg.effectCode != null){
+                		if(msg.to.id == msg.sender.id){
+                    		msg.to = {
+                    			gender:'',
+                    			nickname:'全场观众',
+                    			headImg:'/resources/static/img/all.png',
+                        	}
+                    	}  
+                	}
                 	
                     avalon.vmodels.rootController._publicMsg.push(msg);
                     avalon.vmodels.mainController.msgList.push(msg);
@@ -276,15 +326,8 @@ define(['jquery','avalon','wxsdk',"domReady!"], function ($,avalon,wx,domReady) 
             if(item.effectCode == null){
             	item.to = '';
         	}else{
-            	if(item.to.id == item.sender.id){
-            		item.to = {
-                			gender:'',
-                			nickname:'全场观众',
-                			headImg:'/resources/static/img/all.png',
-                	}
-            		avalon.vmodels.mainController.sreenIsToOther = true;
-                    avalon.vmodels.mainController.sreenIsToOtherMsg = item.to;
-            	}        		
+        		avalon.vmodels.mainController.sreenIsToOther = true;
+                avalon.vmodels.mainController.sreenIsToOtherMsg = item.to;       		
         	}
             
             

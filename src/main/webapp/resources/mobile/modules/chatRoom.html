@@ -34,7 +34,7 @@
 </div>
 <div class="pop-forOther" ms-class="pop-show:forHerShow">
     <div class="pop-forOther-close" ms-on-tap="hideForOther"></div>
-    <div class="pop-forOther-ctn" style="height:330px">
+    <div class="pop-forOther-ctn" style="height:400px">
         <div class="pop-forOther-title">为 <span class="text-blue" ms-text="showUser.nickname"></span> 送礼物</div>
         <div class="pop-gift-ctn" style="margin-top: 10px">
             <div class="gift-ctn">
@@ -59,13 +59,13 @@
             </div>
         </div>
         <div class="tab-bp-ctn clearfix">
-                <textarea class="bp-text" name="" id="" cols="" rows="" ms-duplex="msgText"></textarea>
-                <div class="bp-img">
+                <textarea class="bp-text" placeholder="禁止传播淫秽、色情、暴力等非法信息。" style="width:97%;" name="" id="" cols="" rows="" ms-duplex="msgText"></textarea>
+                <!-- <div class="bp-img">
                     <div class="bp-img-ctn">
                         <input type="file" value='' accept="image/*" capture="camera" ms-change="fileChange(this)" style="width: 60px;height: 60px;position: absolute;left: 0;top: 0;z-index: 9;opacity:0;">
                         <img src="/resources/static/img/photo.png" ms-attr-src="imgViewSrc" alt="" style="border-radius: 5px;">
                     </div>
-                </div>
+                </div> -->
             </div>
         <div class="price-ctn" style="text-align: left;padding-top:5px">
             <p>需微信支付</p>
@@ -107,7 +107,10 @@
                             </div>
                         	<div class="clearfix"></div>
                         </li>
-                        <li ms-repeat-g="payMsgTypes" ms-on-tap="choiceGoods(g.id)">
+                        <li style="background:#ffffff;height:20px;line-height:20px;color:#FFA1BB;text-align:center !important;">
+                        	-- 我要霸屏  -- 
+                        </li>
+                        <li ms-repeat-g="payMsgTypes" class="gift-bg" ms-visible="g.effectCode == null" ms-on-tap="choiceGoods(g.id)">
                             <img class="gift-img" --src="/resources/static/img/num.png" ms-attr-src="g.picURL" alt="">
                             <div class="gift-msg">
                                 <p class="gift-name" ms-text="g.name"></p>
@@ -123,6 +126,25 @@
                             </div>
                         	<div class="clearfix"></div>
                         </li>
+                        <li style="background:#ffffff;height:20px;line-height:20px;color:#8AD0FA;text-align:center !important;">
+                        	-- 我要送礼物 --
+                        </li>
+                        <li ms-repeat-l="payMsgTypes" class="gift-bg" ms-visible="l.effectCode != null" ms-on-tap="choiceGoods(l.id)">
+                            <img class="gift-img" --src="/resources/static/img/num.png" ms-attr-src="l.picURL" alt="">
+                            <div class="gift-msg">
+                                <p class="gift-name" ms-text="l.name"></p>
+                                <p class="gift-transilate" ms-text="l.description"></p>
+                            </div>
+                            <div class="radio-ctn" style="float:right">
+                                <div class="radio-back">
+                                    <span class="radio-checked" ms-visible='msgType == l.id'></span>
+                                </div>
+                            </div>
+                            <div class="gift-cost" style="float:right">
+                              	￥<span ms-text="l.unitPrice"></span>
+                            </div>
+                        	<div class="clearfix"></div>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -130,10 +152,14 @@
             <div class="pop-gift-ctn pop-chatter-ctn" ms-visible="showToChatter">
                 <div class="gift-ctn">
                     <ul class="gift-list">
+                        <li style="background:#ffffff;height:20px;line-height:20px;color:#FFA1BB;text-align:center !important;">
+                        	------- 请选择送礼对象 -------
+                        </li>
                    		<li ms-on-tap="choiceChatter('')">
                             <img class="gift-img" src="/resources/static/img/all.png" alt="">
                             <div class="gift-msg" style='width:60%;overflow:hidden;'>
                                 <p class="gift-name">全场观众</p>
+                                <p class="gift-transilate">为全场观众霸屏送礼</p>
                             </div>
                             <div class="radio-ctn" style="float:right">
                                 <div class="radio-back">
@@ -146,6 +172,7 @@
                             <img class="gift-img" --src="/resources/static/img/num.png" ms-attr-src="c.headImg" alt="">
                             <div class="gift-msg" style='width:60%;overflow:hidden;'>
                                 <p class="gift-name" ms-text="c.nickname"></p>
+                                <p class="gift-transilate"><span ms-visible="c.gender == 'MALE'">帅哥</span><span ms-visible="c.gender == 'FEMALE'">美女</span></p>
                             </div>
                             <div class="radio-ctn" style="float:right">
                                 <div class="radio-back">
@@ -163,8 +190,8 @@
             
             
             <div class="tab-bp-ctn clearfix">
-                <textarea class="bp-text" name="" id="" cols="" rows="" ms-duplex="msgText"></textarea>
-                <div class="bp-img">
+                <textarea class="bp-text" placeholder="禁止传播淫秽、色情、暴力等非法信息。" name="" id="" cols="" rows="" ms-class-only-text="showToChatter" ms-duplex="msgText"></textarea>
+                <div class="bp-img" ms-visible="!showToChatter" >
                     <div class="bp-img-ctn">
                         <input type="file" value='' accept="image/*" capture="camera" ms-change="fileChange(this)" style="width: 60px;height: 60px;position: absolute;left: 0;top: 0;z-index: 9;opacity:0;">
                         <img src="/resources/static/img/photo.png" ms-attr-src="imgViewSrc" alt="" style="border-radius: 5px;">
@@ -206,6 +233,7 @@
 
 
 <div class="contain">
+	<div class="msg-block-hide" ms-on-tap="hideAllPlugin" ms-if="pluginShow||emojiShow"></div>
     <div class="richer-list-btn" ms-on-tap="richerList">
         <img src="/resources/static/img/diamond.png" alt="">
         土豪榜
@@ -215,6 +243,7 @@
         <img src="/resources/static/img/chats.png" alt="">
         私聊
     </div>
+    
     <div class="header-contain">
         <table class="header-ctn">
             <tr>
@@ -267,7 +296,10 @@
             </div>
         </div>
     </div>
+    
+    
     <div class="module-block"  ms-class-show-emoji="emojiShow" ms-class-show-plugin="pluginShow">
+    	
     	<img ms-on-tap='pageDown' src="/resources/static/img/down.png" ms-visible="pageDownBtn" style="width:30px;position:absolute;right:80px;top:-40px;">
         <div class="entry-contain">
             <table width="100%">
