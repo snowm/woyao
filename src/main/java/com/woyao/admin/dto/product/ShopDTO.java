@@ -35,6 +35,16 @@ public class ShopDTO extends BasePKDTO {
 	private long picId;
 
 	private String picUrl;
+	
+	private String mobiles;
+	
+	public String getMobiles() {
+		return mobiles;
+	}
+
+	public void setMobiles(String mobiles) {
+		this.mobiles = mobiles;
+	}
 
 	public Long getManagerProfileId() {
 		return managerProfileId;
