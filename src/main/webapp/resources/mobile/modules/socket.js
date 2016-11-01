@@ -55,7 +55,6 @@ define(['jquery','avalon','wxsdk',"domReady!"], function ($,avalon,wx,domReady) 
                     	            	console.log("send head msg:");
                     	            	var text = 'gps\n';
                     	            	text += JSON.stringify({longitude:data.result[0].x,latitude:data.result[0].y})
-                    	            	console.log(text);
                                     	ws.send(text);
                     	            },
                     	            complete: function() {
@@ -72,8 +71,8 @@ define(['jquery','avalon','wxsdk',"domReady!"], function ($,avalon,wx,domReady) 
                             failure : function(){
                             }
                     	});
-                    }
-                    
+                    };
+                    setTimeout(sendGPS(that),2000);
                     setInterval(sendGPS(that),1000 * 60 * 3);//三分钟发一次 地理位置
                     /*send head msg*/
                 };

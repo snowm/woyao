@@ -587,8 +587,8 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper','wxsdk',"dom
             		}
             	}
             
-                mainController.payMsgTypes = data.reverse();
-                mainController.payGoodsTypes = pList.reverse();
+                mainController.payMsgTypes = data;
+                mainController.payGoodsTypes = pList;
             },
             complete: function() {
             },
