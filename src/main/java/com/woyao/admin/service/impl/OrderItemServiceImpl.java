@@ -234,11 +234,11 @@ public class OrderItemServiceImpl extends AbstractAdminService<Order, OrderDTO> 
 			if (year.equals(shopOrder.getYearOrder())) {
 				ytotle += shopOrder.getTotalOrder().intValue();
 			}
-			if (month.equals(shopOrder.getMonthOrder())) {
-				mtotle += Integer.parseInt(shopOrder.getTotalOrder().toString());
+			if (month.equals(shopOrder.getMonthOrder())&&year.equals(shopOrder.getYearOrder())) {
+				mtotle += shopOrder.getTotalOrder().intValue();
 			}
-			if (day.equals(shopOrder.getDayOrder())) {
-				dtotle += Integer.parseInt(shopOrder.getTotalOrder().toString());
+			if (day.equals(shopOrder.getDayOrder())&&month.equals(shopOrder.getMonthOrder())&&year.equals(shopOrder.getYearOrder())) {
+				dtotle += shopOrder.getTotalOrder().intValue();
 			}
 		}
 		dto.setYearOrder(year);
