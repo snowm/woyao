@@ -80,7 +80,12 @@ define(["datapicker"],function(){
     		    	} 	
     	    	var date = {
     	    			pageNumber:orderController.orderData.pageNumber,
-    	    			pageSize:orderController.orderData.pageSize
+    	    			pageSize:orderController.orderData.pageSize,
+    	    			mintotalFee:orderController.orderData.mintotalFee,
+    	    			maxtotalFee:orderController.orderData.maxtotalFee,
+    	    			statusId:orderController.orderData.statusId,
+    	    			startcreationDate:orderController.orderData.startcreationDate,
+    	    			endcreationDate:orderController.orderData.endcreationDate
     	    	}
     	    	 
     	     $.ajax({

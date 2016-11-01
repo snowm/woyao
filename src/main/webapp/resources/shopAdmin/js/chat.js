@@ -100,18 +100,18 @@ define(['jquery','datapicker','datapicker.cn'],function(){
 	    	});
 	    	function Seach(page){
 	    		if(page == "upPage"){
-  	  	    		if(chatController.chatDate.pageNumber == 1){
-  	  	    			alert("已是第一页");
-  	  	    			return;
-  	  	    		}
-  	  	    		chatController.chatDate.pageNumber--;
-	      			}else if(page == "nextPage"){
-	  	    		if(chatController.chatDate.pageNumber == chatController.totlePage){
-	  	    			alert("已是最后一页");
-	  	    			return;
-	  	    		}
-	  	    		chatController.chatDate.pageNumber++;
-	      			}
+	  	  	    		if(chatController.chatDate.pageNumber == 1){
+	  	  	    			alert("已是第一页");
+	  	  	    			return;
+	  	  	    		}
+	  	  	    		chatController.chatDate.pageNumber--;
+		      			}else if(page == "nextPage"){
+		  	    		if(chatController.chatDate.pageNumber == chatController.totlePage){
+		  	    			alert("已是最后一页");
+		  	    			return;
+		  	    		}
+		  	    		chatController.chatDate.pageNumber++;
+		      			}
 	    		
 	    		var date = {
 	    				shopId:chatController.chatDate.shopId,
@@ -130,7 +130,8 @@ define(['jquery','datapicker','datapicker.cn'],function(){
 	  	      		  success: function(data){
 	  	      			  console.log(data);
 	  	      			  chatController.totlePage = data.totalPageCount;
-	  	      			  chatController.chatList = data.results;	  	      			
+	  	      			  chatController.chatList = data.results;	
+	  	      			
 	  	      		  },
 	  	      		  dataType: 'json'
 	  	      		});
