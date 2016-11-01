@@ -53,12 +53,12 @@
 	            <p>消息查询</p>
 	        </a>
         </li>
-       <!--  <li>
+        <li>
         	<a style="width:100%;height:100%;display:block" href="#!/goods" ms-class-avtive="nav=='goods'" ms-click="navtab('goods')">
 	            <i class="fui-calendar-solid"></i>
 	            <p>商品管理</p>
 	        </a>
-        </li> -->
+        </li>
         <li>
        		<a style="width:100%;height:100%;display:block" href="#!/shop" ms-class-avtive="nav=='shop'" ms-click="navtab('shop')">
             <i class="fui-star-2"></i>

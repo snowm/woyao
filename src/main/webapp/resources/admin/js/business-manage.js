@@ -33,6 +33,7 @@ define(['uploadfile'],function(){
     	    	description:'',
     	    	picId:'', 
     	    	managerPwd:'',
+    	    	mobiles:"",
     	    	id:""	
     	    },
     	    uploadbtn:true,
@@ -173,6 +174,7 @@ define(['uploadfile'],function(){
     	    	    	    	id:shopController.formData.id,
     	    	    	    	picId:shopController.formData.picId,
     	    	    	    	managerPwd:shopController.formData.managerPwd,
+    	    	    	    	mobiles:shopController.formData.mobiles,
     	    	    	}
     	    	    	//性别 -------------------------------------------------------------------------------------------------
 //    	    	    	data.managerType = 1;
