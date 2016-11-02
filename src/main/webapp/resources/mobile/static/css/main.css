@@ -1153,7 +1153,7 @@ html,body{
     max-width:90%;
 }
 #chatters .rank-number{
-    font-size: 14px;
+    font-size: 13px;
     width: 100px;
     color: #999999;
     float: left;
@@ -1179,6 +1179,7 @@ html,body{
     border:0;
 }
 #chatters .all-left{
+	position:relative;
     float: left;
     margin: 15px 0 0 15px;
 }
@@ -1190,19 +1191,22 @@ html,body{
     overflow: hidden;
     padding-left: 10px;
     padding-top: 5px;
+    position:relative;
+    height:60px;
 }
 #chatters .text{
-	font-size:11px;
+	font-size:14px;
 	max-width:150px;
 	white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
 	overflow:hidden;
     display: inline-block;
     float: left;
+    color:#5b5b5b;
 }
 #chatters .all-left-text img{
-    float: left;
-    width: 8px;
-    height:auto;
+    height:13px;
+    position:relative;
+    top:3px;
 }
 #chatters .all-left-text p{
     clear: both;
@@ -1214,6 +1218,7 @@ html,body{
     position: absolute;
     right: 15px;
     top: 15px;
+    height:60px;
 }
 #chatters .all-right p{
     color: #999999;
@@ -1225,7 +1230,9 @@ html,body{
 /*border: 0;*/
 /*}*/
 #chatters .all-right p:last-child{
-	float:right;
+	position:absolute;
+	right:0;
+	bottom:0;
     width: 60px;
     height: 30px;
     color: white;
@@ -1234,8 +1241,6 @@ html,body{
     line-height:30px;
     vertical-align: middle;
     text-align: center;
-    margin-left: 15px;
-    margin-top: 10px;
 }
 
 /* chatter */
@@ -1293,9 +1298,10 @@ html,body{
     padding: 5px 0;
 }
 #richers .fist-img{
+	border-radius:6px;
     width: 50px;
     float: left;
-    padding: 10px 0 0 20px;
+    margin: 10px 0 0 20px;
 }
 #richers .number-one{
     position: absolute;
@@ -1305,31 +1311,39 @@ html,body{
     height: 20px;
 }
 #richers .rank-name{
-    float: left;
-    width: 120px;
-    height: 50px;
-    /*border:1px solid red;*/
     margin-top: 10px;
-    padding-left: 10px;
+    width:150px;
+    height:50px;
+    float:left;
+    position:relative;
 }
 #richers .rank-name-img{
     width: 8px;
     margin-top: 3px;
+    margin-left:3px;
 }
-#richers .rank-name span{
-	font-size:11px;
-	max-width:150px;
-	white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+#richers .rank-name .rank-name-s{
+	padding-left:5px;
+	font-size:13px;
+	max-width:130px;
+	white-space:nowrap;
+	overflow:hidden;
+	text-overflow:ellipsis;
 	overflow:hidden;
     display: inline-block;
     float: left;
+    color:#5f5f5f;
 }
 #richers .rank-number{
     font-size: 11px;
     width: 100px;
     color: #999999;
-    float: left;
-    margin-top: 0px;
+    padding-left:6px;
+    position:absolute;
+    bottom:0;
+}
+#richers .rank-number span{
+    font-size: 11px;
 }
 #richers .rank-right{
     position: absolute;

@@ -16,10 +16,12 @@ require.config({//第一块，配置
         async: ['js/require/async'],
         socket:['modules/socket'],
         wxsdk:['http://res.wx.qq.com/open/js/jweixin-1.1.0','js/wxsdk'],
+        cookie:['http://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min']
     },
     shim: {
         'qqface': {deps: ['jquery']},
         'swiper': {deps: ['jquery']},
+        'cookie': {deps: ['jquery']},
     },
     priority: ['text'],
 });
@@ -28,6 +30,7 @@ require.config({//第一块，配置
 require(['mmRouter',"domReady!",'socket','wxsdk'],function(mmRouter,domReady,socket,wx){
     var rootController = avalon.define({
         $id: "rootController",
+        fistLoad:true,//第一次加载跳转到首页
         _msgIndex:0, //客户端递增消息id
         lock:false, //断开socket标记
         _loading:false, // loading遮盖层
@@ -46,6 +49,7 @@ require(['mmRouter',"domReady!",'socket','wxsdk'],function(mmRouter,domReady,soc
     
 
     avalon.scan();
+       
     
     var wxadt = {
     		appId: document.getElementById('appId').value, 
@@ -84,6 +88,11 @@ require(['mmRouter',"domReady!",'socket','wxsdk'],function(mmRouter,domReady,soc
         var pagepath = "";      //这个是网页的变量
 
         var paths = this.path.split("/");
+        
+        if(rootController.fistLoad){
+        	paths = ['','chatRoom'];
+        	rootController.fistLoad = false;
+        }
         
         //判断hash是不是空
         if(paths[1] == ''){
@@ -125,8 +134,6 @@ require(['mmRouter',"domReady!",'socket','wxsdk'],function(mmRouter,domReady,soc
         }else if(pagepath == '_richer' && loadedFlag){
             richer.init();
         }
-
-        
     }
     
 

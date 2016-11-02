@@ -44,17 +44,17 @@
 		       	<div>
 		            <div class="alls">
 			            <div class="all-left">
-			                <img src="/resources/static/img/head.jpg" style='width:60px;height:60px' ms-attr-src="p.headImg" alt="">
+			                <img src="/resources/static/img/head.jpg" style='width:60px;height:60px;border-radius:6px;' ms-attr-src="p.headImg" alt="">
 			                <div class="all-left-text" style="padding-top:0px">
-			                    <span class="text" ms-text="p.nickname">name</span>
+			                    <span class="text" ms-text="p.nickname">name</span> 
 			                    <img src="/resources/static/img/weman1.png" ms-if="p.gender == 'FAMALE'" alt="">
 			                    <img src="/resources/static/img/man.png" ms-if="p.gender == 'MALE'" alt="">
-			                    <p style='font-size:10px'>相距 : <span ms-text="p.distanceToRoom/1000 ||　0"></span> km</p>
+			                    <p style='font-size:10px;position:absolute;bottom:0'>相距 : <span ms-text="p.distanceToRoom/1000 ||　0"></span> km</p>
 			                </div>
 			            </div>
 			            <div class="all-right" style='text-align:center;'>
-			                <p ms-text="p.loginDate" style="font- psize:10px"></p>
-			                <p ms-on-tap="chat(p.$model)" style="margin-top:19px">发消息</p>
+			                <p style="font-size:10px">访问时间:<span ms-text="p.loginDate | date('HH:mm')" ></span></p>
+			                <p ms-on-tap="chat(p.$model)">发消息</p>
 			            </div>
 		            </div>
 		        </div>

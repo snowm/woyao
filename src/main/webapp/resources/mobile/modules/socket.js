@@ -1,5 +1,5 @@
 
-define(['jquery','avalon','wxsdk',"domReady!"], function ($,avalon,wx,domReady) {
+define(['jquery','avalon','wxsdk',"domReady!","cookie"], function ($,avalon,wx,domReady) {
     var socket = undefined;
     
    
@@ -90,7 +90,7 @@ define(['jquery','avalon','wxsdk',"domReady!"], function ($,avalon,wx,domReady) 
                     return
                 }
                 if(msg.command == 'selfInfo'){
-
+                	msg.id = msg.self.id;
                     avalon.vmodels.rootController._userInfo = msg;
                     avalon.vmodels.mainController.userInfo = msg;
                     
@@ -143,6 +143,14 @@ define(['jquery','avalon','wxsdk',"domReady!"], function ($,avalon,wx,domReady) 
                     return;
                 }
                 if(msg.command == 'roomInfo'){
+                	
+                	/*var roomLink = 'http://www.luoke30.com/m/chatRoom/' + msg.statistics.id + '#!/';
+                	// 存一个房间链接在cookie 刷新的时候用；
+                	$.cookie("roomLink",roomLink,{
+	            		 "path":"/",
+	            		 "expires":1
+            		});*/
+            		
                     avalon.vmodels.rootController._roomInfo = msg;
                     if(window.location.hash == '#!/'){
                     	
