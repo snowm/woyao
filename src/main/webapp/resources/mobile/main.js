@@ -16,10 +16,12 @@ require.config({//第一块，配置
         async: ['js/require/async'],
         socket:['modules/socket'],
         wxsdk:['http://res.wx.qq.com/open/js/jweixin-1.1.0','js/wxsdk'],
+        cookie:['http://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min']
     },
     shim: {
         'qqface': {deps: ['jquery']},
         'swiper': {deps: ['jquery']},
+        'cookie': {deps: ['jquery']},
     },
     priority: ['text'],
 });
@@ -28,6 +30,7 @@ require.config({//第一块，配置
 require(['mmRouter',"domReady!",'socket','wxsdk'],function(mmRouter,domReady,socket,wx){
     var rootController = avalon.define({
         $id: "rootController",
+        fistLoad:true,//第一次加载跳转到首页
         _msgIndex:0, //客户端递增消息id
         lock:false, //断开socket标记
         _loading:false, // loading遮盖层
@@ -46,6 +49,7 @@ require(['mmRouter',"domReady!",'socket','wxsdk'],function(mmRouter,domReady,soc
     
 
     avalon.scan();
+       
     
     var wxadt = {
     		appId: document.getElementById('appId').value, 
@@ -60,7 +64,7 @@ require(['mmRouter',"domReady!",'socket','wxsdk'],function(mmRouter,domReady,soc
         timestamp: wxadt.timestamp, // 必填，生成签名的时间戳
         nonceStr: wxadt.nonceStr, // 必填，生成签名的随机串
         signature: wxadt.signature,// 必填，签名，见附录1
-        jsApiList: ['previewImage','getLocation','chooseWXPay','onMenuShareAppMessage','chooseImage'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+        jsApiList: ['previewImage','getLocation','chooseWXPay','onMenuShareAppMessage','onMenuShareTimeline','chooseImage','hideMenuItems'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
     });
     //========================  配置微信js-sdk许可  ========================
     
@@ -74,7 +78,7 @@ require(['mmRouter',"domReady!",'socket','wxsdk'],function(mmRouter,domReady,soc
     
     var _brageData = {};
     
-
+    
     //导航回调
     var _pagepathAry = [];
     
@@ -85,11 +89,12 @@ require(['mmRouter',"domReady!",'socket','wxsdk'],function(mmRouter,domReady,soc
 
         var paths = this.path.split("/");
         
+       
+        
         //判断hash是不是空
         if(paths[1] == ''){
-            paths = ['','chatRoom']
+            paths = ['','chatRoom'];
         }
-        
         
         for (var i = 0; i < paths.length; i++) {
             if (paths[i] != "") {
@@ -114,31 +119,30 @@ require(['mmRouter',"domReady!",'socket','wxsdk'],function(mmRouter,domReady,soc
         if(!loadedFlag){
             _pagepathAry.push(pagepath);
         }
-
+        
         // 如果是第二次进入页面 执行初始化方法（等封装 必须写判断调用）
         if(pagepath == '_privacyChat' && loadedFlag){
             privacyChat.init();
         }else if(pagepath == '_chatRoom' && loadedFlag){
-            chatRoom.init();
+        	//chatRoom.init();
         }else if(pagepath == '_chatter' && loadedFlag){
             chatter.init();
         }else if(pagepath == '_richer' && loadedFlag){
             richer.init();
         }
-
-        
     }
     
 
-    
     
     avalon.router.get("/", callback);
     avalon.router.get("/chatter", callback);
     avalon.router.get("/chatRoom", callback);
     avalon.router.get("/privacyChat", callback);
     avalon.router.get("/richer", callback);
+
+    avalon.router.navigate('/chatRoom');
+    
     avalon.history.start({
-        basepath: "/"
+        basepath: "/m"
     });
 });
-

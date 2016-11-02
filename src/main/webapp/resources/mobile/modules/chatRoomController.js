@@ -775,8 +775,6 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper','wxsdk',"dom
         textContain.animate({scrollTop:textcontainer.height() - textContain.height() + 100},500,'swing');
     }
 
-
-
     return chatRoom = {
         init:function(){
             init();

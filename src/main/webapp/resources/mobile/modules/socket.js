@@ -1,5 +1,5 @@
 
-define(['jquery','avalon','wxsdk',"domReady!"], function ($,avalon,wx,domReady) {
+define(['jquery','avalon','wxsdk',"domReady!","cookie"], function ($,avalon,wx,domReady) {
     var socket = undefined;
     
    
@@ -73,7 +73,7 @@ define(['jquery','avalon','wxsdk',"domReady!"], function ($,avalon,wx,domReady) 
                     	});
                     };
                     setTimeout(sendGPS(that),2000);
-                    setInterval(sendGPS(that),1000 * 60 * 3);//三分钟发一次 地理位置
+                    setInterval(sendGPS(that),1000 * 60 * 2);//2分钟发一次 地理位置
                     /*send head msg*/
                 };
             };
@@ -90,7 +90,7 @@ define(['jquery','avalon','wxsdk',"domReady!"], function ($,avalon,wx,domReady) 
                     return
                 }
                 if(msg.command == 'selfInfo'){
-
+                	msg.id = msg.self.id;
                     avalon.vmodels.rootController._userInfo = msg;
                     avalon.vmodels.mainController.userInfo = msg;
                     
@@ -143,13 +143,20 @@ define(['jquery','avalon','wxsdk',"domReady!"], function ($,avalon,wx,domReady) 
                     return;
                 }
                 if(msg.command == 'roomInfo'){
+                	
+                	/*var roomLink = 'http://www.luoke30.com/m/chatRoom/' + msg.statistics.id + '#!/';
+                	// 存一个房间链接在cookie 刷新的时候用；
+                	$.cookie("roomLink",roomLink,{
+	            		 "path":"/",
+	            		 "expires":1
+            		});*/
+            		
                     avalon.vmodels.rootController._roomInfo = msg;
                     if(window.location.hash == '#!/'){
                     	
                     	if(!this.initShareFlag){
-                    		wx.hideAllNonBaseMenuItem();
                         	wx.hideMenuItems({
-                        	    menuList: ['menuItem:share:timeline','menuItem:share:qq','menuItem:share:QZone','menuItem:share:weiboApp','menuItem:share:facebook','menuItem:share:QZone','menuItem:readMode'] // 要隐藏的菜单项，所有menu项见附录3
+                        	    menuList: ['menuItem:share:qq','menuItem:share:QZone','menuItem:share:weiboApp','menuItem:share:facebook','menuItem:share:QZone','menuItem:openWithSafari','menuItem:openWithQQBrowser','menuItem:readMode','menuItem:originPage','menuItem:copyUrl'] // 要隐藏的菜单项，所有menu项见附录3
                         	});
                     		wx.onMenuShareAppMessage({
                         	    title: '点击进入-我要聊天室', // 分享标题
@@ -165,6 +172,17 @@ define(['jquery','avalon','wxsdk',"domReady!"], function ($,avalon,wx,domReady) 
                         	        // 用户取消分享后执行的回调函数
                         	    }
                         	});
+                    		wx.onMenuShareTimeline({
+                    		    title: '点击进入-我要聊天室', // 分享标题
+                    		    link: 'http://www.luoke30.com/m/chatRoom/' + msg.statistics.id + '#!/', // 分享链接
+                    		    imgUrl: 'http://www.luoke30.com/show/resources/img/logo.png', // 分享图标
+                    		    success: function () { 
+                    		        // 用户确认分享后执行的回调函数
+                    		    },
+                    		    cancel: function () { 
+                    		        // 用户取消分享后执行的回调函数
+                    		    }
+                    		});
                     		this.initShareFlag = true;
                     	}
                     	
@@ -212,6 +230,7 @@ define(['jquery','avalon','wxsdk',"domReady!"], function ($,avalon,wx,domReady) 
                             avalon.vmodels.mainController.imgUrl = '';
                             avalon.vmodels.mainController.imgViewSrc = '/resources/static/img/photo.png';
                             $("#photoInput").val('');
+                            avalon.vmodels.mainController.hideForOther();
                         },
                         cancel: function(){
                         	avalon.vmodels.rootController._loading = false;
@@ -226,6 +245,7 @@ define(['jquery','avalon','wxsdk',"domReady!"], function ($,avalon,wx,domReady) 
                             avalon.vmodels.mainController.imgUrl = '';
                             avalon.vmodels.mainController.imgViewSrc = '/resources/static/img/photo.png';
                             $("#photoInput").val('');
+                            avalon.vmodels.mainController.hideForOther();
                         },
                         error:function(msg){
                         	alert("支付失败");
@@ -241,6 +261,7 @@ define(['jquery','avalon','wxsdk',"domReady!"], function ($,avalon,wx,domReady) 
                             avalon.vmodels.mainController.imgUrl = '';
                             avalon.vmodels.mainController.imgViewSrc = '/resources/static/img/photo.png';
                             $("#photoInput").val('');
+                            avalon.vmodels.mainController.hideForOther();
                         }
                     });
                 }
@@ -323,14 +344,12 @@ define(['jquery','avalon','wxsdk',"domReady!"], function ($,avalon,wx,domReady) 
             avalon.vmodels.mainController.sreenGender = item.sender.gender;
             avalon.vmodels.mainController.sreenShowSeconds = item.duration;
             if(item.effectCode == null){
-            	item.to = '';
+            	item.to = null;
+            	avalon.vmodels.mainController.sreenIsToOther = false;
         	}else{
         		avalon.vmodels.mainController.sreenIsToOther = true;
                 avalon.vmodels.mainController.sreenIsToOtherMsg = item.to;       		
         	}
-            
-            
-            
             
             var fl = '';
             fl = setInterval(function(){

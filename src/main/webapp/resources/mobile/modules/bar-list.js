@@ -83,6 +83,35 @@ window.onload = function(){
             failure : function(){
             }
     	});
+    	
+    	wx.hideMenuItems({
+    	    menuList: ['menuItem:share:qq','menuItem:share:QZone','menuItem:share:weiboApp','menuItem:share:facebook','menuItem:share:QZone','menuItem:openWithSafari','menuItem:openWithQQBrowser','menuItem:readMode','menuItem:originPage','menuItem:copyUrl'] // 要隐藏的菜单项，所有menu项见附录3
+    	});
+		wx.onMenuShareAppMessage({
+    	    title: '点击进入-我要聊天室', // 分享标题
+    	    desc: '欢迎来到我要酒吧聊天室，聊天、晒照、交友。', // 分享描述
+    	    link: 'http://www.luoke30.com/m', // 分享链接
+    	    imgUrl: 'http://www.luoke30.com/show/resources/img/logo.png', // 分享图标
+    	    type: '', // 分享类型,music、video或link，不填默认为link
+    	    dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+    	    success: function () {
+    	        alert("谢谢您的分享。")
+    	    },
+    	    cancel: function () {
+    	        // 用户取消分享后执行的回调函数
+    	    }
+    	});
+		wx.onMenuShareTimeline({
+		    title: '点击进入-我要聊天室', // 分享标题
+    	    link: 'http://www.luoke30.com/m', // 分享链接
+		    imgUrl: 'http://www.luoke30.com/show/resources/img/logo.png', // 分享图标
+		    success: function () { 
+		    	alert("谢谢您的分享。")
+		    },
+		    cancel: function () { 
+		        // 用户取消分享后执行的回调函数
+		    }
+		});
     });
     wx.error(function(d){
       console.log("wx jsapi error:"+d);

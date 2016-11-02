@@ -2,9 +2,10 @@
  * Created by lzd on 2016/10/7 0007.
  */
 
-define(['jquery','avalon', 'text!./richer.html',"domReady!"], function ($,avalon,_richer,domReady) {
+define(['jquery','avalon', 'text!./richer.html',"domReady!",'socket'], function ($,avalon,_richer,domReady,socket) {
     avalon.templateCache._richer = _richer;
-
+    
+    socket.init();
 
     var richerController=avalon.define({
         $id:"richerController" ,
@@ -12,7 +13,7 @@ define(['jquery','avalon', 'text!./richer.html',"domReady!"], function ($,avalon
         richerType:'DAY',
         richerTab:function (type) { //点击显示日排行
         	richerController.richerType = type;
-        	queryData()
+        	queryData();
         },
         shsa:function (data) {
 			 avalon.vmodels.rootController.toWho = data;
@@ -34,8 +35,10 @@ define(['jquery','avalon', 'text!./richer.html',"domReady!"], function ($,avalon
         	   pageSize:50
            },
            type: "POST",
-           success: function(data) {
-           	   richerController.richerList = data.results;
+           success: function(res) {
+        	   richerController.richerList = [];
+        	   var data = res.results;
+        	   richerController.richerList = data;
            },
            complete: function() {
            },

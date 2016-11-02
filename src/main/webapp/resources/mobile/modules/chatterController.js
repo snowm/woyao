@@ -4,9 +4,8 @@
 
 define(['jquery','avalon', 'text!./chatter.html',"domReady!",'socket'], function ($,avalon,_chatter,domReady,socket) {
     avalon.templateCache._chatter = _chatter;
-
-    var _userList = [];
     
+    socket.init();
     
     var chatterController=avalon.define({
             $id:"chatterController",
@@ -106,10 +105,19 @@ define(['jquery','avalon', 'text!./chatter.html',"domReady!",'socket'], function
 			  type: "post",
 			  url: '/m/chat/chatterList',
 			  data: data,
-			  success: function(data){
-				  console.log(data)
-				  _userList = data.results;
-				  chatterController.userList = data.results;
+			  success: function(res){
+				  chatterController.userList = [];
+				  var data = res.results;
+	        	   if(avalon.vmodels.rootController._userInfo != undefined){
+	        		   data.forEach(function(item){
+	            		   if(item.id != avalon.vmodels.rootController._userInfo.id){
+	            			   chatterController.userList.push(item);
+	            		   }
+	            	   })
+	        	   }else{
+	        		   chatterController.userList = data;
+	        	   }
+	        	   
 			  },
 			  dataType: 'json'
 		});
