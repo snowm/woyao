@@ -78,7 +78,7 @@ require(['mmRouter',"domReady!",'socket','wxsdk'],function(mmRouter,domReady,soc
     
     var _brageData = {};
     
-
+    
     //导航回调
     var _pagepathAry = [];
     
@@ -89,16 +89,12 @@ require(['mmRouter',"domReady!",'socket','wxsdk'],function(mmRouter,domReady,soc
 
         var paths = this.path.split("/");
         
-        if(rootController.fistLoad){
-        	paths = ['','chatRoom'];
-        	rootController.fistLoad = false;
-        }
+       
         
         //判断hash是不是空
         if(paths[1] == ''){
-            paths = ['','chatRoom']
+            paths = ['','chatRoom'];
         }
-        
         
         for (var i = 0; i < paths.length; i++) {
             if (paths[i] != "") {
@@ -123,12 +119,12 @@ require(['mmRouter',"domReady!",'socket','wxsdk'],function(mmRouter,domReady,soc
         if(!loadedFlag){
             _pagepathAry.push(pagepath);
         }
-
+        
         // 如果是第二次进入页面 执行初始化方法（等封装 必须写判断调用）
         if(pagepath == '_privacyChat' && loadedFlag){
             privacyChat.init();
         }else if(pagepath == '_chatRoom' && loadedFlag){
-            chatRoom.init();
+        	//chatRoom.init();
         }else if(pagepath == '_chatter' && loadedFlag){
             chatter.init();
         }else if(pagepath == '_richer' && loadedFlag){
@@ -138,14 +134,15 @@ require(['mmRouter',"domReady!",'socket','wxsdk'],function(mmRouter,domReady,soc
     
 
     
-    
     avalon.router.get("/", callback);
     avalon.router.get("/chatter", callback);
     avalon.router.get("/chatRoom", callback);
     avalon.router.get("/privacyChat", callback);
     avalon.router.get("/richer", callback);
+
+    avalon.router.navigate('/chatRoom');
+    
     avalon.history.start({
-        basepath: "/"
+        basepath: "/m"
     });
 });
-
