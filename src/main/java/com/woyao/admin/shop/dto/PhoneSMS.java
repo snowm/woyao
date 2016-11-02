@@ -8,7 +8,6 @@ import com.taobao.api.TaobaoClient;
 import com.taobao.api.request.AlibabaAliqinFcSmsNumSendRequest;
 import com.taobao.api.response.AlibabaAliqinFcSmsNumSendResponse;
 
-@Component("phoneSMS")
 public class PhoneSMS {
 	
 	private final static String url="http://gw.api.taobao.com/router/rest";//url第三方的
