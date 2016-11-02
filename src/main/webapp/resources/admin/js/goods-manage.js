@@ -184,7 +184,8 @@ define(['uploadfile'],function(){
         		                    unitPrice:goodsController.goodsChg.unitPrice,
         		                    holdTime:goodsController.goodsChg.holdTime,
         		                    effectCode:goodsController.goodsChg.effectCode,
-        		                    id:goodsController.goodsChg.id
+        		                    id:goodsController.goodsChg.id,
+//        		                    shopId:goodsController.goodsChg.shopId,
         		                }
         		            $.ajax({
         		                type: "post",

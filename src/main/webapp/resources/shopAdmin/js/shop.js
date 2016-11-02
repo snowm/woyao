@@ -30,6 +30,7 @@ define(['uploadfile'],function(){
     	    	id:"",
     	    	name:'',
     	    	address:'',
+    	    	mobiles:'',
 //    	    	chatRoomName:'',
     	    	description:'',
     	    	latitude:'',
@@ -38,7 +39,8 @@ define(['uploadfile'],function(){
     	    	managerProfileId:'',
     	    	description:'',
     	    	picId:'', 
-    	    	managerPwd:''
+    	    	managerPwd:'',
+    	    	
     	    },
     	    uploadbtn:true, 
     	    submitItem:function(){    	    	
@@ -50,7 +52,6 @@ define(['uploadfile'],function(){
     				var shopName = $(".shopName").val();
     				var adss =  $(".adss").val();
     				var managerName = $(".managerName").val();
-    				var managerPwd = $(".managerPwd").val();
     				if(shopController.imgViewSrc=="/admin/resources/images/photos/upload1.png"){
     					alert("请选择图片");
     					return;
@@ -75,6 +76,7 @@ define(['uploadfile'],function(){
     	    	    	    	managerProfileId:shopController.formData.managerProfileId,
     	    	    	    	description:shopController.formData.description,
     	    	    	    	picId:shopController.formData.picId,
+    	    	    	    	mobiles:shopController.formData.mobiles
 //    	    	    	    	managerPwd:shopController.formData.managerPwd,
     	    	    	}
     	    	    	//性别 -------------------------------------------------------------------------------------------------
@@ -187,7 +189,8 @@ define(['uploadfile'],function(){
     		    			   shopController.formData.longitude = data.longitude,
     		    			   shopController.formData.managerName = data.managerName,
     		    			   shopController.formData.managerProfileId =data.managerProfileId,
-    		    			   shopController.formData.picId=data.picId
+    		    			   shopController.formData.picId=data.picId,
+    		    			   shopController.formData.mobiles=data.mobiles
     		    		  },
     		    		  dataType: 'json'
     		    		});

@@ -8,8 +8,7 @@
                 </div>
             </div> 
             <div class="col-sm-12 text-right">
-                <button class="btn  btn btn-inverse" ms-click="btnGoods">查 询</button>                
-                <button class="btn btn btn-inverse" ms-click="add">新 增</button>
+                <button class="btn  btn btn-inverse" ms-click="btnGoods">查 询</button>    
             </div>
             <!-- col-sm-6 -->
         </div><!-- row -->
@@ -21,59 +20,40 @@
     <div class="panel-body m-panel"  ms-if="goodsShow">
         <div id="home">            
                 <!-- 选择图片 -->
-                <div class="row" ms-if="picture">
-                    <div class="panel panel-stat col-sm-12">
-                        <div class="panel-heading">
-                            <div class="row text-center">
-                                
-								<form id="uploadForm">  
-									  <img class="media-object thumbnail center-block" ms-attr-src="imgViewSrc" style="max-width:300px;max-height:300px;min-height:100px;min-width:100px" alt="">
-								      <input type="file" id="uploadFileIpt" name="uploadFile" style="visibility: hidden"/>
-								      <div class="clearfix"></div>
-								</form>  
-                                <div ms-if="uploadbtn">
-							        <input class="btn btn-xs btn-default" type="button" value="选择图片" ms-click="chioseImgs"/>  
-							        <input class="btn btn-xs btn-success" type="button" value="提交" ms-click="uploadImg"/>  
-	                            </div>
-	                            
-                            </div><!-- row -->
-
-                        </div><!-- panel-heading -->                        
-                    </div><!-- panel -->
-                </div>
-                <!-- 选择图片 -->            
             <div class="row" >
             	<div ms-if="shop" >
 	            	<div class="col-sm-6">
 	                    <div class="form-group">
 	                        <label class="control-label">商品名字</label>
-	                        <input type="text" name="name" class="form-control prdocut" placeholder="请输入产品名称" ms-duplex="goodsChg.name">
+	                        <input type="text" name="name" class="form-control prdocut"  ms-duplex="goodsChg.name">
 	                    </div>
 	                </div>
 	               
 	                 <div class="col-sm-6">
 	                    <div class="form-group">
 	                        <label class="control-label">商品描述</label>
-	                        <input type="text" name="chatRoomName" class="form-control description" placeholder="请输入产品描述" ms-duplex="goodsChg.description">
+	                        <input type="text" name="chatRoomName" class="form-control description"  ms-duplex="goodsChg.description">
 	                    </div>
-	                </div><!-- col-sm-6 -->                  
+	                </div><!-- col-sm-6 --> 
+	                <div class="col-sm-6">
+	                    <div class="form-group">
+	                        <label class="control-label">特效编码</label>
+	                        <input type="text" name="description" class="form-control effectCode"  ms-duplex="goodsChg.effectCode">
+	                    </div>
+	                </div><!-- col-sm-6 -->
+	                 <div class="col-sm-6">
+	                    <div class="form-group">
+	                        <label class="control-label">霸屏时间（s）</label>
+	                        <input type="text" name="description" class="form-control holdTime" ms-duplex="goodsChg.holdTime">
+	                    </div>
+	                </div><!-- col-sm-6 -->
 	                <div class="col-sm-6">
 	                    <div class="form-group">
 	                        <label class="control-label">价格</label>
-	                        <input type="number" name="description" class="form-control unitPrice" placeholder="请输入产品价格" ms-duplex="goodsChg.unitPrice">
+	                        <input type="number" name="description" class="form-control unitPrice"  ms-duplex="goodsChg.unitPrice">
 	                    </div>
 	                </div><!-- col-sm-6 -->
-                </div>
-                             
-               	 <div class="col-sm-6" ms-if="type">
-                    <div class="form-group">
-                        <label class="control-label">商品类型</label>
-                        <select class="form-control shopType mp"  ms-duplex="goodsChg.typeId" ms-click="chooseType">
-                        	<option value="">-- 请选择 --</option>
-                            <option value="2">消息类产品</option>                            
-                        </select>
-                    </div>               
-           		 </div>            
+                </div>   
             </div><!-- row -->
             
         </div>
@@ -95,6 +75,8 @@
                 <th class="text-center">商品单价</th>
                 <th class="text-center">商品类型</th>
                 <th class="text-center">商品描述</th>
+                <th class="text-center">特效编码</th>
+                <th class="text-center">霸屏时间</th>
                 <th class="text-center" width="200">操作</th>
             </tr>
             </thead>
@@ -108,9 +90,10 @@
                 <td ms-text="p.unitPrice"></td>
                 <td><span ms-if='p.typeId == 1'>实物</span><span ms-if='p.typeId == 2'>消息</span></td>
                 <td ms-text="p.description"></td>
+                <td ms-text="p.effectCode"></td>
+                <td ms-text="p.holdTime"></td>
                 <td>
                     <button class="btn btn-xs btn-info" ms-click="Alter(p.id)"><i class="fa fa-pencil"></i> 修改</button>
-                    <button class="btn btn-xs btn-danger" ms-click="deletedGoods(p.id)"><i class="fa fa-trash-o"></i> 删除</button>
                 </td>
             </tr>
             </tbody>
@@ -119,9 +102,8 @@
        <div class="">
         	<div class="col-sm-5"></div>
         	<ul class="pagination pagination-split">
-                <li  ms-click="page('upPage')" ><a style="background: #29406f;color:#fff;"><i class="fui-arrow-left"></i>上一页</a></li> 
-                
-                <li ms-click="page('nextPage')" ><a style="background: #29406f;color:#fff;">下一页 <i class="fui-arrow-right"></i></a></li>
+                <li  ms-click="page('upPage')"><a style="background: #29406f;color:#fff;"><i class="fui-arrow-left"></i>上一页</a></li> 
+                <li ms-click="page('nextPage')"><a style="background: #29406f;color:#fff;">下一页 <i class="fui-arrow-right"></i></a></li>
             </ul>
        </div>
     </div>
