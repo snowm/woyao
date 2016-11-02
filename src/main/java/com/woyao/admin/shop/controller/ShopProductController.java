@@ -1,7 +1,5 @@
 package com.woyao.admin.shop.controller;
 
-import javax.annotation.Resource;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
@@ -16,7 +14,6 @@ import com.woyao.admin.dto.product.ProductDTO;
 import com.woyao.admin.dto.product.QueryProductsRequestDTO;
 import com.woyao.admin.service.IAdminService;
 import com.woyao.admin.service.IProductAdminService;
-import com.woyao.admin.shop.ShopRootController;
 import com.woyao.domain.product.Product;
 
 @Controller
@@ -42,7 +39,6 @@ public class ShopProductController extends AbstractBaseController<Product, Produ
 			RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
 	public ProductDTO saveOrUpdate(ProductDTO dto) {
-		dto.setShopId(shopRoot.getCurrentShop().getId());
 		if (dto.getId() != null) {
 			return this.service.update(dto);
 		} else {
