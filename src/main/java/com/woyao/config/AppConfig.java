@@ -13,7 +13,7 @@ import com.snowm.hibernate.ext.multi.SwitchableSessionFactoryWrapper;
 import com.snowm.hibernate.ext.multi.SwitchableTransactionManagerWrapper;
 
 @Configuration("mainConfig")
-@Import({ com.snowm.hibernate.ext.config.AppConfig.class, com.snowm.security.config.AppConfig.class, HttpConfig.class })
+@Import({ com.snowm.hibernate.ext.config.AppConfig.class, com.snowm.security.config.AppConfig.class})
 @ComponentScan({ "com.snowm", "com.woyao" })
 public class AppConfig {
 

@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,6 +23,7 @@
 	<input id="timestamp" type="hidden" value="${timestamp}"/>
 	<input id="nonceStr" type="hidden" value="${nonceStr}"/>
 	<input id="signature" type="hidden" value="${signature}"/>
+	<input id="rootContext" type="hidden" value="<c:url value='/'/>"/>
     <div class="top-tab">
         <table>
             <tr>

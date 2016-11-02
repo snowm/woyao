@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx" 
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+	<bean id="globalLockFactory" class="com.snowm.global.lock.GlobalLockFactory">
+		<property name="mySqlService" ref="mySQLLockService" />
+		<property name="monitorInterval" value="${global.lock.monitor.interval}" />
+	</bean>
+
+	<bean id="globalLockJdbcTemplate" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
+		<constructor-arg index="0" ref="globalLockMySQLDataSource"></constructor-arg>
+	</bean>
+	<bean id="mySQLDao" class="com.snowm.global.lock.MySqlDao">
+		<property name="jdbcTemplate" ref="globalLockJdbcTemplate" />
+	</bean>
+	
+	<bean id="mySQLLockService" class="com.snowm.global.lock.RMDBLockServiceImpl">
+		<property name="rmdbDao" ref="mySQLDao" />
+	</bean>
+	
+	<bean id="triggerContextService" class="com.snowm.global.scheduler.DefaultTriggerContextService">
+		<property name="jdbcTemplate" ref="globalLockJdbcTemplate" />
+	</bean>
+
+	<bean id="globalLockTxManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="globalLockMySQLDataSource" />
+	</bean>
+	
+	<tx:advice id="globalLockTxAdvice" transaction-manager="globalLockTxManager">
+		<tx:attributes>
+			<!-- <tx:method name="get*" propagation="REQUIRED"/> -->
+			<tx:method name="init" propagation="REQUIRED"/>
+			<tx:method name="shouldExecute" propagation="REQUIRED"/>
+			<tx:method name="beginExecuting" propagation="REQUIRED"/>
+			<tx:method name="completeExecuting" propagation="REQUIRED"/>
+			<tx:method name="schedule" propagation="REQUIRED"/>
+			<tx:method name="reset" propagation="REQUIRED"/>
+			<tx:method name="get" propagation="REQUIRED"/>
+			<tx:method name="doLock" propagation="REQUIRED"/>
+			<tx:method name="doUnlock" propagation="REQUIRED"/>
+			<tx:method name="doTouchLock" propagation="REQUIRED"/>
+		</tx:attributes>
+	</tx:advice>
+	<aop:config>
+		<aop:pointcut id="triggerContextServiceOperation" expression="execution(* com.snowm.global.scheduler.DefaultTriggerContextService.*(..))" />
+		<aop:pointcut id="rmdbLockServiceOperation" expression="execution(* com.snowm.global.lock.RMDBLockServiceImpl.*(..))" />
+		<aop:advisor advice-ref="globalLockTxAdvice" pointcut-ref="triggerContextServiceOperation" />
+		<aop:advisor advice-ref="globalLockTxAdvice" pointcut-ref="rmdbLockServiceOperation" />
+	</aop:config>
+	<!-- Please define the globalLockSqlServerDataSource as your requirement -->
+</beans>

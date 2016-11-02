@@ -17,6 +17,8 @@
     <import resource="prod/context-properties.xml" />
     
     <import resource="context-datasource.xml" />
+    <import resource="global-lock.xml" />
+    <import resource="context-scheduler.xml" />
     <import resource="context-hibernate.xml" />
     <bean class="com.woyao.config.AppConfig"/>
     <task:annotation-driven /> 
@@ -25,4 +27,5 @@
     <bean id="uploadService" class="com.woyao.service.UploadService">
     	<property name="uploadRootPath" value="${upload.root}"/>
     </bean>
+	
 </beans>

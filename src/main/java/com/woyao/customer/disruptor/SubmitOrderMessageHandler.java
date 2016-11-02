@@ -1,7 +1,5 @@
 package com.woyao.customer.disruptor;
 
-import javax.annotation.Resource;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,12 +10,10 @@ import com.woyao.domain.purchase.OrderStatus;
 
 public class SubmitOrderMessageHandler extends AbstractEventHandler<LongEvent> {
 
-	private Logger logger = LoggerFactory.getLogger(this.getClass());
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	@Resource(name = "orderService")
 	private IOrderService orderService;
 
-	@Resource(name = "defaultOrderProcessor")
 	private DefaultOrderProcessor orderProcessor;
 
 	public SubmitOrderMessageHandler() {
@@ -36,6 +32,14 @@ public class SubmitOrderMessageHandler extends AbstractEventHandler<LongEvent> {
 		} catch (Exception e) {
 			logger.error("consume order :" + orderId + " exception occurred!", e);
 		}
+	}
+
+	public void setOrderService(IOrderService orderService) {
+		this.orderService = orderService;
+	}
+
+	public void setOrderProcessor(DefaultOrderProcessor orderProcessor) {
+		this.orderProcessor = orderProcessor;
 	}
 
 }

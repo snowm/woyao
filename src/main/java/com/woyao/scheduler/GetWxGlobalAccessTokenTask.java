@@ -5,9 +5,8 @@ import javax.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
 
+import com.snowm.global.scheduler.GlobalIdentifiedTask;
 import com.woyao.GlobalConfig;
 import com.woyao.domain.wx.GlobalAccessToken;
 import com.woyao.domain.wx.JsapiTicket;
@@ -17,16 +16,15 @@ import com.woyao.wx.WxEndpoint;
 import com.woyao.wx.dto.GetGlobalAccessTokenResponse;
 import com.woyao.wx.dto.GetJsapiTicketResponse;
 
-@Component
-public class GetGlobalAccessTokenJob {
-	
+public class GetWxGlobalAccessTokenTask extends GlobalIdentifiedTask {
+
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@Resource(name = "globalAccessTokenService")
 	private GlobalAccessTokenService globalTokenService;
 
 	@Resource(name = "jsapiTicketService")
-	private JsapiTicketService jsapiTicketservice;
+	private JsapiTicketService jsapiTicketService;
 
 	@Resource(name = "wxEndpoint")
 	private WxEndpoint wxEndpoint;
@@ -37,11 +35,7 @@ public class GetGlobalAccessTokenJob {
 	@Value("${scheduler.getGlobalToken.enabled}")
 	private boolean enabled = true;
 
-	/**
-	 * 延迟10s，固定等待1m
-	 */
-	@Scheduled(fixedDelay = 60000, initialDelay = 10000)
-	public void executeInternal() {
+	public void call() {
 		if (!this.enabled) {
 			logger.debug("GetGlobalAccessTokenJob is disabled...");
 			return;
@@ -82,7 +76,7 @@ public class GetGlobalAccessTokenJob {
 		logger.debug("Starting to get jsapi ticket...");
 		long start = System.currentTimeMillis();
 		try {
-			JsapiTicket ticket = this.jsapiTicketservice.getTicket();
+			JsapiTicket ticket = this.jsapiTicketService.getTicket();
 			if (ticket != null && ticket.isEffective() && !ticket.isExpired()) {
 				logger.debug("现有ticket有效，没必要重新获取JsapiTicket!");
 				return;
@@ -95,7 +89,7 @@ public class GetGlobalAccessTokenJob {
 			ticket.setTicket(resp.getTicket());
 			ticket.setExpiresIn(resp.getExpiresIn());
 			ticket.setEffective(true);
-			this.jsapiTicketservice.saveOrUpdate(ticket);
+			this.jsapiTicketService.saveOrUpdate(ticket);
 		} catch (Exception ex) {
 			logger.error("Get jsapi ticket error!", ex);
 		} finally {
@@ -104,6 +98,22 @@ public class GetGlobalAccessTokenJob {
 				logger.debug("Jsapi ticket got! Spent time:{} ms.", spent);
 			}
 		}
+	}
+
+	public void setGlobalTokenService(GlobalAccessTokenService globalTokenService) {
+		this.globalTokenService = globalTokenService;
+	}
+
+	public void setJsapiTicketService(JsapiTicketService jsapiTicketService) {
+		this.jsapiTicketService = jsapiTicketService;
+	}
+
+	public void setWxEndpoint(WxEndpoint wxEndpoint) {
+		this.wxEndpoint = wxEndpoint;
+	}
+
+	public void setGlobalConfig(GlobalConfig globalConfig) {
+		this.globalConfig = globalConfig;
 	}
 
 	public void setEnabled(boolean enabled) {

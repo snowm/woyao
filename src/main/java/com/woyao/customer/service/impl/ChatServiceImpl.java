@@ -18,6 +18,7 @@ import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.socket.WebSocketSession;
@@ -81,6 +82,7 @@ public class ChatServiceImpl implements IChatService {
 	private IOrderService orderService;
 
 	@Resource(name = "submitOrderProducer")
+	@Lazy(true)
 	private LongEventProducer submitOrderProducer;
 
 	@Resource(name = "chatMsgEventProducer")
@@ -88,9 +90,6 @@ public class ChatServiceImpl implements IChatService {
 
 	@Resource(name = "profileWxService")
 	private IProfileWxService profileWxService;
-
-	// @Resource(name = "submitOrderQueueService")
-	// private IOrderProcessQueue submitOrderQueueService;
 
 	@Transactional(readOnly = true)
 	@Override

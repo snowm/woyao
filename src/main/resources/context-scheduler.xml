@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:task="http://www.springframework.org/schema/task"
+    xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
+       
+    <alias name="dataSource" alias="globalLockMySQLDataSource" />
+    
+    <bean id="scheduler-Global" class="com.snowm.global.scheduler.GlobalThreadPoolTaskScheduler" destroy-method="destroy" depends-on="globalLockFactory">
+		<property name="poolSize" value="8" />
+		<property name="triggerContextService" ref="triggerContextService" />
+		<property name="operatorType" value="${global.lock.operator.type}" />
+		<property name="owner" value="${appInstance}" />
+		<property name="timeout" value="${global.task.timeout}" />
+		<property name="timeUnit" value="${global.task.timeUnit}" />
+	</bean>
+	
+	<task:scheduled-tasks scheduler="scheduler-Global">
+		<task:scheduled ref="getWxGlobalAccessTokenTask" method="call" initial-delay="10000" fixed-delay="60000" />
+		<task:scheduled ref="retrySubmitOrderTask" method="call" initial-delay="60000" fixed-delay="60000" />
+		<task:scheduled ref="sendDailyOrderReportTask" method="call" cron="0 0 8 * * ?"/>
+	</task:scheduled-tasks>
+	
+</beans>
