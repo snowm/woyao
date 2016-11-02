@@ -347,7 +347,7 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper','wxsdk',"dom
         	 withChatterId:'', 
              minId:'',
              maxId:-1,
-             pageSize:8,
+             pageSize:10,
         },
         queryHistoryIng:false,
         photoLists:[], // 照片墙
