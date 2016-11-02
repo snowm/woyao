@@ -69,6 +69,7 @@ public abstract class UrlUtils {
 		String originProtocol = request.getHeader("Origin-Protocol");
 		String originHost = request.getHeader("Origin-Host");
 		String originPortStr = request.getHeader("Origin-Port");
+		String originUri = request.getHeader("Origin-Uri");
 		if (!StringUtils.isBlank(originProtocol) && !StringUtils.isBlank(originHost) && !StringUtils.isBlank(originPortStr)) {
 			int originPort = Integer.parseInt(originPortStr);
 			builder.scheme(originProtocol).host(originHost);
@@ -81,6 +82,11 @@ public abstract class UrlUtils {
 					builder.port(-1);
 				}
 			}
+			int indexOf = originUri.indexOf("?");
+			if (indexOf > 0) {
+				originUri = originUri.substring(0, indexOf);
+			}
+			builder.replacePath(originUri);
 		}
 		return builder;
 	}

@@ -38,6 +38,12 @@ public class GlobalConfig implements InitializingBean {
 	@Value("${server.host}")
 	private String host;
 
+	@Value("${server.root.context}")
+	private String rootContext;
+	
+	@Value("${server.root.url}")
+	private String rootUrl;
+
 	// 3rd party
 	@Value("${wx.3rd.appId}")
 	private String thirdAppId;
@@ -106,6 +112,14 @@ public class GlobalConfig implements InitializingBean {
 
 	public String getHost() {
 		return host;
+	}
+
+	public String getRootContext() {
+		return rootContext;
+	}
+
+	public String getRootUrl() {
+		return rootUrl;
 	}
 
 	public String getThirdAppId() {

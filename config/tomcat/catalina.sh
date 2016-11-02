@@ -154,9 +154,12 @@ assembl_java_opts()
 
 assembl_java_opts
 
+GC_LOGGING="-verbose:gc -XX:+PrintGCTimeStamps -XX:+PrintGCDetails -Xloggc:${LOG_DIR}/gc.log"
+
 # -XX:+DisableExplicitGC
 _OPTS="-d64 -Xms${JVM_Xms} -Xmx${JVM_Xmx} -XX:NewSize=${JVM_NewSize} -XX:MaxNewSize=${JVM_MaxNewSize} -ea\
  -XX:+UseConcMarkSweepGC\
+ $GC_LOGGING\
  -Djava.security.egd=file:/dev/./urandom\
  -Dlog.level=${LOG_LEVEL}\
  -Dlog.dir=${LOG_DIR}\

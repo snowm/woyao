@@ -1,4 +1,4 @@
-package com.woyao.customer.disruptor;
+package com.woyao.config;
 
 import java.util.concurrent.TimeUnit;
 
@@ -6,13 +6,26 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 
 import com.lmax.disruptor.EventFactory;
 import com.lmax.disruptor.EventHandler;
 import com.lmax.disruptor.dsl.Disruptor;
+import com.woyao.customer.DefaultOrderProcessor;
+import com.woyao.customer.disruptor.ChatMsgEvent;
+import com.woyao.customer.disruptor.ChatMsgEventFactory;
+import com.woyao.customer.disruptor.ChatMsgEventHandler;
+import com.woyao.customer.disruptor.ChatMsgEventProducer;
+import com.woyao.customer.disruptor.DisruptorQueueFactory;
+import com.woyao.customer.disruptor.LongEvent;
+import com.woyao.customer.disruptor.LongEventFactory;
+import com.woyao.customer.disruptor.LongEventProducer;
+import com.woyao.customer.disruptor.SubmitOrderMessageHandler;
+import com.woyao.customer.service.IOrderService;
 
 @Configuration
-public class QueueConfig {
+@Order(4)
+public class DisruptorConfig {
 
 	@Bean(name = "longEventFactory")
 	public EventFactory<LongEvent> longEventFactory() {
@@ -42,6 +55,8 @@ public class QueueConfig {
 
 	@Bean(name = "submitOrderMessageHandler")
 	public SubmitOrderMessageHandler submitOrderMessageHandler(
+			@Qualifier("orderService") IOrderService orderService,
+			@Qualifier("defaultOrderProcessor") DefaultOrderProcessor orderProcessor,
 			@Value("${submitOrder.disruptor.handler.threads}") int threads,
 			@Value("${submitOrder.disruptor.handler.taskTimeout}") long taskTimeout,
 			@Value("${submitOrder.disruptor.handler.taskTimeoutTimeunit}") TimeUnit taskTimeoutTimeUnit) {
@@ -51,7 +66,7 @@ public class QueueConfig {
 		handler.setTaskTimeoutTimeUnit(taskTimeoutTimeUnit);
 		return handler;
 	}
-	
+
 	
 	
 

@@ -381,7 +381,7 @@
 					<stopKey>foo</stopKey>
 					<stopPort>9999</stopPort>
 					<httpConnector>
-						<port>8080</port>
+						<port>18080</port>
 						<idleTimeout>30000</idleTimeout>
 						<soLingerTime>-1</soLingerTime>
 					</httpConnector>

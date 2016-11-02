@@ -95,8 +95,8 @@ public class Oauth2SecurityFilter implements Filter, InitializingBean {
 				if (request.getParameterMap().containsKey(PARA_OAUTH_CODE)) {
 					// 去掉微信授权的的code
 					String url = UrlUtils.removeCodeParam(request);
-					this.redirectUser(request, response, url);
 					logger.debug("Authorize pass, redirect to Oauth的code参数去掉后的Url:{}", url);
+					this.redirectUser(request, response, url);
 					return;
 				}
 				logger.debug("Authorize pass，calling doFilter()");

@@ -7,32 +7,28 @@ import javax.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Lazy;
 
+import com.snowm.global.scheduler.GlobalIdentifiedTask;
 import com.woyao.customer.disruptor.LongEventProducer;
 import com.woyao.customer.service.IOrderService;
 import com.woyao.utils.TimeLogger;
 
-@Component
-public class RetrySubmitOrderJob {
+public class RetrySubmitOrderTask extends GlobalIdentifiedTask {
 
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@Resource(name = "orderService")
 	private IOrderService orderService;
 
-	// @Resource(name = "submitOrderQueueService")
-	// private IOrderProcessQueue submitOrderQueueService;
-
 	@Resource(name = "submitOrderProducer")
+	@Lazy(true)
 	private LongEventProducer submitOrderProducer;
 
 	@Value("${submitOrder.retry.task.batchSize}")
 	private int batchSize;
 
-	@Scheduled(fixedDelay = 120 * 1000, initialDelay = 60 * 1000)
-	public void executeInternal() {
+	public void call() {
 		logger.debug("Starting to queue missed order...");
 		TimeLogger tl = null;
 		if (logger.isDebugEnabled()) {
@@ -55,4 +51,17 @@ public class RetrySubmitOrderJob {
 			logger.error("Retry to submit order failure!", ex);
 		}
 	}
+
+	public void setOrderService(IOrderService orderService) {
+		this.orderService = orderService;
+	}
+
+	public void setSubmitOrderProducer(LongEventProducer submitOrderProducer) {
+		this.submitOrderProducer = submitOrderProducer;
+	}
+
+	public void setBatchSize(int batchSize) {
+		this.batchSize = batchSize;
+	}
+	
 }
