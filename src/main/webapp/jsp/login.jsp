@@ -45,7 +45,7 @@
 	                
 	                    <div class="mb20"></div>
 	                
-	                    <h5><strong>欢迎进入倮克科技后台管理系统!</strong></h5>
+	                    <h5><strong>欢迎进入倮克科技统一登录界面</strong></h5>
 	                    <ul>
 	                    <!--     <li><i class="fa fa-arrow-circle-o-right mr5"></i> Fully Responsive Layout</li>
 	                        <li><i class="fa fa-arrow-circle-o-right mr5"></i> HTML5/CSS3 Valid</li>
@@ -66,7 +66,7 @@
 	                
 	                    <input type="text" class="form-control uname" id="username" name="username" placeholder="用户名" autocomplete="off"/>
 	                    <input type="password" class="form-control pword" id="password" name="password" type="password" value="" placeholder="密 码" autocomplete="off" />
-	                    <a href=""><small>忘记密码?</small></a>
+	                    <!-- <a href=""><small>忘记密码?</small></a> -->
 	                    <button class="btn btn-success btn-block">登录</button>
 	                    
 	                </form>
@@ -75,11 +75,11 @@
 	        </div><!-- row -->
 	        
 	        <div class="signup-footer">
-	            <div class="pull-left">
-	                &copy; 
+	            <div class="">
+	                 
 	            </div>
 	            <div class="pull-right">
-	                Created By : 倮克科技研发部
+	                &copy;Created By : 倮克科技研发部
 	            </div>
 	        </div>
 	        

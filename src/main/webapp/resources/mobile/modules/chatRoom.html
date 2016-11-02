@@ -26,7 +26,7 @@
         </div>
         <!-- 普通霸屏     -->
         <div class="pop-sreen-msg">
-            <span class="text-org">我要霸屏<span ms-text="sreenTime"></span>秒</span> <span ms-visible="sreenMsg">{{sreenMsg}}</span>
+            <span class="text-org"><span ms-visiable="sreenIsToOther">为Ta送礼霸屏</span><span ms-visiable="!sreenIsToOther">我要霸屏</span><span ms-text="sreenTime"></span>秒</span> <span ms-visible="sreenMsg">{{sreenMsg}}</span>
         </div>
          <!-- 普通霸屏     -->
         <span class="sreen-timer">倒计时：<span ms-text="sreenShowSeconds"></span></span>
@@ -280,7 +280,7 @@
                         <img class="msg-arr" src="/resources/static/img/arred.png" ms-visible="item.sender.gender == 'FEMALE'" alt="">
 
                         <div class="msg-smgs">
-                        	<span><span class="text-org" ms-if="item.effectCode && item.duration">为<span ms-text="item.to.nickname"></span>送来礼物</span><span class="text-org" ms-if="item.effectCode == null && item.duration">霸屏<span ms-text="item.duration"></span>秒：</span><span ms-html="item.text"></span></span>
+                        	<span><span class="text-org" ms-if="item.effectCode && item.duration">为<span ms-text="item.to.nickname"></span>送来礼物  </span><span class="text-org" ms-if="item.effectCode == null && item.duration">霸屏  <span ms-text="item.duration"></span>秒:</span><span ms-html="item.text"></span></span>
                         	
                         </div>
                         <div class="msg-img" ms-visible="item.pic" ms-on-tap="showPics(item.sender.nickname,item.pic)">

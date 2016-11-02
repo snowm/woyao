@@ -49,11 +49,11 @@
 			                    <span class="text" ms-text="p.nickname">name</span>
 			                    <img src="/resources/static/img/weman1.png" ms-if="p.gender == 'FAMALE'" alt="">
 			                    <img src="/resources/static/img/man.png" ms-if="p.gender == 'MALE'" alt="">
-			                    <p style='font-size:10px'>相距 : <span ms-text="p.distanceToRoom ||　0"></span> m</p>
+			                    <p style='font-size:10px'>相距 : <span ms-text="p.distanceToRoom/1000 ||　0"></span> km</p>
 			                </div>
 			            </div>
 			            <div class="all-right" style='text-align:center;'>
-			                <p ms-text="p.loginDate" style="font-size:10px"></p>
+			                <p ms-text="p.loginDate" style="font- psize:10px"></p>
 			                <p ms-on-tap="chat(p.$model)" style="margin-top:19px">发消息</p>
 			            </div>
 		            </div>
