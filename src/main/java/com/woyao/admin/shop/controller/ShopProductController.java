@@ -23,14 +23,12 @@ public class ShopProductController extends AbstractBaseController<Product, Produ
 	@Autowired
 	private IProductAdminService service;
 	
-	@Autowired
-	private ShopRoot shopRoot;
+/*	@Autowired
+	private ShopRoot shopRoot;*/
 
 	@RequestMapping(value = { "/search" }, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
 	public PaginationBean<ProductDTO> query(QueryProductsRequestDTO request) {
-		Long shopId=shopRoot.getCurrentShop().getId();
-		request.setShopId(shopId);
 		PaginationBean<ProductDTO> result = this.service.query(request);
 		return result;
 	}
