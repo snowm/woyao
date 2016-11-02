@@ -1,4 +1,4 @@
-package com.woyao.admin.shop.dto;
+/*package com.woyao.admin.shop.dto;
 
 import org.springframework.stereotype.Component;
 
@@ -18,7 +18,7 @@ public class PhoneSMS {
 	private final static String sMSType="normal";//类型
 	
 	public String sendSMS(String json,String tell) throws ApiException{		
-		/*String json="{'name':'test','num':'10','total':'3000'}";//模板里面的参数 */		
+		String json="{'name':'test','num':'10','total':'3000'}";//模板里面的参数 		
 		TaobaoClient client = new DefaultTaobaoClient(url, appkey, secret);//建立第三方client
 		AlibabaAliqinFcSmsNumSendRequest req = new AlibabaAliqinFcSmsNumSendRequest();//配置参数
 		req.setSmsType(sMSType);
@@ -30,3 +30,4 @@ public class PhoneSMS {
 		return rsp.getBody();
 	}
 }
+*/
