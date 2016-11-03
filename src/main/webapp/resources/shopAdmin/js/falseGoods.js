@@ -65,7 +65,7 @@ define(['uploadfile'],function(){
  	             }
              $.ajax({
                  type: "post",
-                 url: '/shop/admin/product/search',
+                 url: '/shop/admin/product/search/msg',
                  data:date,
                  success: function(data){
                      console.log(data);

@@ -8,7 +8,7 @@ import com.woyao.customer.dto.OrderDTO;
 import com.woyao.customer.service.IOrderService;
 import com.woyao.domain.purchase.OrderStatus;
 
-public class SubmitOrderMessageHandler extends AbstractEventHandler<LongEvent> {
+public class SubmitOrderMessageHandler extends AbstractMultiThreadEventHandler<LongEvent> {
 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 

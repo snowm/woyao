@@ -181,8 +181,9 @@ public class MobileController {
 
 	@RequestMapping(value = { "/chat/msgProductList" }, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
-	public List<MsgProductDTO> listMsgProduct() {
-		return productService.listAllMsgProduct();
+	public List<MsgProductDTO> listMsgProduct(HttpServletRequest httpRequest) {
+		Long shopId = SessionUtils.getShopId(httpRequest.getSession());
+		return productService.listAllMsgProductFromCache(shopId);
 	}
 
 	@RequestMapping(value = { "/chat/productList" }, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)

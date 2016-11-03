@@ -23,7 +23,7 @@ public class ProductAdminController extends AbstractBaseController<Product, Prod
 
 	@Autowired
 	private IProductAdminService service;
-
+	
 	@RequestMapping(value = { "/search" }, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
 	public PaginationBean<ProductDTO> query(QueryProductsRequestDTO request) {

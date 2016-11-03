@@ -19,6 +19,8 @@ public class ProductDTO implements Serializable {
 
 	private float unitPrice;
 
+	private int unitPriceCent;
+
 	private String picURL;
 
 	public Long getId() {
@@ -53,6 +55,14 @@ public class ProductDTO implements Serializable {
 		this.unitPrice = unitPrice;
 	}
 
+	public int getUnitPriceCent() {
+		return unitPriceCent;
+	}
+
+	public void setUnitPriceCent(int unitPriceCent) {
+		this.unitPriceCent = unitPriceCent;
+	}
+
 	public String getPicURL() {
 		return picURL;
 	}
@@ -61,18 +71,18 @@ public class ProductDTO implements Serializable {
 		this.picURL = picURL;
 	}
 
-    @Override
-    public int hashCode() {
-        return HashCodeBuilder.reflectionHashCode(this);
-    }
+	@Override
+	public int hashCode() {
+		return HashCodeBuilder.reflectionHashCode(this);
+	}
 
-    @Override
-    public boolean equals(Object obj) {
-        return EqualsBuilder.reflectionEquals(this, obj);
-    }
+	@Override
+	public boolean equals(Object obj) {
+		return EqualsBuilder.reflectionEquals(this, obj);
+	}
 
-    @Override
-    public String toString() {
-        return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
-    }
+	@Override
+	public String toString() {
+		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+	}
 }

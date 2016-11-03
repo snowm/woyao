@@ -135,7 +135,7 @@ public class WxJerseyService {
 					}
 					outbound.setSentDate(new Date());
 					outbound.setCreationDate(msg.getModification().getCreationDate());
-					MsgProductDTO msgProduct = productService.getMsgProduct(msg.getProductId());
+					MsgProductDTO msgProduct = productService.getMsgProduct(orderDTO.getShopId(), msg.getProductId());
 					outbound.setEffectCode(msgProduct.getEffectCode());
 					outbound.setDuration(msgProduct.getHoldTime());
 					Long chatRoomId = msg.getChatRoomId();

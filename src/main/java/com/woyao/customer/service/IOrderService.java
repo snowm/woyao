@@ -13,13 +13,13 @@ public interface IOrderService {
 
 	OrderDTO placeOrder(OrderDTO order);
 
-	OrderDTO placeOrder(long consumerId, Long toProfileId, long productId, int quantity, String spbillCreateIp, Long msgId);
+	OrderDTO placeOrder(Long shopId, long consumerId, Long toProfileId, long productId, int quantity, String spbillCreateIp, Long msgId);
 
-	OrderDTO placeOrder(ChatMsg chatMsg);
+	OrderDTO placeOrder(Long shopId, ChatMsg chatMsg);
 
-	OrderDTO placeOrder(long consumerId, Long toProfileId, List<OrderItemDTO> orderItemDTOs, String spbillCreateIp);
+	OrderDTO placeOrder(Long shopId, long consumerId, Long toProfileId, List<OrderItemDTO> orderItemDTOs, String spbillCreateIp);
 
-	OrderDTO placeOrder(long consumerId, Long toProfileId, List<OrderItemDTO> orderItemDTOs, String spbillCreateIp, Long msgId);
+	OrderDTO placeOrder(Long shopId, long consumerId, Long toProfileId, List<OrderItemDTO> orderItemDTOs, String spbillCreateIp, Long msgId);
 
 	OrderDTO get(long id);
 

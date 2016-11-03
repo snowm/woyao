@@ -216,8 +216,9 @@ public class SecurityConfig {
 				.antMatchers("/login.jsp**", "/login**").anonymous()
 				.antMatchers("/logout**").authenticated()
 				.mvcMatchers("/admin").hasRole("S_ADMIN")
+				.antMatchers("/admin/profileWX/search").hasRole("S_ADMIN")
 				.antMatchers("/admin/**").hasAnyRole("SUPER", "ADMIN")
-				.antMatchers("/shop/admin/**").hasAnyRole("S_ADMIN")
+				.antMatchers("/shop/admin/**").hasRole("S_ADMIN")
 				.anyRequest().denyAll();
 		}
 	}

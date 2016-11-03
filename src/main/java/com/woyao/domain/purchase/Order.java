@@ -69,6 +69,9 @@ public class Order extends DefaultModelImpl {
 	@Column(name = "MSG_ID")
 	private Long msgId;
 
+	@Column(name = "SHOP_ID")
+	private Long shopId;
+
 	@Override
 	public Long getId() {
 		return id;
@@ -157,6 +160,14 @@ public class Order extends DefaultModelImpl {
 
 	public void setMsgId(Long msgId) {
 		this.msgId = msgId;
+	}
+
+	public Long getShopId() {
+		return shopId;
+	}
+
+	public void setShopId(Long shopId) {
+		this.shopId = shopId;
 	}
 
 }

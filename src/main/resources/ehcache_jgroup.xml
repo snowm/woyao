@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd"
+         name="woyaoJgroup"
+         updateCheck="false">
+
+  <cacheManagerPeerProviderFactory class="net.sf.ehcache.distribution.jgroups.JGroupsCacheManagerPeerProviderFactory"
+                                   properties="
+			channelName=${distributed-cache.clusterName},
+			file=${distributed-cache.jgroupsConfigFile}" />
+
+  <defaultCache maxEntriesLocalHeap="0"
+                eternal="false" />
+  <!--<cache name="csTestCode"-->
+         <!--eternal="false"-->
+         <!--timeToIdleSeconds="1200"-->
+         <!--timeToLiveSeconds="1200"-->
+         <!--memoryStoreEvictionPolicy="LRU">-->
+    <!--<cacheEventListenerFactory class="net.sf.ehcache.distribution.jgroups.JGroupsCacheReplicatorFactory"-->
+                               <!--properties="-->
+				<!--replicateAsynchronously=false,-->
+				<!--replicatePuts=true,-->
+				<!--replicateUpdates=true,-->
+				<!--replicateUpdatesViaCopy=true,-->
+				<!--replicateRemovals=true" />-->
+    <!--<bootstrapCacheLoaderFactory class="net.sf.ehcache.distribution.jgroups.JGroupsBootstrapCacheLoaderFactory"-->
+                                 <!--properties="bootstrapAsynchronously=false" />-->
+  <!--</cache>-->
+  <cache name="cartInfo"
+         eternal="false"
+         timeToIdleSeconds="1200"
+         timeToLiveSeconds="1200"
+         memoryStoreEvictionPolicy="LRU">
+    <cacheEventListenerFactory class="net.sf.ehcache.distribution.jgroups.JGroupsCacheReplicatorFactory"
+                               properties="
+				replicateAsynchronously=false,
+				replicatePuts=true,
+				replicateUpdates=true,
+				replicateUpdatesViaCopy=true,
+				replicateRemovals=true" />
+    <bootstrapCacheLoaderFactory class="net.sf.ehcache.distribution.jgroups.JGroupsBootstrapCacheLoaderFactory"
+                                 properties="bootstrapAsynchronously=false" />
+  </cache>
+  <cache name="offerRetrieval"
+         eternal="false"
+         timeToIdleSeconds="1200"
+         timeToLiveSeconds="1200"
+         memoryStoreEvictionPolicy="LRU">
+    <cacheEventListenerFactory class="net.sf.ehcache.distribution.jgroups.JGroupsCacheReplicatorFactory"
+                               properties="
+				replicateAsynchronously=false,
+				replicatePuts=true,
+				replicateUpdates=true,
+				replicateUpdatesViaCopy=true,
+				replicateRemovals=true" />
+    <bootstrapCacheLoaderFactory class="net.sf.ehcache.distribution.jgroups.JGroupsBootstrapCacheLoaderFactory"
+                                 properties="bootstrapAsynchronously=false" />
+  </cache>
+
+  <cache name="fusionOffers"
+         eternal="false"
+         timeToIdleSeconds="10800"
+         timeToLiveSeconds="10800"
+         memoryStoreEvictionPolicy="LRU">
+    <cacheEventListenerFactory class="net.sf.ehcache.distribution.jgroups.JGroupsCacheReplicatorFactory"
+                               properties="
+				replicateAsynchronously=false,
+				replicatePuts=true,
+				replicateUpdates=true,
+				replicateUpdatesViaCopy=true,
+				replicateRemovals=true" />
+    <bootstrapCacheLoaderFactory class="net.sf.ehcache.distribution.jgroups.JGroupsBootstrapCacheLoaderFactory"
+                                 properties="bootstrapAsynchronously=false" />
+  </cache>
+
+  <cache name="fusionOffersMetaData"
+         timeToIdleSeconds="2592000"
+         eternal="false">
+    <cacheEventListenerFactory class="net.sf.ehcache.distribution.jgroups.JGroupsCacheReplicatorFactory"
+                               properties="
+				replicateAsynchronously=false,
+				replicatePuts=true,
+				replicateUpdates=true,
+				replicateUpdatesViaCopy=true,
+				replicateRemovals=true" />
+    <bootstrapCacheLoaderFactory class="net.sf.ehcache.distribution.jgroups.JGroupsBootstrapCacheLoaderFactory"
+                                 properties="bootstrapAsynchronously=false" />
+  </cache>
+
+  <cache name="csOfferRetrieval"
+         eternal="false"
+         timeToIdleSeconds="3600"
+         timeToLiveSeconds="3600"
+         memoryStoreEvictionPolicy="LRU">
+    <cacheEventListenerFactory
+      class="net.sf.ehcache.distribution.jgroups.JGroupsCacheReplicatorFactory"
+      properties="
+				replicateAsynchronously=false,
+				replicatePuts=true,
+				replicateUpdates=true,
+				replicateUpdatesViaCopy=true,
+				replicateRemovals=true" />
+    <bootstrapCacheLoaderFactory class="net.sf.ehcache.distribution.jgroups.JGroupsBootstrapCacheLoaderFactory"
+                                 properties="bootstrapAsynchronously=false" />
+  </cache>
+
+  <!-- lock can live for 30 sec -->
+  <cache name="csLock" eternal="false" timeToIdleSeconds="300" timeToLiveSeconds="300" memoryStoreEvictionPolicy="LRU">
+    <cacheEventListenerFactory class="net.sf.ehcache.distribution.jgroups.JGroupsCacheReplicatorFactory"
+            properties=" replicateAsynchronously=false,
+				replicatePuts=true,
+				replicateUpdates=true,
+				replicateUpdatesViaCopy=true,
+				replicateRemovals=true" />
+    <bootstrapCacheLoaderFactory class="net.sf.ehcache.distribution.jgroups.JGroupsBootstrapCacheLoaderFactory"
+                                 properties="bootstrapAsynchronously=false" />
+  </cache>
+
+  <!-- test cache -->
+  <cache name="testPlan" eternal="false" timeToIdleSeconds="900" timeToLiveSeconds="900" memoryStoreEvictionPolicy="LRU">
+    <cacheEventListenerFactory class="net.sf.ehcache.distribution.jgroups.JGroupsCacheReplicatorFactory"
+                               properties=" replicateAsynchronously=false,
+				replicatePuts=true,
+				replicateUpdates=true,
+				replicateUpdatesViaCopy=true,
+				replicateRemovals=true" />
+    <bootstrapCacheLoaderFactory class="net.sf.ehcache.distribution.jgroups.JGroupsBootstrapCacheLoaderFactory"
+                                 properties="bootstrapAsynchronously=false" />
+  </cache>
+  <cache name="testObject" eternal="false" timeToIdleSeconds="900" timeToLiveSeconds="900" memoryStoreEvictionPolicy="LRU">
+    <cacheEventListenerFactory class="net.sf.ehcache.distribution.jgroups.JGroupsCacheReplicatorFactory"
+                               properties=" replicateAsynchronously=false,
+				replicatePuts=true,
+				replicateUpdates=true,
+				replicateUpdatesViaCopy=true,
+				replicateRemovals=true" />
+    <bootstrapCacheLoaderFactory class="net.sf.ehcache.distribution.jgroups.JGroupsBootstrapCacheLoaderFactory"
+                                 properties="bootstrapAsynchronously=false" />
+  </cache>
+</ehcache>

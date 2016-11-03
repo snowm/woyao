@@ -7,9 +7,11 @@ import com.woyao.customer.dto.ProductDTO;
 
 public interface IProductService {
 
-	MsgProductDTO getMsgProduct(long msgProductId);
+	MsgProductDTO getMsgProduct(long shopId, long msgProductId);
 
-	List<MsgProductDTO> listAllMsgProduct();
+	List<MsgProductDTO> listAllMsgProductFromCache(long shopId);
+	
+	List<MsgProductDTO> listAllGlobalMsgProduct();
 
 	List<ProductDTO> listProducts(long shopId);
 

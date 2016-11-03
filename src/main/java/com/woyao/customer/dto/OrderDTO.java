@@ -39,6 +39,8 @@ public class OrderDTO implements Serializable {
 	private Date creationDate = new Date();
 
 	private Long msgId;
+	
+	private Long shopId;
 
 	public Long getId() {
 		return id;
@@ -126,6 +128,14 @@ public class OrderDTO implements Serializable {
 
 	public void setMsgId(Long msgId) {
 		this.msgId = msgId;
+	}
+
+	public Long getShopId() {
+		return shopId;
+	}
+
+	public void setShopId(Long shopId) {
+		this.shopId = shopId;
 	}
 
 	@Override

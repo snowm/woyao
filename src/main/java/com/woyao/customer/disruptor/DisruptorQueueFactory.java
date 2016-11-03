@@ -2,7 +2,6 @@ package com.woyao.customer.disruptor;
 
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.concurrent.ThreadFactory;
-import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang3.concurrent.BasicThreadFactory;
 import org.slf4j.Logger;
@@ -68,7 +67,7 @@ public class DisruptorQueueFactory<T> implements FactoryBean<Disruptor<T>>, Init
 
 	@Override
 	public void destroy() throws Exception {
-		this.disruptor.shutdown(1, TimeUnit.MINUTES);
+		this.disruptor.shutdown();
 	}
 
 	public void setThreadName(String threadName) {
@@ -94,7 +93,6 @@ public class DisruptorQueueFactory<T> implements FactoryBean<Disruptor<T>>, Init
 	public void setEventHandlers(EventHandler<? super T>[] eventHandlers) {
 		this.eventHandlers = eventHandlers;
 	}
-
 
 
 	private class DisruptorUncaughtExceptionHandler implements UncaughtExceptionHandler {

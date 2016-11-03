@@ -9,13 +9,17 @@
        
     <alias name="dataSource" alias="globalLockMySQLDataSource" />
     
-    <bean id="scheduler-Global" class="com.snowm.global.scheduler.GlobalThreadPoolTaskScheduler" destroy-method="destroy" depends-on="globalLockFactory">
+    <!-- <bean id="scheduler-Global" class="com.snowm.global.scheduler.GlobalThreadPoolTaskScheduler" destroy-method="destroy" depends-on="globalLockFactory">
 		<property name="poolSize" value="8" />
 		<property name="triggerContextService" ref="triggerContextService" />
 		<property name="operatorType" value="${global.lock.operator.type}" />
 		<property name="owner" value="${appInstance}" />
 		<property name="timeout" value="${global.task.timeout}" />
 		<property name="timeUnit" value="${global.task.timeUnit}" />
+	</bean> -->
+	
+    <bean id="scheduler-Global" class="org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler" destroy-method="destroy">
+		<property name="poolSize" value="8" />
 	</bean>
 	
 	<task:scheduled-tasks scheduler="scheduler-Global">

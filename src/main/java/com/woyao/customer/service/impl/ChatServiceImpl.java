@@ -150,9 +150,10 @@ public class ChatServiceImpl implements IChatService {
 
 			Long msgProductId = inMsg.getProductId();
 			if (msgProductId != null) {
-				MsgProductDTO msgProductDTO = this.productService.getMsgProduct(msgProductId);
+				Long shopId = SessionUtils.getShopId(wsSession);
+				MsgProductDTO msgProductDTO = this.productService.getMsgProduct(shopId, msgProductId);
 				if (msgProductDTO != null) {
-					OrderDTO savedOrder = orderService.placeOrder(savedMsg);
+					OrderDTO savedOrder = orderService.placeOrder(shopId, savedMsg);
 					Long orderId = savedOrder.getId();
 					this.submitOrderProducer.produce(orderId);
 					return;

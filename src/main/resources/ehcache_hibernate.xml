@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ehcache name="woyao">
+<ehcache name="woyao" updateCheck="false">
 	<!-- <managementRESTService enabled="true" bind="0.0.0.0:9888" /> -->
 	<!-- Sets the path to the directory where cache .data files are created. If the path is a Java System Property 
 		it is replaced by its value in the running VM. The following properties are translated: user.home - User's home 
@@ -67,6 +67,8 @@
 	<cache name="product" maxElementsInMemory="2000" eternal="true" overflowToDisk="true" maxElementsOnDisk="10000">
 	</cache>
 	<cache name="msgProduct" maxElementsInMemory="10" eternal="true">
+	</cache>
+	<cache name="shopMsgProductConfig" maxElementsInMemory="2000" eternal="true">
 	</cache>
 	<cache name="refProduct" maxElementsInMemory="2000" eternal="true" overflowToDisk="true" maxElementsOnDisk="10000">
 	</cache>

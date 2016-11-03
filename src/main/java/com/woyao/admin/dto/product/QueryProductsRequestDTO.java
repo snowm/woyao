@@ -1,6 +1,7 @@
 package com.woyao.admin.dto.product;
 
 import com.woyao.PaginationQueryRequestDTO;
+import com.woyao.domain.product.ProductType;
 
 public class QueryProductsRequestDTO extends PaginationQueryRequestDTO {
 
@@ -9,12 +10,14 @@ public class QueryProductsRequestDTO extends PaginationQueryRequestDTO {
 	private Long categoryId;
 
 	private String name;
-	
+
 	private Long shopId;
-	
-	private Boolean deleted=null;
-	
+
+	private Boolean deleted = null;
+
 	private Boolean enabled = true;
+
+	private ProductType type = null;
 
 	public Long getCategoryId() {
 		return categoryId;
@@ -56,5 +59,12 @@ public class QueryProductsRequestDTO extends PaginationQueryRequestDTO {
 		this.shopId = shopId;
 	}
 
+	public ProductType getType() {
+		return type;
+	}
+
+	public void setType(ProductType type) {
+		this.type = type;
+	}
 
 }

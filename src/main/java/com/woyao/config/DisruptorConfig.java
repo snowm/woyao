@@ -64,6 +64,8 @@ public class DisruptorConfig {
 		handler.setThreads(threads);
 		handler.setTaskTimeout(taskTimeout);
 		handler.setTaskTimeoutTimeUnit(taskTimeoutTimeUnit);
+		handler.setOrderService(orderService);
+		handler.setOrderProcessor(orderProcessor);
 		return handler;
 	}
 

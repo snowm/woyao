@@ -2,6 +2,8 @@ package com.woyao.admin.controller;
 
 import java.lang.reflect.ParameterizedType;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,7 +28,7 @@ public abstract class AbstractBaseController<M, DTO extends BasePKDTO> {
 
 	@RequestMapping(value = { "/enabled/{id}" }, method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
-	public DTO enable(@PathVariable("id") long id) {
+	public DTO enable(@PathVariable("id") long id, HttpServletRequest httpRequest) {
 		DTO dto = this.baseService.enable(id);
 		if (dto == null) {
 			throw new NotFoundException(String.format("%1$s with id : %2$s cound not found!", this.clazz.getName(), id));
@@ -36,7 +38,7 @@ public abstract class AbstractBaseController<M, DTO extends BasePKDTO> {
 
 	@RequestMapping(value = { "/disable/{id}" }, method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
-	public DTO disable(@PathVariable("id") long id) {
+	public DTO disable(@PathVariable("id") long id, HttpServletRequest httpRequest) {
 		DTO dto = this.baseService.disable(id);
 		if (dto == null) {
 			throw new NotFoundException(String.format("%1$s with id : %2$s cound not found!", this.clazz.getName(), id));
@@ -46,7 +48,7 @@ public abstract class AbstractBaseController<M, DTO extends BasePKDTO> {
 
 	@RequestMapping(value = { "/delete/{id}" }, method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
-	public DTO delete(@PathVariable("id") long id) {
+	public DTO delete(@PathVariable("id") long id, HttpServletRequest httpRequest) {
 		DTO dto = this.baseService.delete(id);
 		if (dto == null) {
 			throw new NotFoundException(String.format("%1$s with id : %2$s cound not found!", this.clazz.getName(), id));

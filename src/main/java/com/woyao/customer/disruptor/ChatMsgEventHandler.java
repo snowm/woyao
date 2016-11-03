@@ -13,7 +13,7 @@ import com.woyao.customer.chat.session.SessionContainer;
 import com.woyao.customer.dto.chat.out.Outbound;
 import com.woyao.customer.service.IChatService;
 
-public class ChatMsgEventHandler extends AbstractEventHandler<ChatMsgEvent> {
+public class ChatMsgEventHandler extends AbstractMultiThreadEventHandler<ChatMsgEvent> {
 
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 

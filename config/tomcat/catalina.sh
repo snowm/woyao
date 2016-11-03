@@ -156,6 +156,8 @@ assembl_java_opts
 
 GC_LOGGING="-verbose:gc -XX:+PrintGCTimeStamps -XX:+PrintGCDetails -Xloggc:${LOG_DIR}/gc.log"
 
+SYS_PROPS="$(sed -n -e 's#^sysprop\.#-D#p' service.properties | tr '\n\r' ' ')"
+
 # -XX:+DisableExplicitGC
 _OPTS="-d64 -Xms${JVM_Xms} -Xmx${JVM_Xmx} -XX:NewSize=${JVM_NewSize} -XX:MaxNewSize=${JVM_MaxNewSize} -ea\
  -XX:+UseConcMarkSweepGC\
@@ -167,7 +169,7 @@ _OPTS="-d64 -Xms${JVM_Xms} -Xmx${JVM_Xmx} -XX:NewSize=${JVM_NewSize} -XX:MaxNewS
  -Dspring.profiles.active=${SPRING_PROFILE}\
  -Duser.timezone=GMT+8"
 
-JAVA_OPTS="$JAVA_OPTS $_OPTS"
+JAVA_OPTS="$JAVA_OPTS $_OPTS $SYS_PROPS"
 echo "JAVA_OPTS=$JAVA_OPTS"
 
 # resolve links - $0 may be a softlink
