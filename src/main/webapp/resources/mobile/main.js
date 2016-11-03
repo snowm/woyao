@@ -124,7 +124,7 @@ require(['mmRouter',"domReady!",'socket','wxsdk'],function(mmRouter,domReady,soc
         if(pagepath == '_privacyChat' && loadedFlag){
             privacyChat.init();
         }else if(pagepath == '_chatRoom' && loadedFlag){
-        	//chatRoom.init();
+        	chatRoom.init();
         }else if(pagepath == '_chatter' && loadedFlag){
             chatter.init();
         }else if(pagepath == '_richer' && loadedFlag){
