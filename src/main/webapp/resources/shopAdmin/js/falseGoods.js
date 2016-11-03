@@ -113,10 +113,7 @@ define(['uploadfile'],function(){
             var unitPrice = $(".unitPrice").val();
             var shopType = $(".shopType").val(); 
             if(goodsController.goodsChg.typeId == "2"){
-            		if(prdocut == ""){
-        				alert("产品名称不能为空");
-        				return;
-        			}else if(unitPrice == ""){
+            		 if(unitPrice == ""){
         				alert("产品单价不能为空");
         				return;
         			}else{		
@@ -203,10 +200,8 @@ define(['uploadfile'],function(){
                      goodsController.totlePage = data.totalPageCount;
    	      			if(goodsController.goodsList.length != 0){
    	      				goodsController.nothing=false;
-   	      				console.log(1);
    	      			}else if(goodsController.goodsList.length == 0){  	      				
    	      				goodsController.nothing=true;
-   	      				console.log(2);
    	      			}
                  },
                  dataType: 'json'
