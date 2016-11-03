@@ -3,14 +3,14 @@
  */
 define(["highcharts","exporting","dark-unica"],function(){
 		
-  /*  	$.ajax({
+  	$.ajax({
 			  type: "get",
 			  url: '/shop/admin/detail/search',
 			  success: function(data){
 				  pageController.name=data.name;
 			  },
 			  dataType: 'json'
-			});*/
+			});
     	
     	var pageController=avalon.define({
     		$id:"pageController",    	

@@ -113,7 +113,6 @@ define(['uploadfile'],function(){
             var unitPrice = $(".unitPrice").val();
             var shopType = $(".shopType").val(); 
             if(goodsController.goodsChg.typeId == "2"){
-            		console.log(1111)
             		if(prdocut == ""){
         				alert("产品名称不能为空");
         				return;
@@ -146,10 +145,7 @@ define(['uploadfile'],function(){
         		                    alert('提交成功');
         		                    goodsController.goodsShow = false;
         		                    goodsController.goods = true;
-        		                    goodsController.goodsChg.mainPicId = '';    
         		                    goodsController.goodsChg.name="";
-        		                    goodsController.imgViewSrc = '/admin/resources/images/photos/upload1.png';
-        		                    $("#uploadFileIpt").val('');
         		                    goodsController.goodsShow=false;
         		    	            goodsController.demand=true;
         		                    Submit();
@@ -164,11 +160,11 @@ define(['uploadfile'],function(){
         	goodsController.demand = true;
         	goodsController.goods = true;
         	goodsController.nothing = false;
-        	goodsController.goodsChg.mainPicId = '';
+//        	goodsController.goodsChg.mainPicId = '';
         	goodsController.goodsChg.name="";
         	goodsController.goodsChg.shopId="";
-            goodsController.imgViewSrc = '/admin/resources/images/photos/upload1.png';
-            $("#uploadFileIpt").val('');
+//            goodsController.imgViewSrc = '/admin/resources/images/photos/upload1.png';
+//            $("#uploadFileIpt").val('');
 	    }, 
     });
     console.log("load goods-manage");

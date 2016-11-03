@@ -31,7 +31,7 @@ define(['jquery','datapicker','datapicker.cn'],function(){
     	   		nicknameId:"",
     	   		deleted:false,    	   		
     			pageNumber:1,
-    			pageSize:8,
+    			pageSize:15,
     			mintotalFee:"",
     			maxtotalFee:"",
     			statusId:"",
@@ -56,7 +56,7 @@ define(['jquery','datapicker','datapicker.cn'],function(){
   			});
     		},
     		chooseName:function(id,name){
-    			orderController.orderData.nicknameId=1;
+    			orderController.orderData.nicknameId=id;
     			orderController.orderName.nickname=name;
     			orderController.nameList=[];
     		},
@@ -81,6 +81,7 @@ define(['jquery','datapicker','datapicker.cn'],function(){
 	  	      		  success: function(data){
 	  	      			  console.log(data);	  	      			 
 	  	      			orderController.orderList = data.results;
+	  	      			orderController.totlePage = data.totalPageCount;
 	  	      			if(orderController.orderList != ""){
 	  	      			orderController.nothing=false;
 	  	      			}else if(orderController.orderList == ""){
