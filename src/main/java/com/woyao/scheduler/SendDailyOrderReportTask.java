@@ -16,6 +16,7 @@ public class SendDailyOrderReportTask extends GlobalIdentifiedTask {
 		if (logger.isDebugEnabled()) {
 			tl = TimeLogger.newLogger().start();
 		}
+		//TODO
 		int i = 0;
 		if (logger.isDebugEnabled()) {
 			logger.debug("Sent {} daily order reports to customer! Spent time:{} ms.", i, tl.end().spent());
