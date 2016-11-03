@@ -55,6 +55,13 @@
         <img src="/show/resources/img/gift/w08.png" class="gift-e2s gift-e2s21" alt="">
         <img src="/show/resources/img/gift/w02.png" class="gift-e2s gift-e2s22" alt="">
     </div>
+    <div class="gift-block gift-e3">
+        <img src="/show/resources/img/bapin/star.png" class="bapin-bg" alt="">
+        <img src="/show/resources/img/gift/d1.png" class="gift-e3s gift-e3s1" alt="">
+    </div>
+    <div class="gift-block gift-e4">
+        <img src="/show/resources/img/bapin/star.png" class="bapin-bg" alt="">
+    </div>
     <div class="gift-msg">
         <div class="gift-heads-gift">
             <div class="gift-head-block data-sender-block">
@@ -74,7 +81,7 @@
             </div>
         </div>
         <div class="gift-msg-title">
-            <span class="max-200 data-sender-name">送礼对象</span> <span class="gift-title-yellow">送</span> <span class="data-to-name">被送礼对象</span> <span class="gift-title-yellow data-giftname">礼花飞吻雪花砖石戒指</span>
+            <span class="max-200 data-sender-name">送礼对象</span> <span class="gift-title-yellow">送</span> <span class="data-to-name">被送礼对象</span> <span class="gift-title-yellow data-giftname">礼花飞吻雪花钻石戒指</span>
         </div>
         <div class="gift-msg-text data-text">
           发送文字
@@ -167,7 +174,7 @@
                             <td class="msg-img-c">
                                 <img class="msg-img" src="/show/resources/img/head.jpg" alt="">
                             </td>
-                            　　	<td class="msg-table-td"></td>
+                            　　	<td class="msg-table-td"><span class='data-title'></span><span class='data-msg'>扫描二维码霸屏上墙！</span></td>
                             　　</tr>
                         </table>
                     </div>
@@ -188,7 +195,7 @@
                             <td class="msg-img-c">
                                 <img class="msg-img" src="/show/resources/img/head.jpg" alt="">
                             </td>
-                            　　	<td class="msg-table-td">欢迎光临！</td>
+                            　　	<td class="msg-table-td"><span class='data-title'></span><span class='data-msg'>欢迎光临！</span></td>
                             　　</tr>
                         </table>
                     </div>
@@ -209,7 +216,7 @@
                             <td class="msg-img-c">
                                 <img class="msg-img" src="/show/resources/img/head.jpg" alt="">
                             </td>
-                            　　	<td class="msg-table-td">扫描二维码霸屏上墙！</td>
+                            　　	<td class="msg-table-td"><span class='data-title'></span><span class='data-msg'>扫描二维码霸屏上墙！</span></td>
                             　　</tr>
                         </table>
                     </div>
@@ -230,7 +237,7 @@
                             <td class="msg-img-c">
                                 <img class="msg-img" src="/show/resources/img/head.jpg" alt="">
                             </td>
-                            　　	<td class="msg-table-td">微信扫描二维码即可！</td>
+                            　　	<td class="msg-table-td"><span class='data-title'></span><span class='data-msg'>微信扫描二维码即可！</span></td>
                             　　</tr>
                         </table>
                     </div>
@@ -251,7 +258,7 @@
                             <td class="msg-img-c">
                                 <img class="msg-img" src="/show/resources/img/head.jpg" alt="">
                             </td>
-                            　　	<td class="msg-table-td">我要霸屏！</td>
+                            　　	<td class="msg-table-td"><span class='data-title'></span><span class='data-msg'>扫描二维码霸屏上墙！</span></td>
                             　　</tr>
                         </table>
                     </div>
@@ -271,6 +278,15 @@
 <script>
     window.onload = function () {
 
+        $(".bapin-ctn").hide();
+        $('.gift-ctn').hide();
+    	$(".gift-e1").hide();
+    	$(".gift-e2").hide();
+    	$(".gift-e3").hide();
+    	$(".gift-e4").hide();
+    	
+    	
+    	
         var psdWidth = 1024,
                 rootFontSize = 100;
         var calc = function (e,ft) {
@@ -311,26 +327,40 @@
             var changeBlock = $('.m4');
             changeBlock.find('.msg-hd').attr('src',allMsgList[allMsgIndex].sender.headImg);
 
-
-
-
-
+			
             var textLength = allMsgList[allMsgIndex].text.length;
+            var titleLength = allMsgList[allMsgIndex].title.length;
+            textLength = titleLength + titleLength;
             if(textLength > 4 && textLength < 10){
-                changeBlock.find('.msg-table-td').html(allMsgList[allMsgIndex].text).attr('style','font-size:.7rem');
-                calc(changeBlock.find('.msg-table-td')[0]);
+            	if(allMsgList[allMsgIndex].title != ''){
+    				changeBlock.find('.data-title').html(allMsgList[allMsgIndex].title).attr('style','font-size:.6rem');
+    			}
+                changeBlock.find('.data-msg').html(allMsgList[allMsgIndex].text).attr('style','font-size:.6rem');
+                calc(changeBlock.find('.data-msg')[0]);
             }else if(textLength >= 10 && textLength < 30){
-                changeBlock.find('.msg-table-td').html(allMsgList[allMsgIndex].text).attr('style','font-size:.5rem');
-                calc(changeBlock.find('.msg-table-td')[0]);
+            	if(allMsgList[allMsgIndex].title != ''){
+    				changeBlock.find('.data-title').html(allMsgList[allMsgIndex].title).attr('style','font-size:.4rem');
+    			}
+                changeBlock.find('.data-msg').html(allMsgList[allMsgIndex].text).attr('style','font-size:.4rem');
+                calc(changeBlock.find('.data-msg')[0]);
             }else if(textLength >= 30 && textLength < 40){
-                changeBlock.find('.msg-table-td').html(allMsgList[allMsgIndex].text).attr('style','font-size:.4rem');
-                calc(changeBlock.find('.msg-table-td')[0]);
+            	if(allMsgList[allMsgIndex].title != ''){
+    				changeBlock.find('.data-title').html(allMsgList[allMsgIndex].title).attr('style','font-size:.3rem');
+    			}
+                changeBlock.find('.data-msg').html(allMsgList[allMsgIndex].text).attr('style','font-size:.3rem');
+                calc(changeBlock.find('.data-msg')[0]);
             }else if(textLength >= 40 && textLength <= 50){
-                changeBlock.find('.msg-table-td').html(allMsgList[allMsgIndex].text).attr('style','font-size:.25rem');
-                calc(changeBlock.find('.msg-table-td')[0]);
+            	if(allMsgList[allMsgIndex].title != ''){
+    				changeBlock.find('.data-title').html(allMsgList[allMsgIndex].title).attr('style','font-size:.25rem');
+    			}
+                changeBlock.find('.data-msg').html(allMsgList[allMsgIndex].text).attr('style','font-size:.25rem');
+                calc(changeBlock.find('.data-msg')[0]);
             }else if(textLength < 5){
-                changeBlock.find('.msg-table-td').html(allMsgList[allMsgIndex].text).attr('style','font-size:.8rem');
-                calc(changeBlock.find('.msg-table-td')[0]);
+            	if(allMsgList[allMsgIndex].title != ''){
+    				changeBlock.find('.data-title').html(allMsgList[allMsgIndex].title).attr('style','font-size:.7rem');
+    			}
+                changeBlock.find('.data-msg').html(allMsgList[allMsgIndex].text).attr('style','font-size:.7rem');
+                calc(changeBlock.find('.data-msg')[0]);
             }
             changeBlock.find('.msg-name-text').html(allMsgList[allMsgIndex].sender.nickname);
             if(allMsgList[allMsgIndex].pic){
@@ -342,8 +372,11 @@
             }
             if(allMsgList[allMsgIndex].duration != 0){
                 changeBlock.find('.msg-ba').attr('style','display:block');
+                changeBlock.find('.msg-text').addClass('msg-active');
             }else{
                 changeBlock.find('.msg-ba').attr('style','display:none');
+                changeBlock.find('.msg-text').removeClass('msg-active');
+                changeBlock.find('.data-title').html('');
             }
             if(allMsgList[allMsgIndex].sender.gender == 'MALE'){
                 changeBlock.find('.msg-sexy-man').attr('style','visibility:visible');
@@ -427,10 +460,35 @@
                     if(!msg.privacy){
                     	
                           msg.duration = 10;
-                         //msg.effectCode = 'e1';   
+                         msg.effectCode = 'e4';   
                           
-                         
+                        msg.title = '';
                         if(msg.duration != 0){
+
+                            if(msg.effectCode == null){
+                            	if(msg.to.id == msg.sender.id){
+                            		item.to = {
+                                      	nickname:'全场观众',
+                                        headImg:'/show/resources/img/all.png'
+                                    }
+                            	};
+                            	var giftType = '';
+                            	if(msg.effectCode == 'e1'){
+                            		giftType = '礼花';
+                            	}else if(msg.effectCode == 'e2'){
+                            		giftType = '飞吻';
+                            	}else if(msg.effectCode == 'e3'){
+                            		giftType = '钻石';
+                            	}else if(msg.effectCode == 'e4'){
+                            		giftType = '钻戒';
+                            	}else if(msg.effectCode == 'e5'){
+                            		giftType = '雪花';
+                            	}
+                            	msg.title = "为" + msg.to.nickname + "送来" + giftType;
+                            }else{
+                            	msg.title = "霸屏" + msg.duration + "秒";
+                            }
+                            
                             if(sreenShow){
                                 msg.text = replace_em(msg.text);
                                 sreenItem.push(msg);
@@ -468,7 +526,7 @@
             if(seconds != 0){
                 sreenShow = true;
              // 特效
-             	//item.effectCode = "e2";
+             	item.effectCode = "e5";
              
              	item.to = {id:item.sender.id} 
              
@@ -501,7 +559,6 @@
                     $('.gift-ctn').find('.data-sender-head').attr("src",item.sender.headImg);
                     $('.gift-ctn').find('.data-sender-name').html(item.sender.nickname);
                     $('.gift-ctn').find('.data-text').html(item.text);
-                   // $('.gift-ctn').find('.data-time').html(item.duration);
                     
                     
                     if(item.effectCode == 'e1'){ 
@@ -511,10 +568,10 @@
                     	$(".data-giftname").html('飞吻');
                     	$(".gift-e2").show();
                     }else if(item.effectCode == 'e3'){
-                    	$(".data-giftname").html('砖石');
+                    	$(".data-giftname").html('钻石');
                     	$(".gift-e3").show();
                     }else if(item.effectCode == 'e4'){
-                    	$(".data-giftname").html('戒指');
+                    	$(".data-giftname").html('钻戒');
                     	$(".gift-e4").show();
                     }else if(item.effectCode == 'e5'){
                     	$(".data-giftname").html('雪花');
