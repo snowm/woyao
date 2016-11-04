@@ -460,11 +460,11 @@
                         return;
                     }
                     if(!msg.privacy){
-                    	
+                    	/* 
                          msg.duration = 20;
                          msg.effectCode = 'e4';   
                          msg.to = {id:1}
-                         
+                          */
                          
                         msg.title = '';
                         if(msg.duration != 0){
@@ -478,15 +478,15 @@
                             	};
                             	var giftType = '';
                             	if(msg.effectCode == 'e1'){
-                            		giftType = '礼花';
-                            	}else if(msg.effectCode == 'e2'){
                             		giftType = '飞吻';
+                            	}else if(msg.effectCode == 'e2'){
+                            		giftType = '雪花';
                             	}else if(msg.effectCode == 'e3'){
-                            		giftType = '钻石';
+                            		giftType = '礼花';
                             	}else if(msg.effectCode == 'e4'){
                             		giftType = '钻戒';
                             	}else if(msg.effectCode == 'e5'){
-                            		giftType = '雪花';
+                            		giftType = '钻石';
                             	}
                             	msg.title = "为" + msg.to.nickname + "送来" + giftType;
                             }else{
@@ -565,19 +565,19 @@
                     $('.gift-ctn').find('.data-text').html(item.text);
                     
                     
-                    if(item.effectCode == 'e1'){ 
+                    if(item.effectCode == 'e3'){ 
                     	$(".data-giftname").html('礼花');
                     	$(".gift-e1").show();
-                    }else if(item.effectCode == 'e2'){
+                    }else if(item.effectCode == 'e1'){
                     	$(".data-giftname").html('飞吻');
                     	$(".gift-e2").show();
-                    }else if(item.effectCode == 'e3'){
+                    }else if(item.effectCode == 'e5'){
                     	$(".data-giftname").html('钻石');
                     	$(".gift-e3").show();
                     }else if(item.effectCode == 'e4'){
                     	$(".data-giftname").html('钻戒');
                     	$(".gift-e4").show();
-                    }else if(item.effectCode == 'e5'){
+                    }else if(item.effectCode == 'e2'){
                     	$(".data-giftname").html('雪花');
                     	snowFl.start();
                     }
