@@ -22,7 +22,7 @@ define(['jquery','datapicker','datapicker.cn'],function(){
     			from:"",
     			deleted:false,
     			pageNumber:1,
-    	    	pageSize:10,
+    	    	pageSize:12,
     	    	nicknameId:"",
     	    	startcreationDate:"",
     	    	endcreationDate:"",
