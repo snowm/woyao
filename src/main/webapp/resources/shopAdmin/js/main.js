@@ -70,6 +70,8 @@ require(['/shopAdmin/resources/js/common.js','mmRouter',"domReady!"],function(mm
         		root.nav = 'shop';
         	}else if(tab == 'falseGoods'){
         		root.nav = 'falseGoods';
+        	}else if(tab == 'help'){
+        		root.nav = 'help';
         	}
         }
     });
@@ -135,6 +137,7 @@ require(['/shopAdmin/resources/js/common.js','mmRouter',"domReady!"],function(mm
     avalon.router.get("/goods", callback);
     avalon.router.get("/home", callback);
     avalon.router.get("/falseGoods", callback);
+    avalon.router.get("/help", callback);
     avalon.router.get("/", callback);
 
     avalon.history.start({

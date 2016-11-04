@@ -1,11 +1,31 @@
-
-        html,body{
+		html,body{
             width: 100%;
             height:100%;
             position: absolute;
             overflow: hidden;
             font-family: "PingFangSC-Regular","Microsoft Yahei","sans-serif" !important;
         }
+	    .all{
+	        margin: 0 auto;
+	        width: 75%;	        
+	        background-color: #f2f2f2;
+	    }
+	    h3{
+	        text-align: center;
+	    }
+	    .all > div {
+	        margin-top: 20px;
+	    }
+	    .help{
+	        margin: 10px 0 20px 40px;
+	        width: 90%;
+	        height: 600px;
+	    }
+	    .entry{
+	        width: 60px;
+	        height: 60px;
+	        display: inline-block;
+	    }
         .m-nav-ctn{
             position: absolute;
             /*float: left;*/
