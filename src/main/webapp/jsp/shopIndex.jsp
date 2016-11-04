@@ -58,9 +58,11 @@
     <div class="gift-block gift-e3">
         <img src="/show/resources/img/bapin/star.png" class="bapin-bg" alt="">
         <img src="/show/resources/img/gift/d1.png" class="gift-e3s gift-e3s1" alt="">
+        <img src="/show/resources/img/gift/d2.png" class="gift-e3s gift-e3s2" alt="">
     </div>
     <div class="gift-block gift-e4">
         <img src="/show/resources/img/bapin/star.png" class="bapin-bg" alt="">
+        <img src="/show/resources/img/gift/r.png" class="gift-e4s gift-e4s1" alt="">
     </div>
     <div class="gift-msg">
         <div class="gift-heads-gift">
@@ -459,9 +461,11 @@
                     }
                     if(!msg.privacy){
                     	
-                         // msg.duration = 10;
-                         //msg.effectCode = 'e4';   
-                          
+                         msg.duration = 20;
+                         msg.effectCode = 'e4';   
+                         msg.to = {id:1}
+                         
+                         
                         msg.title = '';
                         if(msg.duration != 0){
 
