@@ -332,7 +332,7 @@
 			
             var textLength = allMsgList[allMsgIndex].text.length;
             var titleLength = allMsgList[allMsgIndex].title.length;
-            textLength = titleLength + titleLength;
+            textLength = titleLength + textLength;
             if(textLength < 10){
             	if(allMsgList[allMsgIndex].title != ''){
     				changeBlock.find('.data-title').html(allMsgList[allMsgIndex].title).attr('style','font-size:.6rem');
