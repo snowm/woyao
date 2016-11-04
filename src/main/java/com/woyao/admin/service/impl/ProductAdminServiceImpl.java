@@ -62,6 +62,7 @@ public class ProductAdminServiceImpl extends AbstractAdminService<Product, Produ
 		return dto;
 	}
 
+	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED)
 	@Override
 	public List<ProductDTO> listGlobalMsgProducts() {
 		Map<String, Object> paramMap = new HashMap<>();
@@ -78,6 +79,7 @@ public class ProductAdminServiceImpl extends AbstractAdminService<Product, Produ
 		return rs;
 	}
 
+	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED)
 	@Override
 	public List<ProductDTO> listShopMsgProducts(long shopId) {
 		Map<String, Object> paramMap = new HashMap<>();
