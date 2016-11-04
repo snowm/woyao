@@ -355,7 +355,7 @@ define(['jquery','avalon','wxsdk',"domReady!","cookie","qqface"], function ($,av
             fl = setInterval(function(){
                 avalon.vmodels. mainController.sreenShowSeconds--;
                 if(avalon.vmodels.mainController.sreenShowSeconds == 0){
-                    clearTimeout(fl);
+                  
                     avalon.vmodels. mainController.sreenImg = '';
                     avalon.vmodels. mainController.sreenMsg = '';
                     avalon.vmodels. mainController.sreenTime = '';
@@ -369,6 +369,7 @@ define(['jquery','avalon','wxsdk',"domReady!","cookie","qqface"], function ($,av
                    	 sreenPop(avalon.vmodels.mainController.sreenItem[0]);
                    	 avalon.vmodels.mainController.sreenItem.splice(0,1);
                     }
+                    clearTimeout(fl);
                     return
                 }
             },1000)
