@@ -341,9 +341,9 @@
                 calc(changeBlock.find('.data-msg')[0]);
             }else if(textLength >= 10 && textLength < 30){
             	if(allMsgList[allMsgIndex].title != ''){
-    				changeBlock.find('.data-title').html(allMsgList[allMsgIndex].title).attr('style','font-size:.4rem');
+    				changeBlock.find('.data-title').html(allMsgList[allMsgIndex].title).attr('style','font-size:.35rem');
     			}
-                changeBlock.find('.data-msg').html(allMsgList[allMsgIndex].text).attr('style','font-size:.4rem');
+                changeBlock.find('.data-msg').html(allMsgList[allMsgIndex].text).attr('style','font-size:.35rem');
                 calc(changeBlock.find('.data-msg')[0]);
             }else if(textLength >= 30 && textLength < 40){
             	if(allMsgList[allMsgIndex].title != ''){
@@ -351,7 +351,7 @@
     			}
                 changeBlock.find('.data-msg').html(allMsgList[allMsgIndex].text).attr('style','font-size:.3rem');
                 calc(changeBlock.find('.data-msg')[0]);
-            }else if(textLength >= 40 && textLength <= 50){
+            }else if(textLength >= 40 && textLength >= 40){
             	if(allMsgList[allMsgIndex].title != ''){
     				changeBlock.find('.data-title').html(allMsgList[allMsgIndex].title).attr('style','font-size:.25rem');
     			}
@@ -469,7 +469,7 @@
                         msg.title = '';
                         if(msg.duration != 0){
 
-                            if(msg.effectCode == null){
+                            if(msg.effectCode){
                             	if(msg.to.id == msg.sender.id){
                             		msg.to = {
                                       	nickname:'全场观众',
