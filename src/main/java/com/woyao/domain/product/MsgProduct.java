@@ -40,4 +40,9 @@ public class MsgProduct extends Product {
 		this.effectCode = effectCode;
 	}
 
+	@Override
+	public String toString() {
+		return "MsgProduct [holdTime=" + holdTime + ", effectCode=" + effectCode + "]";
+	}
+
 }
