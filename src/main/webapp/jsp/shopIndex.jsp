@@ -333,7 +333,7 @@
             var textLength = allMsgList[allMsgIndex].text.length;
             var titleLength = allMsgList[allMsgIndex].title.length;
             textLength = titleLength + titleLength;
-            if(textLength > 4 && textLength < 10){
+            if(textLength < 10){
             	if(allMsgList[allMsgIndex].title != ''){
     				changeBlock.find('.data-title').html(allMsgList[allMsgIndex].title).attr('style','font-size:.6rem');
     			}
@@ -351,7 +351,7 @@
     			}
                 changeBlock.find('.data-msg').html(allMsgList[allMsgIndex].text).attr('style','font-size:.3rem');
                 calc(changeBlock.find('.data-msg')[0]);
-            }else if(textLength >= 40 && textLength >= 40){
+            }else if(textLength >= 40){
             	if(allMsgList[allMsgIndex].title != ''){
     				changeBlock.find('.data-title').html(allMsgList[allMsgIndex].title).attr('style','font-size:.25rem');
     			}
