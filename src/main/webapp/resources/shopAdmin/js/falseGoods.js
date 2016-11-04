@@ -17,8 +17,6 @@ define(['uploadfile'],function(){
         $id:"goodsController",
         goods:false,
         goodsShow:false,
-        choose:true,
-        goodsAdd:false,
         demand:true,
         nothing:false,
 //        picture:false,
@@ -52,9 +50,7 @@ define(['uploadfile'],function(){
             pageSize:12
         },
         //查询商品
-        btnGoods:function(){          
-            goodsController.goodsAdd = false;
-            goodsController.goodsShow = false;     
+        btnGoods:function(){
             goodsController.goodsDate.pageNumber=1;
  	    	 var date = { 	                
  	                 name:goodsController.goodsDate.name,
@@ -140,12 +136,12 @@ define(['uploadfile'],function(){
         		                success: function(data){
         		                    console.log(data);
         		                    alert('提交成功');
+        		                    Submit();
         		                    goodsController.goodsShow = false;
         		                    goodsController.goods = true;
         		                    goodsController.goodsChg.name="";
-        		                    goodsController.goodsShow=false;
         		    	            goodsController.demand=true;
-        		                    Submit();
+        		    	            
         		                },
         		                dataType: 'json',
         		            });
@@ -181,7 +177,7 @@ define(['uploadfile'],function(){
  	    		goodsController.goodsDate.pageNumber++;
  	    	} 	    	
  	       
- 	    	 var date = { 	                
+ 	    	 var data = { 	                
  	                 name:goodsController.goodsChg.name,
  	                 deleted:goodsController.goodsDate.deleted,                
  	                 pageNumber:goodsController.goodsDate.pageNumber,
@@ -192,8 +188,8 @@ define(['uploadfile'],function(){
  	    	 
              $.ajax({
                  type: "post",
-                 url: '/shop/admin/product/search',
-                 data:date,
+                 url: '/shop/admin/product/search/msg',
+                 data:data,
                  success: function(data){
                      console.log(data);
                      goodsController.goodsList = data.results;
