@@ -1,43 +1,83 @@
 // QQ表情插件
 (function($){  
-	$.fn.qqFace = function(options){
-		var defaults = {
-			id : 'facebox',
-			path : 'face/',
-			assign : 'sendIpt',
-			tip : 'em_',
-			container:'faceCtn'
-		};
-		var option = $.extend(defaults, options);
-		var assign = $('#'+option.assign);
-		var id = option.id;
-		var path = option.path;
-		var tip = option.tip;
-		var container = option.container;
-		if(assign.length<=0){
-			alert('缺少表情赋值对象。');
-			return false;
-		}
-
-		$(this).click(function(e){
-			var strFace, labFace;
-			if($('#'+id).length<=0){
-				strFace = '<div id="'+id+'" style="position:absolute;width:94%;display:none;margin:0 auto;z-index:1;" class="qqFace">' +
-							  '<table style="width: 100%;margin: 5px 0 20px 0" border="0" cellspacing="0" cellpadding="0"><tr>';
-				for(var i=1; i<=75; i++){
-					labFace = '['+tip+i+']';
-					strFace += '<td><img style="width: 28px" src="'+path+i+'.gif" onclick="$(\'#'+option.assign+'\').setCaret();$(\'#'+option.assign+'\').insertAtCaret(\'' + labFace + '\');" /></td>';
-					if( i % 6 == 0 ) strFace += '</tr><tr>';
+	$.fn.qqFace = {
+		dct:[
+		     {name:'[脱光]',code:'[em_1]'},
+             {name:'[傻逼]',code:'[em_2]'},
+             {name:'[哦]',code:'[em_3]'},
+             {name:'[骚起来]',code:'[em_4]'},
+             {name:'[骚笑]',code:'[em_5]'},
+             {name:'[瞧一瞧]',code:'[em_6]'},
+        ],
+		init:function(options){
+			var defaults = {
+					id : 'facebox',
+					path : 'face/',
+					assign : 'sendIpt',
+					tip : 'em_',
+					container:'faceCtn'
+				};
+				var option = $.extend(defaults, options);
+				var assign = $('#'+option.assign);
+				var id = option.id;
+				var path = option.path;
+				var tip = option.tip;
+				var buttons = option.btn;
+				var container = option.container;
+				if(assign.length<=0){
+					alert('缺少表情赋值对象。');
+					return false;
 				}
-				strFace += '</tr></table></div>';
-			}
 
-			$("." + container).append(strFace);
-			$('#'+id).css('left','3%').css('top',0).show();
-			e.stopPropagation();
-		});
-	};
+			    var dct = this.dct;
+			    
+				$(buttons).click(function(e){
+					var strFace, labFace;
+					if($('#'+id).length<=0){
+						strFace = '<div id="'+id+'" style="position:absolute;width:94%;display:none;margin:0 auto;z-index:1;" class="qqFace">' +
+									  '<table style="width: 100%;margin: 5px 0 20px 0" border="0" cellspacing="0" cellpadding="0"><tr>';
+						for(var i=1; i<=75; i++){
+							labFace = '['+tip+i+']';
+							
+							
+							  for(var j = 0 ; j < dct.length ; j++){
+								  if(labFace == dct[j].code){
+									  labFace = dct[j].name;
+								  }
+						      }
+							  
+							
+							strFace += '<td><img style="width: 28px" src="'+path+i+'.gif" onclick="$(\'#'+option.assign+'\').setCaret();$(\'#'+option.assign+'\').insertAtCaret(\'' + labFace + '\');" /></td>';
+							if( i % 6 == 0 ) strFace += '</tr><tr>';
+						}
+						strFace += '</tr></table></div>';
+					}
 
+					$("." + container).append(strFace);
+					$('#'+id).css('left','3%').css('top',0).show();
+					e.stopPropagation();
+				});
+		},
+		replaceEm:function(str){
+			var dct = this.dct;
+			var oldStr = str;
+	        for(var i = 0 ; i < dct.length ; i++){
+	        	str = ReplaceAll(str,dct[i].name,dct[i].code);
+	    	}
+	        str = str.replace(/\</g,'&lt;');
+	        str = str.replace(/\>/g,'&gt;');
+	        str = str.replace(/\n/g,'<br/>');
+	        str = str.replace(/\[em_([0-9]*)\]/g,"<img src='/resources/js/qqface/face/$1.gif'/>");
+	        return str;
+		}
+	}
+
+	   function ReplaceAll(str, sptr, sptr1){
+	        while (str.indexOf(sptr) >= 0){
+	           str = str.replace(sptr, sptr1);
+	        }
+	        return str;
+	    }
 })(jQuery);
 
 jQuery.extend({ 

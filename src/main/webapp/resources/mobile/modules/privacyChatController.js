@@ -3,7 +3,7 @@
  * Created by lzd on 2016.
  */
 
-define(['jquery','avalon', 'text!./privacyChat.html','socket','swiper','wxsdk',"domReady!",'qqface'], function ($,avalon,_privacyChat,socket,swiper,wx,domReady) {
+define(['jquery','avalon', 'text!./privacyChat.html','socket','swiper','wxsdk',"domReady!","qqface"], function ($,avalon,_privacyChat,socket,swiper,wx,domReady,qqface) {
     avalon.templateCache._privacyChat = _privacyChat;
 
     socket.init();
@@ -227,7 +227,7 @@ define(['jquery','avalon', 'text!./privacyChat.html','socket','swiper','wxsdk',"
                 success: function(data) {
                     var msg = data;
                     for(var i = 0;i < msg.length ; i++){
-                        msg[i].text = replace_em(msg[i].text);
+                        msg[i].text = $('.emoji-btn').qqFace.replaceEm(msg[i].text);
                         if(msg[i].privacy){           
                         	pChatController.pMsgList.unshift(msg[i]);
                         }else{
@@ -259,28 +259,19 @@ define(['jquery','avalon', 'text!./privacyChat.html','socket','swiper','wxsdk',"
         	pChatController.queryHistoryInfo.withChatterId = pChatController.toWho.$model.id;
             /* qqface */
             setTimeout(function(){
-                $('.emoji-btn').qqFace({
+                $('.emoji-btn').qqFace.init({
                     id : 'facebox', //表情容器的ID
                     assign:'sendIpt', //文本框
                     path:'/resources/js/qqface/face/',	//表情存放的路径
-                    container:'faceCtn'
+                    container:'faceCtn',
+                    btn:'.emoji-btn'
                 });
-            },300);
+            },500);
             queryHistoryMsg();
         }
         
         init();
 
-        // compile QQ faceCode
-        function replace_em(str){
-            str = str.replace(/\</g,'&lt;');
-            str = str.replace(/\>/g,'&gt;');
-            str = str.replace(/\n/g,'<br/>');
-            str = str.replace(/\[em_([0-9]*)\]/g,"<img src='/resources/js/qqface/face/$1.gif'/>");
-            return str;
-        };
-        /* qqface */
-        
         var textContain = $(".msg-block-contain");
         var textcontainer = $(".msg-block-container");
 

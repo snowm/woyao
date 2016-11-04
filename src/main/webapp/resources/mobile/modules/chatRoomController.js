@@ -2,9 +2,8 @@
  * Created by lzd on 2016.
  */
 
-define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper','wxsdk',"domReady!",'qqface'], function ($,avalon,_chatRoom,socket,swiper,wx,domReady) {
+define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper','wxsdk',"domReady!",'qqface'], function ($,avalon,_chatRoom,socket,swiper,wx,domReady,qqFace) {
     avalon.templateCache._chatRoom = _chatRoom;
-
     socket.init();
     var main_socket = socket.ws;
     
@@ -528,11 +527,12 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper','wxsdk',"dom
         main_socket = socket.ws;
 
         setTimeout(function(){
-            $('.emoji-btn').qqFace({
+            $('.emoji-btn').qqFace.init({
                 id : 'facebox', //表情容器的ID
                 assign:'sendIpt', //文本框
                 path:'/resources/js/qqface/face/',	//表情存放的路径
-                container:'faceCtn'
+                container:'faceCtn',
+                btn:'.emoji-btn'
             });
             
             $(".msg-block-contain").scroll(function() {
@@ -632,7 +632,7 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper','wxsdk',"dom
                 console.log(data);
                 var msg = data;
                 for(var i = 0;i < msg.length ; i++){
-                    msg[i].text = replace_em(msg[i].text);
+                    msg[i].text = $('.emoji-btn').qqFace.replaceEm(msg[i].text);
                     if(msg[i].privacy){
                     	
                     }else{
@@ -741,24 +741,15 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper','wxsdk',"dom
     /* qqface */
     // init QQ face
     setTimeout(function(){
-        $('.emoji-btn').qqFace({
+
+        $('.emoji-btn').qqFace.init({
             id : 'facebox', //表情容器的ID
             assign:'sendIpt', //文本框
             path:'/resources/js/qqface/face/',	//表情存放的路径
-            container:'faceCtn'
+            container:'faceCtn',
+            btn:'.emoji-btn'
         });
     },300);
-
-    // compile QQ faceCode
-    function replace_em(str){
-        str = str.replace(/\</g,'&lt;');
-        str = str.replace(/\>/g,'&gt;');
-        str = str.replace(/\n/g,'<br/>');
-        str = str.replace(/\[em_([0-9]*)\]/g,"<img src='/resources/js/qqface/face/$1.gif'/>");
-        return str;
-    };
-    /* qqface */
-
 
     var textContain = $(".msg-block-contain");
     var textcontainer = $(".msg-block-container");

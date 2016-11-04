@@ -459,15 +459,15 @@
                     }
                     if(!msg.privacy){
                     	
-                          msg.duration = 10;
-                         msg.effectCode = 'e4';   
+                         // msg.duration = 10;
+                         //msg.effectCode = 'e4';   
                           
                         msg.title = '';
                         if(msg.duration != 0){
 
                             if(msg.effectCode == null){
                             	if(msg.to.id == msg.sender.id){
-                            		item.to = {
+                            		msg.to = {
                                       	nickname:'全场观众',
                                         headImg:'/show/resources/img/all.png'
                                     }
@@ -490,18 +490,18 @@
                             }
                             
                             if(sreenShow){
-                                msg.text = replace_em(msg.text);
+                                msg.text = $("body").qqFace.replaceEm(msg.text);
                                 sreenItem.push(msg);
                                 allMsgList.push(msg);
                                 return
                             }else{
-                                msg.text = replace_em(msg.text);
+                                msg.text = $("body").qqFace.replaceEm(msg.text);
                                 sreenPop(msg);
                                 allMsgList.push(msg);
                                 return
                             }
                         }else{
-                            msg.text = replace_em(msg.text);
+                            msg.text = $("body").qqFace.replaceEm(msg.text);
                             allMsgList.push(msg);
                         }
                         if(allMsgList.length > socket.maxShowItem){
@@ -526,9 +526,9 @@
             if(seconds != 0){
                 sreenShow = true;
              // 特效
-             	item.effectCode = "e5";
+             	//item.effectCode = "e5";
              
-             	item.to = {id:item.sender.id} 
+             	//item.to = {id:item.sender.id} 
              
                 if(item.effectCode != null){
                     if(item.to.id == item.sender.id){
@@ -706,14 +706,7 @@
                 }
             }
 
-        // compile QQ faceCode
-        function replace_em(str){
-            str = str.replace(/\</g,'&lt;');
-            str = str.replace(/\>/g,'&gt;');
-            str = str.replace(/\n/g,'<br/>');
-            str = str.replace(/\[em_([0-9]*)\]/g,"<img src='/show/resources/qqface/face/$1.gif'/>");
-            return str;
-        };
+        
 
         function replace_em_null(str){
             str = str.replace(/\</g,'&lt;');

@@ -1,5 +1,5 @@
 
-define(['jquery','avalon','wxsdk',"domReady!","cookie"], function ($,avalon,wx,domReady) {
+define(['jquery','avalon','wxsdk',"domReady!","cookie","qqface"], function ($,avalon,wx,domReady) {
     var socket = undefined;
     
    
@@ -110,7 +110,7 @@ define(['jquery','avalon','wxsdk',"domReady!","cookie"], function ($,avalon,wx,d
                             console.log(data);
                             var msg = data;
                             for(var i = 0;i < msg.length ; i++){
-                                msg[i].text = replace_em(msg[i].text);
+                                msg[i].text = $('body').qqFace.replaceEm(msg[i].text);
                                 if(msg[i].privacy){
                                 	
                                 }else{
@@ -267,7 +267,7 @@ define(['jquery','avalon','wxsdk',"domReady!","cookie"], function ($,avalon,wx,d
                 }
                 
 
-                msg.text = replace_em(msg.text);
+                msg.text = $('body').qqFace.replaceEm(msg.text);
                 if(msg.privacy){
                     if(window.location.hash == '#!/privacyChat'){
                         if(msg.sender.id == avalon.vmodels.pChatController.toWho.id || msg.command == 'smACK'){
@@ -376,15 +376,6 @@ define(['jquery','avalon','wxsdk',"domReady!","cookie"], function ($,avalon,wx,d
    }
     
 
-    // compile QQ faceCode
-    function replace_em(str){
-        str = str.replace(/\</g,'&lt;');
-        str = str.replace(/\>/g,'&gt;');
-        str = str.replace(/\n/g,'<br/>');
-        str = str.replace(/\[em_([0-9]*)\]/g,"<img src='/resources/js/qqface/face/$1.gif'/>");
-        return str;
-    };
-    
     function replace_em_null(str){
         str = str.replace(/\</g,'&lt;');
         str = str.replace(/\>/g,'&gt;');
