@@ -25,6 +25,7 @@ import com.woyao.admin.dto.product.ShopDTO;
 import com.woyao.admin.dto.profile.ProfileDTO;
 import com.woyao.admin.service.IShopAdminService;
 import com.woyao.admin.service.IUserAdminService;
+import com.woyao.cache.MsgProductCache;
 import com.woyao.dao.CommonDao;
 import com.woyao.domain.Pic;
 import com.woyao.domain.Shop;
@@ -39,6 +40,9 @@ public class ShopAdminServiceImpl extends AbstractAdminService<Shop, ShopDTO> im
 	@Resource(name = "userAdminService")
 	private IUserAdminService userAdminService;
 
+	@Resource(name = "msgProductCache")
+	private MsgProductCache msgProductCache;
+	
 	@Transactional
 	@Override
 	public ShopDTO create(ShopDTO dto) {
@@ -61,8 +65,21 @@ public class ShopAdminServiceImpl extends AbstractAdminService<Shop, ShopDTO> im
 		chatRoom.setName(m.getName());
 		this.dao.save(chatRoom);
 
+		this.msgProductCache.addShop(m.getId());
 		ShopDTO rs = this.get(m.getId());
 		return rs;
+	}
+	
+	@Transactional
+	@Override
+	public ShopDTO delete(long id) {
+		Shop m = this.dao.get(Shop.class, id);
+		if (m == null) {
+			return null;
+		}
+		m.getLogicalDelete().setDeleted(true);
+		this.msgProductCache.deleteShop(id);
+		return this.transferToDTO(m, false);
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED)

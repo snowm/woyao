@@ -14,5 +14,7 @@ public interface IProductService {
 	List<MsgProductDTO> listAllGlobalMsgProduct();
 
 	List<ProductDTO> listProducts(long shopId);
+	
+	void loadMsgProductCache();
 
 }

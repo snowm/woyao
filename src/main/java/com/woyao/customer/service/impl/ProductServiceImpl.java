@@ -10,7 +10,6 @@ import javax.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,7 +25,7 @@ import com.woyao.domain.product.ProductType;
 import com.woyao.domain.product.ShopMsgProductConfig;
 
 @Component("productService")
-public class ProductServiceImpl implements IProductService, InitializingBean {
+public class ProductServiceImpl implements IProductService {
 
 	private static final String HQL_LIST_PROD_SHOP = "from Product where shop.id = :shopId "
 			+ "and type = :type and logicalDelete.deleted = false";
@@ -39,9 +38,8 @@ public class ProductServiceImpl implements IProductService, InitializingBean {
 	@Resource(name = "msgProductCache")
 	private MsgProductCache msgProductCache;
 
-	@Override
-	public void afterPropertiesSet() throws Exception {
-		logger.warn("Start to load msg product cache!");
+	@Transactional(readOnly = true)
+	public void loadMsgProductCache() {
 		long start = System.currentTimeMillis();
 		List<MsgProductDTO> products = this.listAllGlobalMsgProduct();
 		products.forEach(p -> this.msgProductCache.updateGlobalMsgProduct(p));
@@ -87,6 +85,7 @@ public class ProductServiceImpl implements IProductService, InitializingBean {
 		return rs;
 	}
 
+	@Transactional(readOnly = true)
 	@Override
 	public List<MsgProductDTO> listAllGlobalMsgProduct() {
 		List<MsgProduct> mps = this.dao.query("from MsgProduct where shop.id is null and logicalDelete.deleted = false");
