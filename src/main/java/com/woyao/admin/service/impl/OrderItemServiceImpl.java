@@ -10,6 +10,8 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.hibernate.Session;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Restrictions;
 import org.hibernate.transform.Transformers;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -48,40 +50,36 @@ public class OrderItemServiceImpl extends AbstractAdminService<Order, OrderDTO> 
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true, isolation = Isolation.READ_UNCOMMITTED)
 	@Override
 	public PaginationBean<OrderDTO> query(QueryOrderItemRequestDTO queryRequest) {
-		Map<String, Object> paramMap = new HashMap<String, Object>();
-		Long shopId = queryRequest.getShopId();
-		paramMap.put("shopId", shopId);
-		StringBuffer sb = new StringBuffer("select distinct oi.order from OrderItem as oi where oi.product.shop.id= :shopId ");
-		if (queryRequest.getMintotalFee() != null) {
-			paramMap.put("mintotalFee", queryRequest.getMintotalFee());
-			sb.append(" and oi.order.totalFee >= :mintotalFee");
-		}
-		if (queryRequest.getMaxtotalFee() != null) {
-			paramMap.put("maxtotalFee", queryRequest.getMaxtotalFee());
-			sb.append(" and oi.order.totalFee <= :maxtotalFee");
-		}
-		if (queryRequest.getStartcreationDate() != null) {
-			paramMap.put("startcreationDate", queryRequest.getStartcreationDate());
-			sb.append(" and oi.order.modification.creationDate >= :startcreationDate");
-		}
+		List<Criterion> criterions = new ArrayList<Criterion>();		
+		criterions.add(Restrictions.eq("shopId", queryRequest.getShopId()));
 		if (queryRequest.getStatusId() != null) {
-			paramMap.put("status", OrderStatus.getEnum(queryRequest.getStatusId()));
-			sb.append(" and oi.order.status= :status");
+			criterions.add(Restrictions.eq("status", OrderStatus.getEnum(queryRequest.getStatusId())));
 		}
 		if (queryRequest.getNicknameId() != null) {
-			paramMap.put("nicknameId", queryRequest.getNicknameId());
-			sb.append(" and oi.order.consumer.id= :nicknameId");
+			criterions.add(Restrictions.eq("consumer.id", queryRequest.getNicknameId()));
+		}
+		if (queryRequest.getMintotalFee() != null) {
+			criterions.add(Restrictions.ge("totalFee", queryRequest.getMintotalFee()));
+		}
+		if (queryRequest.getMaxtotalFee() != null) {
+			criterions.add(Restrictions.le("totalFee", queryRequest.getMaxtotalFee()));
+		}
+		if (queryRequest.getStartcreationDate() != null) {
+			criterions.add(Restrictions.ge("modification.creationDate", queryRequest.getStartcreationDate()));
 		}
 		if (queryRequest.getEndcreationDate() != null) {
-			paramMap.put("endcreationDate", queryRequest.getEndcreationDate());
-			sb.append(" and oi.order.modification.creationDate <= :endcreationDate");
+			criterions.add(Restrictions.le("modification.creationDate", queryRequest.getEndcreationDate()));
 		}
-		String hql = sb.toString();
-		Integer count = this.dao.query(hql, paramMap).size();
+		List<org.hibernate.criterion.Order> orders = new ArrayList<>();
+		orders.add(org.hibernate.criterion.Order.desc("logicalDelete.enabled"));
+		orders.add(org.hibernate.criterion.Order.desc("id"));
+
+		long count = this.dao.count(this.entityClazz, criterions);
 		List<Order> ms = new ArrayList<>();
-		if (count != null || count != 0) {
-			ms = this.dao.query(hql, paramMap, queryRequest.getPageNumber(), queryRequest.getPageSize());
+		if (count > 0l) {
+			ms = this.dao.query(this.entityClazz, criterions, orders, queryRequest.getPageNumber(), queryRequest.getPageSize());
 		}
+
 		PaginationBean<OrderDTO> rs = new PaginationBean<>(queryRequest.getPageNumber(), queryRequest.getPageSize());
 		List<OrderDTO> results = new ArrayList<>();
 		for (Order m : ms) {			
@@ -135,7 +133,7 @@ public class OrderItemServiceImpl extends AbstractAdminService<Order, OrderDTO> 
 	public OrderDTO transferToSimpleDTO(Order m) {
 		OrderDTO dto = new OrderDTO();
 		BeanUtils.copyProperties(m, dto);
-		dto.setTotalFee(m.getTotalFee());
+		dto.setTotalFee(m.getTotalFee()/100);
 		dto.setConsumerId(m.getConsumer().getId());
 		dto.setConsumerName(m.getConsumer().getNickname());
 		dto.setToProfileId(m.getToProfile().getId());
@@ -194,7 +192,7 @@ public class OrderItemServiceImpl extends AbstractAdminService<Order, OrderDTO> 
 			Product product = orderItem.getProduct();			
 			ProductDTO prodto = transferToSimpleDTO(product);
 			prodto.setQuantity(num);
-			prodto.setTotalFee(totalFee);
+			prodto.setTotalFee(totalFee/100);
 			prods.add(prodto);
 		}
 		dto.setProducts(prods);
@@ -214,15 +212,14 @@ public class OrderItemServiceImpl extends AbstractAdminService<Order, OrderDTO> 
 		Integer year = cb.get(cb.YEAR);// 获取年
 		Integer month = cb.get(cb.MONTH) + 1;// 获取月
 		Integer day = cb.get(cb.DATE);// 获取日
-		String sql = "select * from "
-				+ "(select year(p.CREATION_DATE) yearOrder,month(p.CREATION_DATE) monthOrder,day(p.CREATION_DATE) dayOrder, "
-				+ "sum(p.TOTAL_FEE) totalOrder " + "from PURCHASE_ORDER p where p.ID in "
-				+ "(select DISTINCT t.ORDER_ID from ORDER_ITEM t where t.PRODUCT_ID " + "in(select id from PRODUCT where SHOP_ID=?) " + ") "
-				+ "and year(p.CREATION_DATE)=? and p.ORDER_STATUS!=400 "
-				+ "group by year(p.CREATION_DATE),month(p.CREATION_DATE),day(p.CREATION_DATE) " + ") s "
-				+ "order by s.yearOrder desc, s.monthOrder desc, s.dayOrder desc";
-
-		List<ShopOrder> lists = session.createSQLQuery(sql).setLong(0, shopId).setInteger(1, year)
+		String sql = "select year(p.CREATION_DATE) yearOrder,"
+				+ "month(p.CREATION_DATE) monthOrder,"
+				+ "day(p.CREATION_DATE) dayOrder,"
+				+ "sum(p.TOTAL_FEE) totalOrder "
+				+ "from purchase_order p where p.SHOP_ID =? "
+				+ "and p.ORDER_STATUS=200 group by "
+				+ "year(p.CREATION_DATE), month(p.CREATION_DATE),day(p.CREATION_DATE)";
+		List<ShopOrder> lists = session.createSQLQuery(sql).setLong(0, shopId)
 				.setResultTransformer(Transformers.aliasToBean(ShopOrder.class)).list();
 		ShopOrderDTO dto = new ShopOrderDTO();
 		int ytotle = 0;// 年总金额

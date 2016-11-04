@@ -42,6 +42,8 @@ public class OrderItemController extends AbstractBaseController<Order, OrderDTO>
 	@RequestMapping(value = { "/detil" }, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
 	public OrderDTO queryitem(QueryOrderItemRequestDTO request) {
+		Long shopId=shopRoot.getCurrentShop().getId();
+		request.setShopId(shopId);
 		OrderDTO result = this.service.queryItem(request);
 		return result;
 	}
