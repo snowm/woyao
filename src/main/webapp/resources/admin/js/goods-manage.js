@@ -44,6 +44,7 @@ define(['uploadfile'],function(){
         	goodsController.goodsDate.pageNumber=1;
             goodsController.goodsAdd = false;
             goodsController.goodsShow = false; 
+            console.log(goodsController.goodsChg.shopId);
  	    	 var date = { 	                
  	                 name:goodsController.goodsDate.name,
  	                 deleted:goodsController.goodsDate.deleted,                
@@ -57,8 +58,12 @@ define(['uploadfile'],function(){
                  data:date,
                  success: function(data){
                      console.log(data);
+                     data.results.forEach(function(item){
+                    	 item.unitPrice = item.unitPrice/100;
+                     })
                      goodsController.goodsList = data.results;
                      goodsController.totlePage = data.totalPageCount; 
+                     goodsController.goodsChg.shopId="";
    	      			if(goodsController.goodsList.length != 0){
    	      				goodsController.nothing=false;
    	      				goodsController.goods=true;
@@ -76,7 +81,7 @@ define(['uploadfile'],function(){
         	Submit(page);
         },
         change:function(){		
-			goodsController.goodsChg.shopId="";
+//			goodsController.goodsChg.shopId="";
 			var data=goodsController.goodsChg;    			
 			$.ajax({
 	      		  type: "post",
@@ -147,7 +152,7 @@ define(['uploadfile'],function(){
     		                    mainPicId:goodsController.goodsChg.mainPicId,
     		                    typeId:parseInt(goodsController.goodsChg.typeId),
     		                    shopId:goodsController.goodsChg.shopId,
-    		                    unitPrice:goodsController.goodsChg.unitPrice,
+    		                    unitPrice:goodsController.goodsChg.unitPrice*100,
     		                    id:goodsController.goodsChg.id
     		                }
     		            $.ajax({
@@ -181,7 +186,7 @@ define(['uploadfile'],function(){
         		                    description:goodsController.goodsChg.description,
         		                    mainPicId:goodsController.goodsChg.mainPicId,
         		                    typeId:parseInt(goodsController.goodsChg.typeId),
-        		                    unitPrice:goodsController.goodsChg.unitPrice,
+        		                    unitPrice:goodsController.goodsChg.unitPrice*100,
         		                    holdTime:goodsController.goodsChg.holdTime,
         		                    effectCode:goodsController.goodsChg.effectCode,
         		                    id:goodsController.goodsChg.id,
@@ -414,6 +419,9 @@ define(['uploadfile'],function(){
                  data:date,
                  success: function(data){
                      console.log(data);
+                     data.results.forEach(function(item){
+                    	 item.unitPrice = item.unitPrice/100;
+                     })
                      goodsController.goodsList = data.results;
                      goodsController.totlePage = data.totalPageCount;
    	      			if(goodsController.goodsList.length != 0){

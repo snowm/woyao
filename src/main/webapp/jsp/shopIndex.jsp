@@ -127,8 +127,8 @@
         <div class="bapin-msgs">
             <img class="bapin-header data-head" src="/show/resources/img/head.jpg" alt="">
             <p class="bapin-name-gender"><span class="bapin-name data-name">xiaoming</span><img src="/show/resources/img/woman.png" class="data-gender-w" alt=""><img src="/show/resources/img/male.png" class="data-gender-m" alt=""></p>
-            <p class="bapin-text data-text">还是诗和远方生活不止眼前的苟且，还是诗和远方。</p>
-            <div class="bapin-trans">我要霸屏 <span class="bapin-time data-time">30</span> 秒</div>
+            <p class="bapin-text gift-title-yellow2 data-text">还是诗和远方生活不止眼前的苟且，还是诗和远方。</p>
+            <div class="bapin-trans">我要霸屏 <span class="bapin-time gift-title-yellow2 data-time">30</span> 秒</div>
         </div>
         <!--信息-->
 
@@ -191,7 +191,7 @@
                             <td class="msg-img-c">
                                 <img class="msg-img" src="" alt="">
                             </td>
-                            　　	<td class="msg-table-td"><span class='data-title'></span><span class='data-msg'>扫描二维码霸屏上墙！</span></td>
+                            　　	<td class="msg-table-td"><p class='data-title'></p><span class='data-msg'>扫描二维码霸屏上墙！</span></td>
                             　　</tr>
                         </table>
                     </div>
@@ -212,7 +212,7 @@
                             <td class="msg-img-c">
                                 <img class="msg-img" src="" alt="">
                             </td>
-                            　　	<td class="msg-table-td"><span class='data-title'></span><span class='data-msg'>欢迎光临！</span></td>
+                            　　	<td class="msg-table-td"><p class='data-title'></p><span class='data-msg'>欢迎光临！</span></td>
                             　　</tr>
                         </table>
                     </div>
@@ -233,7 +233,7 @@
                             <td class="msg-img-c">
                                 <img class="msg-img" src="" alt="">
                             </td>
-                            　　	<td class="msg-table-td"><span class='data-title'></span><span class='data-msg'>扫描二维码霸屏上墙！</span></td>
+                            　　	<td class="msg-table-td"><p class='data-title'></p><span class='data-msg'>扫描二维码霸屏上墙！</span></td>
                             　　</tr>
                         </table>
                     </div>
@@ -254,7 +254,7 @@
                             <td class="msg-img-c">
                                 <img class="msg-img" src="" alt="">
                             </td>
-                            　　	<td class="msg-table-td"><span class='data-title'></span><span class='data-msg'>微信扫描二维码即可！</span></td>
+                            　　	<td class="msg-table-td"><p class='data-title'></p><span class='data-msg'>微信扫描二维码即可参与！</span></td>
                             　　</tr>
                         </table>
                     </div>
@@ -275,7 +275,7 @@
                             <td class="msg-img-c">
                                 <img class="msg-img" src="" alt="">
                             </td>
-                            　　	<td class="msg-table-td"><span class='data-title'></span><span class='data-msg'>扫描二维码霸屏上墙！</span></td>
+                            　　	<td class="msg-table-td"><p class='data-title'></p><span class='data-msg'>扫描二维码霸屏上墙！</span></td>
                             　　</tr>
                         </table>
                     </div>
@@ -324,7 +324,11 @@
         window.addEventListener('resize', calc);
 
 
-        var allMsgList = [];
+        var allMsgList = [{text:'分享生活 分享快乐',title:'',effectCode:null,duration:0,sender:{nickname:'woyao',gender:'FALE',headImg:'/show/resources/img/head.jpg'}},
+                          {text:'微信扫描二维码即可参与！',title:'',effectCode:null,duration:0,sender:{nickname:'woyao',gender:'FALE',headImg:'/show/resources/img/head.jpg'}},
+                          {text:'分享快乐 交流感情',title:'',effectCode:null,duration:0,sender:{nickname:'woyao',gender:'FALE',headImg:'/show/resources/img/head.jpg'}},
+                          {text:'扫描二维码霸屏上墙！',title:'',effectCode:null,duration:0,sender:{nickname:'woyao',gender:'FALE',headImg:'/show/resources/img/head.jpg'}},
+                          {text:'欢迎光临本店',title:'',effectCode:null,duration:0,sender:{nickname:'woyao',gender:'FALE',headImg:'/show/resources/img/head.jpg'}},];
         var allMsgIndex = 0;
 
         //轮播部分
@@ -347,37 +351,54 @@
 			
             var textLength = allMsgList[allMsgIndex].text.length;
             var titleLength = allMsgList[allMsgIndex].title.length;
-            textLength = titleLength + textLength;
-            if(textLength < 10){
+            if(allMsgList[allMsgIndex].duration){
+                if(allMsgList[allMsgIndex].effectCode){
+                	textLength = titleLength + textLength - 74;
+                }else{
+                	textLength = titleLength + textLength - 37;
+                }
+            }
+            
+            if(textLength > 9 && textLength < 10){
             	if(allMsgList[allMsgIndex].title != ''){
-    				changeBlock.find('.data-title').html(allMsgList[allMsgIndex].title).attr('style','font-size:.6rem');
+    				changeBlock.find('.data-title').html(allMsgList[allMsgIndex].title).attr('style','font-size:.25rem');
+    				changeBlock.find('.data-msg').html(allMsgList[allMsgIndex].text).attr('style','font-size:.6rem').addClass('gift-title-yellow2');
+    			}else{
+                    changeBlock.find('.data-msg').html(allMsgList[allMsgIndex].text).attr('style','font-size:.6rem').removeClass('gift-title-yellow2');
     			}
-                changeBlock.find('.data-msg').html(allMsgList[allMsgIndex].text).attr('style','font-size:.6rem');
-                calc(changeBlock.find('.data-msg')[0]);
+                //calc(changeBlock.find('.data-msg')[0]);
             }else if(textLength >= 10 && textLength < 30){
             	if(allMsgList[allMsgIndex].title != ''){
-    				changeBlock.find('.data-title').html(allMsgList[allMsgIndex].title).attr('style','font-size:.35rem');
+    				changeBlock.find('.data-title').html(allMsgList[allMsgIndex].title).attr('style','font-size:.25rem');
+    				changeBlock.find('.data-msg').html(allMsgList[allMsgIndex].text).attr('style','font-size:.35rem').addClass('gift-title-yellow2');
+    			}else{
+                    changeBlock.find('.data-msg').html(allMsgList[allMsgIndex].text).attr('style','font-size:.35rem').removeClass('gift-title-yellow2');
     			}
-                changeBlock.find('.data-msg').html(allMsgList[allMsgIndex].text).attr('style','font-size:.35rem');
-                calc(changeBlock.find('.data-msg')[0]);
+            	//calc(changeBlock.find('.data-msg')[0]);
             }else if(textLength >= 30 && textLength < 40){
             	if(allMsgList[allMsgIndex].title != ''){
-    				changeBlock.find('.data-title').html(allMsgList[allMsgIndex].title).attr('style','font-size:.3rem');
+    				changeBlock.find('.data-title').html(allMsgList[allMsgIndex].title).attr('style','font-size:.25rem');
+    				changeBlock.find('.data-msg').html(allMsgList[allMsgIndex].text).attr('style','font-size:.3rem').addClass('gift-title-yellow2');
+    			}else{
+                    changeBlock.find('.data-msg').html(allMsgList[allMsgIndex].text).attr('style','font-size:.3rem').removeClass('gift-title-yellow2');
     			}
-                changeBlock.find('.data-msg').html(allMsgList[allMsgIndex].text).attr('style','font-size:.3rem');
-                calc(changeBlock.find('.data-msg')[0]);
+                //calc(changeBlock.find('.data-msg')[0]);
             }else if(textLength >= 40){
             	if(allMsgList[allMsgIndex].title != ''){
     				changeBlock.find('.data-title').html(allMsgList[allMsgIndex].title).attr('style','font-size:.25rem');
+    				changeBlock.find('.data-msg').html(allMsgList[allMsgIndex].text).attr('style','font-size:.25rem').addClass('gift-title-yellow2');
+    			}else{
+                    changeBlock.find('.data-msg').html(allMsgList[allMsgIndex].text).attr('style','font-size:.25rem').removeClass('gift-title-yellow2');
     			}
-                changeBlock.find('.data-msg').html(allMsgList[allMsgIndex].text).attr('style','font-size:.25rem');
-                calc(changeBlock.find('.data-msg')[0]);
-            }else if(textLength < 5){
+                //calc(changeBlock.find('.data-msg')[0]);
+            }else if(textLength <= 9){
             	if(allMsgList[allMsgIndex].title != ''){
-    				changeBlock.find('.data-title').html(allMsgList[allMsgIndex].title).attr('style','font-size:.7rem');
+    				changeBlock.find('.data-title').html(allMsgList[allMsgIndex].title).attr('style','font-size:.25rem');
+    				changeBlock.find('.data-msg').html(allMsgList[allMsgIndex].text).attr('style','font-size:.65rem').addClass('gift-title-yellow2');
+    			}else{
+                    changeBlock.find('.data-msg').html(allMsgList[allMsgIndex].text).attr('style','font-size:.65rem').removeClass('gift-title-yellow2');
     			}
-                changeBlock.find('.data-msg').html(allMsgList[allMsgIndex].text).attr('style','font-size:.7rem');
-                calc(changeBlock.find('.data-msg')[0]);
+                //calc(changeBlock.find('.data-msg')[0]);
             }
             changeBlock.find('.msg-name-text').html(allMsgList[allMsgIndex].sender.nickname);
             if(allMsgList[allMsgIndex].pic){
@@ -475,10 +496,15 @@
                         return;
                     }
                     if(!msg.privacy){
-                         /* msg.duration = 20;
-                         msg.effectCode = 'e3';   
-                         msg.to = {id:1}
-                          */
+                    	
+                    	
+                    	
+                         //msg.duration = 5;
+                         //msg.effectCode = null;   
+                         //msg.to = {id:1};
+                         
+                         
+                         
                         msg.title = '';
                         if(msg.duration != 0){
 
@@ -501,9 +527,9 @@
                             	}else if(msg.effectCode == 'e5'){
                             		giftType = '钻石';
                             	}
-                            	msg.title = "为" + msg.to.nickname + "送来" + giftType;
+                            	msg.title = "为<span style='color:#ffea00'>" + msg.to.nickname + "</span>送来<span style='color:#ffea00'>" + giftType + "</span>";
                             }else{
-                            	msg.title = "霸屏" + msg.duration + "秒";
+                            	msg.title = "霸屏 <span style='color:#ffea00'>" + msg.duration + "</span> 秒";
                             }
                             
                             if(sreenShow){
@@ -543,10 +569,12 @@
             if(seconds != 0){
                 sreenShow = true;
              // 特效
+             
              	//item.effectCode = "e5";
              
-             	//item.to = {id:item.sender.id} 
+             	//item.to = {id:item.sender.id}
              
+             	
                 if(item.effectCode != null){
                     if(item.to.id == item.sender.id){
                         item.to = {

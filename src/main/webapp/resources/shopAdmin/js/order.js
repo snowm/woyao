@@ -79,7 +79,10 @@ define(['jquery','datapicker','datapicker.cn'],function(){
 	  	      		  url: '/shop/admin/order/search',
 	  	      		  data:date,
 	  	      		  success: function(data){
-	  	      			  console.log(data);	  	      			 
+	  	      			  console.log(data);
+	  	      			data.results.forEach(function(item){
+	  	      				item.totalFee = item.totalFee/100;
+	  	      			})
 	  	      			orderController.orderList = data.results;
 	  	      			orderController.totlePage = data.totalPageCount;
 	  	      			if(orderController.orderList != ""){
@@ -102,7 +105,7 @@ define(['jquery','datapicker','datapicker.cn'],function(){
     				orderController.orderList.forEach(function(item){    				 
         				if(item.id == id){ 		
         					orderController.deailId = item.id; 
-        					console.log(orderController.deailId);
+        					console.log(orderController.deailId);        					
         					var data={
         							orderId:orderController.deailId
         					}

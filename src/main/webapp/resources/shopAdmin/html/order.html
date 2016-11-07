@@ -47,7 +47,7 @@
                 <label class="control-label">订单状态</label>
                    <select class="form-control m-form-input" ms-duplex="orderData.statusId">
 		             	<option value=''>-- 请选择 --</option>	                  
-		                <option value='100'>已送达</option> 
+		                <option value='100'>待支付</option> 
 		                <option value='200'>成功</option>
 		                <option value='400'>失败</option>
 	             	</select>
@@ -67,7 +67,7 @@
 				        <th class="text-center">消费者名称</th>
 				        <th class="text-center">时间</th>				        
 				        <th class="text-center">订单状态</th>
-				        <th class="text-center">总价</th>					        	
+				        <th class="text-center">总价（元）</th>					        	
 				        <!-- <th class="text-center">是否删除</th> -->
 				        <th class="text-center text-right" width="200">操作</th>
 				      </tr>
@@ -77,7 +77,7 @@
 				      	<td ms-text="p.orderNo"></td>
 				        <td ms-text="p.consumerName"></td>				       	
 				        <td ms-text="p.creationDate"></td>				        				        
-				        <td><span ms-if="p.statusId == 100">已送达</span><span ms-if="p.statusId ==200">成功</span><span ms-if="p.statusId ==400">失败</span></td>
+				        <td><span ms-if="p.statusId == 100">待支付</span><span ms-if="p.statusId ==200">成功</span><span ms-if="p.statusId ==400">失败</span></td>
 				        <td ms-text="p.totalFee"></td>				        			        
 				        <td class="table-action">					        
 					        <!-- <button class="btn btn-xs btn-info" ms-click="details(p.id)"><i class="fa fa-trash-o"></i> 详情</button> -->
@@ -108,7 +108,7 @@
 		                <div class='col-xs-4'>
 		                    <label class="control-label col-xs-6 text-right">订单状态：</label>
 		                    <div class='col-xs-6 text-left'>
-		                        <p class="m-text" ms-if='shopDetail.statusId == 100'>已送达</p>
+		                        <p class="m-text" ms-if='shopDetail.statusId == 100'>待支付</p>
 		                        <p class="m-text" ms-if='shopDetail.statusId == 200'>成功</p>
 		                        <p class="m-text" ms-if='shopDetail.statusId == 400'>失败</p>
 		                    </div>
@@ -141,9 +141,9 @@
 		            <h4 class="panel-title m-line" style="border-bottom: 1px solid #dadada;padding-bottom: 10px;">支付信息</h4>
 		            <div class="form-group col-xs-12">
 		                <div class='col-xs-4'>
-		                    <label class="control-label col-xs-6 text-right">支付金额：</label>
+		                    <label class="control-label col-xs-6 text-right">支付金额（元）：</label>
 		                    <div class='col-xs-6 text-left'>
-		                        <p class="m-text" ms-text='shopDetail.totalFee'></p>
+		                        <p class="m-text" ms-text='shopDetail.totalFee/100'></p>
 		                    </div>
 		                </div>
 		            </div>
@@ -160,7 +160,7 @@
 		                    <th class="text-center">产品图片</th>
 		                    <th class="text-center">产品名称</th>
 		                    <th class="text-center">商品数量</th>
-		                    <th class="text-center">商品单价</th>		                    
+		                    <th class="text-center">商品单价(元)</th>		                    
 		                    <th class="text-center">产品描述</th>
 		                    <!-- <th class="text-center">商品总价</th> -->
 		                </tr>
@@ -173,7 +173,7 @@
 		                    </td>
 		                    <td ms-text="p.name"></td>
 		                    <td ms-text="p.quantity"></td>
-		                    <td ms-text="p.unitPrice"></td>
+		                    <td ms-text="p.unitPrice/100"></td>
 		                    <td ms-text="p.description"></td>
 		                    <!-- <td ms-text="p.totalFee"></td> -->
 		                </tr>
