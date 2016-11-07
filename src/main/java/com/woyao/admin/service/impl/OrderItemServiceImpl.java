@@ -1,19 +1,14 @@
 package com.woyao.admin.service.impl;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 
-import org.hibernate.Session;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
-import org.hibernate.transform.Transformers;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -25,13 +20,8 @@ import com.woyao.admin.dto.product.OrderDTO;
 import com.woyao.admin.dto.product.ProductDTO;
 import com.woyao.admin.dto.product.QueryOrderItemRequestDTO;
 import com.woyao.admin.service.IOrderItemAdminService;
-import com.woyao.admin.shop.dto.SMSParamsDTO;
-import com.woyao.admin.shop.dto.ShopOrder;
-import com.woyao.admin.shop.dto.ShopOrderDTO;
 import com.woyao.dao.CommonDao;
-import com.woyao.domain.Shop;
 import com.woyao.domain.chat.ChatMsg;
-import com.woyao.domain.product.MsgProduct;
 import com.woyao.domain.product.Product;
 import com.woyao.domain.purchase.Order;
 import com.woyao.domain.purchase.OrderItem;
@@ -202,130 +192,5 @@ public class OrderItemServiceImpl extends AbstractAdminService<Order, OrderDTO> 
 		dto.setProducts(prods);
 		return dto;
 	}
-
-	/**
-	 * 
-	 * @param shopId
-	 * @return 年月日的统计金额数
-	 */
-	@SuppressWarnings("unchecked")
-	@Transactional(propagation = Propagation.REQUIRED, readOnly = true, isolation = Isolation.READ_UNCOMMITTED)
-	public ShopOrderDTO getYearOrder(Long shopId) {
-		Session session = this.dao.getSessionFactory().getCurrentSession();
-		Calendar cb = Calendar.getInstance();// 获取系统当前时间
-		Integer year = cb.get(cb.YEAR);// 获取年
-		Integer month = cb.get(cb.MONTH) + 1;// 获取月
-		Integer day = cb.get(cb.DATE);// 获取日
-		String sql = "select year(p.CREATION_DATE) yearOrder," + "month(p.CREATION_DATE) monthOrder," + "day(p.CREATION_DATE) dayOrder,"
-				+ "sum(p.TOTAL_FEE) totalOrder " + "from PURCHASE_ORDER p where p.SHOP_ID =? " + "and p.ORDER_STATUS=200 group by "
-				+ "year(p.CREATION_DATE), month(p.CREATION_DATE),day(p.CREATION_DATE)";
-		List<ShopOrder> lists = session.createSQLQuery(sql).setLong(0, shopId)
-				.setResultTransformer(Transformers.aliasToBean(ShopOrder.class)).list();
-		ShopOrderDTO dto = new ShopOrderDTO();
-		int ytotle = 0;// 年总金额
-		int mtotle = 0;// 月总金额
-		int dtotle = 0;// 日总金额
-		if (lists.isEmpty() || lists.size() == 0) {
-			return null;
-		}
-		for (ShopOrder shopOrder : lists) {
-			if (year.equals(shopOrder.getYearOrder())) {
-				ytotle += shopOrder.getTotalOrder().intValue();
-			}
-			if (month.equals(shopOrder.getMonthOrder()) && year.equals(shopOrder.getYearOrder())) {
-				mtotle += shopOrder.getTotalOrder().intValue();
-			}
-			if (day.equals(shopOrder.getDayOrder()) && month.equals(shopOrder.getMonthOrder()) && year.equals(shopOrder.getYearOrder())) {
-				dtotle += shopOrder.getTotalOrder().intValue();
-			}
-		}
-		dto.setYearOrder(year);
-		dto.setMonthOrder(month);
-		dto.setDayOrder(day);
-		dto.setYearTotal(ytotle / 100);
-		dto.setMonthTotal(mtotle / 100);
-		dto.setDayTotal(dtotle / 100);
-		List<ShopOrder> ShopOrders = dto.getShopOrders();
-		for (int i = 0; i < 30; i++) {
-			if (i == lists.size()) {
-				break;
-			}
-			ShopOrder s = lists.get(i);
-			lists.get(i).setTotalOrder(new BigDecimal(lists.get(i).getTotalOrder().intValue() / 100));
-			ShopOrders.add(s);
-		}
-		dto.setShopOrders(ShopOrders);
-		return dto;
-	}
-
-	/**
-	 * 商家订单报表
-	 */
-	@Transactional(propagation = Propagation.REQUIRED, readOnly = true, isolation = Isolation.READ_UNCOMMITTED)
-	public SMSParamsDTO queryReport(Long shopId) {
-		SMSParamsDTO dto = new SMSParamsDTO();
-		dto.setDate(new Date());
-		String hql = "from Order o where o.shopId =:shopId and o.status =:status and modification.creationDate >=:startdate and modification.creationDate <=:edate";
-		Map<String, Object> paramMap = new HashMap<>();
-		paramMap.put("shopId", shopId);
-		paramMap.put("status", OrderStatus.getEnum(200));
-		paramMap.put("startdate", dateFormat(1));
-		paramMap.put("edate", dateFormat(0));
-		List<Order> lists = this.dao.query(hql, paramMap);
-		int baTotal = 0;
-		int liTotal = 0;
-		int baCount = 0;
-		int liCount = 0;
-		for (Order order : lists) {
-			Long orderId = order.getId();
-			hql = "select oi.product from OrderItem oi where oi.order.id=" + orderId;
-			List<MsgProduct> msgProducts = this.dao.query(hql);
-			for (MsgProduct msgProduct : msgProducts) {
-				System.out.println(msgProduct);
-				if (!msgProduct.getEffectCode().isEmpty()) {
-					liTotal += msgProduct.getUnitPrice();
-					liCount++;
-				}else{
-					baTotal += msgProduct.getUnitPrice();
-					baCount++;
-				}
-			}
-		}
-		Shop shop = this.dao.get(Shop.class, shopId);
-		String shopName=shop.getName();
-		String shopPhone=shop.getMobiles();
-		dto.setBaTotal(baTotal);
-		dto.setLiTotal(liTotal);
-		dto.setBaNum(baCount);
-		dto.setLiNum(liCount);
-		dto.setTotal(baTotal + liTotal);
-		dto.setName(shopName);
-		dto.setPhone(shopPhone);
-		return dto;
-	}
 	
-	/**
-	 * @param 传入需要减多少天
-	 * @return
-	 */
-	private Date dateFormat(int index) {
-		Calendar calendar = Calendar.getInstance();
-		Integer year = calendar.get(Calendar.YEAR);// 获取年
-		Integer month = calendar.get(Calendar.MONTH);// 获取月
-		Integer day = calendar.get(Calendar.DATE);// 获取日
-		if (index == 1) {
-			calendar.set(year, month, day - index, 20, 0, 0);
-			return calendar.getTime();
-		} else {
-			calendar.set(year, month, day - index, 8, 0, 0);
-			return calendar.getTime();
-		}
-	}
-	
-	/**
-	 * 查询所有商店
-	 */
-	public List<Shop> getShop(){
-		return this.dao.query("from Shop");
-	}
 }

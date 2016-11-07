@@ -3,15 +3,10 @@ package com.woyao.admin.shop.dto;
 import java.io.Serializable;
 import java.util.Date;
 
-import org.apache.commons.lang3.time.DateUtils;
-import org.springframework.format.annotation.DateTimeFormat;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class SMSParamsDTO implements Serializable {
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
 
 	private String name;// 酒吧名称
