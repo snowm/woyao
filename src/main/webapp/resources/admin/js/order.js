@@ -29,6 +29,9 @@ define(["datapicker"],function(){
                  url: '/admin/order/search',
                  data:date,
                  success: function(data){
+                	 data.results.forEach(function(item){
+                		 item.totalFee = item.totalFee/100;
+                	 })
                      orderController.orderList = data.results;
                      orderController.totlePage = data.totalPageCount;
                      if(orderController.orderList == ""){
@@ -93,6 +96,9 @@ define(["datapicker"],function(){
     	         url: '/admin/order/search',
     	         data:date,
     	         success: function(data){
+    	        	 data.results.forEach(function(item){
+                		 item.totalFee = item.totalFee/100;
+                	 })
     	             orderController.orderList = data.results;
     	             orderController.totlePage = data.totalPageCount;
     	             if(orderController.orderList == ""){

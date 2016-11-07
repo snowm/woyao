@@ -32,7 +32,7 @@
                         <label class="control-label">订单状态</label>
                         <select class="form-control" ms-duplex="orderData.statusId">
                             <option value="">-- 请选择  --</option>
-                            <option value="100">已送达</option>
+                            <option value="100">待支付</option>
                             <option value="200">成功</option>
                             <option value="400">失败</option>
                         </select>
@@ -100,7 +100,7 @@
             <h4 class="panel-title m-line">支付信息</h4>
             <div class="form-group col-xs-12">
                 <div class='col-xs-4'>
-                    <label class="control-label col-xs-6 text-right">支付金额：</label>
+                    <label class="control-label col-xs-6 text-right">支付金额（元）：</label>
                     <div class='col-xs-6 text-left'>
                         <p class="m-text" ms-text='pList.totalFee'></p>
                     </div>
@@ -119,7 +119,7 @@
                     <th class="text-center">商店名称</th>
                     <th class="text-center">产品图片</th>
                     <th class="text-center">产品名称</th>
-                    <th class="text-center">产品价格</th>
+                    <th class="text-center">产品价格（元）</th>
                     <th class="text-center">产品描述</th>
                 </tr>
                 </thead>
@@ -130,7 +130,7 @@
                         <img class="media-object center-block" ms-attr-src="p.mainPic" style="width:30px;height:30px;" alt="">
                     </td>
                     <td ms-text="p.name"></td>
-                    <td ms-text="p.unitPrice"></td>
+                    <td ms-text="p.unitPrice/100"></td>
                     <td ms-text="p.description"></td>
                 </tr>
                 </tbody>
@@ -150,7 +150,7 @@
                 <th class="text-center">消费者名称</th>
                 <th class="text-center">创建时间</th>
                 <th class="text-center">订单状态</th>
-                <th class="text-center">总价</th>
+                <th class="text-center">总价(元)</th>
                 <th class="text-center" width="200">操作</th>
             </tr>
             </thead>
@@ -158,7 +158,7 @@
             <tr ms-repeat-p="orderList">
                 <td ms-text="p.consumerName"></td>
                 <td ms-text="p.creationDate"></td>
-                <td><i ms-if="p.statusId == 50">已送达</i><i ms-if="p.statusId == 200">成功</i><i ms-if="p.statusId == 400">失败</i></td>
+                <td><i ms-if="p.statusId == 100">待支付</i><i ms-if="p.statusId == 200">成功</i><i ms-if="p.statusId == 400">失败</i></td>
                 <td ms-text="p.totalFee"></td>
                 <td class="table-action">
                     <button class="btn btn-xs btn-info" ms-click="details(p.id)"><i class="fa fa-pencil"></i> 详情</button>
