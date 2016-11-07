@@ -65,7 +65,11 @@ define(['uploadfile'],function(){
                  data:date,
                  success: function(data){
                      console.log(data);
+                     data.results.forEach(function(item){
+                    	 item.unitPrice = item.unitPrice/100;
+                     })
                      goodsController.goodsList = data.results;
+                     
                      goodsController.totlePage = data.totalPageCount; 
    	      			if(goodsController.goodsList.length != 0){
    	      				goodsController.nothing=false;
@@ -123,7 +127,7 @@ define(['uploadfile'],function(){
 //        		                    mainPicId:goodsController.goodsChg.mainPicId,
         		                    typeId:parseInt(goodsController.goodsChg.typeId),
 //        		                    shopId:goodsController.goodsDate.shopId,
-        		                    unitPrice:goodsController.goodsChg.unitPrice,
+        		                    unitPrice:goodsController.goodsChg.unitPrice*100,
         		                    id:goodsController.goodsChg.id,
         		                    holdTime:goodsController.goodsChg.holdTime,
         		                    effectCode:goodsController.goodsChg.effectCode,
@@ -192,6 +196,9 @@ define(['uploadfile'],function(){
                  data:data,
                  success: function(data){
                      console.log(data);
+                     data.results.forEach(function(item){
+                    	 item.unitPrice = item.unitPrice/100;
+                     })
                      goodsController.goodsList = data.results;
                      goodsController.totlePage = data.totalPageCount;
    	      			if(goodsController.goodsList.length != 0){
