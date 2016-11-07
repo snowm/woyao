@@ -217,7 +217,7 @@ public class OrderItemServiceImpl extends AbstractAdminService<Order, OrderDTO> 
 		Integer month = cb.get(cb.MONTH) + 1;// 获取月
 		Integer day = cb.get(cb.DATE);// 获取日
 		String sql = "select year(p.CREATION_DATE) yearOrder," + "month(p.CREATION_DATE) monthOrder," + "day(p.CREATION_DATE) dayOrder,"
-				+ "sum(p.TOTAL_FEE) totalOrder " + "from purchase_order p where p.SHOP_ID =? " + "and p.ORDER_STATUS=200 group by "
+				+ "sum(p.TOTAL_FEE) totalOrder " + "from PURCHASE_ORDER p where p.SHOP_ID =? " + "and p.ORDER_STATUS=200 group by "
 				+ "year(p.CREATION_DATE), month(p.CREATION_DATE),day(p.CREATION_DATE)";
 		List<ShopOrder> lists = session.createSQLQuery(sql).setLong(0, shopId)
 				.setResultTransformer(Transformers.aliasToBean(ShopOrder.class)).list();
