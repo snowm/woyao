@@ -136,7 +136,7 @@
 	        str = str.replace(/\</g,'&lt;');
 	        str = str.replace(/\>/g,'&gt;');
 	        str = str.replace(/\n/g,'<br/>');
-	        str = str.replace(/\[em_([0-9]*)\]/g,"<img src='/resources/js/qqface/face/$1.gif' style='width:.5rem'/>");
+	        str = str.replace(/\[em_([0-9]*)\]/g,"<img src='/resources/js/qqface/face/$1.gif' style='width:.3rem'/>");
 	        return str;
 		}
 	}
