@@ -18,6 +18,21 @@
     $youziku.draw();
 </script>
 <body>
+<audio id="memeda" controls="controls" style="display:none">
+  <source src="http://sxyd.sc.chinaz.com/Files/DownLoad/sound1/201501/5461.wav" type="audio/wav" />
+</audio>
+<audio id="lihua" controls="controls" style="display:none">
+  <source src="http://xmyd.sc.chinaz.com/files/download/sound/huang/cd9/wav/441.wav" type="audio/wav" />
+</audio>
+<audio id="zuanshi" controls="controls" style="display:none">
+  <source src="http://xmyd.sc.chinaz.com/Files/DownLoad/sound1/201508/6245.wav" type="audio/wav" />
+</audio>
+<audio id="zuanjie" controls="controls" style="display:none">
+  <source src="http://xmyd.sc.chinaz.com/Files/DownLoad/sound1/201508/6245.wav" type="audio/wav" />
+</audio>
+<audio id="xuehua" controls="controls" style="display:none">
+  <source src="http://xmdx.sc.chinaz.com/files/download/sound1/201212/2514.wav" type="audio/wav" />
+</audio>
  <img src="/show/resources/img/bapin/img1.png" id="getImage" style="width:1px;height:1px;position:absolute;top:-1px;">     
  
  
@@ -85,7 +100,7 @@
         <div class="gift-msg-title">
             <span class="max-200 data-sender-name">送礼对象</span> <span class="gift-title-yellow">送</span> <span class="data-to-name">被送礼对象</span> <span class="gift-title-yellow data-giftname">礼花飞吻雪花钻石戒指</span>
         </div>
-        <div class="gift-msg-text data-text">
+        <div class="gift-msg-text gift-title-yellow2 data-text">
           发送文字
         </div>
     </div>
@@ -128,7 +143,7 @@
                 <div class="bapin-w-msg">
                     <div>
                         <p class="bapin-trans bapin-w-trans">我要霸屏 <span class="bapin-time data-time">30</span> 秒</p>
-                        <p class="bapin-w-text data-text">还是诗和远方生活不止眼前的苟且，还是诗和远方。</p>
+                        <p class="bapin-w-text gift-title-yellow2 data-text">还是诗和远方生活不止眼前的苟且，还是诗和远方。</p>
                     </div>
                 </div>
             </div>
@@ -156,7 +171,7 @@
         <div class="m-top-r">
             <table>
                 <tr>
-                    <td class="m-shop-name">九眼桥</td>
+                    <td class="m-shop-name"></td>
                 </tr>
             </table>
         </div>
@@ -174,7 +189,7 @@
                         <table class="msg-table">
                             　　<tr>
                             <td class="msg-img-c">
-                                <img class="msg-img" src="/show/resources/img/head.jpg" alt="">
+                                <img class="msg-img" src="" alt="">
                             </td>
                             　　	<td class="msg-table-td"><span class='data-title'></span><span class='data-msg'>扫描二维码霸屏上墙！</span></td>
                             　　</tr>
@@ -195,7 +210,7 @@
                         <table class="msg-table">
                             　　<tr>
                             <td class="msg-img-c">
-                                <img class="msg-img" src="/show/resources/img/head.jpg" alt="">
+                                <img class="msg-img" src="" alt="">
                             </td>
                             　　	<td class="msg-table-td"><span class='data-title'></span><span class='data-msg'>欢迎光临！</span></td>
                             　　</tr>
@@ -216,7 +231,7 @@
                         <table class="msg-table">
                             　　<tr>
                             <td class="msg-img-c">
-                                <img class="msg-img" src="/show/resources/img/head.jpg" alt="">
+                                <img class="msg-img" src="" alt="">
                             </td>
                             　　	<td class="msg-table-td"><span class='data-title'></span><span class='data-msg'>扫描二维码霸屏上墙！</span></td>
                             　　</tr>
@@ -237,7 +252,7 @@
                         <table class="msg-table">
                             　　<tr>
                             <td class="msg-img-c">
-                                <img class="msg-img" src="/show/resources/img/head.jpg" alt="">
+                                <img class="msg-img" src="" alt="">
                             </td>
                             　　	<td class="msg-table-td"><span class='data-title'></span><span class='data-msg'>微信扫描二维码即可！</span></td>
                             　　</tr>
@@ -258,7 +273,7 @@
                         <table class="msg-table">
                             　　<tr>
                             <td class="msg-img-c">
-                                <img class="msg-img" src="/show/resources/img/head.jpg" alt="">
+                                <img class="msg-img" src="" alt="">
                             </td>
                             　　	<td class="msg-table-td"><span class='data-title'></span><span class='data-msg'>扫描二维码霸屏上墙！</span></td>
                             　　</tr>
@@ -289,7 +304,7 @@
     	
     	
     	
-        var psdWidth = 1024,
+        var psdWidth = 1366,
                 rootFontSize = 100;
         var calc = function (e,ft) {
             if(ft){
@@ -460,12 +475,10 @@
                         return;
                     }
                     if(!msg.privacy){
-                    	/* 
-                         msg.duration = 20;
-                         msg.effectCode = 'e4';   
+                         /* msg.duration = 20;
+                         msg.effectCode = 'e3';   
                          msg.to = {id:1}
                           */
-                         
                         msg.title = '';
                         if(msg.duration != 0){
 
@@ -568,18 +581,23 @@
                     if(item.effectCode == 'e3'){ 
                     	$(".data-giftname").html('礼花');
                     	$(".gift-e1").show();
+                    	$("#lihua")[0].play();
                     }else if(item.effectCode == 'e1'){
                     	$(".data-giftname").html('飞吻');
                     	$(".gift-e2").show();
+                    	//$("#memeda")[0].play();
                     }else if(item.effectCode == 'e5'){
                     	$(".data-giftname").html('钻石');
                     	$(".gift-e3").show();
+                    	//$("#zuanshi")[0].play();
                     }else if(item.effectCode == 'e4'){
                     	$(".data-giftname").html('钻戒');
                     	$(".gift-e4").show();
+                    	//$("#zuanjie")[0].play();
                     }else if(item.effectCode == 'e2'){
                     	$(".data-giftname").html('雪花');
                     	snowFl.start();
+                    	//$("#xuehua")[0].play();
                     }
                     $('.gift-ctn').show();
                 }else{ //普通霸屏消息

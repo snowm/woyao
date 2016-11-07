@@ -33,6 +33,7 @@
             height:100%;
             background: #000000;
             color: white;
+    		overflow-y: scroll;
         }
         .m-header-ctn{
             width: 100%;
