@@ -247,7 +247,7 @@ public class OrderItemServiceImpl extends AbstractAdminService<Order, OrderDTO> 
 		dto.setDayTotal(dtotle / 100);
 		List<ShopOrder> ShopOrders = dto.getShopOrders();
 		for (int i = 0; i < 30; i++) {
-			if (i + 1 == lists.size()) {
+			if (i == lists.size()) {
 				break;
 			}
 			ShopOrder s = lists.get(i);
