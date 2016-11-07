@@ -264,7 +264,7 @@ public class OrderItemServiceImpl extends AbstractAdminService<Order, OrderDTO> 
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true, isolation = Isolation.READ_UNCOMMITTED)
 	public SMSParamsDTO queryReport(Long shopId) {
 		SMSParamsDTO dto = new SMSParamsDTO();
-		dto.setDate(new Date());	
+		dto.setDate(new Date());
 		String hql = "from Order o where o.shopId =:shopId and o.status =:status and modification.creationDate >=:startdate and modification.creationDate <=:edate";
 		Map<String, Object> paramMap = new HashMap<>();
 		paramMap.put("shopId", shopId);
@@ -303,23 +303,25 @@ public class OrderItemServiceImpl extends AbstractAdminService<Order, OrderDTO> 
 		dto.setPhone(shopPhone);
 		return dto;
 	}
+	
 	/**
 	 * @param 传入需要减多少天
 	 * @return
 	 */
-	private Date dateFormat(int index){
+	private Date dateFormat(int index) {
 		Calendar calendar = Calendar.getInstance();
-		Integer year = calendar.get(calendar.YEAR);// 获取年
-		Integer month = calendar.get(calendar.MONTH);// 获取月
-		Integer day = calendar.get(calendar.DATE);// 获取日
-		if(index==1){
-			calendar.set(year, month, day-index, 20, 0, 0); 		
+		Integer year = calendar.get(Calendar.YEAR);// 获取年
+		Integer month = calendar.get(Calendar.MONTH);// 获取月
+		Integer day = calendar.get(Calendar.DATE);// 获取日
+		if (index == 1) {
+			calendar.set(year, month, day - index, 20, 0, 0);
 			return calendar.getTime();
-		}else{
-			calendar.set(year, month, day-index, 8, 0, 0); 		
+		} else {
+			calendar.set(year, month, day - index, 8, 0, 0);
 			return calendar.getTime();
 		}
 	}
+	
 	/**
 	 * 查询所有商店
 	 */

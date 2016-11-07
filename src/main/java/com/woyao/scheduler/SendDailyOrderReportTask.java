@@ -12,7 +12,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.snowm.global.scheduler.GlobalIdentifiedTask;
 import com.taobao.api.ApiException;
 import com.woyao.admin.service.IOrderItemAdminService;
-import com.woyao.admin.shop.controller.ShopRoot;
 import com.woyao.admin.shop.dto.PhoneSMS;
 import com.woyao.admin.shop.dto.SMSParamsDTO;
 import com.woyao.admin.shop.dto.TaoBaoDTO;
@@ -36,9 +35,9 @@ public class SendDailyOrderReportTask extends GlobalIdentifiedTask {
 		if (logger.isDebugEnabled()) {
 			tl = TimeLogger.newLogger().start();
 		}
-		//TODO
-		List<Shop> shops=this.service.getShop();
-		for (Shop shop : shops) {		
+		// TODO
+		List<Shop> shops = this.service.getShop();
+		for (Shop shop : shops) {
 			if (shop != null) {
 				SMSParamsDTO dto = service.queryReport(shop.getId());
 				try {

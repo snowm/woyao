@@ -46,4 +46,5 @@ public class ChatterQueryRequest extends PaginationQueryRequestDTO {
     public String toString() {
         return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
+    
 }

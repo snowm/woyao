@@ -26,6 +26,7 @@ import org.springframework.util.ReflectionUtils.FieldFilter;
 
 import com.snowm.utils.encrypt.SHA1Encrypt;
 import com.woyao.GlobalConfig;
+import com.woyao.cache.RicherReportCache;
 import com.woyao.customer.dto.MsgProductDTO;
 import com.woyao.customer.dto.OrderDTO;
 import com.woyao.customer.dto.ProfileDTO;
@@ -67,6 +68,9 @@ public class WxJerseyService {
 
 	@Autowired
 	private CommonDao commonDao;
+
+	@Autowired
+	private RicherReportCache richerReportCache;
 
 	@Path("/verifyToken")
 	@GET
@@ -115,11 +119,12 @@ public class WxJerseyService {
 
 			if (RESULT_CODE_SUCCESS.equals(req.getResultCode()) && !StringUtils.isBlank(req.getTransactionId())) {
 				logger.debug("订单:{}支付成功！", orderId);
-				this.orderService.updateOrderStatus(orderId, OrderStatus.SUCCESS, version);
+				this.orderService.orderSuccess(orderId, version);
 				OutMsgDTO outbound = new OutMsgDTO();
 				Long msgId = orderDTO.getMsgId();
 
 				if (msgId != null) {
+					this.richerReportCache.newOrder(orderDTO.getShopId(), orderDTO.getConsumer().getId());
 					logger.debug("发送霸屏消息！");
 					ChatMsg msg = this.commonDao.get(ChatMsg.class, msgId);
 					msg.setPayed(true);
@@ -142,7 +147,7 @@ public class WxJerseyService {
 					this.chatService.sendRoomMsg(outbound, chatRoomId, null);
 				}
 			} else {
-				this.orderService.updateOrderStatus(orderId, OrderStatus.FAIL, version);
+				this.orderService.orderFail(orderId, version);
 			}
 			return JaxbUtils.marshall(resp);
 		} catch (JAXBException e) {

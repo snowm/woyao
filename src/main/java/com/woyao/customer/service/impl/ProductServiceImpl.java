@@ -57,6 +57,9 @@ public class ProductServiceImpl implements IProductService {
 			}
 			for (ShopMsgProductConfig mp : mps) {
 				MsgProductDTO tmpP = this.msgProductCache.getShopMsgProduct(shopId, mp.getReferencedProductId());
+				if (tmpP == null) {
+					continue;
+				}
 				tmpP.setUnitPrice((float) mp.getUnitPrice() / 100);
 				tmpP.setUnitPriceCent(mp.getUnitPrice());
 			}

@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.snowm.utils.query.PaginationBean;
 import com.woyao.GlobalConfig;
+import com.woyao.cache.RicherReportCache;
 import com.woyao.customer.chat.SessionUtils;
 import com.woyao.customer.chat.session.SessionContainer;
 import com.woyao.customer.dto.ChatPicDTO;
@@ -30,6 +31,7 @@ import com.woyao.customer.dto.MsgProductDTO;
 import com.woyao.customer.dto.ProductDTO;
 import com.woyao.customer.dto.ProfileDTO;
 import com.woyao.customer.dto.RicherDTO;
+import com.woyao.customer.dto.RicherType;
 import com.woyao.customer.dto.ShopDTO;
 import com.woyao.customer.dto.ShopPaginationQueryRequest;
 import com.woyao.customer.dto.chat.MsgQueryRequest;
@@ -41,6 +43,7 @@ import com.woyao.domain.wx.JsapiTicket;
 import com.woyao.security.CookieConstants;
 import com.woyao.service.JsapiTicketService;
 import com.woyao.utils.CookieUtils;
+import com.woyao.utils.PaginationUtils;
 import com.woyao.utils.UrlUtils;
 import com.woyao.wx.WxUtils;
 
@@ -61,6 +64,9 @@ public class MobileController {
 
 	@Resource(name = "jsapiTicketService")
 	private JsapiTicketService jsapiTicketService;
+	
+	@Resource(name = "richerReportCache")
+	private RicherReportCache richerReportCache;
 
 	@Resource(name = "globalConfig")
 	private GlobalConfig globalConfig;
@@ -156,7 +162,12 @@ public class MobileController {
 	public PaginationBean<RicherDTO> listRicher(ChatterQueryRequest request, HttpServletRequest httpRequest) {
 		HttpSession session = httpRequest.getSession();
 		Long chatRoomId = SessionUtils.getChatRoomId(session);
+		long shopId = SessionUtils.getShopId(session);
 		Long chatterId = SessionUtils.getChatterId(session);
+		if (request.getRicherType() == RicherType.DAY) {
+			List<RicherDTO> richers = this.richerReportCache.listDailyRichers(shopId);
+			return PaginationUtils.paging(richers, request.getPageNumber(), request.getPageSize());
+		}
 
 		PaginationBean<ProfileDTO> rs = this.chatService.listOnlineChatters(chatterId, chatRoomId, request.getGender(),
 				request.getPageNumber(), request.getPageSize());

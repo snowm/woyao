@@ -1,5 +1,6 @@
 package com.woyao.customer.service.impl;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -20,6 +21,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.woyao.cache.MsgProductCache;
+import com.woyao.customer.PeriodConfig;
 import com.woyao.customer.dto.OrderDTO;
 import com.woyao.customer.dto.OrderItemDTO;
 import com.woyao.customer.service.IOrderService;
@@ -40,6 +42,10 @@ public class OrderServiceImpl implements IOrderService {
 
 	public static final String DT_PATTERN = "yyyyMMddHHmmssSSS";
 	public static final DateFormat DF = new SimpleDateFormat(DT_PATTERN);
+
+	private static final String SHOP_DAILY_RICHER = "SELECT o.SHOP_ID, o.CONSUMER_ID, count(1) FROM PURCHASE_ORDER o "
+			+ "WHERE o.CREATION_DATE >= :startDt AND o.CREATION_DATE <= :endDt AND o.MSG_ID is not null AND o.ORDER_STATUS = 200 "
+			+ "GROUP BY o.SHOP_ID, o.CONSUMER_ID";
 
 	private Random r = new Random();
 
@@ -199,6 +205,18 @@ public class OrderServiceImpl implements IOrderService {
 		order.setStatus(status);
 	}
 
+	@Transactional
+	@Override
+	public void orderSuccess(long id, int version) {
+		this.updateOrderStatus(id, OrderStatus.SUCCESS, version);
+	}
+
+	@Transactional
+	@Override
+	public void orderFail(long id, int version) {
+		this.updateOrderStatus(id, OrderStatus.FAIL, version);
+	}
+
 	private static final String SQL_UN_SUBMITTED_ORDERS = "SELECT lo.id FROM PURCHASE_ORDER lo "
 			+ "	WHERE lo.ORDER_STATUS = :orderStatus AND lo.ENABLED = 1 " + " AND lo.DELETED = 0 ORDER BY lo.id ASC LIMIT 0, :size";
 
@@ -228,6 +246,55 @@ public class OrderServiceImpl implements IOrderService {
 		this.commonDao.save(info);
 		Order order = this.commonDao.get(Order.class, orderId);
 		order.setResultInfo(info);
+	}
+
+	@Transactional(readOnly = true, isolation = Isolation.READ_UNCOMMITTED)
+	@Override
+	public Map<Long, Map<Long, Integer>> shopDailyMsgOrderConsumerReport() {
+		Date startDate = PeriodConfig.getDailyStartDt();
+		Date endDate = PeriodConfig.getDailyEndDt();
+		Map<Long, Map<Long, Integer>> map = this.shopMsgOrderConsumerReport(startDate, endDate);
+		return map;
+	}
+
+	@Transactional(readOnly = true, isolation = Isolation.READ_UNCOMMITTED)
+	@Override
+	public Map<Long, Map<Long, Integer>> shopWeekMsgOrderConsumerReport() {
+		Date startDate = PeriodConfig.getWeekStartDt();
+		Date endDate = PeriodConfig.getWeekEndDt();
+		Map<Long, Map<Long, Integer>> map = this.shopMsgOrderConsumerReport(startDate, endDate);
+		return map;
+	}
+
+	@Transactional(readOnly = true, isolation = Isolation.READ_UNCOMMITTED)
+	@Override
+	public Map<Long, Map<Long, Integer>> shopMonthMsgOrderConsumerReport() {
+		Date startDate = PeriodConfig.getMonthStartDt();
+		Date endDate = PeriodConfig.getMonthEndDt();
+		Map<Long, Map<Long, Integer>> map = this.shopMsgOrderConsumerReport(startDate, endDate);
+		return map;
+	}
+
+	private Map<Long, Map<Long, Integer>> shopMsgOrderConsumerReport(Date startDate, Date endDate) {
+		Session session = this.commonDao.getSessionFactory().getCurrentSession();
+		SQLQuery q = session.createSQLQuery(SHOP_DAILY_RICHER);
+		q.setParameter("startDt", startDate);
+		q.setParameter("endDt", endDate);
+		List<Object[]> rs = q.list();
+		Map<Long, Map<Long, Integer>> map = new HashMap<>();
+		if (CollectionUtils.isEmpty(rs)) {
+			return map;
+		}
+		rs.forEach(e -> {
+			long shopId = ((BigDecimal) e[0]).longValue();
+			long chatterId = ((BigDecimal) e[1]).longValue();
+			int count = ((BigDecimal) e[2]).intValue();
+			Map<Long, Integer> shopRichers = map.computeIfAbsent(shopId, k -> {
+				return new HashMap<>();
+			});
+			shopRichers.put(chatterId, count);
+		});
+		return map;
 	}
 
 	private OrderDTO generateOrderDTO(Order order, List<OrderItem> items) {

@@ -8,27 +8,28 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-public class SMSParamsDTO implements Serializable{
+public class SMSParamsDTO implements Serializable {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
-	private String name;//酒吧名称
-	@JsonFormat(pattern="yyyy-MM-dd")
-	private Date date;//时间
-	
-	private int baTotal;//霸屏总价
-	
-	private int baNum;//霸屏数量
-	
-	private int liTotal;//礼物总价
-	
-	private int liNum;//礼物数量
-	
-	private int total;//合计
-	
-	private String Phone;
+
+	private String name;// 酒吧名称
+
+	@JsonFormat(pattern = "yyyy-MM-dd")
+	private Date date;// 时间
+
+	private int baTotal;// 霸屏总价
+
+	private int baNum;// 霸屏数量
+
+	private int liTotal;// 礼物总价
+
+	private int liNum;// 礼物数量
+
+	private int total;// 合计
+
+	private String phone;
 
 	public String getName() {
 		return name;
@@ -87,14 +88,11 @@ public class SMSParamsDTO implements Serializable{
 	}
 
 	public String getPhone() {
-		return Phone;
+		return phone;
 	}
 
 	public void setPhone(String phone) {
-		Phone = phone;
+		this.phone = phone;
 	}
-	
-	
-	
-	
+
 }
