@@ -23,7 +23,7 @@ define(['jquery','datapicker','datapicker.cn'],function(){
     			deleted:false,
     			pageNumber:1,
     	    	pageSize:12,
-    	    	nicknameId:"",
+    	    	from:"",
     	    	startcreationDate:"",
     	    	endcreationDate:"",
     	    	free:""
@@ -46,7 +46,7 @@ define(['jquery','datapicker','datapicker.cn'],function(){
   			});
     		},
     		chooseName:function(id,name){
-    			chatController.chatDate.nicknameId=id;
+    			chatController.chatDate.from=id;
     			chatController.chatName.nickname=name;
     			chatController.nameList=[];
     		},
@@ -54,7 +54,7 @@ define(['jquery','datapicker','datapicker.cn'],function(){
     			chatController.chatDate.pageNumber=1;
     			var date = {
     					shopId:chatController.chatDate.shopId,
-    					nicknameId:chatController.chatDate.nicknameId,
+    					from:chatController.chatDate.from,
 	    				deleted:chatController.chatDate.deleted,
 	    				pageNumber:chatController.chatDate.pageNumber,
 	    				pageSize:chatController.chatDate.pageSize,
@@ -116,7 +116,7 @@ define(['jquery','datapicker','datapicker.cn'],function(){
 	    		
 	    		var date = {
 	    				shopId:chatController.chatDate.shopId,
-	    				nicknameId:chatController.chatDate.nicknameId,
+	    				from:chatController.chatDate.from,
 	    				deleted:chatController.chatDate.deleted,
 	    				pageNumber:chatController.chatDate.pageNumber,
 	    				pageSize:chatController.chatDate.pageSize,
