@@ -303,6 +303,10 @@ public class OrderItemServiceImpl extends AbstractAdminService<Order, OrderDTO> 
 		dto.setPhone(shopPhone);
 		return dto;
 	}
+	/**
+	 * @param 传入需要减多少天
+	 * @return
+	 */
 	private Date dateFormat(int index){
 		Calendar calendar = Calendar.getInstance();
 		Integer year = calendar.get(calendar.YEAR);// 获取年
@@ -315,5 +319,11 @@ public class OrderItemServiceImpl extends AbstractAdminService<Order, OrderDTO> 
 			calendar.set(year, month, day-index, 8, 0, 0); 		
 			return calendar.getTime();
 		}
+	}
+	/**
+	 * 查询所有商店
+	 */
+	public List<Shop> getShop(){
+		return this.dao.query("from Shop");
 	}
 }

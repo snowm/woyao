@@ -1,5 +1,7 @@
 package com.woyao.scheduler;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.slf4j.Logger;
@@ -26,9 +28,6 @@ public class SendDailyOrderReportTask extends GlobalIdentifiedTask {
 	private IOrderItemAdminService service;
 	
 	@Autowired
-	private ShopRoot shopRoot;
-	
-	@Autowired
 	private PhoneSMS phoneSMS;
 
 	public void call() {
@@ -38,17 +37,20 @@ public class SendDailyOrderReportTask extends GlobalIdentifiedTask {
 			tl = TimeLogger.newLogger().start();
 		}
 		//TODO
-		if(shopRoot.getCurrentShop()!=null){			
-			SMSParamsDTO  dto=service.queryReport(shopRoot.getCurrentShop().getId());
-			try {
-				TaoBaoDTO taobao=phoneSMS.getTaoBaoDTO(dto);		
-				phoneSMS.sendSMS(JsonUtils.toString(taobao), dto.getPhone());
-			} catch (JsonProcessingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (ApiException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+		List<Shop> shops=this.service.getShop();
+		for (Shop shop : shops) {		
+			if (shop != null) {
+				SMSParamsDTO dto = service.queryReport(shop.getId());
+				try {
+					TaoBaoDTO taobao = phoneSMS.getTaoBaoDTO(dto);
+					phoneSMS.sendSMS(JsonUtils.toString(taobao), dto.getPhone());
+				} catch (JsonProcessingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (ApiException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}
 		int i = 0;
