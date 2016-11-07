@@ -193,8 +193,9 @@
                 <textarea class="bp-text" placeholder="禁止传播淫秽、色情、暴力等非法信息。" name="" id="" cols="" rows="" ms-class-only-text="showToChatter" ms-duplex="msgText"></textarea>
                 <div class="bp-img" ms-visible="!showToChatter" >
                     <div class="bp-img-ctn">
+                    	<img class="delete-img" ms-on-tap='clearImg' src="/resources/static/img/delete.png" ms-visible="imgViewSrc != '/resources/static/img/photo.png'">
                         <input type="file" value='' accept="image/*" capture="camera" ms-change="fileChange(this)" style="width: 60px;height: 60px;position: absolute;left: 0;top: 0;z-index: 9;opacity:0;">
-                        <img src="/resources/static/img/photo.png" ms-attr-src="imgViewSrc" alt="" style="border-radius: 5px;">
+                        <img class="bp-img" src="/resources/static/img/photo.png" ms-attr-src="imgViewSrc" alt="" style="border-radius: 5px;">
                     </div>
                 </div>
             </div>

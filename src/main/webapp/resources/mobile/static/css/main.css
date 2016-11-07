@@ -645,7 +645,7 @@ html,body{
     width: 90%;
     margin-left: 10%;
 }
-.bp-img-ctn > img{
+.bp-img-ctn > .bp-img{
     position: relative;
     display: block;
     width: 60px;
