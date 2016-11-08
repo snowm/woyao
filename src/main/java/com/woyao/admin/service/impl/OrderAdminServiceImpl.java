@@ -47,9 +47,10 @@ public class OrderAdminServiceImpl extends AbstractAdminService<Order, OrderDTO>
 	// + "and modification.creationDate > :startDt and modification.creationDate
 	// <= :endDt";
 
-	private static final String HQL_SHOP_RPT = "from OrderItem oi left outer join fetch oi.order o where o.shopId = :shopId "
-			+ "and o.status = :status and o.msgId is not null"
-			+ " and o.modification.creationDate > :startDt and o.modification.creationDate <= :endDt " + "and oi.product.type = :type";
+	private static final String HQL_SHOP_RPT = "from OrderItem oi left outer join fetch oi.order o left outer join fetch oi.product p "
+			+ "where o.shopId = :shopId and o.status = :status and o.msgId is not null "
+			+ "and o.modification.creationDate > :startDt and o.modification.creationDate <= :endDt " 
+			+ "and p.type = :type";
 
 	@Transactional(readOnly = true, isolation = Isolation.READ_UNCOMMITTED)
 	@Override
@@ -251,6 +252,7 @@ public class OrderAdminServiceImpl extends AbstractAdminService<Order, OrderDTO>
 		return dto;
 	}
 
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true, isolation = Isolation.READ_UNCOMMITTED)
 	@Override
 	public PaginationBean<SMSParamsDTO> listShopDailyReports(PaginationQueryRequestDTO request) {
 		List<Criterion> criterions = new ArrayList<>();

@@ -16,7 +16,6 @@ import com.woyao.admin.dto.product.ChatMsgDTO;
 import com.woyao.admin.dto.product.QueryChatMsgRequestDTO;
 import com.woyao.admin.service.IAdminService;
 import com.woyao.admin.service.IChatMsgAdminService;
-import com.woyao.admin.shop.ShopRootController;
 import com.woyao.domain.chat.ChatMsg;
 
 @Controller

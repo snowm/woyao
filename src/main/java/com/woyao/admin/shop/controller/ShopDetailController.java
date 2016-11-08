@@ -31,6 +31,7 @@ public class ShopDetailController extends AbstractBaseController<Shop, ShopDTO>{
 	public ShopDTO query() {		
 		return 	shopRoot.getCurrentShop();
 	}
+	
 	@RequestMapping(value = { "", "/" }, method = { RequestMethod.PUT,
 			RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody

@@ -54,7 +54,7 @@ public class OrderItemController extends AbstractBaseController<Order, OrderDTO>
 		return result;
 	}
 
-	@RequestMapping(value = { "/test" }, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@RequestMapping(value = { "/test" }, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
 	public PaginationBean<SMSParamsDTO> querytest() {
 		PaginationQueryRequestDTO request = new PaginationQueryRequestDTO();
