@@ -183,8 +183,24 @@ define(['jquery','datapicker','datapicker.cn'],function(){
     function init(){
     	console.log("init order model");
     	   setTimeout(function(){
-    			$('#date_picker1').datetimepicker({format: 'yyyy-mm-dd hh:ii',language: 'cn'});
-    			$('#date_picker2').datetimepicker({format: 'yyyy-mm-dd hh:ii',language: 'cn'});
+    			$('#date_picker1').datetimepicker({
+    				format: 'yyyy-mm-dd',
+    				language: 'cn',
+    				todayBtn:true,
+    				todayHighlight:true,
+    				forceParse:true,
+    				onClose: function(dateText, inst) { 
+    			    } 	
+    			});
+    			$('#date_picker2').datetimepicker({
+    				format: 'yyyy-mm-dd',
+    				language: 'cn',
+    				todayBtn:true,
+    				todayHighlight:true,
+    				forceParse:true,
+    				onClose: function(dateText, inst) { 
+    			    } 
+    			});
     		},300);
     }
     
