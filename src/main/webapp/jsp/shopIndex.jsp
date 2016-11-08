@@ -540,9 +540,9 @@ $(window).load(function() {
                     	
                     	
                     	
-                         msg.duration = 50;
-                         msg.effectCode = 'e6';   
-                         msg.to = msg.sender;
+                         //msg.duration = 50;
+                         //msg.effectCode = 'e6';   
+                         //msg.to = msg.sender;
                          
                          
                          
