@@ -18,6 +18,10 @@
     $youziku.draw();
 </script>
 <body>
+<div class="loading">
+   <img src="/show/resources/img/loading.gif" alt="">
+   <div>loading..</div>
+</div>
 <audio id="memeda" controls="controls" style="display:none">
   <source src="http://sxyd.sc.chinaz.com/Files/DownLoad/sound1/201501/5461.wav" type="audio/wav" />
 </audio>
@@ -33,7 +37,7 @@
 <audio id="xuehua" controls="controls" style="display:none">
   <source src="http://xmdx.sc.chinaz.com/files/download/sound1/201212/2514.wav" type="audio/wav" />
 </audio>
- <img src="/show/resources/img/bapin/img1.png" id="getImage" style="width:1px;height:1px;position:absolute;top:-1px;">     
+<img src="/show/resources/img/bapin/img1.png" id="getImage" style="width:1px;height:1px;position:absolute;top:-1px;">     
  
  
  <!--礼物-->
@@ -78,6 +82,34 @@
     <div class="gift-block gift-e4">
         <img src="/show/resources/img/bapin/star.png" class="bapin-bg" alt="">
         <img src="/show/resources/img/gift/r.png" class="gift-e4s gift-e4s1" alt="">
+    </div>
+    <div class="gift-block gift-e5">
+    </div>
+    <div class="gift-block gift-e6">
+        <div class='gift-lighttodark'></div>
+        <img src="/show/resources/img/bapin/star.png" class="gift-e6s00 bapin-bg" alt="">
+        <img src="/show/resources/img/gift/e601.png" class="gift-e6s0" alt="">
+        <img src="/show/resources/img/gift/e602.png" class="gift-e6s2" alt="">
+        <img src="/show/resources/img/gift/e603.png" class="gift-e6s3" alt="">
+        <img src="/show/resources/img/gift/e604.png" class="gift-e6s4" alt="">
+       
+        <img src="/show/resources/img/gift/e605.png" class="gift-e2s gift-e2s1" alt="">
+        <img src="/show/resources/img/gift/e606.png" class="gift-e2s gift-e2s2" alt="">
+        <img src="/show/resources/img/gift/e607.png" class="gift-e2s gift-e2s3" alt="">
+        <img src="/show/resources/img/gift/e608.png" class="gift-e2s gift-e2s4" alt="">
+        <img src="/show/resources/img/gift/e609.png" class="gift-e2s gift-e2s5" alt="">
+        <img src="/show/resources/img/gift/e610.png" class="gift-e2s gift-e2s6" alt="">
+        <img src="/show/resources/img/gift/e611.png" class="gift-e2s gift-e2s16" alt="">
+        
+        <img src="/show/resources/img/gift/e612.png" class="gift-e2s gift-e2s8" alt="">
+        <img src="/show/resources/img/gift/e612.png" class="gift-e2s gift-e2s9" alt="">
+        <img src="/show/resources/img/gift/e612.png" class="gift-e2s gift-e2s10" alt="">
+        <img src="/show/resources/img/gift/e612.png" class="gift-e2s gift-e2s11" alt="">
+        <img src="/show/resources/img/gift/e612.png" class="gift-e2s gift-e2s12" alt="">
+        <img src="/show/resources/img/gift/e612.png" class="gift-e2s gift-e2s13" alt="">
+        <img src="/show/resources/img/gift/e612.png" class="gift-e2s gift-e2s14" alt="">
+        <img src="/show/resources/img/gift/e612.png" class="gift-e2s gift-e2s15" alt="">
+        <p class='gift-e6-text gift-title-yellow2'><span class='data-sender-name'></span>:<span class='data-text'></span></p>
     </div>
     <div class="gift-msg">
         <div class="gift-heads-gift">
@@ -293,6 +325,13 @@
 </div>
 </body>
 <script>
+$(window).load(function() {
+	$('.loading').fadeOut(1500);
+});
+
+
+
+
     window.onload = function () {
 
         $(".bapin-ctn").hide();
@@ -301,6 +340,8 @@
     	$(".gift-e2").hide();
     	$(".gift-e3").hide();
     	$(".gift-e4").hide();
+    	$(".gift-e5").hide();
+    	$(".gift-e6").hide();
     	
     	
     	
@@ -499,9 +540,9 @@
                     	
                     	
                     	
-                         //msg.duration = 5;
-                         //msg.effectCode = null;   
-                         //msg.to = {id:1};
+                         msg.duration = 50;
+                         msg.effectCode = 'e6';   
+                         msg.to = msg.sender;
                          
                          
                          
@@ -526,6 +567,8 @@
                             		giftType = '钻戒';
                             	}else if(msg.effectCode == 'e5'){
                             		giftType = '钻石';
+                            	}else if(msg.effectCode == 'e6'){
+                            		giftType = '生日祝福';
                             	}
                             	msg.title = "为<span style='color:#ffea00'>" + msg.to.nickname + "</span>送来<span style='color:#ffea00'>" + giftType + "</span>";
                             }else{
@@ -570,7 +613,7 @@
                 sreenShow = true;
              // 特效
              
-             	//item.effectCode = "e5";
+             	//item.effectCode = "e6";
              
              	//item.to = {id:item.sender.id}
              
@@ -625,6 +668,10 @@
                     }else if(item.effectCode == 'e2'){
                     	$(".data-giftname").html('雪花');
                     	snowFl.start();
+                    	//$("#xuehua")[0].play();
+                    }else if(item.effectCode == 'e6'){
+                    	$(".data-giftname").html('生日祝福');
+                    	$(".gift-e6").show();
                     	//$("#xuehua")[0].play();
                     }
                     $('.gift-ctn').show();
@@ -685,6 +732,8 @@
                     	$(".gift-e2").hide();
                     	$(".gift-e3").hide();
                     	$(".gift-e4").hide();
+                    	$(".gift-e5").hide();
+                    	$(".gift-e6").hide();
                     	snowFl.stop();
                         clearTimeout(fl);
                         sreenShow = false;
@@ -768,4 +817,5 @@
         /* qqface */
     }
 </script>
+
 </html>
