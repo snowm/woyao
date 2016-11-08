@@ -34,6 +34,7 @@ import com.woyao.domain.Shop;
 import com.woyao.domain.chat.ChatMsg;
 import com.woyao.domain.product.MsgProduct;
 import com.woyao.domain.product.Product;
+import com.woyao.domain.product.ProductType;
 import com.woyao.domain.purchase.Order;
 import com.woyao.domain.purchase.OrderItem;
 import com.woyao.domain.purchase.OrderStatus;
@@ -46,9 +47,9 @@ public class OrderAdminServiceImpl extends AbstractAdminService<Order, OrderDTO>
 	// + "and modification.creationDate > :startDt and modification.creationDate
 	// <= :endDt";
 
-	private static final String HQL_SHOP_RPT = "from OrderItem oi left out join fetch oi.order o where o.shopId = :shopId "
+	private static final String HQL_SHOP_RPT = "from OrderItem oi left outer join fetch oi.order o where o.shopId = :shopId "
 			+ "and o.status = :status and o.msgId is not null"
-			+ "and modification.creationDate > :startDt and modification.creationDate <= :endDt " + "and by oi.product.type = :type";
+			+ " and o.modification.creationDate > :startDt and o.modification.creationDate <= :endDt " + "and oi.product.type = :type";
 
 	@Transactional(readOnly = true, isolation = Isolation.READ_UNCOMMITTED)
 	@Override
@@ -219,6 +220,7 @@ public class OrderAdminServiceImpl extends AbstractAdminService<Order, OrderDTO>
 		thisDay.set(Calendar.HOUR_OF_DAY, 1);
 		paramMap.put("startDt", PeriodConfig.getDailyStartDt(thisDay));
 		paramMap.put("endDt", PeriodConfig.getDailyEndDt(thisDay));
+		paramMap.put("type", ProductType.MSG);
 		List<OrderItem> lists = this.dao.query(HQL_SHOP_RPT, paramMap);
 
 		int bapinCount = 0;
@@ -261,7 +263,7 @@ public class OrderAdminServiceImpl extends AbstractAdminService<Order, OrderDTO>
 		pb.setResults(dtos);
 		pb.setTotalCount(0L);
 
-		List<Shop> results = this.dao.query(Shop.class, criterions, request.getPageNumber(), 20);
+		List<Shop> results = this.dao.query(Shop.class, criterions, request.getPageNumber(), request.getPageSize());
 		if (CollectionUtils.isEmpty(results)) {
 			return pb;
 		}

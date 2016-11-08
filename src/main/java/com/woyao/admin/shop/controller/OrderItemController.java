@@ -46,7 +46,7 @@ public class OrderItemController extends AbstractBaseController<Order, OrderDTO>
 	}
 
 	@RequestMapping(value = { "/detil" }, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	@ResponseBody
+	@ResponseBody 
 	public OrderDTO queryitem(QueryOrderItemRequestDTO request) {
 		Long shopId = shopRoot.getCurrentShop().getId();
 		request.setShopId(shopId);
@@ -59,7 +59,7 @@ public class OrderItemController extends AbstractBaseController<Order, OrderDTO>
 	public PaginationBean<SMSParamsDTO> querytest() {
 		PaginationQueryRequestDTO request = new PaginationQueryRequestDTO();
 		request.setPageNumber(1L);
-		request.setPageSize(2);
+		request.setPageSize(20);
 		return this.orderService.listShopDailyReports(request);
 	}
 
