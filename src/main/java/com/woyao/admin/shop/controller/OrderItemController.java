@@ -1,8 +1,8 @@
 package com.woyao.admin.shop.controller;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -19,8 +19,10 @@ import com.woyao.admin.dto.product.QueryOrderItemRequestDTO;
 import com.woyao.admin.service.IAdminService;
 import com.woyao.admin.service.IOrderAdminService;
 import com.woyao.admin.service.IOrderItemAdminService;
+import com.woyao.admin.shop.dto.OrderStatisticsBean;
 import com.woyao.admin.shop.dto.SMSParamsDTO;
 import com.woyao.admin.shop.dto.ShopOrderDTO;
+import com.woyao.customer.chat.SessionUtils;
 import com.woyao.domain.purchase.Order;
 
 @Controller
@@ -32,23 +34,20 @@ public class OrderItemController extends AbstractBaseController<Order, OrderDTO>
 
 	@Resource(name = "orderAdminService")
 	private IOrderAdminService orderService;
-
-	@Autowired
-	private ShopRoot shopRoot;
-
+	
 	@RequestMapping(value = { "/search" }, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
-	public PaginationBean<OrderDTO> query(QueryOrderItemRequestDTO request) {
-		Long shopId = shopRoot.getCurrentShop().getId();
+	public OrderStatisticsBean query(QueryOrderItemRequestDTO request, HttpServletRequest httpRequest) {
+		long shopId = SessionUtils.getShopId(httpRequest.getSession());
 		request.setShopId(shopId);
-		PaginationBean<OrderDTO> result = this.service.query(request);
-		return result;
+		OrderStatisticsBean pb = this.service.queryStat(request);
+		return pb;
 	}
 
 	@RequestMapping(value = { "/detil" }, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody 
-	public OrderDTO queryitem(QueryOrderItemRequestDTO request) {
-		Long shopId = shopRoot.getCurrentShop().getId();
+	public OrderDTO queryitem(QueryOrderItemRequestDTO request, HttpServletRequest httpRequest) {
+		long shopId = SessionUtils.getShopId(httpRequest.getSession());
 		request.setShopId(shopId);
 		OrderDTO result = this.service.queryItem(request);
 		return result;
@@ -60,13 +59,14 @@ public class OrderItemController extends AbstractBaseController<Order, OrderDTO>
 		PaginationQueryRequestDTO request = new PaginationQueryRequestDTO();
 		request.setPageNumber(1L);
 		request.setPageSize(20);
+		
 		return this.orderService.listShopDailyReports(request);
 	}
 
 	@RequestMapping(value = { "/main" }, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
-	public ShopOrderDTO queryItem() {
-		Long shopId = shopRoot.getCurrentShop().getId();
+	public ShopOrderDTO queryItem(HttpServletRequest httpRequest) {
+		long shopId = SessionUtils.getShopId(httpRequest.getSession());
 		return this.orderService.getYearOrder(shopId);
 	}
 

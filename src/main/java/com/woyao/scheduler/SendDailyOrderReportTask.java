@@ -8,6 +8,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import javax.annotation.Resource;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,7 +85,11 @@ public class SendDailyOrderReportTask extends GlobalIdentifiedTask {
 		for (SMSParamsDTO e : dtos) {
 			try {
 				TaoBaoDTO taobao = phoneSMS.getTaoBaoDTO(e);
-				phoneSMS.sendSMS(JsonUtils.toString(taobao), e.getPhone());
+				String phoneNumber = e.getPhone();
+				if (StringUtils.isBlank(phoneNumber)) {
+					continue;
+				}
+				phoneSMS.sendSMS(JsonUtils.toString(taobao), phoneNumber);
 			} catch (Exception ex) {
 				f.add(e);
 				logger.error("Send daily report to shop :" + e.getName(), ex);

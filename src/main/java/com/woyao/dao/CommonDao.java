@@ -7,12 +7,14 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.hibernate.SQLQuery;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.snowm.hibernate.ext.ExtUtils;
 import com.snowm.hibernate.ext.dao.ICommonDao;
 import com.snowm.hibernate.ext.domain.DefaultModelImpl;
 import com.snowm.hibernate.ext.utils.AliasInfo;
@@ -226,6 +228,13 @@ public class CommonDao {
 	public <M extends DefaultModelImpl> void logicDeleteObject(M model) {
 		model.getLogicalDelete().setDeleted(true);
 		this.update(model);
+	}
+	
+	@SuppressWarnings("rawtypes")
+	public List nativeQuery(String sql, Map<String, Object> paramMap) {
+		SQLQuery q = this.sessionFactory.getCurrentSession().createSQLQuery(sql);
+		ExtUtils.setParameters(q, paramMap);
+		return q.list();
 	}
 
 	public void setCommonDao(ICommonDao commonDao) {

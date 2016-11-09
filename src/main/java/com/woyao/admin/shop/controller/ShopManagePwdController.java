@@ -1,6 +1,7 @@
 package com.woyao.admin.shop.controller;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
@@ -15,11 +16,11 @@ import com.woyao.admin.controller.AbstractBaseController;
 import com.woyao.admin.dto.profile.ProfileDTO;
 import com.woyao.admin.service.IAdminService;
 import com.woyao.admin.service.IProfileAdminService;
+import com.woyao.customer.chat.SessionUtils;
 
 @Controller
 @RequestMapping(value = "/shop/admin/manager")
 public class ShopManagePwdController extends AbstractBaseController<Profile, ProfileDTO>{
-	
 	
 	@Resource(name = "profileAdminService")
 	private IProfileAdminService service;
@@ -27,9 +28,12 @@ public class ShopManagePwdController extends AbstractBaseController<Profile, Pro
 	@RequestMapping(value = {"","/"},method = { RequestMethod.PUT,
 			RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
-	public Integer validatorPwd(@RequestParam(value="oldPwd",required=true) String oldPwd,@RequestParam(value="newPwd",required=false) String newPwd,@RequestParam(value="againPwd",required=false) String againPwd) {
-		if(!newPwd.trim().isEmpty() && !againPwd.trim().isEmpty()){		
-			return this.service.updataProfilePwd(oldPwd,newPwd,againPwd);
+	public Integer validatorPwd(@RequestParam(value = "oldPwd", required = true) String oldPwd,
+			@RequestParam(value = "newPwd", required = false) String newPwd,
+			@RequestParam(value = "againPwd", required = false) String againPwd, HttpServletRequest httpRequest) {
+		long shopId = SessionUtils.getShopId(httpRequest.getSession());
+		if (!newPwd.trim().isEmpty() && !againPwd.trim().isEmpty()) {
+			return this.service.updataProfilePwd(shopId, oldPwd, newPwd, againPwd);
 		}
 		return null;
 	}

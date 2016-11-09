@@ -96,17 +96,19 @@ public class ChatMsgAdminServiceImpl extends AbstractAdminService<ChatMsg, ChatM
 		ChatMsgDTO dto = new ChatMsgDTO();
 		BeanUtils.copyProperties(m, dto);
 		dto.setChatRoomName(this.dao.get(ChatRoom.class, m.getChatRoomId()).getName());
-		Product p = this.dao.get(Product.class, m.getProductId());
 		if(m.getOrderId()!=null){		
 			dto.setOrderId(orderAdminService.get(m.getOrderId()).getOrderNo());
 		}
 		if(m.getPicURL()!=null){
 			dto.setPicURL(m.getPicURL());
 		}
-		if (p != null) {
-			dto.setProductName(p.getName());
-			dto.setProductUnitPrice(p.getUnitPrice());
-		}	
+		if (m.getProductId() != null) {
+			Product p = this.dao.get(Product.class, m.getProductId());
+			if (p != null) {
+				dto.setProductName(p.getName());
+				dto.setProductUnitPrice(p.getUnitPrice());
+			}
+		}
 		ProfileWX wx=this.dao.get(ProfileWX.class, m.getFrom());
 		dto.setFromName(wx.getNickname());
 		

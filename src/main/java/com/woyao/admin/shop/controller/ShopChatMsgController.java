@@ -1,8 +1,8 @@
 package com.woyao.admin.shop.controller;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -16,6 +16,7 @@ import com.woyao.admin.dto.product.ChatMsgDTO;
 import com.woyao.admin.dto.product.QueryChatMsgRequestDTO;
 import com.woyao.admin.service.IAdminService;
 import com.woyao.admin.service.IChatMsgAdminService;
+import com.woyao.customer.chat.SessionUtils;
 import com.woyao.domain.chat.ChatMsg;
 
 @Controller
@@ -24,14 +25,11 @@ public class ShopChatMsgController extends AbstractBaseController<ChatMsg, ChatM
 
 	@Resource(name = "chatMsgAdminService")
 	private IChatMsgAdminService service;
-	
-	@Autowired
-	private ShopRoot shopRoot;
 
 	@RequestMapping(value = { "/search" }, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
-	public PaginationBean<ChatMsgDTO> query(QueryChatMsgRequestDTO request) {
-		Long shopId=shopRoot.getCurrentShop().getId();
+	public PaginationBean<ChatMsgDTO> query(QueryChatMsgRequestDTO request, HttpServletRequest httpRequest) {
+		long shopId = SessionUtils.getShopId(httpRequest.getSession());
 		request.setShopId(shopId);
 		PaginationBean<ChatMsgDTO> result = this.service.query(request);
 		return result;
@@ -48,7 +46,7 @@ public class ShopChatMsgController extends AbstractBaseController<ChatMsg, ChatM
 			return this.service.create(dto);
 		}
 	}
-	
+
 	@Resource
 	@Override
 	public void setBaseService(@Qualifier("chatMsgAdminService") IAdminService<ChatMsg, ChatMsgDTO> baseService) {

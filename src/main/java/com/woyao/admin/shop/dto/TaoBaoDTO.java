@@ -3,26 +3,32 @@ package com.woyao.admin.shop.dto;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonFormat.Shape;
+
 public class TaoBaoDTO implements Serializable{
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	private String name;//酒吧名称
 	
+	@JsonFormat(pattern = "yyyy年MM月dd日")
 	private Date date;//时间
+
+	@JsonFormat(shape = Shape.STRING)
+	private int num1;//霸屏数量
 	
-	private int num1;//霸屏总价
+	@JsonFormat(shape = Shape.STRING)
+	private float money1;//霸屏总价
 	
-	private int money1;//霸屏数量
-	
+	@JsonFormat(shape = Shape.STRING)
 	private int num2;//礼物数量
-	
-	private int money2;//礼物总价
-	
-	private int total;//合计
+
+	@JsonFormat(shape = Shape.STRING)
+	private float money2;//礼物总价
+
+	@JsonFormat(shape = Shape.STRING)
+	private float total;//合计
 
 	public String getName() {
 		return name;
@@ -48,11 +54,11 @@ public class TaoBaoDTO implements Serializable{
 		this.num1 = num1;
 	}
 
-	public int getMoney1() {
+	public float getMoney1() {
 		return money1;
 	}
 
-	public void setMoney1(int money1) {
+	public void setMoney1(float money1) {
 		this.money1 = money1;
 	}
 
@@ -64,21 +70,20 @@ public class TaoBaoDTO implements Serializable{
 		this.num2 = num2;
 	}
 
-	public int getMoney2() {
+	public float getMoney2() {
 		return money2;
 	}
 
-	public void setMoney2(int money2) {
+	public void setMoney2(float money2) {
 		this.money2 = money2;
 	}
 
-	public int getTotal() {
+	public float getTotal() {
 		return total;
 	}
 
-	public void setTotal(int total) {
+	public void setTotal(float total) {
 		this.total = total;
 	}
-	
 	
 }

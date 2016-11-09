@@ -1,5 +1,6 @@
 package com.woyao.admin.service.impl;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,6 +21,7 @@ import com.woyao.admin.dto.product.OrderDTO;
 import com.woyao.admin.dto.product.ProductDTO;
 import com.woyao.admin.dto.product.QueryOrderItemRequestDTO;
 import com.woyao.admin.service.IOrderItemAdminService;
+import com.woyao.admin.shop.dto.OrderStatisticsBean;
 import com.woyao.dao.CommonDao;
 import com.woyao.domain.chat.ChatMsg;
 import com.woyao.domain.product.Product;
@@ -29,6 +31,11 @@ import com.woyao.domain.purchase.OrderStatus;
 
 @Service("orderItemService")
 public class OrderItemServiceImpl extends AbstractAdminService<Order, OrderDTO> implements IOrderItemAdminService {
+
+	private final static String SQL_ORDER_RPT = "SELECT SUM(o.TOTAL_FEE) FROM ORDER_ITEM oi "
+			+ "LEFT JOIN PURCHASE_ORDER o ON oi.ORDER_ID = o.ID LEFT JOIN PRODUCT p ON oi.PRODUCT_ID = p.ID "
+			+ "WHERE (o.SHOP_ID = :shopId OR :shopId IS NULL) AND o.ORDER_STATUS = 200 AND p.PRODUCT_TYPE = 2 "
+			+ "AND (o.CREATION_DATE > :startDt OR :startDt IS NULL) AND (o.CREATION_DATE <= :endDt OR :endDt IS NULL)";
 
 	@Resource(name = "commonDao")
 	private CommonDao dao;
@@ -44,26 +51,8 @@ public class OrderItemServiceImpl extends AbstractAdminService<Order, OrderDTO> 
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true, isolation = Isolation.READ_UNCOMMITTED)
 	@Override
 	public PaginationBean<OrderDTO> query(QueryOrderItemRequestDTO queryRequest) {
-		List<Criterion> criterions = new ArrayList<Criterion>();
-		criterions.add(Restrictions.eq("shopId", queryRequest.getShopId()));
-		if (queryRequest.getStatusId() != null) {
-			criterions.add(Restrictions.eq("status", OrderStatus.getEnum(queryRequest.getStatusId())));
-		}
-		if (queryRequest.getNicknameId() != null) {
-			criterions.add(Restrictions.eq("consumer.id", queryRequest.getNicknameId()));
-		}
-		if (queryRequest.getMintotalFee() != null) {
-			criterions.add(Restrictions.ge("totalFee", queryRequest.getMintotalFee()));
-		}
-		if (queryRequest.getMaxtotalFee() != null) {
-			criterions.add(Restrictions.le("totalFee", queryRequest.getMaxtotalFee()));
-		}
-		if (queryRequest.getStartcreationDate() != null) {
-			criterions.add(Restrictions.ge("modification.creationDate", queryRequest.getStartcreationDate()));
-		}
-		if (queryRequest.getEndcreationDate() != null) {
-			criterions.add(Restrictions.le("modification.creationDate", queryRequest.getEndcreationDate()));
-		}
+		List<Criterion> criterions = this.buildQueryCriterions(queryRequest);
+
 		List<org.hibernate.criterion.Order> orders = new ArrayList<>();
 		orders.add(org.hibernate.criterion.Order.desc("logicalDelete.enabled"));
 		orders.add(org.hibernate.criterion.Order.desc("id"));
@@ -84,6 +73,65 @@ public class OrderItemServiceImpl extends AbstractAdminService<Order, OrderDTO> 
 		rs.setTotalCount(count);
 		rs.setResults(results);
 		return rs;
+	}
+
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true, isolation = Isolation.READ_UNCOMMITTED)
+	@Override
+	public OrderStatisticsBean queryStat(QueryOrderItemRequestDTO queryRequest) {
+		List<Criterion> criterions = this.buildQueryCriterions(queryRequest);
+		List<org.hibernate.criterion.Order> orders = new ArrayList<>();
+		orders.add(org.hibernate.criterion.Order.desc("logicalDelete.enabled"));
+		orders.add(org.hibernate.criterion.Order.desc("id"));
+
+		long count = this.dao.count(this.entityClazz, criterions);
+		List<Order> ms = new ArrayList<>();
+		if (count > 0l) {
+			ms = this.dao.query(this.entityClazz, criterions, orders, queryRequest.getPageNumber(), queryRequest.getPageSize());
+		}
+
+		OrderStatisticsBean rs = new OrderStatisticsBean(queryRequest.getPageNumber(), queryRequest.getPageSize());
+		List<OrderDTO> results = new ArrayList<>();
+		for (Order m : ms) {
+			OrderDTO dto = this.transferToFullDTO(m);
+			dto.setTotalFee(m.getTotalFee() / 100);
+			results.add(dto);
+		}
+		rs.setTotalCount(count);
+		rs.setResults(results);
+
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("shopId", queryRequest.getShopId());
+		paramMap.put("startDt", queryRequest.getStartcreationDate());
+		paramMap.put("endDt", queryRequest.getEndcreationDate());
+		@SuppressWarnings("unchecked")
+		List<BigDecimal> stats = this.dao.nativeQuery(SQL_ORDER_RPT, paramMap);
+		rs.setMsgCount(count);
+		rs.setMsgTotalAmount((float) stats.get(0).longValue() / 100);
+		return rs;
+	}
+
+	private List<Criterion> buildQueryCriterions(QueryOrderItemRequestDTO queryRequest) {
+		List<Criterion> criterions = new ArrayList<Criterion>();
+		criterions.add(Restrictions.eq("shopId", queryRequest.getShopId()));
+		if (queryRequest.getStatusId() != null) {
+			criterions.add(Restrictions.eq("status", OrderStatus.getEnum(queryRequest.getStatusId())));
+		}
+		if (queryRequest.getNicknameId() != null) {
+			criterions.add(Restrictions.eq("consumer.id", queryRequest.getNicknameId()));
+		}
+		if (queryRequest.getMintotalFee() != null) {
+			criterions.add(Restrictions.ge("totalFee", queryRequest.getMintotalFee()));
+		}
+		if (queryRequest.getMaxtotalFee() != null) {
+			criterions.add(Restrictions.le("totalFee", queryRequest.getMaxtotalFee()));
+		}
+		if (queryRequest.getStartcreationDate() != null) {
+			criterions.add(Restrictions.ge("modification.creationDate", queryRequest.getStartcreationDate()));
+		}
+		if (queryRequest.getEndcreationDate() != null) {
+			criterions.add(Restrictions.le("modification.creationDate", queryRequest.getEndcreationDate()));
+		}
+		return criterions;
 	}
 
 	@Override

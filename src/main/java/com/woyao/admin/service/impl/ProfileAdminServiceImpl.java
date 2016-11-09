@@ -24,21 +24,17 @@ import com.woyao.admin.dto.product.QueryProfileRequestDTO;
 import com.woyao.admin.dto.profile.ProfileDTO;
 import com.woyao.admin.service.IProfileAdminService;
 import com.woyao.admin.service.IUserAdminService;
-import com.woyao.admin.shop.controller.ShopRoot;
 import com.woyao.domain.Shop;
+
 @Service("profileAdminService")
 public class ProfileAdminServiceImpl extends AbstractAdminService<Profile, ProfileDTO> implements IProfileAdminService {
 
-	
 	@Resource(name = "userAdminService")
 	private IUserAdminService userAdminService;
-	
-	@Resource(name="shopRoot")
-	private ShopRoot shopRoot;
-	
+
 	@Resource(name = "woyaoPasswordEncoder")
 	private PasswordEncoder passwordEncoder;
-	
+
 	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED)
 	public ProfileDTO update(ProfileDTO dto) {
 		Profile m = this.transferToDomain(dto);
@@ -49,7 +45,7 @@ public class ProfileAdminServiceImpl extends AbstractAdminService<Profile, Profi
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true, isolation = Isolation.READ_UNCOMMITTED)
 	public PaginationBean<ProfileDTO> query(QueryProfileRequestDTO request) {
 		List<Criterion> criterions = new ArrayList<Criterion>();
-		
+
 		if (!StringUtils.isEmpty(request.getUsername())) {
 			criterions.add(Restrictions.like("username", "%" + request.getUsername() + "%"));
 		}
@@ -57,20 +53,20 @@ public class ProfileAdminServiceImpl extends AbstractAdminService<Profile, Profi
 			criterions.add(Restrictions.like("nickname", "%" + request.getNickname() + "%"));
 		}
 		if (request.isEnabled()) {
-			criterions.add(Restrictions.eq("enabled",  request.isEnabled()));
+			criterions.add(Restrictions.eq("enabled", request.isEnabled()));
 		}
 		if (request.isExpired()) {
-			criterions.add(Restrictions.eq("expired",  request.isExpired()));
+			criterions.add(Restrictions.eq("expired", request.isExpired()));
 		}
-		if (request.getGenderId()!=null) {
-			criterions.add(Restrictions.eq("genderId",  request.getGenderId()));
+		if (request.getGenderId() != null) {
+			criterions.add(Restrictions.eq("genderId", request.getGenderId()));
 		}
 		if (!StringUtils.isEmpty(request.getMobileNumber())) {
 			criterions.add(Restrictions.like("mobileNumber", "%" + request.getMobileNumber() + "%"));
 		}
 		if (!StringUtils.isEmpty(request.getEmail())) {
 			criterions.add(Restrictions.like("email", "%" + request.getEmail() + "%"));
-		}	
+		}
 		if (request.getDeleted() != null) {
 			criterions.add(Restrictions.eq("logicalDelete.deleted", request.getDeleted()));
 		}
@@ -99,7 +95,7 @@ public class ProfileAdminServiceImpl extends AbstractAdminService<Profile, Profi
 		Profile m = new Profile();
 		BeanUtils.copyProperties(dto, m);
 		m.getLogicalDelete().setEnabled(dto.isEnabled());
-		m.getLogicalDelete().setDeleted(dto.isDeleted());		
+		m.getLogicalDelete().setDeleted(dto.isDeleted());
 		return m;
 	}
 
@@ -117,65 +113,54 @@ public class ProfileAdminServiceImpl extends AbstractAdminService<Profile, Profi
 
 	@Override
 	public ProfileDTO transferToFullDTO(Profile m) {
-		
+
 		return this.transferToSimpleDTO(m);
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED)
 	public boolean resetProfilePwd(Long shopId) {
-		Shop shop=this.dao.get(Shop.class, shopId);
-		if(shop!=null){		
-			Profile profile=this.dao.get(Profile.class, shop.getManagerProfileId());
-			if(profile!=null){	
-				ProfileDTO profileDTO=transferToSimpleDTO(profile);
+		Shop shop = this.dao.get(Shop.class, shopId);
+		if (shop != null) {
+			Profile profile = this.dao.get(Profile.class, shop.getManagerProfileId());
+			if (profile != null) {
+				ProfileDTO profileDTO = transferToSimpleDTO(profile);
 				profileDTO.setPassword("888888");
 				this.userAdminService.update(profileDTO);
-				return true;		
+				return true;
 			}
-		}	
+		}
 		return false;
 	}
 
 	/**
-	 * retrun param:0：修改成功
-	 * 				1：新旧密码不一致
-	 * 				2：密码和确认密码不一致
+	 * retrun param:0：修改成功 1：新旧密码不一致 2：密码和确认密码不一致
 	 */
 	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED)
-	public Integer updataProfilePwd(String oldPwd,String newPwd,String againPwd) {
-		Integer num=null;
-		Long shopId=shopRoot.getCurrentShop().getId();
-		Map<String, Object> paramMap=new HashMap<>();
+	public int updataProfilePwd(long shopId, String oldPwd, String newPwd, String againPwd) {
+		Integer num = null;
+		Map<String, Object> paramMap = new HashMap<>();
 		paramMap.put("shopId", shopId);
-		String hql="from Profile as p where p.id in(select s.managerProfileId from Shop as s where s.id= :shopId)";
-		Profile profile=this.dao.queryUnique(hql, paramMap);
-		if(profile!=null){
-			boolean flag=passwordEncoder.matches(oldPwd.trim(), profile.getPassword());	//旧密码和输入密码进行比较 验证是否相同
+		String hql = "from Profile as p where p.id in(select s.managerProfileId from Shop as s where s.id= :shopId)";
+		Profile profile = this.dao.queryUnique(hql, paramMap);
+		if (profile != null) {
+			// 旧密码和输入密码进行比较 验证是否相同
+			boolean flag = passwordEncoder.matches(oldPwd.trim(), profile.getPassword());
 			if (flag) {
-				if(newPwd.equals(againPwd)){				
-					ProfileDTO profileDTO=transferToSimpleDTO(profile);
+				if (newPwd.equals(againPwd)) {
+					ProfileDTO profileDTO = transferToSimpleDTO(profile);
 					profileDTO.setPassword(newPwd);
-					this.userAdminService.update(profileDTO);//重置密码
-					num=0;
+					this.userAdminService.update(profileDTO);// 重置密码
+					num = 0;
 					return num;
-				}else{//验证两次密码是否一致
-					num=2;
+				} else {// 验证两次密码是否一致
+					num = 2;
 					return num;
 				}
-			}else{//新旧密码不一致
-				num=1;
+			} else {// 新旧密码不一致
+				num = 1;
 				return num;
-			}		 
+			}
 		}
-		/*Long shopId=shopRoot.getCurrentShop().getId();
-		Shop shop=this.dao.get(Shop.class, shopId);
-		if(newPwd.equals(againPwd)){
-			Profile profile=this.dao.get(Profile.class, shop.getManagerProfileId());
-			ProfileDTO profileDTO=transferToSimpleDTO(profile);
-			profileDTO.setPassword(newPwd);
-			this.userAdminService.update(profileDTO);
-			return true;		
-		}*/
-		return null;
+		return 0;
 	}
 }

@@ -390,6 +390,7 @@ public class ChatServiceImpl implements IChatService {
 		ChatRoomDTO room = this.mobileService.getChatRoom(shopId);
 		long chatRoomId = room.getId();
 		this.sessionContainer.setRoomDailyRicher(shopId, chatRoomId, dailyRicher);
+		this.boardRoomStatisticsInfo(chatRoomId);
 	}
 
 	private void sendOutMsg(Outbound outbound, Set<WebSocketSession> targetSessions, WebSocketSession selfSession) {
