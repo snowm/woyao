@@ -49,8 +49,11 @@ public class OrderAdminServiceImpl extends AbstractAdminService<Order, OrderDTO>
 
 	private static final String HQL_SHOP_RPT = "from OrderItem oi left outer join fetch oi.order o left outer join fetch oi.product p "
 			+ "where o.shopId = :shopId and o.status = :status and o.msgId is not null "
-			+ "and o.modification.creationDate > :startDt and o.modification.creationDate <= :endDt " 
-			+ "and p.type = :type";
+			+ "and o.modification.creationDate > :startDt and o.modification.creationDate <= :endDt " + "and p.type = :type";
+
+	private static final String sql = "select year(p.CREATION_DATE) yearOrder," + "month(p.CREATION_DATE) monthOrder,"
+			+ "day(p.CREATION_DATE) dayOrder," + "sum(p.TOTAL_FEE) totalOrder " + "from PURCHASE_ORDER p where p.SHOP_ID =? "
+			+ "and p.ORDER_STATUS=200 group by " + "year(p.CREATION_DATE), month(p.CREATION_DATE),day(p.CREATION_DATE)";
 
 	@Transactional(readOnly = true, isolation = Isolation.READ_UNCOMMITTED)
 	@Override
@@ -165,9 +168,6 @@ public class OrderAdminServiceImpl extends AbstractAdminService<Order, OrderDTO>
 		Integer year = cb.get(Calendar.YEAR);// 获取年
 		Integer month = cb.get(Calendar.MONTH) + 1;// 获取月
 		Integer day = cb.get(Calendar.DATE);// 获取日
-		String sql = "select year(p.CREATION_DATE) yearOrder," + "month(p.CREATION_DATE) monthOrder," + "day(p.CREATION_DATE) dayOrder,"
-				+ "sum(p.TOTAL_FEE) totalOrder " + "from PURCHASE_ORDER p where p.SHOP_ID =? " + "and p.ORDER_STATUS=200 group by "
-				+ "year(p.CREATION_DATE), month(p.CREATION_DATE),day(p.CREATION_DATE)";
 		List<ShopOrder> lists = session.createSQLQuery(sql).setLong(0, shopId)
 				.setResultTransformer(Transformers.aliasToBean(ShopOrder.class)).list();
 		ShopOrderDTO dto = new ShopOrderDTO();
@@ -243,10 +243,10 @@ public class OrderAdminServiceImpl extends AbstractAdminService<Order, OrderDTO>
 		String shopName = shop.getName();
 		String shopPhone = shop.getMobiles();
 		dto.setBaNum(bapinCount);
-		dto.setBaTotal(bapinTotal);
+		dto.setBaTotal(bapinTotal/100);
 		dto.setLiNum(liwuCount);
-		dto.setLiTotal(liwuTotal);
-		dto.setTotal(bapinTotal + liwuTotal);
+		dto.setLiTotal(liwuTotal/100);
+		dto.setTotal((bapinTotal + liwuTotal)/100);
 		dto.setName(shopName);
 		dto.setPhone(shopPhone);
 		return dto;

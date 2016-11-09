@@ -286,9 +286,9 @@ public class OrderServiceImpl implements IOrderService {
 			return map;
 		}
 		rs.forEach(e -> {
-			long shopId = ((BigDecimal) e[0]).longValue();
-			long chatterId = ((BigDecimal) e[1]).longValue();
-			int count = ((BigDecimal) e[2]).intValue();
+			long shopId = ((BigInteger) e[0]).longValue();
+			long chatterId = ((BigInteger) e[1]).longValue();
+			int count = ((BigInteger) e[2]).intValue();
 			Map<Long, Integer> shopRichers = map.computeIfAbsent(shopId, k -> {
 				return new HashMap<>();
 			});
