@@ -576,6 +576,18 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper','wxsdk',"dom
             async: true,
             type: "get",
             success: function(data) {
+            	
+            	for(var j = 0; j < data.length; j++){
+            		for(var k = 0; k < data.length - j - 1; k++){
+            			if (data[k].unitPrice > data[k+1].unitPrice) {
+            				var temp = data[k];
+            				data[k] = data[k+1];
+            				data[k+1]= temp;
+            			}
+                	}
+            	}
+            	
+            	
             	var pList = [];
             	for(var i = 0; i < data.length; i++){
             		if(data[i].effectCode == '' || data[i].effectCode == null){
@@ -600,7 +612,9 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper','wxsdk',"dom
             			pList.push(data[i]);
             		}
             	}
-            
+            	
+            	
+            	
                 mainController.payMsgTypes = data;
                 mainController.payGoodsTypes = pList;
             },

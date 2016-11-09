@@ -188,7 +188,7 @@
 
 <div class="l-code">
     <div class="l-code-ctn">
-        <img class="l-qr" src='' alt="">
+        <img class="l-qr" src='/show/resources/img/qc.jpg' alt="">
         <p>扫描二维码进入聊天室</p>
     </div>
 </div>
@@ -526,9 +526,11 @@ $(window).load(function() {
                         return
                     }
                     if(msg.command == 'selfInfo'){
-                        var roomId = msg.self.chatRoomId;
-                        $(".l-qr").attr('src','http://qr.liantu.com/api.php?&w=200&text=http://www.luoke30.com/m/chatRoom/' + roomId + '#!/');
-                        return;
+                        //var roomId = msg.self.chatRoomId;
+                       
+                        //$(".l-qr").attr('src','http://qr.liantu.com/api.php?&w=200&text=http://www.luoke30.com/m/chatRoom/' + roomId + '#!/');
+                        //$(".l-qr").attr('src','http://qr.liantu.com/api.php?&w=200&text=http://www.luoke30.com/m/chatRoom/' + roomId + '#!/');
+                        //return;
                     }
                     if(msg.command == 'roomInfo'){
                         return;
