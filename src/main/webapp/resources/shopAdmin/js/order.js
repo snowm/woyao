@@ -193,7 +193,7 @@ define(['jquery','datapicker','datapicker.cn'],function(){
     				todayHighlight: 1,
     				startView: 2,
     				minView: 2,
-    				forceParse: 0
+    				forceParse: 0 
     			});
     			$('#date_picker2').datetimepicker({
     				language: 'cn',
