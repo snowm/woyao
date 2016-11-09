@@ -14,15 +14,15 @@ public class SMSParamsDTO implements Serializable {
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Date date;// 时间
 
-	private int baTotal;// 霸屏总价
+	private float baTotal = 0;// 霸屏总价
 
 	private int baNum;// 霸屏数量
 
-	private int liTotal;// 礼物总价
+	private float liTotal = 0;// 礼物总价
 
 	private int liNum;// 礼物数量
 
-	private int total;// 合计
+	private float total = 0;// 合计
 
 	private String phone;
 
@@ -42,11 +42,11 @@ public class SMSParamsDTO implements Serializable {
 		this.date = date;
 	}
 
-	public int getBaTotal() {
+	public float getBaTotal() {
 		return baTotal;
 	}
 
-	public void setBaTotal(int baTotal) {
+	public void setBaTotal(float baTotal) {
 		this.baTotal = baTotal;
 	}
 
@@ -58,11 +58,11 @@ public class SMSParamsDTO implements Serializable {
 		this.baNum = baNum;
 	}
 
-	public int getLiTotal() {
+	public float getLiTotal() {
 		return liTotal;
 	}
 
-	public void setLiTotal(int liTotal) {
+	public void setLiTotal(float liTotal) {
 		this.liTotal = liTotal;
 	}
 
@@ -74,11 +74,11 @@ public class SMSParamsDTO implements Serializable {
 		this.liNum = liNum;
 	}
 
-	public int getTotal() {
+	public float getTotal() {
 		return total;
 	}
 
-	public void setTotal(int total) {
+	public void setTotal(float total) {
 		this.total = total;
 	}
 

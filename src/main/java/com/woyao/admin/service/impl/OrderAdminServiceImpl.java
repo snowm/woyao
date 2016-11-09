@@ -218,7 +218,7 @@ public class OrderAdminServiceImpl extends AbstractAdminService<Order, OrderDTO>
 		paramMap.put("shopId", shop.getId());
 		paramMap.put("status", OrderStatus.SUCCESS);
 		Calendar thisDay = Calendar.getInstance();
-		thisDay.set(Calendar.HOUR_OF_DAY, 1);
+		thisDay.set(Calendar.HOUR_OF_DAY, 9);
 		paramMap.put("startDt", PeriodConfig.getDailyStartDt(thisDay));
 		paramMap.put("endDt", PeriodConfig.getDailyEndDt(thisDay));
 		paramMap.put("type", ProductType.MSG);
@@ -243,10 +243,10 @@ public class OrderAdminServiceImpl extends AbstractAdminService<Order, OrderDTO>
 		String shopName = shop.getName();
 		String shopPhone = shop.getMobiles();
 		dto.setBaNum(bapinCount);
-		dto.setBaTotal(bapinTotal/100);
+		dto.setBaTotal((float) bapinTotal / 100);
 		dto.setLiNum(liwuCount);
-		dto.setLiTotal(liwuTotal/100);
-		dto.setTotal((bapinTotal + liwuTotal)/100);
+		dto.setLiTotal((float) liwuTotal / 100);
+		dto.setTotal((float) (bapinTotal + liwuTotal) / 100);
 		dto.setName(shopName);
 		dto.setPhone(shopPhone);
 		return dto;
