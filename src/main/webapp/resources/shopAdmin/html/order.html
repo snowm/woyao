@@ -5,19 +5,19 @@
     
     <div class="panel-body">
         <div ms-if="top" class="panel-body m-query">
-            <div class="col-xs-2">
+            <!-- <div class="col-xs-2">
                 <div class="form-group">
                 <label class="control-label">总价格（大于）</label>
                     <input type="text" value="" placeholder=" " class="form-control m-form-input" ms-duplex="orderData.mintotalFee">
                 </div>
-            </div>
-            <div class="col-xs-2">
+            </div> -->
+            <!-- <div class="col-xs-2">
                 <div class="form-group">
                 <label class="control-label">总价格（小于）</label>
                     <input type="text" value="" placeholder=" " class="form-control m-form-input" ms-duplex="orderData.maxtotalFee">
                 </div>
-            </div>
-            <div class="col-xs-2">
+            </div> -->
+            <!-- <div class="col-xs-2">
                  <div class="form-group" style="position: relative;">
 			          <label class="control-label">消费者名称</label>
 			             <input type="text" name="firstname" placeholder=" " class="form-control m-form-input" ms-duplex="orderName.nickname" ms-keyup="chang">
@@ -29,20 +29,22 @@
 					          </table>   
 			             </div>		          
 			        </div> 
-            </div>
-             <div class="col-xs-2">
+            </div> -->
+             <div class="col-xs-6">
                 <div class="form-group">
-                	<label class="control-label">创建开始时间</label>
+                	<label class="control-label">开始时间</label>
                     <input type="text" value="" placeholder=" " class="form-control m-form-input" id="date_picker1" ms-duplex="orderData.startcreationDate">
                 </div>
             </div>
-            <div class="col-xs-2">
+            <div class="col-xs-6">
                 <div class="form-group">
-                	<label class="control-label">创建结束时间</label>
+                	<label class="control-label">结束时间</label>
                     <input type="text" value="" placeholder=" " class="form-control m-form-input" id="date_picker2" ms-duplex="orderData.endcreationDate">
                 </div>
-            </div>   
-           <div class="col-xs-2">
+            </div> 
+              
+            
+           <!-- <div class="col-xs-2">
                 <div class="form-group">
                 <label class="control-label">订单状态</label>
                    <select class="form-control m-form-input" ms-duplex="orderData.statusId">
@@ -52,14 +54,52 @@
 		                <option value='400'>失败</option>
 	             	</select>
                 </div>
-            </div> 
+            </div>  -->
             
              <div class="col-sm-12 text-right">
 	        	<button class="btn btn btn-inverse" ms-click="btnOrder">查 询</button>	        	
 	     	</div>
         </div>
         <div class="clearfix" ></div>
-        <div  class="panel-body m-panel" ms-if="orderList !=0 && list">
+        <div class="panel-body m-panel" ms-if="orderList !=0 && list">
+        	<div class="col-md-6">
+	          <div class="panelq">
+	            <div class="panel-heading">
+	
+	              <div class="stat">
+	                <div class="row">
+	                  <div class="col-xs-4">
+	                    <img src="/shopAdmin/resources/img/is-money.png" alt="">
+	                  </div>
+	                  <div class="col-xs-8">
+	                    <p class="stat-label" style="display:block">订单总数（条）</p>
+	                    <h1 ms-text="" style="display:inline-block"></h1>
+	                  </div>
+	                </div><!-- row -->
+	              	</div><!-- stat -->
+	
+	            </div><!-- panel-heading -->
+	          </div><!-- panel -->
+        	</div>
+        	<div class="col-md-6">
+	          <div class="panelq">
+	            <div class="panel-heading">
+	
+	              <div class="stat">
+	                <div class="row">
+	                  <div class="col-xs-4">
+	                    <img src="/shopAdmin/resources/img/is-money.png" alt="">
+	                  </div>
+	                  <div class="col-xs-8">
+	                    <p class="stat-label" style="display:block">总价（元）</p>
+	                    <h1 ms-text="" style="display:inline-block"></h1><i>&yen;</i>
+	                  </div>
+	                </div><!-- row -->
+	              	</div><!-- stat -->
+	
+	            </div><!-- panel-heading -->
+	          </div><!-- panel -->
+        	</div>
         		<table class="table table-hover text-center m-table">
 			    <thead>
 				      <tr>

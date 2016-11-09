@@ -184,22 +184,28 @@ define(['jquery','datapicker','datapicker.cn'],function(){
     	console.log("init order model");
     	   setTimeout(function(){
     			$('#date_picker1').datetimepicker({
-    				format: 'yyyy-mm-dd',
     				language: 'cn',
-    				todayBtn:true,
-    				todayHighlight:true,
-    				forceParse:true,
-    				onClose: function(dateText, inst) { 
-    			    } 	
+    				format:'yyyy-mm-dd',
+    				setDate: new Date(),
+    				weekStart: 1,
+    				todayBtn: 1,
+    				autoclose: 1,
+    				todayHighlight: 1,
+    				startView: 2,
+    				minView: 2,
+    				forceParse: 0
     			});
     			$('#date_picker2').datetimepicker({
-    				format: 'yyyy-mm-dd',
     				language: 'cn',
-    				todayBtn:true,
-    				todayHighlight:true,
-    				forceParse:true,
-    				onClose: function(dateText, inst) { 
-    			    } 
+    				format:'yyyy-mm-dd',
+    				setDate: new Date(),
+    				weekStart: 1,
+    				todayBtn: 1,
+    				autoclose: 1,
+    				todayHighlight: 1,
+    				startView: 2,
+    				minView: 2,
+    				forceParse: 0
     			});
     		},300);
     }

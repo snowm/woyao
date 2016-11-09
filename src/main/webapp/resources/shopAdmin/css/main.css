@@ -16,6 +16,12 @@
 	    .all > div {
 	        margin-top: 20px;
 	    }
+	    .panelq{
+	    	background: #212121 !important;
+	    	border-radius: 10px;
+	    	color:white;
+	    	font-weight: 600;
+	    }
 	    .help{
 	        margin: 10px 0 20px 40px;
 	        width: 90%;
