@@ -25,16 +25,19 @@ import org.springframework.web.socket.WebSocketSession;
 
 import com.snowm.security.profile.domain.Gender;
 import com.snowm.utils.query.PaginationBean;
+import com.woyao.cache.RicherReportCache;
 import com.woyao.customer.chat.MessageCacheOperator;
 import com.woyao.customer.chat.SessionUtils;
 import com.woyao.customer.chat.session.SessionContainer;
 import com.woyao.customer.disruptor.ChatMsgEventProducer;
 import com.woyao.customer.disruptor.LongEventProducer;
 import com.woyao.customer.dto.ChatPicDTO;
+import com.woyao.customer.dto.ChatRoomDTO;
 import com.woyao.customer.dto.ChatRoomStatistics;
 import com.woyao.customer.dto.MsgProductDTO;
 import com.woyao.customer.dto.OrderDTO;
 import com.woyao.customer.dto.ProfileDTO;
+import com.woyao.customer.dto.RicherDTO;
 import com.woyao.customer.dto.chat.BlockDTO;
 import com.woyao.customer.dto.chat.MsgQueryRequest;
 import com.woyao.customer.dto.chat.in.EntireInMsg;
@@ -90,6 +93,9 @@ public class ChatServiceImpl implements IChatService {
 
 	@Resource(name = "profileWxService")
 	private IProfileWxService profileWxService;
+
+	@Resource(name = "richerReportCache")
+	private RicherReportCache richerReportCache;
 
 	@Transactional(readOnly = true)
 	@Override
@@ -367,7 +373,25 @@ public class ChatServiceImpl implements IChatService {
 		ChatMsg msg = this.dao.get(ChatMsg.class, id);
 		msg.setPayed(true);
 	}
+
+	@Override
+	public ProfileDTO getDailyRicher(long shopId) {
+		RicherDTO dailyRicher = this.richerReportCache.getDailyRicher(shopId);
+		if(dailyRicher == null || dailyRicher.getChatterDTO() == null){
+			return null;
+		}
+		ProfileDTO dto = this.getChatter(dailyRicher.getChatterDTO().getId());
+		return dto;
+	}
 	
+	@Override
+	public void refreshDailyRicher(long shopId) {
+		ProfileDTO dailyRicher = this.getDailyRicher(shopId);
+		ChatRoomDTO room = this.mobileService.getChatRoom(shopId);
+		long chatRoomId = room.getId();
+		this.sessionContainer.setRoomDailyRicher(shopId, chatRoomId, dailyRicher);
+	}
+
 	private void sendOutMsg(Outbound outbound, Set<WebSocketSession> targetSessions, WebSocketSession selfSession) {
 		for (WebSocketSession targetSession : targetSessions) {
 			if (!targetSession.equals(selfSession)) {
@@ -378,7 +402,7 @@ public class ChatServiceImpl implements IChatService {
 	}
 
 	private void sendAckMsg(Outbound outbound, WebSocketSession wsSession) {
-		Outbound ackBound = (Outbound)outbound.clone();
+		Outbound ackBound = (Outbound) outbound.clone();
 		ackBound.setCommand(OutboundCommand.SEND_MSG_ACK);
 		this.sendMsg(ackBound, wsSession);
 	}
@@ -389,5 +413,6 @@ public class ChatServiceImpl implements IChatService {
 		}
 		this.chatMsgEventProducer.produce(wsSession.getId(), outbound);
 	}
+
 
 }

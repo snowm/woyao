@@ -62,7 +62,7 @@ public class SelfHandshakeInterceptor extends HttpSessionHandshakeInterceptor {
 			logger.error("While do the handShake for websocket, can not get the profile info from http session!");
 			return false;
 		}
-		Long chatRoomId = (Long) session.getAttribute(SessionContainer.SESSION_ATTR_CHATROOM_ID);
+		Long chatRoomId = SessionUtils.getChatRoomId(session);
 		Boolean isDapin = (Boolean) session.getAttribute(SessionContainer.SESSION_ATTR_ISDAPIN);
 		if (isDapin == null) {
 			isDapin = false;

@@ -6,6 +6,8 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
+import javax.annotation.Resource;
+
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.WebSocketSession;
@@ -14,6 +16,7 @@ import org.springframework.web.socket.server.support.HttpSessionHandshakeInterce
 import com.woyao.customer.chat.SessionUtils;
 import com.woyao.customer.dto.ChatRoomStatistics;
 import com.woyao.customer.dto.ProfileDTO;
+import com.woyao.customer.service.IChatService;
 
 @Component("sessionContainer")
 public class SessionContainer {
@@ -61,6 +64,9 @@ public class SessionContainer {
 	 */
 	private Map<Long, ReentrantReadWriteLock> chatRoomLockMap = new ConcurrentHashMap<>();
 
+	@Resource(name = "chatService")
+	private IChatService chatService;
+
 	public void wsEnabled(WebSocketSession wsSession) {
 		String wsSessionId = wsSession.getId();
 		this.wsSessionMap.put(wsSessionId, wsSession);
@@ -85,6 +91,8 @@ public class SessionContainer {
 			inf.setShopId(shopId);
 			inf.getStatistics().setId(chatRoomId);
 			inf.getStatistics().setShopId(shopId);
+			ProfileDTO dailyRicher = this.chatService.getDailyRicher(shopId);
+			inf.getStatistics().setDailyRicher(dailyRicher);
 			return inf;
 		});
 
@@ -262,6 +270,25 @@ public class SessionContainer {
 		}
 	}
 
+	public void setRoomDailyRicher(long shopId, long chatRoomId, ProfileDTO dailyRicher) {
+		RoomInfo roomInfo = this.roomInfoMap.computeIfAbsent(chatRoomId, k -> {
+			RoomInfo inf = new RoomInfo();
+			inf.setId(chatRoomId);
+			inf.setShopId(shopId);
+			inf.getStatistics().setId(chatRoomId);
+			inf.getStatistics().setShopId(shopId);
+			return inf;
+		});
+
+		ReentrantReadWriteLock roomLk = this.getChatRoomLock(chatRoomId);
+		try {
+			roomLk.writeLock().lock();
+			roomInfo.getStatistics().setDailyRicher(dailyRicher);
+		} finally {
+			roomLk.writeLock().unlock();
+		}
+	}
+	
 	public ChatRoomStatistics getRoomStatistics(long chatRoomId) {
 		RoomInfo roomInfo = this.roomInfoMap.get(chatRoomId);
 		if (roomInfo == null) {

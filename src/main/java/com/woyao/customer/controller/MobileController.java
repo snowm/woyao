@@ -103,7 +103,8 @@ public class MobileController {
 	@RequestMapping(value = { "/chatRoom/" }, method = RequestMethod.GET)
 	public String chatRoom(HttpServletRequest httpRequest) {
 		HttpSession session = httpRequest.getSession();
-		Long shopId = (Long) session.getAttribute(SessionContainer.SESSION_ATTR_SHOP_ID);
+		
+		Long shopId = SessionUtils.getShopId(session);
 		if (shopId == null) {
 			String shopIdCookieStr = this.cookieUtils.getCookie(httpRequest, CookieConstants.SHOP_ID);
 			if (!StringUtils.isBlank(shopIdCookieStr)) {
@@ -118,7 +119,7 @@ public class MobileController {
 		if (shopId == null) {
 			return "redirect:/m";
 		}
-		Long roomId = (Long) session.getAttribute(SessionContainer.SESSION_ATTR_CHATROOM_ID);
+		Long roomId = SessionUtils.getChatRoomId(session);
 
 		if (roomId == null) {
 			ChatRoomDTO room = this.mobileService.getChatRoom(shopId);

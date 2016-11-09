@@ -43,7 +43,7 @@ public class RicherReportCache {
 	}
 
 	/**
-	 * 列出店铺的当日土豪
+	 * 列出店铺的当日土豪列表
 	 * 
 	 * @param shopId
 	 * @return
@@ -60,9 +60,24 @@ public class RicherReportCache {
 			ProfileDTO chatterDTO = new ProfileDTO();
 			chatterDTO.setId(k);
 			r.setChatterDTO(chatterDTO);
+			rs.add(r);
 		});
 		Collections.sort(rs, richerComparator);
 		return rs;
+	}
+	
+	/**
+	 * 列出店铺的当日土豪
+	 * 
+	 * @param shopId
+	 * @return
+	 */
+	public RicherDTO getDailyRicher(long shopId) {
+		List<RicherDTO> richers = this.listDailyRichers(shopId);
+		if (richers == null || richers.isEmpty()) {
+			return null;
+		}
+		return richers.get(0);
 	}
 
 	/**

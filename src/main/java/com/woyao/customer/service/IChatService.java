@@ -68,4 +68,9 @@ public interface IChatService {
 	void sendErrorMsg(String reason, WebSocketSession wsSession);
 	
 	void markMsgPayed(long id);
+	
+	ProfileDTO getDailyRicher(long shopId);
+	
+	void refreshDailyRicher(long shopId);
+	
 }

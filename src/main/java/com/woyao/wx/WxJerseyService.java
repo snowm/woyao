@@ -95,7 +95,7 @@ public class WxJerseyService {
 	@POST
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/orderNotify")
-	public String helloWorld(String body) {
+	public String orderNotify(String body) {
 		try {
 			OrderNotifyRequest req = JaxbUtils.unmarshall(OrderNotifyRequest.class, body);
 			OrderNotifyResponse resp = new OrderNotifyResponse();
@@ -124,7 +124,10 @@ public class WxJerseyService {
 				Long msgId = orderDTO.getMsgId();
 
 				if (msgId != null) {
-					this.richerReportCache.newOrder(orderDTO.getShopId(), orderDTO.getConsumer().getId());
+					Long shopId = orderDTO.getShopId();
+					Long consumerId = orderDTO.getConsumer().getId();
+					this.richerReportCache.newOrder(shopId, consumerId);
+					this.chatService.refreshDailyRicher(shopId);
 					logger.debug("发送霸屏消息！");
 					ChatMsg msg = this.commonDao.get(ChatMsg.class, msgId);
 					msg.setPayed(true);
@@ -133,14 +136,14 @@ public class WxJerseyService {
 					outbound.setCommand(OutboundCommand.ACCEPT_MSG);
 					outbound.setText(msg.getText());
 					outbound.setPic(msg.getPicURL());
-					outbound.setSender(this.chatService.getChatter(orderDTO.getConsumer().getId()));
+					outbound.setSender(this.chatService.getChatter(consumerId));
 					ProfileDTO toProfile = orderDTO.getToProfile();
 					if (toProfile != null) {
 						outbound.setTo(this.chatService.getChatter(toProfile.getId()));
 					}
 					outbound.setSentDate(new Date());
 					outbound.setCreationDate(msg.getModification().getCreationDate());
-					MsgProductDTO msgProduct = productService.getMsgProduct(orderDTO.getShopId(), msg.getProductId());
+					MsgProductDTO msgProduct = productService.getMsgProduct(shopId, msg.getProductId());
 					outbound.setEffectCode(msgProduct.getEffectCode());
 					outbound.setDuration(msgProduct.getHoldTime());
 					Long chatRoomId = msg.getChatRoomId();
