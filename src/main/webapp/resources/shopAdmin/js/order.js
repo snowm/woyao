@@ -36,7 +36,10 @@ define(['jquery','datapicker','datapicker.cn'],function(){
     			maxtotalFee:"",
     			statusId:"",
     			startcreationDate:"",
-    			endcreationDate:""
+    			endcreationDate:"",
+    			msgCount:"",
+    			msgTotalAmount:""
+    			
     	   	},
     	   	chang:function(){
     			var date = {
@@ -85,6 +88,9 @@ define(['jquery','datapicker','datapicker.cn'],function(){
 	  	      			})
 	  	      			orderController.orderList = data.results;
 	  	      			orderController.totlePage = data.totalPageCount;
+	  	      			orderController.orderData.msgCount = data.msgCount; 
+	  	      			orderController.orderData.msgTotalAmount = data.msgTotalAmount; 
+	  	      			
 	  	      			if(orderController.orderList != ""){
 	  	      			orderController.nothing=false;
 	  	      			}else if(orderController.orderList == ""){
