@@ -106,7 +106,12 @@ public class OrderItemServiceImpl extends AbstractAdminService<Order, OrderDTO> 
 		@SuppressWarnings("unchecked")
 		List<BigDecimal> stats = this.dao.nativeQuery(SQL_ORDER_RPT, paramMap);
 		rs.setMsgCount(count);
-		rs.setMsgTotalAmount((float) stats.get(0).longValue() / 100);
+		BigDecimal sum = stats.get(0);
+		float totalAmount = 0.0F;
+		if (sum != null) {
+			totalAmount = sum.floatValue();
+		}
+		rs.setMsgTotalAmount(totalAmount / 100);
 		return rs;
 	}
 

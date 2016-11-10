@@ -1,5 +1,8 @@
 package com.woyao.admin.shop.controller;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
@@ -34,18 +37,34 @@ public class OrderItemController extends AbstractBaseController<Order, OrderDTO>
 
 	@Resource(name = "orderAdminService")
 	private IOrderAdminService orderService;
-	
+
 	@RequestMapping(value = { "/search" }, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
 	public OrderStatisticsBean query(QueryOrderItemRequestDTO request, HttpServletRequest httpRequest) {
 		long shopId = SessionUtils.getShopId(httpRequest.getSession());
 		request.setShopId(shopId);
+		if (request.getStartcreationDate() != null) {
+			request.setStartcreationDate(this.adjustDate(request.getStartcreationDate()));
+		}
+		if (request.getEndcreationDate() != null) {
+			request.setEndcreationDate(this.adjustDate(request.getEndcreationDate()));
+		}
 		OrderStatisticsBean pb = this.service.queryStat(request);
 		return pb;
 	}
 
+	private Date adjustDate(Date date) {
+		Calendar c = Calendar.getInstance();
+		c.setTime(date);
+		c.set(Calendar.HOUR_OF_DAY, 8);
+		c.set(Calendar.MINUTE, 0);
+		c.set(Calendar.SECOND, 0);
+		c.set(Calendar.MILLISECOND, 0);
+		return c.getTime();
+	}
+
 	@RequestMapping(value = { "/detil" }, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	@ResponseBody 
+	@ResponseBody
 	public OrderDTO queryitem(QueryOrderItemRequestDTO request, HttpServletRequest httpRequest) {
 		long shopId = SessionUtils.getShopId(httpRequest.getSession());
 		request.setShopId(shopId);
@@ -59,7 +78,7 @@ public class OrderItemController extends AbstractBaseController<Order, OrderDTO>
 		PaginationQueryRequestDTO request = new PaginationQueryRequestDTO();
 		request.setPageNumber(1L);
 		request.setPageSize(20);
-		
+
 		return this.orderService.listShopDailyReports(request);
 	}
 
