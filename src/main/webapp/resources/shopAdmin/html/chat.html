@@ -6,7 +6,7 @@
             <div class="col-xs-3">
                 <div class="form-group">                   
 	          		<label class="control-label">是否免费消息</label>
-	             	<select class="form-control m-form-input" ms-duplex="chatDate.free">
+	             	<select class="form-control" ms-duplex="chatDate.free">
 		             	<option value=''>-- 请选择 --</option>	                  
 		                <option value='true'>是</option> 
 		                <option value='false'>否</option>
@@ -16,7 +16,7 @@
             	<div class="col-xs-3">
 		            <div class="form-group" style="position: relative;">
 			          <label class="control-label">名称</label>
-			             <input type="text" name="firstname" placeholder=" " class="form-control m-form-input" ms-duplex="chatName.nickname" ms-keyup="chang">
+			             <input type="text" name="firstname" placeholder=" " class="form-control" ms-duplex="chatName.nickname" ms-keyup="chang">
 			             <div style="position:absolute;top:80px;width:100%;max-height:160px;overflow-y: scroll;border:1px solid #8ab0fa; background-color: white;z-index: 1000000;" ms-if="nameList.length !=0">
 			             	 <table> 
 			             	 	<tr style="cursor: pointer;" ms-repeat-p="nameList" ms-hover="chooseShopItem">	             	                 
@@ -29,13 +29,13 @@
             <div class="col-xs-3">
                 <div class="form-group">
                 	<label class="control-label">创建开始时间</label>
-                    <input type="text" value="" placeholder="默认为晚上20:00" class="form-control m-form-input" id="date_picker1" ms-duplex="chatDate.startcreationDate">
+                    <input type="text" value="" placeholder="默认为晚上20:00" class="form-control" id="date_picker1" ms-duplex="chatDate.startcreationDate">
                 </div>
             </div>
             <div class="col-xs-3">
                 <div class="form-group">
                 	<label class="control-label">创建结束时间</label>
-                    <input type="text" value="" placeholder="默认为早上8:00" class="form-control m-form-input" id="date_picker2" ms-duplex="chatDate.endcreationDate">
+                    <input type="text" value="" placeholder="默认为早上8:00" class="form-control" id="date_picker2" ms-duplex="chatDate.endcreationDate">
                 </div>
             </div>            
             <div class="col-sm-12 text-right">
@@ -74,8 +74,8 @@
 	   			 <div class="row">
 		        	<div class="col-sm-5"></div>
 		        	<ul class="pagination pagination-split">
-		                <li ms-click="Page('upPage')"><a><span class="fui-arrow-left"></span> 上一页</a></li>             
-		                <li ms-click="Page('nextPage')"><a>下一页 <span class="fui-arrow-right"></span></a></li>
+		                <li ms-click="Page('upPage')"><a style="background: #29406f;color:#fff; cursor: pointer;"><span class="fui-arrow-left"></span> 上一页</a></li>             
+		                <li ms-click="Page('nextPage')"><a style="background: #29406f;color:#fff; cursor: pointer;">下一页 <span class="fui-arrow-right"></span></a></li>
 		            </ul>
         		</div>
 	  		</div>
