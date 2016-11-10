@@ -153,6 +153,14 @@ define(['jquery','avalon','wxsdk',"domReady!","cookie","qqface"], function ($,av
             		
                     avalon.vmodels.rootController._roomInfo = msg;
                     if(window.location.hash == '#!/'){
+                    	if(!msg.statistics.dailyRicher){
+                    		avalon.vmodels.mainController.topRicher = {
+                    				nickname:'woyao',
+                    				headImg:'/resources/static/img/head.jpg'
+                    		}
+                    	}else{
+                    		avalon.vmodels.mainController.topRicher = msg.statistics.dailyRicher;
+                    	}
                     	
                     	if(!this.initShareFlag){
                         	wx.hideMenuItems({

@@ -691,40 +691,40 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper','wxsdk',"dom
     }
     
     // 今日最土豪
-    function queryTopRicher(){
-        $.ajax({
-            url: "/m/chat/richerList",
-            dataType: "JSON",
-            async: true,
-            data:{
-                richerType:"DAY",
-                pageNumber:1,
-                pageSize:1
-            },
-            type: "POST",
-            success: function(data) {
-                if(data.results.length == 0){
-                    mainController.topRicher = {
-                        nickname:' ',
-                        headImg:'/resources/static/img/head.jpg',
-                        gender:'',
-                        payMsgCount:'0',
-                    };
-                }else{
-                    data.results[0].chatterDTO.payMsgCount = data.results[0].payMsgCount;
-                    mainController.topRicher = data.results[0].chatterDTO;
-                }
+//    function queryTopRicher(){
+//        $.ajax({
+//            url: "/m/chat/richerList",
+//            dataType: "JSON",
+//            async: true,
+//            data:{
+//                richerType:"DAY",
+//                pageNumber:1,
+//                pageSize:1
+//            },
+//            type: "POST",
+//            success: function(data) {
+//                if(data.results.length == 0){
+//                    mainController.topRicher = {
+//                        nickname:' ',
+//                        headImg:'/resources/static/img/head.jpg',
+//                        gender:'',
+//                        payMsgCount:'0',
+//                    };
+//                }else{
+//                    data.results[0].chatterDTO.payMsgCount = data.results[0].payMsgCount;
+//                    mainController.topRicher = data.results[0].chatterDTO;
+//                }
+//
+//            },
+//            complete: function() {
+//            },
+//            error: function() {
+//
+//            }
+//        });
+//    }
 
-            },
-            complete: function() {
-            },
-            error: function() {
-
-            }
-        });
-    }
-
-    queryTopRicher();
+//    queryTopRicher();
 
     
     

@@ -16,6 +16,7 @@
 <link href="/admin/resources/css/main.css" rel="stylesheet">
 
 <link rel="shortcut icon" href="resources/images/favicon.ico">
+<script src="http://apps.bdimg.com/libs/jquery/1.9.1/jquery.min.js"></script>
 <!-- The XDomainRequest Transport is included for cross-domain file deletion for IE8+ -->
 <!--[if gte IE 8]><script src="js/lib/jquery/fileupload/cors/jquery.xdr-transport.js"></script><![endif]-->
 
@@ -67,7 +68,7 @@
 	                    <input type="text" class="form-control uname" id="username" name="username" placeholder="用户名" autocomplete="off"/>
 	                    <input type="password" class="form-control pword" id="password" name="password" type="password" value="" placeholder="密 码" autocomplete="off" />
 	                    <!-- <a href=""><small>忘记密码?</small></a> -->
-	                    <button class="btn btn-success btn-block">登录</button>
+	                    <button class="btn btn-success btn-block" type="submit" >登录</button>
 	                    
 	                </form>
 	            </div><!-- col-sm-5 -->
