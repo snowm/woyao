@@ -83,9 +83,9 @@ define(['jquery','datapicker','datapicker.cn'],function(){
 	  	      		  data:date,
 	  	      		  success: function(data){
 	  	      			  console.log(data);
-	  	      			data.results.forEach(function(item){
-	  	      				item.totalFee = item.totalFee/100;
-	  	      			})
+//	  	      			data.results.forEach(function(item){
+//	  	      				item.totalFee = item.totalFee/100;
+//	  	      			})
 	  	      			orderController.orderList = data.results;
 	  	      			orderController.totlePage = data.totalPageCount;
 	  	      			orderController.orderData.msgCount = data.msgCount; 
