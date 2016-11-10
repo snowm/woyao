@@ -17,7 +17,7 @@
 		<jersey.version>2.23.2</jersey.version>
 		<slf4j.version>1.7.21</slf4j.version>
 		<logback.version>1.1.7</logback.version>
-		<taobao-sdk>${basedir}/libs/taobao-sdk-java-auto_1455552377940-20161031.jar</taobao-sdk>
+		<taobao-sdk>${basedir}/src/main/webapp/WEB-INF/lib/taobao-sdk-java-auto_1455552377940-20161031.jar</taobao-sdk>
 		<!-- <cxf.version>3.1.7</cxf.version> -->
 	</properties>
 	<dependencies>
@@ -354,14 +354,6 @@
 							<filtering>true</filtering>
 							<targetPath>WEB-INF/classes</targetPath>
 						</resource>
-						<resource>
-							<directory>${project.basedir}/libs</directory>
-							<targetPath>WEB-INF/lib</targetPath>
-							<filtering>true</filtering>
-							<includes>
-								<include>**/*.jar</include>
-							</includes>
-						</resource>  
 					</webResources>
 					<webappDirectory>target/webapp</webappDirectory>
 					<warSourceDirectory>src/main/webapp</warSourceDirectory>
