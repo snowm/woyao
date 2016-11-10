@@ -159,7 +159,8 @@ define(['jquery','avalon','wxsdk',"domReady!","cookie","qqface"], function ($,av
                     				headImg:'/resources/static/img/head.jpg'
                     		}
                     	}else{
-                    		avalon.vmodels.mainController.topRicher = msg.statistics.dailyRicher;
+                    		msg.statistics.chatterDTO.payMsgCount = msg.statistics.payMsgCount;
+                    		avalon.vmodels.mainController.topRicher = msg.statistics.chatterDTO;
                     	}
                     	
                     	if(!this.initShareFlag){
