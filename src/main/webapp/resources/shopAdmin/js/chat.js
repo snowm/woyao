@@ -148,8 +148,30 @@ define(['jquery','datapicker','datapicker.cn'],function(){
     	function init(){
         	console.log("init order chat");
         	setTimeout(function(){
-        		$('#date_picker1').datetimepicker({format: 'yyyy-mm-dd hh:ii',language: 'cn'});
-        		$('#date_picker2').datetimepicker({format: 'yyyy-mm-dd hh:ii',language: 'cn'});
+        		$('#date_picker1').datetimepicker({
+        				language: 'cn',
+        				format:'yyyy-mm-dd',
+        				setDate: new Date(),
+        				weekStart: 1,
+        				todayBtn: 1,
+        				autoclose: 1,
+        				todayHighlight: 1,
+        				startView: 2,
+        				minView: 2,
+        				forceParse: 0 
+        		});
+        		$('#date_picker2').datetimepicker({
+        			language: 'cn',
+    				format:'yyyy-mm-dd',
+    				setDate: new Date(),
+    				weekStart: 1,
+    				todayBtn: 1,
+    				autoclose: 1,
+    				todayHighlight: 1,
+    				startView: 2,
+    				minView: 2,
+    				forceParse: 0 
+        		});
         	},300);
         }
         
