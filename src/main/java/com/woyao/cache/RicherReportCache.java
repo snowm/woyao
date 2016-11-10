@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 import com.woyao.customer.dto.ProfileDTO;
 import com.woyao.customer.dto.RicherDTO;
@@ -51,7 +52,7 @@ public class RicherReportCache {
 	public List<RicherDTO> listDailyRichers(long shopId) {
 		Map<Long, AtomicInteger> richers = this.dailyRichers.get(shopId);
 		List<RicherDTO> rs = new ArrayList<>();
-		if (richers == null || richers.isEmpty()) {
+		if (CollectionUtils.isEmpty(richers)) {
 			return rs;
 		}
 		richers.forEach((k, v) -> {

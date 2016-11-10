@@ -17,7 +17,7 @@ public class ChatRoomStatistics implements Serializable {
 
 	private int onlineChattersNumber = 0;
 
-	private ProfileDTO dailyRicher;
+	private RicherDTO dailyRicher;
 
 	public long getId() {
 		return id;
@@ -43,11 +43,11 @@ public class ChatRoomStatistics implements Serializable {
 		this.onlineChattersNumber = onlineChattersNumber;
 	}
 
-	public ProfileDTO getDailyRicher() {
+	public RicherDTO getDailyRicher() {
 		return dailyRicher;
 	}
 
-	public void setDailyRicher(ProfileDTO dailyRicher) {
+	public void setDailyRicher(RicherDTO dailyRicher) {
 		this.dailyRicher = dailyRicher;
 	}
 

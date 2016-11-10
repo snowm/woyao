@@ -43,7 +43,6 @@ import com.woyao.domain.wx.JsapiTicket;
 import com.woyao.security.CookieConstants;
 import com.woyao.service.JsapiTicketService;
 import com.woyao.utils.CookieUtils;
-import com.woyao.utils.PaginationUtils;
 import com.woyao.utils.UrlUtils;
 import com.woyao.wx.WxUtils;
 
@@ -166,8 +165,8 @@ public class MobileController {
 		long shopId = SessionUtils.getShopId(session);
 		Long chatterId = SessionUtils.getChatterId(session);
 		if (request.getRicherType() == RicherType.DAY) {
-			List<RicherDTO> richers = this.richerReportCache.listDailyRichers(shopId);
-			return PaginationUtils.paging(richers, request.getPageNumber(), request.getPageSize());
+			PaginationBean<RicherDTO> pb = this.chatService.listDailyRichers(shopId, request.getPageNumber(), request.getPageSize());
+			return pb;
 		}
 
 		PaginationBean<ProfileDTO> rs = this.chatService.listOnlineChatters(chatterId, chatRoomId, request.getGender(),

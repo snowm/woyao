@@ -2,7 +2,6 @@ package com.woyao.admin.controller;
 
 import javax.annotation.Resource;
 
-import org.jboss.logging.annotations.Param;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;

@@ -9,6 +9,7 @@ import com.snowm.security.profile.domain.Gender;
 import com.snowm.utils.query.PaginationBean;
 import com.woyao.customer.dto.ChatPicDTO;
 import com.woyao.customer.dto.ProfileDTO;
+import com.woyao.customer.dto.RicherDTO;
 import com.woyao.customer.dto.chat.MsgQueryRequest;
 import com.woyao.customer.dto.chat.in.EntireInMsg;
 import com.woyao.customer.dto.chat.out.OutMsgDTO;
@@ -69,8 +70,12 @@ public interface IChatService {
 	
 	void markMsgPayed(long id);
 	
-	ProfileDTO getDailyRicher(long shopId);
+	void boardRoomStatisticsInfo(long chatRoomId);
+	
+	RicherDTO getDailyRicher(long shopId);
 	
 	void refreshDailyRicher(long shopId);
-	
+
+	PaginationBean<RicherDTO> listDailyRichers(long shopId, long pageNumber, int pageSize);
+
 }

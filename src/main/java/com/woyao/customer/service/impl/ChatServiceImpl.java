@@ -124,7 +124,8 @@ public class ChatServiceImpl implements IChatService {
 		}
 	}
 
-	private void boardRoomStatisticsInfo(long chatRoomId) {
+	@Override
+	public void boardRoomStatisticsInfo(long chatRoomId) {
 		Set<WebSocketSession> sessions = this.sessionContainer.getWsSessionOfRoom(chatRoomId);
 		ChatRoomStatistics statistics = this.sessionContainer.getRoomStatistics(chatRoomId);
 		Outbound outbound = new ChatRoomInfoDTO(statistics);
@@ -375,22 +376,49 @@ public class ChatServiceImpl implements IChatService {
 	}
 
 	@Override
-	public ProfileDTO getDailyRicher(long shopId) {
+	public RicherDTO getDailyRicher(long shopId) {
 		RicherDTO dailyRicher = this.richerReportCache.getDailyRicher(shopId);
-		if(dailyRicher == null || dailyRicher.getChatterDTO() == null){
+		if (dailyRicher == null || dailyRicher.getChatterDTO() == null) {
 			return null;
 		}
 		ProfileDTO dto = this.getChatter(dailyRicher.getChatterDTO().getId());
-		return dto;
+		RicherDTO rs = new RicherDTO();
+		rs.setPayMsgCount(dailyRicher.getPayMsgCount());
+		rs.setChatterDTO(dto);
+		return rs;
 	}
 	
 	@Override
 	public void refreshDailyRicher(long shopId) {
-		ProfileDTO dailyRicher = this.getDailyRicher(shopId);
+		RicherDTO dailyRicher = this.getDailyRicher(shopId);
 		ChatRoomDTO room = this.mobileService.getChatRoom(shopId);
 		long chatRoomId = room.getId();
 		this.sessionContainer.setRoomDailyRicher(shopId, chatRoomId, dailyRicher);
 		this.boardRoomStatisticsInfo(chatRoomId);
+	}
+
+	@Override
+	public PaginationBean<RicherDTO> listDailyRichers(long shopId, long pageNumber, int pageSize) {
+		List<RicherDTO> richers = this.richerReportCache.listDailyRichers(shopId);
+		PaginationBean<RicherDTO> pb = PaginationUtils.paging(richers, pageNumber, pageSize);
+		if (CollectionUtils.isEmpty(richers)) {
+			return pb;
+		}
+		
+		PaginationBean<RicherDTO> pb2 = new PaginationBean<>();
+		List<RicherDTO> rs = new ArrayList<>();
+		for (RicherDTO richer : pb.getResults()) {
+			ProfileDTO dto = this.getChatter(richer.getChatterDTO().getId());
+			RicherDTO t = new RicherDTO();
+			t.setPayMsgCount(richer.getPayMsgCount());
+			t.setChatterDTO(dto);
+			rs.add(t);
+		}
+		pb2.setPageNumber(pageNumber);
+		pb2.setPageSize(pageSize);
+		pb2.setTotalCount(richers.size());
+		pb2.setResults(rs);
+		return pb2;
 	}
 
 	private void sendOutMsg(Outbound outbound, Set<WebSocketSession> targetSessions, WebSocketSession selfSession) {
@@ -414,6 +442,5 @@ public class ChatServiceImpl implements IChatService {
 		}
 		this.chatMsgEventProducer.produce(wsSession.getId(), outbound);
 	}
-
 
 }

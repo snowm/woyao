@@ -16,6 +16,7 @@ import org.springframework.web.socket.server.support.HttpSessionHandshakeInterce
 import com.woyao.customer.chat.SessionUtils;
 import com.woyao.customer.dto.ChatRoomStatistics;
 import com.woyao.customer.dto.ProfileDTO;
+import com.woyao.customer.dto.RicherDTO;
 import com.woyao.customer.service.IChatService;
 
 @Component("sessionContainer")
@@ -91,7 +92,7 @@ public class SessionContainer {
 			inf.setShopId(shopId);
 			inf.getStatistics().setId(chatRoomId);
 			inf.getStatistics().setShopId(shopId);
-			ProfileDTO dailyRicher = this.chatService.getDailyRicher(shopId);
+			RicherDTO dailyRicher = this.chatService.getDailyRicher(shopId);
 			inf.getStatistics().setDailyRicher(dailyRicher);
 			return inf;
 		});
@@ -270,7 +271,7 @@ public class SessionContainer {
 		}
 	}
 
-	public void setRoomDailyRicher(long shopId, long chatRoomId, ProfileDTO dailyRicher) {
+	public void setRoomDailyRicher(long shopId, long chatRoomId, RicherDTO dailyRicher) {
 		RoomInfo roomInfo = this.roomInfoMap.computeIfAbsent(chatRoomId, k -> {
 			RoomInfo inf = new RoomInfo();
 			inf.setId(chatRoomId);

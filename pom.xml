@@ -354,6 +354,14 @@
 							<filtering>true</filtering>
 							<targetPath>WEB-INF/classes</targetPath>
 						</resource>
+						<resource>
+							<directory>${project.basedir}/libs</directory>
+							<targetPath>WEB-INF/lib</targetPath>
+							<filtering>true</filtering>
+							<includes>
+								<include>**/*.jar</include>
+							</includes>
+						</resource>  
 					</webResources>
 					<webappDirectory>target/webapp</webappDirectory>
 					<warSourceDirectory>src/main/webapp</warSourceDirectory>

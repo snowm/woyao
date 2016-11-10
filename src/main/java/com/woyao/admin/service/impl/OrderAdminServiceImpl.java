@@ -256,6 +256,7 @@ public class OrderAdminServiceImpl extends AbstractAdminService<Order, OrderDTO>
 	@Override
 	public PaginationBean<SMSParamsDTO> listShopDailyReports(PaginationQueryRequestDTO request) {
 		List<Criterion> criterions = new ArrayList<>();
+		criterions.add(Restrictions.isNotNull("mobiles"));
 		criterions.add(Restrictions.eq("logicalDelete.deleted", false));
 
 		PaginationBean<SMSParamsDTO> pb = new PaginationBean<>();
