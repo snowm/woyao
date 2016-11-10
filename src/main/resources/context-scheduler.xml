@@ -26,6 +26,7 @@
 		<task:scheduled ref="getWxGlobalAccessTokenTask" method="call" initial-delay="10000" fixed-delay="60000" />
 		<task:scheduled ref="retrySubmitOrderTask" method="call" initial-delay="60000" fixed-delay="60000" />
 		<task:scheduled ref="sendDailyOrderReportTask" method="call" cron="0 0/20 9 * * ?"/>
+		<task:scheduled ref="refreshCacheTask" method="call" cron="0 0 8 * * ?"/>
 	</task:scheduled-tasks>
 	
 </beans>
