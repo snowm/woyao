@@ -17,9 +17,9 @@
 		    	</div>
                 <div class="fist" ms-repeat-p="richerList">
                     <img class="fist-img" --src="/resources/static/img/hd1.png" width="50px" height="50px" ms-attr-src="p.chatterDTO.headImg" alt="">
-                    <img class="number-one" ms-if="$index == 1" src="/resources/static/img/1.png" alt="">
-                    <img class="number-one" ms-if="$index == 2" src="/resources/static/img/2.png" alt="">
-                    <img class="number-one" ms-if="$index == 3" src="/resources/static/img/3.png" alt="">
+                    <img class="number-one" ms-visible="$index == 0" src="/resources/static/img/1.png" alt="">
+                    <img class="number-one" ms-visible="$index == 1" src="/resources/static/img/2.png" alt="">
+                    <img class="number-one" ms-visible="$index == 2" src="/resources/static/img/3.png" alt="">
                     <div class="rank-name">
                         <span class="rank-name-s" ms-text="p.chatterDTO.nickname"></span><img class="rank-name-img" ms-if="p.chatterDTO.gender == 'FEMALE'" src="/resources/static/img/weman1.png" alt=""><img ms-if="p.chatterDTO.gender == 'MALE'" class="rank-name-img" src="/resources/static/img/man.png" alt="">
                         <div class="rank-number">消费<span style="float:none" ms-text='p.payMsgCount'></span>次</div>
