@@ -45,6 +45,7 @@ public class ProductAdminServiceImpl extends AbstractAdminService<Product, Produ
 	public ProductDTO create(ProductDTO dto) {
 		Product m = this.transferToDomain(dto);
 		this.dao.save(m);
+		
 		ProductDTO rs = this.get(m.getId());
 		if (m.getType() == ProductType.MSG) {
 			MsgProduct msgProduct = (MsgProduct) m;
@@ -58,7 +59,11 @@ public class ProductAdminServiceImpl extends AbstractAdminService<Product, Produ
 	public ProductDTO update(ProductDTO dto) {
 		Product m = this.transferToDomain(dto);
 		dao.saveOrUpdate(m);
-
+		
+		if (m.getType() == ProductType.MSG) {
+			MsgProduct msgProduct = (MsgProduct) m;
+			this.msgProductCache.updateGlobalMsgProduct(transferToCacheDTO(msgProduct));
+		}
 		return dto;
 	}
 
