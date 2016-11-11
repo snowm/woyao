@@ -35,7 +35,7 @@ define(["highcharts","exporting","dark-unica"],function(){
  	  			  pageController.shopOrderList=data.shopOrders;
 	  	  			 pageController.shopOrderList.forEach(function(items){
 	  	  				 date.push(items.yearOrder +"/"+ items.monthOrder +"/"+ items.dayOrder);
-	  	  				 price.push(items.totalOrder);
+	  	  				 price.push(items.totalOrder/100);
 	  	  			 });
   	  				 initCharts();
  	  		  },

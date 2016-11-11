@@ -128,14 +128,16 @@ define(['uploadfile'],function(){
     	    },
     	    cPwd:function(){
     	    	var shopId=shopController.formData.id ;
-   	    		 $.ajax({
-   	  	      		  type: "get",
-   	  	      		  url: '/admin/profile/reset/' + shopId,
-   	  	      		  success: function(data){
-   	  	      			  alert("密码已重置，默认为6个8");
-   	  	      		  },
-   	  	      		  dataType: 'json'
-   	  	      		});
+   	    		 if(confirm("确认修改密码？")){
+   	    			$.ajax({
+     	  	      		  type: "get",
+     	  	      		  url: '/admin/profile/reset/' + shopId,
+     	  	      		  success: function(data){
+     	  	      			  alert("密码已重置，默认为6个8");
+     	  	      		  },
+     	  	      		  dataType: 'json'
+     	  	      		});
+   	    		 }
     	    },
     	    submitItem:function(){    	    	
     	    	//经度正则

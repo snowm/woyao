@@ -104,7 +104,7 @@
                 <div class='col-xs-4'>
                     <label class="control-label col-xs-6 text-right">支付金额（元）：</label>
                     <div class='col-xs-6 text-left'>
-                        <p class="m-text" ms-text='pList.totalFee'></p>
+                        <p class="m-text" ms-text='pList.totalFee/100'></p>
                     </div>
                 </div>
             </div>
@@ -161,7 +161,7 @@
                 <td ms-text="p.consumerName"></td>
                 <td ms-text="p.creationDate"></td>
                 <td><i ms-if="p.statusId == 100">待支付</i><i ms-if="p.statusId == 200">成功</i><i ms-if="p.statusId == 400">失败</i></td>
-                <td ms-text="p.totalFee"></td>
+                <td ms-text="p.totalFee/100"></td>
                 <td class="table-action">
                     <button class="btn btn-xs btn-info" ms-click="details(p.id)"><i class="fa fa-pencil"></i> 详情</button>
                 </td>

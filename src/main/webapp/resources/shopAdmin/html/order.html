@@ -92,7 +92,7 @@
 	                  </div>
 	                  <div class="col-xs-8">
 	                    <p class="stat-label" style="display:block">总价（元）</p>
-	                    <h1 ms-text="orderData.msgTotalAmount" style="display:inline-block"></h1><i>&yen;</i>
+	                    <h1 ms-text="orderData.msgTotalAmount/100" style="display:inline-block"></h1><i>&yen;</i>
 	                  </div>
 	                </div><!-- row -->
 	              	</div><!-- stat -->
@@ -118,7 +118,7 @@
 				        <td ms-text="p.consumerName"></td>				       	
 				        <td ms-text="p.creationDate"></td>				        				        
 				        <td><span ms-if="p.statusId == 100">待支付</span><span ms-if="p.statusId ==200">成功</span><span ms-if="p.statusId ==400">失败</span></td>
-				        <td ms-text="p.totalFee"></td>				        			        
+				        <td ms-text="p.totalFee/100"></td>				        			        
 				        <td class="table-action">					        
 					        <!-- <button class="btn btn-xs btn-info" ms-click="details(p.id)"><i class="fa fa-trash-o"></i> 详情</button> -->
 					        <button class="btn btn-xs btn-info" ms-click="detail(p.id)"><i class="fa fa-trash-o"></i> 详情</button>
@@ -183,7 +183,7 @@
 		                <div class='col-xs-4'>
 		                    <label class="control-label col-xs-6 text-right">支付金额（元）：</label>
 		                    <div class='col-xs-6 text-left'>
-		                        <p class="m-text" ms-text='shopDetail.totalFee'></p>
+		                        <p class="m-text" ms-text='shopDetail.totalFee/100'></p>
 		                    </div>
 		                </div>
 		            </div>
@@ -213,7 +213,7 @@
 		                    </td>
 		                    <td ms-text="p.name"></td>
 		                    <td ms-text="p.quantity"></td>
-		                    <td ms-text="p.unitPrice"></td>
+		                    <td ms-text="p.unitPrice/100"></td>
 		                    <td ms-text="p.description"></td>
 		                    <!-- <td ms-text="p.totalFee"></td> -->
 		                </tr>
