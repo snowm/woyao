@@ -28,6 +28,13 @@ require.config({//第一块，配置
 
 
 require(['mmRouter',"domReady!",'socket','wxsdk'],function(mmRouter,domReady,socket,wx){
+	
+	var _common = {
+		baseUrl:'www.luoke.com',
+	}
+	
+	
+	
     var rootController = avalon.define({
         $id: "rootController",
         fistLoad:true,//第一次加载跳转到首页
@@ -68,16 +75,9 @@ require(['mmRouter',"domReady!",'socket','wxsdk'],function(mmRouter,domReady,soc
     });
     //========================  配置微信js-sdk许可  ========================
     
-//    
-//    wx.ready(function(){
-//    	
-//    });
-//    
-//    wx.error(function(res){
-//    });
+
     
     var _brageData = {};
-    
     
     //导航回调
     var _pagepathAry = [];
