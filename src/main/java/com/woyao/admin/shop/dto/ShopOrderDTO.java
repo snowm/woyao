@@ -4,20 +4,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ShopOrderDTO {
-	private Integer yearOrder;//年
-	
-	private Integer monthOrder;//月
-	
-	private Integer dayOrder;//日
-	
-	private Integer yearTotal;//年金额
-	
-	private Integer monthTotal;//月金额
-	
-	private Integer dayTotal;//日金额
-	
-	private List<ShopOrder> ShopOrders=new ArrayList<>();
-	
+	private Integer yearOrder;// 年
+
+	private Integer monthOrder;// 月
+
+	private Integer dayOrder;// 日
+
+	private float yearTotal;// 年金额
+
+	private float monthTotal;// 月金额
+
+	private float dayTotal;// 日金额
+
+	private List<ShopOrder> ShopOrders = new ArrayList<>();
+
 	public List<ShopOrder> getShopOrders() {
 		return ShopOrders;
 	}
@@ -50,30 +50,28 @@ public class ShopOrderDTO {
 		this.dayOrder = dayOrder;
 	}
 
-	public Integer getYearTotal() {
+	public float getYearTotal() {
 		return yearTotal;
 	}
 
-	public void setYearTotal(Integer yearTotal) {
+	public void setYearTotal(float yearTotal) {
 		this.yearTotal = yearTotal;
 	}
 
-	public Integer getMonthTotal() {
+	public float getMonthTotal() {
 		return monthTotal;
 	}
 
-	public void setMonthTotal(Integer monthTotal) {
+	public void setMonthTotal(float monthTotal) {
 		this.monthTotal = monthTotal;
 	}
 
-	public Integer getDayTotal() {
+	public float getDayTotal() {
 		return dayTotal;
 	}
 
-	public void setDayTotal(Integer dayTotal) {
+	public void setDayTotal(float dayTotal) {
 		this.dayTotal = dayTotal;
 	}
 
-	
-	
 }

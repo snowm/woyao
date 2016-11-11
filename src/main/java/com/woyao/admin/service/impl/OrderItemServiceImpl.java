@@ -67,7 +67,7 @@ public class OrderItemServiceImpl extends AbstractAdminService<Order, OrderDTO> 
 		List<OrderDTO> results = new ArrayList<>();
 		for (Order m : ms) {
 			OrderDTO dto = this.transferToFullDTO(m);
-			dto.setTotalFee(m.getTotalFee() / 100);
+			dto.setTotalFee(m.getTotalFee());
 			results.add(dto);
 		}
 		rs.setTotalCount(count);
@@ -93,7 +93,7 @@ public class OrderItemServiceImpl extends AbstractAdminService<Order, OrderDTO> 
 		List<OrderDTO> results = new ArrayList<>();
 		for (Order m : ms) {
 			OrderDTO dto = this.transferToFullDTO(m);
-			dto.setTotalFee(m.getTotalFee() / 100);
+			dto.setTotalFee(m.getTotalFee());
 			results.add(dto);
 		}
 		rs.setTotalCount(count);
@@ -111,7 +111,7 @@ public class OrderItemServiceImpl extends AbstractAdminService<Order, OrderDTO> 
 		if (sum != null) {
 			totalAmount = sum.floatValue();
 		}
-		rs.setMsgTotalAmount(totalAmount / 100);
+		rs.setMsgTotalAmount(totalAmount);
 		return rs;
 	}
 
@@ -166,7 +166,7 @@ public class OrderItemServiceImpl extends AbstractAdminService<Order, OrderDTO> 
 			dto.setMainPic(m.getPic().getUrl());
 			dto.setMainPicId(m.getPic().getId());
 		}
-		dto.setUnitPrice(m.getUnitPrice() / 100);
+		dto.setUnitPrice(m.getUnitPrice());
 		dto.setEnabled(m.getLogicalDelete().isEnabled());
 		dto.setDeleted(m.getLogicalDelete().isDeleted());
 		dto.setCreationDate(m.getModification().getCreationDate());
@@ -180,7 +180,7 @@ public class OrderItemServiceImpl extends AbstractAdminService<Order, OrderDTO> 
 	public OrderDTO transferToSimpleDTO(Order m) {
 		OrderDTO dto = new OrderDTO();
 		BeanUtils.copyProperties(m, dto);
-		dto.setTotalFee(m.getTotalFee() / 100);
+		dto.setTotalFee(m.getTotalFee());
 		dto.setConsumerId(m.getConsumer().getId());
 		dto.setConsumerName(m.getConsumer().getNickname());
 		dto.setToProfileId(m.getToProfile().getId());
@@ -235,11 +235,11 @@ public class OrderItemServiceImpl extends AbstractAdminService<Order, OrderDTO> 
 		List<ProductDTO> prods = new ArrayList<>();
 		for (OrderItem orderItem : OrderItems) {
 			int num = orderItem.getQuantity();
-			Long totalFee = (long) orderItem.getTotalFee() / 100;
+			Long totalFee = (long) orderItem.getTotalFee();
 			Product product = orderItem.getProduct();
 			ProductDTO prodto = transferToSimpleDTO(product);
 			prodto.setQuantity(num);
-			prodto.setTotalFee(totalFee / 100);
+			prodto.setTotalFee(totalFee);
 			prods.add(prodto);
 		}
 		dto.setProducts(prods);

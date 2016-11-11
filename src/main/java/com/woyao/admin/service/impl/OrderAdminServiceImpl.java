@@ -92,7 +92,7 @@ public class OrderAdminServiceImpl extends AbstractAdminService<Order, OrderDTO>
 		List<OrderDTO> results = new ArrayList<>();
 		for (Order m : ms) {
 			OrderDTO dto = this.transferToDTO(m, true);
-			dto.setTotalFee(m.getTotalFee() / 100);
+			dto.setTotalFee(m.getTotalFee());
 			results.add(dto);
 		}
 		rs.setResults(results);
@@ -171,9 +171,9 @@ public class OrderAdminServiceImpl extends AbstractAdminService<Order, OrderDTO>
 		List<ShopOrder> lists = session.createSQLQuery(sql).setLong(0, shopId)
 				.setResultTransformer(Transformers.aliasToBean(ShopOrder.class)).list();
 		ShopOrderDTO dto = new ShopOrderDTO();
-		int ytotle = 0;// 年总金额
-		int mtotle = 0;// 月总金额
-		int dtotle = 0;// 日总金额
+		float ytotle = 0;// 年总金额
+		float mtotle = 0;// 月总金额
+		float dtotle = 0;// 日总金额
 		if (lists.isEmpty() || lists.size() == 0) {
 			return null;
 		}
@@ -191,16 +191,16 @@ public class OrderAdminServiceImpl extends AbstractAdminService<Order, OrderDTO>
 		dto.setYearOrder(year);
 		dto.setMonthOrder(month);
 		dto.setDayOrder(day);
-		dto.setYearTotal(ytotle / 100);
-		dto.setMonthTotal(mtotle / 100);
-		dto.setDayTotal(dtotle / 100);
+		dto.setYearTotal(ytotle);
+		dto.setMonthTotal(mtotle);
+		dto.setDayTotal(dtotle);
 		List<ShopOrder> ShopOrders = dto.getShopOrders();
 		for (int i = 0; i < 30; i++) {
 			if (i == lists.size()) {
 				break;
 			}
 			ShopOrder s = lists.get(i);
-			lists.get(i).setTotalOrder(new BigDecimal(lists.get(i).getTotalOrder().intValue() / 100));
+			lists.get(i).setTotalOrder(new BigDecimal(lists.get(i).getTotalOrder().intValue()));
 			ShopOrders.add(s);
 		}
 		dto.setShopOrders(ShopOrders);
@@ -243,10 +243,10 @@ public class OrderAdminServiceImpl extends AbstractAdminService<Order, OrderDTO>
 		String shopName = shop.getName();
 		String shopPhone = shop.getMobiles();
 		dto.setBaNum(bapinCount);
-		dto.setBaTotal((float) bapinTotal / 100);
+		dto.setBaTotal((float) bapinTotal);
 		dto.setLiNum(liwuCount);
-		dto.setLiTotal((float) liwuTotal / 100);
-		dto.setTotal((float) (bapinTotal + liwuTotal) / 100);
+		dto.setLiTotal((float) liwuTotal);
+		dto.setTotal((float) (bapinTotal + liwuTotal));
 		dto.setName(shopName);
 		dto.setPhone(shopPhone);
 		return dto;
