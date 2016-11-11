@@ -107,7 +107,7 @@ define(['uploadfile'],function(){
     	  	      		});
     	    	 }
     	    	 queryData();
-    	    },	    
+    	    },	     
     	 
     	    updateShop:function(id){
 //    	    	$(".managerName").attr("readonly","readonly");
