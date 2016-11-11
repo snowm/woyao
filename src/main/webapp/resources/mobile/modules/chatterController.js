@@ -14,6 +14,7 @@ define(['jquery','avalon', 'text!./chatter.html',"domReady!",'socket'], function
             senderList:[],
             userId:'',
             userInfo:{},
+            pMsgCount:0,
             tabChange:function(tab){
                if(tab == 'all'){
             	   chatterController.tabFlag = 'all';
@@ -42,6 +43,7 @@ define(['jquery','avalon', 'text!./chatter.html',"domReady!",'socket'], function
     function init(){
         console.log('聊天列表初始化');
         
+        chatterController.pMsgCount = avalon.vmodels.mainController.pMsgCount;
         
         var msgs = avalon.vmodels.rootController._privacyMsg.$model;
         var senderList = [];

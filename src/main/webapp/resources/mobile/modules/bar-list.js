@@ -44,9 +44,7 @@ window.onload = function(){
     });
 
     
-
-    
-    
+  
     wx.ready(function(){
     	wx.getLocation({
     	    type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
@@ -76,12 +74,30 @@ window.onload = function(){
     	            }
     	        });
     	    },
-    	    error : function(){
-    	    },
-            fail : function(){
-            },
-            failure : function(){
-            }
+    	    cancel: function (res) {
+    	    	var urls = 'http://api.map.baidu.com/location/ip?ak=mZm3GQOvw7AFyZIKrkeomWMbhMbpP2Cc&coor=bd09ll'
+    	            $.ajax({
+    	                url: urls,   
+    	                dataType: "JSONP",  
+    	                async: true, 
+    	                type: "get",
+    	                success: function(data) {
+    	                    console.log("ip location:");
+    	                    console.log(data);
+    	                    
+    	                    barListController.location = data.content.point;
+    	                    queryData(data.content.point.x,data.content.point.y);
+    	                    map.centerAndZoom(new BMap.Point( data.content.point.x, data.content.point.y ), 12);    	                
+    	                	markerP = new BMap.Marker(new BMap.Point( data.content.point.x , data.content.point.y ));  // 创建标注
+    	                	map.addOverlay(markerP);               // 将标注添加到地图中
+    	                	markerP.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画
+    	                },
+    	                complete: function() {
+    	                },
+    	                error: function() {
+    	                }
+    	            });
+    	    }
     	});
     	
     	wx.hideMenuItems({

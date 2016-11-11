@@ -174,18 +174,6 @@ define(['jquery','avalon', 'text!./chatRoom.html','socket','swiper','wxsdk',"dom
                     return;
                 }
                 productsId = mainController.msgType || '';
-            }else{
-//                if(isEmptyObject(mainController.goodsType.$model)){
-//                    alert('请选择礼物');
-//                    return;
-//                }
-//                if(mainController.toChatter == ''){
-//                    alert('请选择赠送对象');
-//                    return;
-//                }
-//                mainController.msgText = '';
-//                mainController.imgUrl = '';
-//                productsId = mainController.goodsType.id;
             }
 
             var content = {

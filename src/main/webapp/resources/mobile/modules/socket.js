@@ -64,12 +64,25 @@ define(['jquery','avalon','wxsdk',"domReady!","cookie","qqface"], function ($,av
                     	            }
                     	        });
                     	    },
-                    	    error : function(){
-                    	    },
-                            fail : function(){
-                            },
-                            failure : function(){
-                            }
+                    	    cancel: function (res) {
+                    	    	var urls = 'http://api.map.baidu.com/location/ip?ak=mZm3GQOvw7AFyZIKrkeomWMbhMbpP2Cc&coor=bd09ll'
+                    	            $.ajax({
+                    	                url: urls,   
+                    	                dataType: "JSONP",  
+                    	                async: true, 
+                    	                type: "get",
+                    	                success: function(data) {
+                    	                	console.log("send head msg:");
+                        	            	var text = 'gps\n';
+                        	            	text += JSON.stringify({longitude:data.content.point.x,latitude:data.content.point.y})
+                                        	ws.send(text);
+                    	                },
+                    	                complete: function() {
+                    	                },
+                    	                error: function() {
+                    	                }
+                    	            });
+                    	    }
                     	});
                     };
                     setTimeout(sendGPS(that),2000);
@@ -156,7 +169,7 @@ define(['jquery','avalon','wxsdk',"domReady!","cookie","qqface"], function ($,av
                     	if(!msg.statistics.dailyRicher){
                     		avalon.vmodels.mainController.topRicher = {
                     				nickname:'woyao',
-                    				headImg:'/resources/static/img/head.jpg'
+                    				headImg:'/resources/static/img/face.png'
                     		}
                     	}else{
                     		msg.statistics.dailyRicher.chatterDTO.payMsgCount = msg.statistics.dailyRicher.payMsgCount;
