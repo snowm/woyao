@@ -110,7 +110,7 @@
                         <li style="background:#ffffff;height:20px;line-height:20px;color:#FFA1BB;text-align:center !important;">
                         	-- 我要霸屏  -- 
                         </li>
-                        <li ms-repeat-g="payMsgTypes" class="gift-bg" ms-visible="g.effectCode == null" ms-on-tap="choiceGoods(g.id)">
+                        <li ms-repeat-g="payMsgTypes" class="gift-bg" ms-visible="!g.effectCode" ms-on-tap="choiceGoods(g.id)">
                             <img class="gift-img" --src="/resources/static/img/num.png" ms-attr-src="g.picURL" alt="">
                             <div class="gift-msg">
                                 <p class="gift-name" ms-text="g.name"></p>
@@ -129,7 +129,7 @@
                         <li style="background:#ffffff;height:20px;line-height:20px;color:#8AD0FA;text-align:center !important;">
                         	-- 我要送礼物 --
                         </li>
-                        <li ms-repeat-l="payMsgTypes" class="gift-bg" ms-visible="l.effectCode != null" ms-on-tap="choiceGoods(l.id)">
+                        <li ms-repeat-l="payMsgTypes" class="gift-bg" ms-visible="l.effectCode" ms-on-tap="choiceGoods(l.id)">
                             <img class="gift-img" --src="/resources/static/img/num.png" ms-attr-src="l.picURL" alt="">
                             <div class="gift-msg">
                                 <p class="gift-name" ms-text="l.name"></p>
