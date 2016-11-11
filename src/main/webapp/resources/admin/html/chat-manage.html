@@ -59,6 +59,8 @@
             <thead>
             <tr>              
                 <th class="text-center">聊天室名称</th>
+                
+                <th class="text-center">名称</th>
                 <th class="text-center">内容</th>
                 <th class="text-center">是否是免费消息</th>
                 <th class="text-center">是否付费</th> 
@@ -69,6 +71,7 @@
             <tbody>
             <tr ms-repeat-p="chatList">                
                 <td ms-text="p.chatRoomName"></td>
+                <td ms-text="p.fromName"></td>
                 <td ms-text="p.text"></td>
                 <td><span ms-if="p.free">是</span><span ms-if="!p.free">否</span></td>	
 				<td><span ms-if="!p.payed">未支付</span><span ms-if="p.payed">已支付</span></td>
