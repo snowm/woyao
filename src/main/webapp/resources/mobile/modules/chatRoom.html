@@ -276,7 +276,7 @@
                 </div>
                 <div class="msg-ctn clearfix">
                     <p class="msg-titles"><span class="msg-name" ms-text="item.sender.nickname">name</span></p>
-                    <div class="msg-contant" ms-class-msg-blue="item.sender.gender == 'MALE'" ms-class-msg-purple="item.sender.gender == 'FEMALE'">
+                    <div class="msg-contant" ms-class-msg-blue="item.sender.gender == 'MALE' || item.sender.gender == '' || item.sender.gender == null" ms-class-msg-purple="item.sender.gender == 'FEMALE'">
                         <img class="msg-arr" src="/resources/static/img/arblue.png" ms-visible="item.sender.gender == 'MALE'" alt="">
                         <img class="msg-arr" src="/resources/static/img/arred.png" ms-visible="item.sender.gender == 'FEMALE'" alt="">
 
