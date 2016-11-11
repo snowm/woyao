@@ -1126,8 +1126,6 @@ html,body{
     vertical-align: middle;
     text-align: center;
     background-color: orangered;
-    margin-left: 10px;
-    margin-top: 5px;
 }
 #chatters .hover{
     background-color: dimgrey;
@@ -1508,7 +1506,26 @@ html,body{
 	width:97% !important;
 }
 /* barList */
-
+.lastmsg{
+	height:25px;
+	line-height:25px;
+	white-space:nowrap;
+	overflow:hidden;
+	text-overflow:ellipsis;
+	overflow:hidden;
+}
+.chattermsgcount{
+	position:relative;
+	border-radius:50%;
+	background:red;
+	display:inline-block;
+	width:18px;
+	height:18px;
+	line-height:18px;
+	font-size:8px;
+	color:#ffffff;
+	top:-2px;
+}
 /**
  * Swiper 3.3.1
  * Most modern mobile touch slider and framework with hardware accelerated transitions

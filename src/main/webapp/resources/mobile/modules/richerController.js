@@ -32,7 +32,7 @@ define(['jquery','avalon', 'text!./richer.html',"domReady!",'socket'], function 
            data:{
         	   richerType:richerController.richerType,
         	   pageNumber:1,
-        	   pageSize:50
+        	   pageSize:100
            },
            type: "POST",
            success: function(res) {
@@ -52,6 +52,7 @@ define(['jquery','avalon', 'text!./richer.html',"domReady!",'socket'], function 
 
     function init(){
         console.log('土豪初始化')
+        queryData();
     }
 
     return richer = {

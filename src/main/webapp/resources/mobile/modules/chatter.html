@@ -4,7 +4,7 @@
         <p class="p" ms-on-tap="tabChange('all')" ms-class="bottom:tabFlag == 'all'">全部</p>
         <p class="p" ms-on-tap="tabChange('female')" ms-class="bottom:tabFlag == 'female'">美女</p>
         <p class="p" ms-on-tap="tabChange('male')" ms-class="bottom:tabFlag == 'male'">帅哥</p>
-        <p class="p" ms-on-tap="tabChange('msg')" ms-class="bottom:tabFlag == 'msg'">消息</p>
+        <p class="p" ms-on-tap="tabChange('msg')" ms-class="bottom:tabFlag == 'msg'">消息 <span class="chattermsgcount" ms-visible="pMsgCount != 0 &&　pMsgCount != ''" ms-text='pMsgCount'>0</span></p>
     </div>
     <!--消息界面-->
     <div style="position:absolute;width:100%;height:100%;top:0px;right:0px;overflow-y:scroll;-webkit-overflow-scrolling: touch;font-size:11px;">
@@ -15,21 +15,23 @@
 	    		<p style="line-height:30px">快快去发言吧~</p>
 	    	</div>
 	        <div class="rank-list" ms-repeat-u="senderList">
-	            <div class="fist" ms-on-tap="chat(u.$model)" ms-if="u.id != userInfo.self.id">
-	                <img src="/resources/static/img/head.jpg" ms-attr-src="u.imgUrl" alt="">
-	                <div class="rank-name">
-	                    <div>
-	                    	<span class="text" ms-text="u.nickname"></span>
-		                    <img src="/resources/static/img/weman1.png" style="width:8px;height:auto;float:left;margin-top:-8px;" ms-if="u.gender == 'FEMALE'" alt="">
-		                    <img src="/resources/static/img/man.png" style="width:8px;height:auto;float:left;margin-top:-8px;" ms-if="u.gender == 'MALE'" alt="">
-	                    </div>
-	                    <div class="rank-number" ms-text="u.lastMsg"></div>
-	                </div>
-	                <div class="rank-right">
-	                    <p>&nbsp;</p>
-	                    <p class="number-one" style="font-size:8px" ms-text="u.msgCount"></p>
-	                </div>
-	            </div>
+	        	<div ms-on-tap="chat(u.$model)" style='width:100%;height:100%'>
+		        	<div class="fist">
+		                <img src="/resources/static/img/head.jpg" ms-attr-src="u.imgUrl" alt="">
+		                <div class="rank-name">
+		                    <div>
+		                    	<span class="text" ms-text="u.nickname"></span>
+			                    <img src="/resources/static/img/weman1.png" style="width:8px;height:auto;float:left;margin-top:-8px;" ms-if="u.gender == 'FEMALE'" alt="">
+			                    <img src="/resources/static/img/man.png" style="width:8px;height:auto;float:left;margin-top:-8px;" ms-if="u.gender == 'MALE'" alt="">
+		                    </div>
+		                    <div class="rank-number lastmsg" ms-text="u.lastMsg"></div>
+		                </div>
+		                <div class="rank-right">
+		                    <p>&nbsp;</p>
+		                    <p class="number-one" style="font-size:8px" ms-text="u.msgCount"></p>
+		                </div>
+		            </div>
+	        	</div>
 	        </div>
 	    </div>
 	    <!--全部界面-->
